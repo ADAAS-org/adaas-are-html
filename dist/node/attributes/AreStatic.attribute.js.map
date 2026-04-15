@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/attributes/AreStatic.attribute.ts"],"names":["AreHTMLAttribute"],"mappings":";;;;AAGO,MAAM,2BAA2BA,0BAAA,CAAiB;AAEzD","file":"AreStatic.attribute.js","sourcesContent":["import { AreHTMLAttribute } from \"@adaas/are-html/attribute\";\n\n\nexport class AreStaticAttribute extends AreHTMLAttribute {\n\n}"]}

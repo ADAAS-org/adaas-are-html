@@ -1,0 +1,35 @@
+{
+   "extends": "./tsconfig.base.json",
+   "compilerOptions": {
+      "rootDir": "../",
+      "outDir": "dist/node",
+      "baseUrl": "../",
+
+      "paths": {
+         // Base ARE Entities
+         "@adaas/are-html/nodes/*": ["src/nodes/*"],
+         "@adaas/are-html/attributes/*": ["src/attributes/*"],
+         "@adaas/are-html/directives/*": ["src/directives/*"],
+         "@adaas/are-html/instructions/*": ["src/instructions/*"],
+         "@adaas/are-html/watchers/*": ["src/watchers/*"],
+         "@adaas/are-html/signals/*": ["src/signals/*"],
+         // Custom Lib Exports
+         "@adaas/are-html/style/*": ["src/lib/AreStyle/*"],
+         "@adaas/are-html/directive/*": ["src/lib/AreDirective/*"],
+         "@adaas/are-html/root/*": ["src/lib/AreRoot/*"],
+         "@adaas/are-html/node": ["src/lib/AreHTMLNode/AreHTMLNode"],
+         "@adaas/are-html/attribute": ["src/lib/AreHTMLAttribute/AreHTML.attribute"],
+         // HTML Engine Basics
+         "@adaas/are-html/compiler": ["src/engine/AreHTML.compiler"],
+         "@adaas/are-html/constants": ["src/engine/AreHTML.constants"],
+         "@adaas/are-html/context": ["src/engine/AreHTML.context"],
+         "@adaas/are-html/engine": ["src/engine/AreHTML.engine"],
+         "@adaas/are-html/interpreter": ["src/engine/AreHTML.interpreter.ts"],
+         "@adaas/are-html/lifecycle": ["src/engine/AreHTML.lifecycle"],
+         "@adaas/are-html/tokenizer": ["src/engine/AreHTML.tokenizer"],
+         "@adaas/are-html/transformer": ["src/engine/AreHTML.transformer"],
+         "@adaas/are-html/types": ["src/engine/AreHTML.types"],
+      },
+      "types": ["node"],
+   }
+}

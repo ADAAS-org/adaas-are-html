@@ -1,0 +1,94 @@
+{
+  "name": "@adaas/are-html",
+  "version": "0.0.1",
+  "description": "A-Concept Rendering Engine (ARE) is a powerful rendering engine designed to work seamlessly with the A-Concept framework. This library provides an HTML engine implementation of ARE, enabling developers to create dynamic and interactive user interfaces for web applications using standard HTML syntax.",
+  "keywords": ["a-concept", "a-frame", "a-utils", "rendering-engine", "html-engine", "web-components", "virtual-dom", "reactivity-system", "template-syntax", "lifecycle-management", "event-handling", "state-management", "scene-graph", "instruction-set", "are-html-engine"],
+  "license": "Apache-2.0",
+  "author": {
+    "name": "ADAAS YAZILIM LİMİTED ŞİRKETİ",
+    "email": "contact-us@adaas.org"
+  },
+  "homepage": "https://github.com/ADAAS-org/adaas-are-html#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ADAAS-org/adaas-are-html.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ADAAS-org/adaas-are-html/issues"
+  },
+  "exports": {
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.mts",
+        "import": "./dist/browser/index.mjs"
+      },
+      "node": {
+        "types": "./dist/node/index.d.ts",
+        "import": "./dist/node/index.mjs",
+        "require": "./dist/node/index.cjs"
+      },
+      "default": {
+        "types": "./dist/node/index.d.ts",
+        "import": "./dist/node/index.mjs",
+        "require": "./dist/node/index.cjs"
+      }
+    }
+  },
+  "sideEffects": false,
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules",
+      "**/dist/**"
+    ],
+    "watch": [
+      "examples",
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ",
+    "ext": "ts, js"
+  },
+  "scripts": {
+    "test": "jest",
+    "example:jumpstart": "nodemon ./examples/jumpstart/concept.ts",
+    "example:dashboard": "nodemon ./examples/dashboard/concept.ts",
+    "example:auxta": "nodemon ./examples/auxta/concept.ts",
+    "test:test": "nodemon ./src/test/app.ts",
+    "release": " npm run build && git add . && git commit -m \"new version created :: $(cat package.json | grep version | head -1  | awk -F: '{ print $2 }'  | sed 's/[\",]//g')\" && npm version patch && npm publish --access public",
+    "preversion": "echo test",
+    "version": "echo git add .",
+    "postversion": "git push --no-verify && git push --tags --no-verify && echo \"\n======Version Pushed Successfully=====\n\" ",
+    "echo-version": "echo $npm_package_version",
+    "build": "tsup --config tsup.config.ts"
+  },
+  "dependencies": {
+    "@adaas/a-concept": "^0.3.13",
+    "@adaas/a-frame": "^0.0.22",
+    "@adaas/a-utils": "^0.3.16",
+    "@adaas/are": "^0.0.9"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.14",
+    "@types/jest": "^29.5.12",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^24.9.1",
+    "axios": "^1.7.2",
+    "chai": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "jest": "^29.7.0",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.4",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tscpaths": "^0.0.9",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  }
+}

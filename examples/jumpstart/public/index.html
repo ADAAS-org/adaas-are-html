@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In</title>
+  <link rel="stylesheet" href="/static/css/main.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+    }
+
+    are-root {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    list-component {
+      display: block;
+      width: 240px;
+      background: #1e1e2e;
+      padding: 16px 0;
+      min-height: 100vh;
+    }
+
+    .menu-section {
+      padding: 12px 20px 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+    }
+
+    .menu {
+      list-style: none;
+      margin-bottom: 8px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      cursor: pointer;
+      color: #9ca3af;
+      font-size: 14px;
+      border-left: 3px solid transparent;
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+    }
+
+    .menu-item:hover {
+      background: #2a2a3e;
+      color: #e5e7eb;
+    }
+
+    .menu-item-active {
+      background: #2a2a3e;
+      color: #ffffff;
+      border-left-color: #6366f1;
+    }
+
+    .menu-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .menu-text {
+      flex: 1;
+    }
+
+    .menu-badge {
+      background: #6366f1;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <are-root id="app">
+    <list-component></list-component>
+  </are-root>
+
+  <script type="module" src="./{{BUNDLE_ID}}.js"></script>
+</body>
+
+</html>

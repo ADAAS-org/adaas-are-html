@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/attributes/AreEvent.attribute.ts"],"names":[],"mappings":";;;AAGO,MAAM,0BAA0B,gBAAA,CAAiB;AACxD","file":"AreEvent.attribute.mjs","sourcesContent":["import { AreHTMLAttribute } from \"@adaas/are-html/attribute\";\n\n\nexport class AreEventAttribute extends AreHTMLAttribute {\n}"]}
