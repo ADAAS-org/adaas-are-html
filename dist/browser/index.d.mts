@@ -120,6 +120,12 @@ declare class AreDirectiveFor extends AreDirective {
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     /**
+     * Build a key-function that derives a stable identity from each item.
+     * If the user provided a `track <expr>` clause, evaluate it as a path on
+     * the item; otherwise fall back to the item identity (reference equality).
+     */
+    private makeKeyFn;
+    /**
      * Parses the $for expression string into its constituent parts.
      *
      * Supported formats:
@@ -128,6 +134,8 @@ declare class AreDirectiveFor extends AreDirective {
      *   (item, index) in items
      *   item in filter(items)
      *   item, index in filter(items, 'active')
+     *   item in items track item.id
+     *   (item, i) in items track item.id
      */
     private parseExpression;
     /**
@@ -154,6 +162,24 @@ declare class AreDirectiveContext extends A_ExecutionContext {
     constructor(aseid: ASEID | string);
 }
 
+/**
+ * `$if` directive — conditionally renders a node based on an expression.
+ *
+ * ⚠️ Known limitation: do NOT use `$if` and `$for` on the SAME element.
+ *    Doing so produces duplicated DOM on toggle because the two directives
+ *    share an owner node and clone its scope independently. Wrap one in a
+ *    parent element instead, e.g.:
+ *
+ *        <div $if="visible">
+ *            <li $for="item in items">{{item.name}}</li>
+ *        </div>
+ *
+ *    or
+ *
+ *        <ul $for="item in items">
+ *            <li $if="item.visible">{{item.name}}</li>
+ *        </ul>
+ */
 declare class AreDirectiveIf extends AreDirective {
     transform(attribute: AreDirectiveAttribute, scope: A_Scope, store: AreStore, scene: AreScene, logger: A_Logger, ...args: any[]): void;
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, syntax: AreSyntax, directiveContext?: AreDirectiveContext, ...args: any[]): void;
@@ -285,6 +311,59 @@ declare class AreRoute extends AreSignal<A_Route> {
     compare(other: A_Signal<A_Route>): boolean;
 }
 
+/**
+ * Boolean HTML attributes whose presence (regardless of value) implies "true",
+ * and whose absence implies "false". Setting these via `setAttribute(name, value)`
+ * always renders the attribute, which is wrong for reactive bindings.
+ *
+ * Reference: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
+ */
+declare const BOOLEAN_ATTRIBUTES: Set<string>;
+declare function isBooleanAttribute(name: string): boolean;
+/**
+ * Form-control IDL properties that must be set as a JS property
+ * (not just an attribute) so live user input is reflected.
+ *
+ * `<input value="foo">` only sets the *default* value;
+ * `input.value = "foo"` updates the live state.
+ */
+declare const IDL_FORM_PROPERTIES: Record<string, Set<string>>;
+declare function isIDLFormProperty(tagName: string, attrName: string): boolean;
+/**
+ * Normalize a `:class` binding value into a single space-separated string.
+ * Supports the common shapes:
+ *   - string                                       → "a b"
+ *   - array<string | object | falsy>               → ["a", { b: true, c: cond }, null]
+ *   - object<string, boolean>                      → { a: true, b: false }
+ */
+declare function normalizeClassValue(value: any): string;
+/**
+ * Normalize a `:style` binding value into an inline-style string.
+ * Supports:
+ *   - string                                       → "color: red; font-size: 12px"
+ *   - object<string, string|number>                → { color: 'red', fontSize: '12px' }
+ *   - array<string | object>                       → ['color: red', { fontSize: '12px' }]
+ */
+declare function normalizeStyleValue(value: any): string;
+/**
+ * Parse a DOM event name with modifiers, e.g. "click.stop.prevent" or "keydown.enter".
+ * Returns the bare event name plus the modifier set.
+ */
+interface ParsedEventName {
+    event: string;
+    modifiers: Set<string>;
+}
+declare function parseEventName(raw: string): ParsedEventName;
+/**
+ * Known event-listener modifiers that map directly to addEventListener options.
+ */
+declare const LISTENER_OPTION_MODIFIERS: Set<string>;
+/**
+ * Coerce a value into a string for DOM consumption.
+ * Avoids "undefined"/"null"/"[object Object]" leaks into the DOM.
+ */
+declare function toDOMString(value: any): string;
+
 type AreHTMLContextConstructor = {
     container: Document;
     source: string;
@@ -327,7 +406,7 @@ declare class AreHTMLEngineContext extends AreContext {
         /**
          * Event listeners attached to elements, used for proper cleanup when reverting instructions. Maps a DOM element to a map of event names and their corresponding listeners, allowing the engine to track which listeners are attached to which elements and remove them when necessary (e.g., when an instruction is reverted).
          */
-        elementListeners: WeakMap<Node, Map<string, EventListenerOrEventListenerObject>>;
+        elementListeners: WeakMap<Node, Map<string, Set<EventListenerOrEventListenerObject>>>;
     };
     /**
      * The root container for the HTML engine, which can be either a Document or a ShadowRoot. This is where the engine will mount the generated DOM elements. The context uses this container to manage the relationship between AreNodes, instructions, and their corresponding DOM elements, allowing for efficient updates and cleanups as the application state changes.
@@ -386,12 +465,16 @@ declare class AreHTMLEngineContext extends AreContext {
      */
     getListener(element: Node, eventName: string): EventListenerOrEventListenerObject | undefined;
     /**
+     * Returns all listeners registered for a given element + event name.
+     */
+    getListeners(element: Node, eventName: string): Set<EventListenerOrEventListenerObject> | undefined;
+    /**
      * Removes an event listener from a specific DOM element and updates the context's index accordingly. This method looks up the element in the elementListeners map and deletes the listener for the specified event name. This is typically called when an instruction is reverted or when a node is removed from the DOM, ensuring that any attached event listeners are properly cleaned up to prevent memory leaks and unintended behavior.
      *
      * @param element
      * @param eventName
      */
-    removeListener(element: Node, eventName: string): void;
+    removeListener(element: Node, eventName: string, listener?: EventListenerOrEventListenerObject): void;
 }
 
 declare class AreHTMLCompiler extends AreCompiler {
@@ -409,7 +492,7 @@ declare class AreHTMLCompiler extends AreCompiler {
     compileStaticAttribute(attribute: AreStaticAttribute, scene: AreScene, ...args: any[]): void;
     compileDirectiveAttribute(directive: AreDirectiveAttribute, store: AreStore, feature: A_Feature, logger?: A_Logger, ...args: any[]): void;
     compileEventAttribute(attribute: AreEventAttribute, scene: AreScene, ...args: any[]): void;
-    compileBindingAttribute(attribute: AreBindingAttribute, scene: AreScene, parentStore: AreStore, store: AreStore, ...args: any[]): void;
+    compileBindingAttribute(attribute: AreBindingAttribute, scene: AreScene, parentStore: AreStore, store: AreStore, syntax: AreSyntax, ...args: any[]): void;
 }
 
 declare class AreHTMLEngine extends AreEngine {
@@ -518,4 +601,4 @@ declare class AreWatcher extends A_Component {
     private notify;
 }
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreStaticAttribute, AreStyle, AreText, AreWatcher };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreStaticAttribute, AreStyle, AreText, AreWatcher, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

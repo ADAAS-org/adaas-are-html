@@ -9,6 +9,12 @@ declare class AreDirectiveFor extends AreDirective {
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     /**
+     * Build a key-function that derives a stable identity from each item.
+     * If the user provided a `track <expr>` clause, evaluate it as a path on
+     * the item; otherwise fall back to the item identity (reference equality).
+     */
+    private makeKeyFn;
+    /**
      * Parses the $for expression string into its constituent parts.
      *
      * Supported formats:
@@ -17,6 +23,8 @@ declare class AreDirectiveFor extends AreDirective {
      *   (item, index) in items
      *   item in filter(items)
      *   item, index in filter(items, 'active')
+     *   item in items track item.id
+     *   (item, i) in items track item.id
      */
     private parseExpression;
     /**

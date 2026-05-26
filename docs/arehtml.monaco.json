@@ -1,0 +1,235 @@
+{
+    "$schema": "./arehtml.monaco.schema.json",
+
+    "languageId": "arehtml",
+    "displayName": "ARE-HTML",
+    "fileExtensions": [".arehtml", ".are.html"],
+    "aliases": ["ARE-HTML", "are-html", "arehtml"],
+    "mimeTypes": ["text/x-arehtml"],
+
+    "configuration": {
+        "comments": {
+            "blockComment": ["<!--", "-->"]
+        },
+        "brackets": [
+            ["<", ">"],
+            ["{{", "}}"],
+            ["{", "}"],
+            ["[", "]"],
+            ["(", ")"]
+        ],
+        "autoClosingPairs": [
+            { "open": "{{", "close": " }}" },
+            { "open": "{",  "close": "}" },
+            { "open": "[",  "close": "]" },
+            { "open": "(",  "close": ")" },
+            { "open": "\"", "close": "\"" },
+            { "open": "'",  "close": "'" }
+        ],
+        "surroundingPairs": [
+            ["{{", "}}"],
+            ["{", "}"],
+            ["[", "]"],
+            ["(", ")"],
+            ["<", ">"],
+            ["\"", "\""],
+            ["'", "'"]
+        ],
+        "wordPattern": "[A-Za-z_$][\\w$-]*",
+        "onEnterRules": []
+    },
+
+    "monarch": {
+        "defaultToken": "",
+        "tokenPostfix": ".arehtml",
+        "ignoreCase": false,
+
+        "builtinDirectives": ["if", "for"],
+
+        "reservedDirectives": [
+            "if", "for", "else", "else-if", "show", "hide",
+            "model", "ref", "slot", "key"
+        ],
+
+        "eventModifiers": [
+            "stop", "prevent", "self", "capture", "once", "passive"
+        ],
+
+        "keyModifiers": [
+            "enter", "esc", "escape", "tab", "space",
+            "delete", "backspace",
+            "up", "down", "left", "right"
+        ],
+
+        "systemModifiers": ["ctrl", "alt", "shift", "meta"],
+
+        "booleanAttributes": [
+            "disabled", "checked", "readonly", "required",
+            "hidden", "multiple", "selected", "open",
+            "autofocus", "autoplay", "controls", "loop", "muted",
+            "default", "defer", "async", "nomodule", "novalidate",
+            "reversed", "ismap", "formnovalidate", "playsinline",
+            "itemscope", "truespeed", "typemustmatch", "inert",
+            "allowfullscreen"
+        ],
+
+        "exprKeywords": ["true", "false", "null", "undefined"],
+        "exprFlowKeywords": ["in", "track"],
+        "exprSupportFunctions": ["filter"],
+
+        "tokenizer": {
+
+            "root": [
+                ["<!--", { "token": "comment.html", "next": "@htmlComment" }],
+
+                ["\\{\\{", { "token": "delimiter.interpolation", "next": "@interpolation" }],
+
+                ["</[a-zA-Z][\\w-]*\\s*>", "tag"],
+
+                ["<[a-zA-Z][\\w-]*", { "token": "tag", "next": "@tagAttrs" }],
+
+                ["[^<{]+", ""]
+            ],
+
+            "htmlComment": [
+                ["-->", { "token": "comment.html", "next": "@pop" }],
+                ["[^-]+", "comment.html"],
+                [".",     "comment.html"]
+            ],
+
+            "interpolation": [
+                ["\\}\\}", { "token": "delimiter.interpolation", "next": "@pop" }],
+                { "include": "@expression" }
+            ],
+
+            "tagAttrs": [
+                ["\\s+", ""],
+
+                ["/>", { "token": "tag", "next": "@pop" }],
+                [">",  { "token": "tag", "next": "@pop" }],
+
+                ["\\$[\\w-]+", {
+                    "cases": {
+                        "@builtinDirectives": "keyword.directive.builtin",
+                        "@default":           "keyword.directive"
+                    }
+                }],
+
+                [":[\\w-]+", "attribute.name.binding"],
+
+                ["@[\\w-]+(?:\\.[\\w-]+)*", {
+                    "token": "attribute.name.event",
+                    "log":   "event $0"
+                }],
+
+                ["[\\w-]+", {
+                    "cases": {
+                        "@booleanAttributes": "attribute.name.boolean",
+                        "@default":           "attribute.name"
+                    }
+                }],
+
+                ["=", "delimiter"],
+
+                ["\"", { "token": "string.quote", "next": "@dqValue" }],
+                ["'",  { "token": "string.quote", "next": "@sqValue" }],
+
+                ["[^\\s>/\"'=]+", "string.unquoted"]
+            ],
+
+            "dqValue": [
+                ["\"", { "token": "string.quote", "next": "@pop" }],
+                { "include": "@expression" }
+            ],
+            "sqValue": [
+                ["'", { "token": "string.quote", "next": "@pop" }],
+                { "include": "@expression" }
+            ],
+
+            "expression": [
+                ["\\$event\\b", "variable.predefined"],
+
+                ["\\$[A-Za-z_][\\w-]*", "entity.name.function.handler"],
+
+                ["\\b(?:true|false|null|undefined)\\b", "constant.language"],
+
+                ["\\b(?:in|track)\\b", "keyword.control.flow"],
+
+                ["\\bfilter\\b", "support.function"],
+
+                ["[A-Za-z_][\\w$]*", "identifier"],
+
+                ["\\d+(?:\\.\\d+)?", "number"],
+
+                ["\"([^\"\\\\]|\\\\.)*\"", "string.literal"],
+                ["'([^'\\\\]|\\\\.)*'",   "string.literal"],
+
+                ["[+\\-*/%<>=!&|?:,;.]+", "operator"],
+                ["[()\\[\\]{}]",           "@brackets"],
+
+                ["\\s+", ""]
+            ]
+        }
+    },
+
+    "themeRules": {
+        "description": "Suggested token color rules. Use as `monaco.editor.defineTheme(...)` `rules`.",
+        "rules": [
+            { "token": "tag.arehtml",                                "foreground": "569CD6" },
+            { "token": "attribute.name.arehtml",                     "foreground": "9CDCFE" },
+            { "token": "attribute.name.boolean.arehtml",             "foreground": "9CDCFE", "fontStyle": "italic" },
+            { "token": "attribute.name.binding.arehtml",             "foreground": "4FC1FF", "fontStyle": "bold" },
+            { "token": "attribute.name.event.arehtml",               "foreground": "DCDCAA", "fontStyle": "bold" },
+            { "token": "keyword.directive.arehtml",                  "foreground": "C586C0" },
+            { "token": "keyword.directive.builtin.arehtml",          "foreground": "C586C0", "fontStyle": "bold" },
+            { "token": "delimiter.interpolation.arehtml",            "foreground": "D7BA7D" },
+            { "token": "variable.predefined.arehtml",                "foreground": "4EC9B0", "fontStyle": "italic" },
+            { "token": "entity.name.function.handler.arehtml",       "foreground": "DCDCAA" },
+            { "token": "keyword.control.flow.arehtml",               "foreground": "C586C0" },
+            { "token": "support.function.arehtml",                   "foreground": "DCDCAA" },
+            { "token": "constant.language.arehtml",                  "foreground": "569CD6" },
+            { "token": "string.literal.arehtml",                     "foreground": "CE9178" },
+            { "token": "string.unquoted.arehtml",                    "foreground": "CE9178" },
+            { "token": "string.quote.arehtml",                       "foreground": "CE9178" },
+            { "token": "number.arehtml",                             "foreground": "B5CEA8" },
+            { "token": "operator.arehtml",                           "foreground": "D4D4D4" },
+            { "token": "comment.html.arehtml",                       "foreground": "6A9955", "fontStyle": "italic" }
+        ]
+    },
+
+    "completions": {
+        "directives": [
+            { "label": "$if",     "insertText": "$if=\"$1\"",                     "documentation": "Conditionally render the element when expression is truthy." },
+            { "label": "$for",    "insertText": "$for=\"$1 in $2\"",              "documentation": "Render the element once per item in the array." },
+            { "label": "$for+track", "insertText": "$for=\"$1 in $2 track $1.id\"", "documentation": "Render the element once per item, with stable keyed reconciliation." }
+        ],
+        "events": [
+            { "label": "@click",            "insertText": "@click=\"$$1\"" },
+            { "label": "@click.stop",       "insertText": "@click.stop=\"$$1\"" },
+            { "label": "@click.prevent",    "insertText": "@click.prevent=\"$$1\"" },
+            { "label": "@submit.prevent",   "insertText": "@submit.prevent=\"$$1\"" },
+            { "label": "@input",            "insertText": "@input=\"$$1($event.target.value)\"" },
+            { "label": "@keydown.enter",    "insertText": "@keydown.enter=\"$$1\"" },
+            { "label": "@keydown.esc",      "insertText": "@keydown.esc=\"$$1\"" }
+        ],
+        "bindings": [
+            { "label": ":class",    "insertText": ":class=\"$1\"" },
+            { "label": ":style",    "insertText": ":style=\"$1\"" },
+            { "label": ":value",    "insertText": ":value=\"$1\"" },
+            { "label": ":disabled", "insertText": ":disabled=\"$1\"" },
+            { "label": ":checked",  "insertText": ":checked=\"$1\"" },
+            { "label": ":href",     "insertText": ":href=\"$1\"" },
+            { "label": ":src",      "insertText": ":src=\"$1\"" }
+        ],
+        "interpolation": [
+            { "label": "{{ }}", "insertText": "{{ $1 }}" }
+        ]
+    },
+
+    "_usage": {
+        "register": "monaco.languages.register({ id: cfg.languageId, extensions: cfg.fileExtensions, aliases: cfg.aliases, mimetypes: cfg.mimeTypes })",
+        "tokens": "monaco.languages.setMonarchTokensProvider(cfg.languageId, cfg.monarch)",
+        "configuration": "monaco.languages.setLanguageConfiguration(cfg.languageId, cfg.configuration)",
+        "theme": "monaco.editor.defineTheme('arehtml-dark', { base: 'vs-dark', inherit: true, rules: cfg.themeRules.rules, colors: {} })"
+    }
+}

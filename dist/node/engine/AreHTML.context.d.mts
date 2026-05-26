@@ -38,7 +38,7 @@ declare class AreHTMLEngineContext extends AreContext {
         /**
          * Event listeners attached to elements, used for proper cleanup when reverting instructions. Maps a DOM element to a map of event names and their corresponding listeners, allowing the engine to track which listeners are attached to which elements and remove them when necessary (e.g., when an instruction is reverted).
          */
-        elementListeners: WeakMap<Node, Map<string, EventListenerOrEventListenerObject>>;
+        elementListeners: WeakMap<Node, Map<string, Set<EventListenerOrEventListenerObject>>>;
     };
     /**
      * The root container for the HTML engine, which can be either a Document or a ShadowRoot. This is where the engine will mount the generated DOM elements. The context uses this container to manage the relationship between AreNodes, instructions, and their corresponding DOM elements, allowing for efficient updates and cleanups as the application state changes.
@@ -97,12 +97,16 @@ declare class AreHTMLEngineContext extends AreContext {
      */
     getListener(element: Node, eventName: string): EventListenerOrEventListenerObject | undefined;
     /**
+     * Returns all listeners registered for a given element + event name.
+     */
+    getListeners(element: Node, eventName: string): Set<EventListenerOrEventListenerObject> | undefined;
+    /**
      * Removes an event listener from a specific DOM element and updates the context's index accordingly. This method looks up the element in the elementListeners map and deletes the listener for the specified event name. This is typically called when an instruction is reverted or when a node is removed from the DOM, ensuring that any attached event listeners are properly cleaned up to prevent memory leaks and unintended behavior.
      *
      * @param element
      * @param eventName
      */
-    removeListener(element: Node, eventName: string): void;
+    removeListener(element: Node, eventName: string, listener?: EventListenerOrEventListenerObject): void;
 }
 
 export { AreHTMLEngineContext };

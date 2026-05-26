@@ -3,8 +3,13 @@ import { A_Logger } from "@adaas/a-utils/a-logger";
 import { AreAttributeFeatures, AreTransformer, AreStore } from "@adaas/are";
 import { AreDirectiveAttribute } from "@adaas/are-html/attributes/AreDirective.attribute";
 import { AreDirectiveFeatures } from "@adaas/are-html/directive/AreDirective.constants";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation — sorting directives by declared priority and expanding compound directive expressions — so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission.'
+})
 export class AreHTMLTransformer extends AreTransformer {
 
     @A_Feature.Extend({

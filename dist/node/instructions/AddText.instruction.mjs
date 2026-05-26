@@ -1,5 +1,5 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { AreDeclaration } from '@adaas/are';
 import { AreHTMLInstructions } from './AreHTML.instructions.constants';
 
@@ -13,9 +13,8 @@ let AddTextInstruction = class extends AreDeclaration {
   }
 };
 AddTextInstruction = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddTextInstruction",
+  A_Frame.Define({
+    namespace: "a-are-html",
     description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
   })
 ], AddTextInstruction);

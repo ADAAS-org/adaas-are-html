@@ -6,15 +6,22 @@ import { AreDirective } from "@adaas/are-html/directive/AreDirective.component";
 import { AddCommentInstruction } from "@adaas/are-html/instructions/AddComment.instruction";
 import { AreHTMLNode } from "@adaas/are-html/node";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
 type AreForExpression = {
     key: string;
     index: string | undefined;
     arrayExpr: string;
+    /** Optional `track <expr>` clause, e.g. `track row.id` */
+    trackExpr: string | undefined;
 };
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'Built-in $for directive. Iterates over an array expression resolved from the store and renders a cloned template fragment per item, managing per-item subscopes and comment-node anchors. Supports keyed diffing via an optional track clause to minimise DOM mutations on collection updates.'
+})
 @AreDirective.Priority(1)
 export class AreDirectiveFor extends AreDirective {
 
@@ -73,8 +80,6 @@ export class AreDirectiveFor extends AreDirective {
 
         attribute.value = array;
 
-        console.log('Initial array for "for" directive:', scene);
-
         /**
          * For each item in the array, spawn a clone of the template with the
          * item's store values pre-set and its scene activated.
@@ -86,8 +91,6 @@ export class AreDirectiveFor extends AreDirective {
         for (let i = 0; i < array.length; i++) {
             this.spawnItemNode(attribute.template!, attribute.owner, key, index, array[i], i);
         }
-
-        console.log('Template for "for" directive:', forTemplate);
     }
 
 
@@ -123,7 +126,7 @@ export class AreDirectiveFor extends AreDirective {
         /**
          * Re-evaluate the source array.
          */
-        const { key, index, arrayExpr } = this.parseExpression(attribute.content);
+        const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
         const newArray = this.resolveArray(store, arrayExpr, attribute.content);
 
         const owner = attribute.owner;
@@ -131,70 +134,61 @@ export class AreDirectiveFor extends AreDirective {
 
         attribute.value = newArray;
 
-        const newLen = newArray.length;
+        const computeKey = this.makeKeyFn(key, index, trackExpr);
 
-        /**
-         * Build a set of new items for O(1) identity lookup.
-         * Uses reference equality — items that exist in newArray are "kept".
-         */
-        const newItemSet = new Set(newArray);
+        // ── 1. Index existing children by stable key ────────────────────────
+        const childByKey = new Map<any, AreHTMLNode>();
+        const remaining = new Set<AreHTMLNode>();
 
-        /**
-         * Partition existing children by identity: nodes whose stored item is
-         * still present in the new array are kept; the rest are removed.
-         * This correctly handles deletions from any position, not just the tail.
-         */
-        const keptChildren: AreHTMLNode[] = [];
-        const removedChildren: AreHTMLNode[] = [];
-
-        for (const child of currentChildren) {
+        for (let i = 0; i < currentChildren.length; i++) {
+            const child = currentChildren[i];
             const ctx = child.scope.resolveFlat(AreDirectiveContext);
+            const k = ctx ? computeKey(ctx.scope[key], ctx.scope[index || 'index']) : Symbol('orphan');
+            childByKey.set(k, child);
+            remaining.add(child);
+        }
 
-            if (ctx && newItemSet.has(ctx.scope[key])) {
-                keptChildren.push(child);
+        // ── 2. Walk desired list; reuse existing or spawn new ───────────────
+        const desired: AreHTMLNode[] = [];
+        const newOnes: AreHTMLNode[] = [];
+
+        for (let i = 0; i < newArray.length; i++) {
+            const item = newArray[i];
+            const k = computeKey(item, i);
+            const existing = childByKey.get(k);
+
+            if (existing) {
+                remaining.delete(existing);
+
+                let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
+                if (!directiveContext) {
+                    directiveContext = new AreDirectiveContext(existing.aseid);
+                    existing.scope.register(directiveContext);
+                }
+                directiveContext.scope = {
+                    ...directiveContext.scope,
+                    [key]: item,
+                    [index || 'index']: i,
+                };
+                desired.push(existing);
             } else {
-                removedChildren.push(child);
+                const itemNode = this.spawnItemNode(attribute.template!, owner, key, index, item, i);
+                desired.push(itemNode);
+                newOnes.push(itemNode);
             }
         }
 
-        /**
-         * Unmount and detach nodes whose items are no longer in the array.
-         */
-        for (const child of removedChildren) {
+        // ── 3. Unmount + detach removed children ─────────────────────────────
+        for (const child of remaining) {
             child.unmount();
             owner.removeChild(child);
         }
 
-        /**
-         * Update store values on kept nodes so their reactive bindings pick up
-         * the latest data and corrected indices without a full re-render.
-         */
-        for (let i = 0; i < keptChildren.length; i++) {
-            let directiveContext = keptChildren[i].scope.resolveFlat(AreDirectiveContext);
-
-            if (!directiveContext) {
-                directiveContext = new AreDirectiveContext(keptChildren[i].aseid);
-                keptChildren[i].scope.register(directiveContext);
-            }
-
-            directiveContext.scope = {
-                ...directiveContext.scope,
-                [key]: newArray[i],
-                [index || 'index']: i,
-            };
-        }
-
-        /**
-         * Append nodes for items added beyond the current kept count.
-         * These are created outside the main compile cycle so they need an
-         * explicit compile + mount to appear in the DOM.
-         */
-        for (let i = keptChildren.length; i < newLen; i++) {
-            const itemNode = this.spawnItemNode(attribute.template!, owner, key, index, newArray[i], i);
-
-            itemNode.transform();
-            itemNode.compile();
-            itemNode.mount();
+        // ── 4. Mount only the new ones (kept children stay where they are). ─
+        for (const child of newOnes) {
+            child.transform();
+            child.compile();
+            child.mount();
         }
     }
 
@@ -202,6 +196,34 @@ export class AreDirectiveFor extends AreDirective {
     // ─────────────────────────────────────────────────────────────────────────────
     // ── Helpers ──────────────────────────────────────────────────────────────────
     // ─────────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Build a key-function that derives a stable identity from each item.
+     * If the user provided a `track <expr>` clause, evaluate it as a path on
+     * the item; otherwise fall back to the item identity (reference equality).
+     */
+    private makeKeyFn(key: string, index: string | undefined, trackExpr: string | undefined): (item: any, i: number) => any {
+        if (!trackExpr) {
+            return (item, i) => item ?? i;
+        }
+
+        // Strip any leading `key.` so users can write `track row.id`.
+        const path = trackExpr.startsWith(key + '.') ? trackExpr.slice(key.length + 1) : trackExpr;
+
+        return (item, i) => {
+            if (item == null) return i;
+            if (path === key || path === '$index') return path === '$index' ? i : item;
+
+            // dotted path lookup
+            const parts = path.split('.');
+            let v: any = item;
+            for (const p of parts) {
+                if (v == null) return i;
+                v = v[p];
+            }
+            return v ?? i;
+        };
+    }
 
     /**
      * Parses the $for expression string into its constituent parts.
@@ -212,17 +234,32 @@ export class AreDirectiveFor extends AreDirective {
      *   (item, index) in items
      *   item in filter(items)
      *   item, index in filter(items, 'active')
+     *   item in items track item.id
+     *   (item, i) in items track item.id
      */
     private parseExpression(content: string): AreForExpression {
-        const inIndex = content.lastIndexOf(' in ');
-        const keyAndIndex = content.slice(0, inIndex).trim().replace(/^\(|\)$/g, '');
-        const arrayExpr = content.slice(inIndex + 4).trim();
+        // Strip optional `track <expr>` suffix first.
+        let trackExpr: string | undefined;
+        const trackIdx = content.search(/\s+track\s+/);
+        let body = content;
+        if (trackIdx !== -1) {
+            const m = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
+            if (m) {
+                trackExpr = m[1].trim();
+                body = content.slice(0, trackIdx).trim();
+            }
+        }
+
+        const inIndex = body.lastIndexOf(' in ');
+        const keyAndIndex = body.slice(0, inIndex).trim().replace(/^\(|\)$/g, '');
+        const arrayExpr = body.slice(inIndex + 4).trim();
         const keyParts = keyAndIndex.split(',').map(p => p.trim());
 
         return {
             key: keyParts[0],
             index: keyParts[1] || undefined,
             arrayExpr,
+            trackExpr,
         };
     }
 

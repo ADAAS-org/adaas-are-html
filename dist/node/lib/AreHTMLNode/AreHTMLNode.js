@@ -1,7 +1,7 @@
 'use strict';
 
 var aConcept = require('@adaas/a-concept');
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreBinding_attribute = require('@adaas/are-html/attributes/AreBinding.attribute');
 var AreDirective_attribute = require('@adaas/are-html/attributes/AreDirective.attribute');
@@ -72,9 +72,8 @@ exports.AreHTMLNode = class AreHTMLNode extends are.AreNode {
   }
 };
 exports.AreHTMLNode = __decorateClass([
-  aFrame.A_Frame.Entity({
-    namespace: "A-ARE",
-    name: "AreHTMLNode",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles."
   })
 ], exports.AreHTMLNode);

@@ -8,11 +8,16 @@ import { AreEventAttribute } from "@adaas/are-html/attributes/AreEvent.attribute
 import { AreBindingAttribute } from "@adaas/are-html/attributes/AreBinding.attribute";
 import { AreStaticAttribute } from "@adaas/are-html/attributes/AreStatic.attribute";
 import { AreHTMLAttribute } from "../lib/AreHTMLAttribute/AreHTML.attribute";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'HTML-specific tokenizer extending AreTokenizer. Parses raw HTML template strings into AreHTMLNode trees by scanning element tags and resolving directive ($), event (@), binding (:), and static attributes to their typed attribute classes, constructing AreComponentNode and AreRootNode instances where required.'
+})
 export class AreHTMLTokenizer extends AreTokenizer {
 
-    ATTR_PATTERN = /([$:@]?[\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g
+    ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g
 
 
     @A_Feature.Extend({

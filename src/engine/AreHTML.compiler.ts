@@ -1,7 +1,7 @@
 import { A_Caller, A_Dependency, A_Feature, A_FormatterHelper, A_Inject } from "@adaas/a-concept";
 import { A_Logger } from "@adaas/a-utils/a-logger";
-import { A_Frame } from "@adaas/a-frame";
-import { AreCompiler, AreScene, AreCompilerError, AreStore } from "@adaas/are";
+import { A_Frame } from "@adaas/a-frame/core";
+import { AreCompiler, AreScene, AreCompilerError, AreStore, AreSyntax } from "@adaas/are";
 import { AreDirectiveAttribute } from "@adaas/are-html/attributes/AreDirective.attribute";
 import { AreStaticAttribute } from "@adaas/are-html/attributes/AreStatic.attribute";
 import { AreDirectiveFeatures } from "@adaas/are-html/directive/AreDirective.constants";
@@ -16,9 +16,8 @@ import { AddListenerInstruction} from "@adaas/are-html/instructions/AddListener.
 
 
 
-@A_Frame.Component({
-    namespace: 'A-ARE',
-    name: 'AreHTMLCompiler',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments.'
 })
 export class AreHTMLCompiler extends AreCompiler {
@@ -171,6 +170,7 @@ export class AreHTMLCompiler extends AreCompiler {
         @A_Dependency.Parent()
         @A_Inject(AreStore) parentStore: AreStore,
         @A_Inject(AreStore) store: AreStore,
+        @A_Inject(AreSyntax) syntax: AreSyntax,
         ...args: any[]
     ) {
         if (!scene.host)
@@ -181,45 +181,73 @@ export class AreHTMLCompiler extends AreCompiler {
 
 
         const node = attribute.owner;
+        const props = node.component?.props;
 
-        /**
-         * 1. If the binding is related to a component prop, then we should set the value to the component props, so it can be used in the component logic and rendering.
-         *    This is a special case for component props, since they are not regular attributes and have a special meaning and usage in the component. By setting the value directly to the component props, we can ensure that it is properly reactive and can influence the component's behavior and rendering based on its value.
-         */
-        if (node.component && node.component.props[attribute.name]) {
-            const propDefinition = node.component.props[attribute.name];
-            let value = parentStore.get(attribute.content);
-
-            if (propDefinition.type) {
-                switch (propDefinition.type) {
-                    case 'string':
-                        value = String(value);
-                        break;
-                    case 'number':
-                        value = Number(value);
-                        break;
-                    case 'boolean':
-                        value = Boolean(value);
-                        break;
-                    default:
-                        break;
-                }
+        // Component prop names are typically declared in camelCase, while template
+        // markup uses kebab-case. Try both forms when matching.
+        let propName: string | undefined;
+        if (props) {
+            if (props[attribute.name]) {
+                propName = attribute.name;
+            } else {
+                const camel = A_FormatterHelper.toCamelCase(attribute.name);
+                if (props[camel]) propName = camel;
             }
-
-            store.set(attribute.name, value);
         }
+
         /**
-         * 2. In other cases, we just want to add it as a regular attribute to the node, since it can be used in the template and rendering as a dynamic value that can change based on the store value. By adding it as a regular attribute, we can ensure that it is properly rendered and updated in the DOM based on its value in the store.
+         * 1. Component prop binding — evaluate against the parent store and
+         *    keep the child store reactive to upstream changes.
          */
-        else {
-            const instruction = new AddAttributeInstruction(scene.host, {
-                name: attribute.name,
-                content: attribute.content,
-                evaluate: true
-            })
+        if (propName && props) {
+            const propDefinition = props[propName];
 
-            scene.plan(instruction);
+            const coerce = (raw: any): any => {
+                let value = raw;
+                if (propDefinition.type) {
+                    switch (propDefinition.type) {
+                        case 'string': value = value === undefined || value === null ? '' : String(value); break;
+                        case 'number': value = Number(value); break;
+                        case 'boolean': value = Boolean(value); break;
+                    }
+                }
+                return value;
+            };
+
+            // The watcher entity below is registered against parentStore so that
+            // updates to the bound expression in the parent flow into the child store.
+            const watcher = {
+                update: () => {
+                    try {
+                        parentStore.watch(watcher);
+                        const next = coerce(syntax.evaluate(attribute.content, parentStore));
+                        parentStore.unwatch(watcher);
+                        store.set(propName!, next);
+                    } catch (e) {
+                        parentStore.unwatch(watcher);
+                    }
+                }
+            };
+
+            // Initial read with watch active so dependencies are recorded.
+            parentStore.watch(watcher);
+            const initial = coerce(syntax.evaluate(attribute.content, parentStore));
+            parentStore.unwatch(watcher);
+
+            store.set(propName, initial);
+            return;
         }
+
+        /**
+         * 2. Default attribute binding — evaluated reactively against the local store.
+         */
+        const instruction = new AddAttributeInstruction(scene.host, {
+            name: attribute.name,
+            content: attribute.content,
+            evaluate: true
+        })
+
+        scene.plan(instruction);
     }
 
 

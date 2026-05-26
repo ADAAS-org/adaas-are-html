@@ -1,8 +1,8 @@
 import { __decorateClass, __decorateParam } from '../chunk-EQQGB2QZ.mjs';
 import { A_Inject, A_Caller, A_Feature, A_Dependency, A_FormatterHelper } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
-import { A_Frame } from '@adaas/a-frame';
-import { AreCompiler, AreScene, AreStore, AreCompilerError } from '@adaas/are';
+import { A_Frame } from '@adaas/a-frame/core';
+import { AreCompiler, AreScene, AreStore, AreSyntax, AreCompilerError } from '@adaas/are';
 import { AreDirectiveAttribute } from '@adaas/are-html/attributes/AreDirective.attribute';
 import { AreStaticAttribute } from '@adaas/are-html/attributes/AreStatic.attribute';
 import { AreDirectiveFeatures } from '@adaas/are-html/directive/AreDirective.constants';
@@ -55,38 +55,66 @@ let AreHTMLCompiler = class extends AreCompiler {
       handler: attribute.content
     }));
   }
-  compileBindingAttribute(attribute, scene, parentStore, store, ...args) {
+  compileBindingAttribute(attribute, scene, parentStore, store, syntax, ...args) {
     if (!scene.host)
       throw new AreCompilerError({
         title: "Scene Host Not Found",
         description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
       });
     const node = attribute.owner;
-    if (node.component && node.component.props[attribute.name]) {
-      const propDefinition = node.component.props[attribute.name];
-      let value = parentStore.get(attribute.content);
-      if (propDefinition.type) {
-        switch (propDefinition.type) {
-          case "string":
-            value = String(value);
-            break;
-          case "number":
-            value = Number(value);
-            break;
-          case "boolean":
-            value = Boolean(value);
-            break;
-        }
+    const props = node.component?.props;
+    let propName;
+    if (props) {
+      if (props[attribute.name]) {
+        propName = attribute.name;
+      } else {
+        const camel = A_FormatterHelper.toCamelCase(attribute.name);
+        if (props[camel]) propName = camel;
       }
-      store.set(attribute.name, value);
-    } else {
-      const instruction = new AddAttributeInstruction(scene.host, {
-        name: attribute.name,
-        content: attribute.content,
-        evaluate: true
-      });
-      scene.plan(instruction);
     }
+    if (propName && props) {
+      const propDefinition = props[propName];
+      const coerce = (raw) => {
+        let value = raw;
+        if (propDefinition.type) {
+          switch (propDefinition.type) {
+            case "string":
+              value = value === void 0 || value === null ? "" : String(value);
+              break;
+            case "number":
+              value = Number(value);
+              break;
+            case "boolean":
+              value = Boolean(value);
+              break;
+          }
+        }
+        return value;
+      };
+      const watcher = {
+        update: () => {
+          try {
+            parentStore.watch(watcher);
+            const next = coerce(syntax.evaluate(attribute.content, parentStore));
+            parentStore.unwatch(watcher);
+            store.set(propName, next);
+          } catch (e) {
+            parentStore.unwatch(watcher);
+          }
+        }
+      };
+      parentStore.watch(watcher);
+      const initial = coerce(syntax.evaluate(attribute.content, parentStore));
+      parentStore.unwatch(watcher);
+      store.set(propName, initial);
+      return;
+    }
+    const instruction = new AddAttributeInstruction(scene.host, {
+      name: attribute.name,
+      content: attribute.content,
+      evaluate: true
+    });
+    scene.plan(instruction);
   }
 };
 __decorateClass([
@@ -125,12 +153,12 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreScene)),
   __decorateParam(2, A_Dependency.Parent()),
   __decorateParam(2, A_Inject(AreStore)),
-  __decorateParam(3, A_Inject(AreStore))
+  __decorateParam(3, A_Inject(AreStore)),
+  __decorateParam(4, A_Inject(AreSyntax))
 ], AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
 AreHTMLCompiler = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AreHTMLCompiler",
+  A_Frame.Define({
+    namespace: "a-are-html",
     description: "HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments."
   })
 ], AreHTMLCompiler);

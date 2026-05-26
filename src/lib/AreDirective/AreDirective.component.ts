@@ -3,8 +3,13 @@ import { A_Logger } from "@adaas/a-utils/a-logger";
 import type { AreDirectiveAttribute } from "@adaas/are-html/attributes/AreDirective.attribute";
 import { AreDirectiveMeta } from "./AreDirective.meta";
 import { AreDirectiveFeatures } from "./AreDirective.constants";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal.'
+})
 @A_Meta.Define(AreDirectiveMeta)
 export class AreDirective extends A_Component  {
 

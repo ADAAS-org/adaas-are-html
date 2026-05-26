@@ -1,11 +1,12 @@
 import { __decorateClass, __decorateParam } from '../chunk-EQQGB2QZ.mjs';
 import { A_Inject, A_Caller } from '@adaas/a-concept';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreInterpreter, AreInstructionDefaultNames, AreStore, AreSyntax, AreInterpreterError, AreEvent } from '@adaas/are';
 import { AreHTMLInstructions } from '@adaas/are-html/instructions/AreHTML.instructions.constants';
 import { AreDirectiveContext } from '@adaas/are-html/directive/AreDirective.context';
 import { AreHTMLEngineContext } from './AreHTML.context';
+import { isBooleanAttribute, isIDLFormProperty, toDOMString, normalizeClassValue, normalizeStyleValue, parseEventName } from './AreHTML.constants';
 
 let AreHTMLInterpreter = class extends AreInterpreter {
   addElement(declaration, context, logger) {
@@ -30,6 +31,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = context.container.createElement(tag);
+        element.setAttribute("data-aseid", node.aseid.toString());
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -71,23 +73,80 @@ let AreHTMLInterpreter = class extends AreInterpreter {
       });
     }
     const { name, content, evaluate } = mutation.payload;
-    const value = evaluate ? syntax.evaluate(content, store, {
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
       ...directiveContext?.scope || {}
     }) : content;
-    if (mutation.cache === void 0) {
-      const existingValue = element.getAttribute(name);
-      const result = existingValue ? `${existingValue} ${value}` : value;
-      element.setAttribute(name, result);
-      mutation.cache = value;
-    } else {
-      const existingValue = element.getAttribute(name);
-      const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
-      const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
-      const newParts = value ? value.split(/\s+/).filter(Boolean) : [];
-      const result = [...existingParts.filter((part) => !oldParts.has(part)), ...newParts].join(" ");
-      element.setAttribute(name, result);
-      mutation.cache = value;
+    const el = element;
+    const lowerName = name.toLowerCase();
+    if (isBooleanAttribute(lowerName)) {
+      if (rawValue) {
+        el.setAttribute(lowerName, "");
+        try {
+          el[lowerName] = true;
+        } catch {
+        }
+      } else {
+        el.removeAttribute(lowerName);
+        try {
+          el[lowerName] = false;
+        } catch {
+        }
+      }
+      mutation.cache = rawValue ? "true" : "";
+      return;
     }
+    if (isIDLFormProperty(el.tagName, name)) {
+      const propName = name === "value" ? "value" : name === "checked" ? "checked" : name === "selected" ? "selected" : name === "indeterminate" ? "indeterminate" : name;
+      try {
+        if (propName === "checked" || propName === "selected" || propName === "indeterminate") {
+          el[propName] = !!rawValue;
+        } else {
+          el[propName] = toDOMString(rawValue);
+        }
+      } catch {
+      }
+      if (propName !== "value") {
+        if (rawValue) el.setAttribute(name, "");
+        else el.removeAttribute(name);
+      } else {
+        el.setAttribute(name, toDOMString(rawValue));
+      }
+      mutation.cache = toDOMString(rawValue);
+      return;
+    }
+    if (lowerName === "class") {
+      const newValue = normalizeClassValue(rawValue);
+      if (mutation.cache === void 0) {
+        const existingValue = el.getAttribute("class");
+        const merged = existingValue ? `${existingValue} ${newValue}`.trim() : newValue;
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      } else {
+        const existingValue = el.getAttribute("class");
+        const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
+        const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
+        const newParts = newValue ? newValue.split(/\s+/).filter(Boolean) : [];
+        const merged = [...existingParts.filter((p) => !oldParts.has(p)), ...newParts].join(" ");
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      }
+      mutation.cache = newValue;
+      return;
+    }
+    if (lowerName === "style") {
+      const newValue = normalizeStyleValue(rawValue);
+      if (newValue) el.setAttribute("style", newValue);
+      else el.removeAttribute("style");
+      mutation.cache = newValue;
+      return;
+    }
+    const stringValue = toDOMString(rawValue);
+    if (stringValue === "" && evaluate && (rawValue === false || rawValue === null || rawValue === void 0)) {
+      el.removeAttribute(name);
+    } else {
+      el.setAttribute(name, stringValue);
+    }
+    mutation.cache = stringValue;
   }
   removeAttribute(mutation, context) {
     try {
@@ -109,12 +168,19 @@ let AreHTMLInterpreter = class extends AreInterpreter {
         description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before adding event listeners.`
       });
     }
+    const { event: eventName, modifiers } = parseEventName(mutation.payload.name);
+    const listenerOptions = {};
+    if (modifiers.has("capture")) listenerOptions.capture = true;
+    if (modifiers.has("once")) listenerOptions.once = true;
+    if (modifiers.has("passive")) listenerOptions.passive = true;
     const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
+    let liveEvent = null;
     const handlerScope = {};
     for (const handler of handlers) {
       const handlerFn = (...args) => {
         const event = new AreEvent(handler);
-        event.set("args", args);
+        const effectiveArgs = args.length === 0 && liveEvent ? [liveEvent] : liveEvent ? [...args, liveEvent] : args;
+        event.set("args", effectiveArgs);
         event.set("element", element);
         event.set("instruction", mutation);
         mutation.owner.emit(event);
@@ -122,34 +188,80 @@ let AreHTMLInterpreter = class extends AreInterpreter {
       handlerScope[`$${handler}`] = handlerFn;
     }
     const callback = (e) => {
-      context.startPerformance("Click");
-      const result = syntax.evaluate(mutation.payload.handler, store, {
-        ...handlerScope,
-        ...directiveContext?.scope || {}
-      });
-      if (typeof result === "function") result(e);
+      try {
+        liveEvent = e;
+        if (modifiers.has("self") && e.target !== element) return;
+        if (modifiers.has("stop")) e.stopPropagation();
+        if (modifiers.has("prevent")) e.preventDefault();
+        if (e instanceof KeyboardEvent && modifiers.size > 0) {
+          const key = (e.key || "").toLowerCase();
+          const KEY_ALIASES = {
+            enter: ["enter"],
+            esc: ["escape"],
+            escape: ["escape"],
+            tab: ["tab"],
+            space: [" ", "spacebar"],
+            up: ["arrowup"],
+            down: ["arrowdown"],
+            left: ["arrowleft"],
+            right: ["arrowright"],
+            delete: ["delete", "backspace"]
+          };
+          const keyMods = [...modifiers].filter((m) => m in KEY_ALIASES || m === "ctrl" || m === "alt" || m === "shift" || m === "meta");
+          if (keyMods.length > 0) {
+            const keyMatch = keyMods.some((m) => {
+              if (m === "ctrl") return e.ctrlKey;
+              if (m === "alt") return e.altKey;
+              if (m === "shift") return e.shiftKey;
+              if (m === "meta") return e.metaKey;
+              const aliases = KEY_ALIASES[m];
+              return aliases && aliases.includes(key);
+            });
+            if (!keyMatch) return;
+          }
+        }
+        context.startPerformance("event:" + eventName);
+        const result = syntax.evaluate(mutation.payload.handler, store, {
+          ...handlerScope,
+          $event: e,
+          ...directiveContext?.scope || {}
+        });
+        if (typeof result === "function") result(e);
+        context.endPerformance("event:" + eventName);
+      } catch (err) {
+        logger?.error(err);
+      } finally {
+        liveEvent = null;
+      }
     };
-    if (callback) {
-      element.addEventListener(mutation.payload.name, callback);
-      context.addListener(element, mutation.payload.name, callback);
+    const useOptions = listenerOptions.capture || listenerOptions.once || listenerOptions.passive;
+    if (useOptions) {
+      element.addEventListener(eventName, callback, listenerOptions);
+    } else {
+      element.addEventListener(eventName, callback);
     }
+    mutation.payload._callback = callback;
+    context.addListener(element, mutation.payload.name, callback);
   }
   removeEventListener(mutation, context) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) return;
     const { name } = mutation.payload;
-    const listener = context.getListener(element, name);
+    const { event: eventName } = parseEventName(name);
+    const listener = mutation.payload._callback;
     if (listener) {
-      element.removeEventListener(name, listener);
-      context.removeListener(element, name);
+      element.removeEventListener(eventName, listener);
+      context.removeListener(element, name, listener);
+      mutation.payload._callback = void 0;
     }
   }
   addText(declaration, context, store, syntax, directiveContext, logger) {
     const node = declaration.owner.parent;
     const { content, evaluate } = declaration.payload;
-    const value = evaluate ? syntax.evaluate(content, store, {
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
       ...directiveContext?.scope || {}
     }) : content;
+    const value = toDOMString(rawValue);
     if (!node) {
       const textNode = context.container.createTextNode(value);
       context.container.body.appendChild(textNode);
@@ -182,9 +294,10 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   addComment(declaration, context, store, syntax, directiveContext, logger) {
     const node = declaration.owner.parent;
     const { content, evaluate } = declaration.payload;
-    const value = evaluate ? syntax.evaluate(content, store, {
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
       ...directiveContext?.scope || {}
     }) : content;
+    const value = toDOMString(rawValue);
     if (!node) {
       const commentNode = context.container.createComment(value);
       context.container.body.appendChild(commentNode);
@@ -216,7 +329,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   }
 };
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Create an HTML element based on the provided declaration instruction. Handles both root-level mounting and child element creation based on the structural parent hierarchy."
   }),
   AreInterpreter.Apply(AreInstructionDefaultNames.Default),
@@ -226,7 +339,7 @@ __decorateClass([
   __decorateParam(2, A_Inject(A_Logger))
 ], AreHTMLInterpreter.prototype, "addElement", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Remove an HTML element that was created by a CreateElement declaration. Cleans up the DOM and the context index."
   }),
   AreInterpreter.Revert(AreInstructionDefaultNames.Default),
@@ -235,7 +348,7 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeElement", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Add an attribute to an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddAttribute),
@@ -248,7 +361,7 @@ __decorateClass([
   __decorateParam(5, A_Inject(A_Logger))
 ], AreHTMLInterpreter.prototype, "addAttribute", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Remove an attribute from an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
@@ -256,7 +369,7 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeAttribute", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Add an event listener to an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddListener),
@@ -268,7 +381,7 @@ __decorateClass([
   __decorateParam(5, A_Inject(A_Logger))
 ], AreHTMLInterpreter.prototype, "addEventListener", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Remove an event listener from an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddListener),
@@ -276,7 +389,7 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeEventListener", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Add text content to an HTML element based on the provided declaration instruction."
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddText),
@@ -289,7 +402,7 @@ __decorateClass([
   __decorateParam(5, A_Inject(A_Logger))
 ], AreHTMLInterpreter.prototype, "addText", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Remove text content from an HTML element based on the provided declaration instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddText),
@@ -297,7 +410,7 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeText", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Add a comment node to the DOM based on the provided declaration instruction."
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddComment),
@@ -310,7 +423,7 @@ __decorateClass([
   __decorateParam(5, A_Inject(A_Logger))
 ], AreHTMLInterpreter.prototype, "addComment", 1);
 __decorateClass([
-  A_Frame.Method({
+  A_Frame.Define({
     description: "Remove a comment node from the DOM based on the provided declaration instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddComment),
@@ -318,10 +431,9 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeComment", 1);
 AreHTMLInterpreter = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AreHTMLInterpreter",
-    description: "AreHTMLInterpreter is a component that serves as a host for rendering AreNodes into HTML. It provides the necessary context and environment for AreNodes to be rendered and interact with the DOM."
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "DOM interpreter for the HTML rendering pipeline. Extends AreInterpreter to apply and revert each ARE instruction type directly against the browser DOM \u2014 creating and removing elements, setting and removing attributes and event listeners, managing inline styles, and inserting text and comment nodes. Driven by the scene diff computed per render cycle."
   })
 ], AreHTMLInterpreter);
 

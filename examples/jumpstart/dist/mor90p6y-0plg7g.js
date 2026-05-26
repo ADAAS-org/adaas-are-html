@@ -89,7 +89,7 @@ var g = (_a4 = class {
   static isScopeInstance(e) {
     return !!e && typeof e == "object" && "name" in e && "aseid" in e;
   }
-}, __name(_a4, "i"), _a4);
+}, __name(_a4, "s"), _a4);
 var _a5;
 var M = (_a5 = class {
   static isASEID(e) {
@@ -137,8 +137,8 @@ var M = (_a5 = class {
     }
   }
   fromString(e) {
-    let [t, r2, n] = e.split("@"), [o, s, _] = r2.split(":"), p = _.includes(".") ? _.split(".")[0] : void 0, d2 = _.includes(".") ? _.split(".")[1] : _;
-    this._concept = t || c.root.name, this._scope = o || c.root.name, this._entity = s, this._id = d2, this._version = n, this._shard = p;
+    let [t, r2, n] = e.split("@"), [o, i, _] = r2.split(":"), p = _.includes(".") ? _.split(".")[0] : void 0, d2 = _.includes(".") ? _.split(".")[1] : _;
+    this._concept = t || c.root.name, this._scope = o || c.root.name, this._entity = i, this._id = d2, this._version = n, this._shard = p;
   }
   fromObject(e) {
     this._concept = e.concept ? _a5.isASEID(e.concept) ? new _a5(e.concept).id : e.concept : c.concept, this._scope = e.scope ? g.isNumber(e.scope) ? V.formatWithLeadingZeros(e.scope) : _a5.isASEID(e.scope) ? new _a5(e.scope).id : e.scope : c.root.name, this._entity = e.entity, this._id = g.isNumber(e.id) ? V.formatWithLeadingZeros(e.id) : e.id, this._version = e.version, this._shard = e.shard;
@@ -349,7 +349,7 @@ var y = (_a8 = class extends Error {
     if (e.length > 60) throw new _a8(re.VALIDATION_ERROR, "A-Error title exceeds 60 characters limit.");
     if (e.length === 0) throw new _a8(re.VALIDATION_ERROR, "A-Error title cannot be empty.");
   }
-}, __name(_a8, "i"), _a8);
+}, __name(_a8, "s"), _a8);
 var _a9;
 var Q = (_a9 = class extends y {
 }, __name(_a9, "Q"), _a9);
@@ -427,9 +427,9 @@ var O = (_a10 = class {
     return this.aseid ? this.aseid.toString() : this.constructor.name;
   }
 }, __name(_a10, "O"), _a10);
-function ue(i) {
+function ue(s) {
   return function(e) {
-    return c.setMeta(e, new i()), e;
+    return c.setMeta(e, new s()), e;
   };
 }
 __name(ue, "ue");
@@ -517,7 +517,7 @@ var m = (_a11 = class {
     for (let [t, r2] of this.meta.entries()) e[String(t)] = this.recursiveToJSON(r2);
     return e;
   }
-}, __name(_a11, "i"), _a11);
+}, __name(_a11, "s"), _a11);
 var _a12;
 var B = (_a12 = class extends m {
   features() {
@@ -553,8 +553,8 @@ var H = (_a14 = class extends m {
   }
   abstractions(e) {
     let t = [], r2 = this.get("a-container-abstractions"), n = this.get("a-container-injections");
-    return r2?.find(`CONCEPT_ABSTRACTION::${e}`).forEach(([o, s]) => {
-      s.forEach((_) => {
+    return r2?.find(`CONCEPT_ABSTRACTION::${e}`).forEach(([o, i]) => {
+      i.forEach((_) => {
         let p = n?.get(_.handler) || [];
         t.push({ ..._, args: p });
       });
@@ -563,8 +563,8 @@ var H = (_a14 = class extends m {
   extensions(e) {
     let t = [];
     return this.get("a-container-extensions")?.find(e).forEach(([n, o]) => {
-      o.forEach((s) => {
-        t.push({ name: s.name, handler: s.handler, behavior: s.behavior, before: s.before || "", after: s.after || "", throwOnError: s.throwOnError || true, override: "" });
+      o.forEach((i) => {
+        t.push({ name: i.name, handler: i.handler, behavior: i.behavior, before: i.before || "", after: i.after || "", throwOnError: i.throwOnError || true, override: "" });
       });
     }), t;
   }
@@ -605,14 +605,14 @@ var l = (_a16 = class {
   }
   static omitProperties(e, t) {
     let r2 = JSON.parse(JSON.stringify(e));
-    function n(o, s) {
-      let _ = s[0];
-      s.length === 1 ? delete o[_] : o[_] !== void 0 && typeof o[_] == "object" && n(o[_], s.slice(1));
+    function n(o, i) {
+      let _ = i[0];
+      i.length === 1 ? delete o[_] : o[_] !== void 0 && typeof o[_] == "object" && n(o[_], i.slice(1));
     }
     __name(n, "n");
     return t.forEach((o) => {
-      let s = o.split(".");
-      n(r2, s);
+      let i = o.split(".");
+      n(r2, i);
     }), r2;
   }
   static isObject(e) {
@@ -674,8 +674,8 @@ var l = (_a16 = class {
       if (n.name) return String(n.name);
       if (n.constructor && n.constructor.name) return String(n.constructor.name);
       try {
-        let s = Function.prototype.toString.call(e).match(/^(?:class\s+([A-Za-z0-9_$]+)|function\s+([A-Za-z0-9_$]+)|([A-Za-z0-9_$]+)\s*=>)/);
-        if (s) return s[1] || s[2] || s[3] || r2;
+        let i = Function.prototype.toString.call(e).match(/^(?:class\s+([A-Za-z0-9_$]+)|function\s+([A-Za-z0-9_$]+)|([A-Za-z0-9_$]+)\s*=>)/);
+        if (i) return i[1] || i[2] || i[3] || r2;
       } catch {
       }
       return r2;
@@ -699,7 +699,7 @@ var l = (_a16 = class {
       return t;
     }
   }
-}, __name(_a16, "i"), _a16);
+}, __name(_a16, "s"), _a16);
 var _a17;
 var ee = (_a17 = class extends Error {
 }, __name(_a17, "ee"), _a17);
@@ -720,137 +720,137 @@ var _a19;
 var T = (_a19 = class extends y {
 }, __name(_a19, "T"), _a19);
 T.InvalidDependencyTarget = "Invalid Dependency Target", T.InvalidLoadTarget = "Invalid Load Target", T.InvalidLoadPath = "Invalid Load Path", T.InvalidDefaultTarget = "Invalid Default Target", T.ResolutionParametersError = "Dependency Resolution Parameters Error";
-function de(...i) {
+function de(...s) {
   return function(e, t, r2) {
     let n = l.getComponentName(e);
     if (!a.isTargetAvailableForInjection(e)) throw new T(T.InvalidDefaultTarget, `A-Default cannot be used on the target of type ${typeof e} (${n})`);
-    let o = t ? String(t) : "constructor", s;
+    let o = t ? String(t) : "constructor", i;
     switch (true) {
       case (a.isComponentConstructor(e) || a.isComponentInstance(e)):
-        s = "a-component-injections";
+        i = "a-component-injections";
         break;
       case a.isContainerInstance(e):
-        s = "a-container-injections";
+        i = "a-container-injections";
         break;
       case a.isEntityInstance(e):
-        s = "a-component-injections";
+        i = "a-component-injections";
         break;
     }
-    let _ = c.meta(e).get(s) || new m(), p = _.get(o) || [];
-    p[r2].resolutionStrategy = { create: true, args: i }, _.set(o, p), c.meta(e).set(s, _);
+    let _ = c.meta(e).get(i), p = _ ? _.clone() : new m(), d2 = p.get(o) ? [...p.get(o)] : [];
+    d2[r2].resolutionStrategy = { create: true, args: s }, p.set(o, d2), c.meta(e).set(i, p);
   };
 }
 __name(de, "de");
 function le() {
-  return function(i, e, t) {
-    let r2 = l.getComponentName(i);
-    if (!a.isTargetAvailableForInjection(i)) throw new T(T.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof i} (${r2})`);
+  return function(s, e, t) {
+    let r2 = l.getComponentName(s);
+    if (!a.isTargetAvailableForInjection(s)) throw new T(T.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof s} (${r2})`);
     let n = e ? String(e) : "constructor", o;
     switch (true) {
-      case (a.isComponentConstructor(i) || a.isComponentInstance(i)):
+      case (a.isComponentConstructor(s) || a.isComponentInstance(s)):
         o = "a-component-injections";
         break;
-      case a.isContainerInstance(i):
+      case a.isContainerInstance(s):
         o = "a-container-injections";
         break;
-      case a.isEntityInstance(i):
+      case a.isEntityInstance(s):
         o = "a-component-injections";
         break;
     }
-    let s = c.meta(i).get(o) || new m(), _ = s.get(n) || [];
-    _[t].resolutionStrategy = { flat: true }, s.set(n, _), c.meta(i).set(o, s);
+    let i = c.meta(s).get(o), _ = i ? i.clone() : new m(), p = _.get(n) ? [..._.get(n)] : [];
+    p[t].resolutionStrategy = { flat: true }, _.set(n, p), c.meta(s).set(o, _);
   };
 }
 __name(le, "le");
 function Ae() {
-  return function(i, e, t) {
-    let r2 = l.getComponentName(i);
-    if (!a.isTargetAvailableForInjection(i)) throw new T(T.InvalidLoadTarget, `A-Load cannot be used on the target of type ${typeof i} (${r2})`);
+  return function(s, e, t) {
+    let r2 = l.getComponentName(s);
+    if (!a.isTargetAvailableForInjection(s)) throw new T(T.InvalidLoadTarget, `A-Load cannot be used on the target of type ${typeof s} (${r2})`);
     let n = e ? String(e) : "constructor", o;
     switch (true) {
-      case (a.isComponentConstructor(i) || a.isComponentInstance(i)):
+      case (a.isComponentConstructor(s) || a.isComponentInstance(s)):
         o = "a-component-injections";
         break;
-      case a.isContainerInstance(i):
+      case a.isContainerInstance(s):
         o = "a-container-injections";
         break;
-      case a.isEntityInstance(i):
+      case a.isEntityInstance(s):
         o = "a-component-injections";
         break;
     }
-    let s = c.meta(i).get(o) || new m(), _ = s.get(n) || [];
-    _[t].resolutionStrategy = { load: true }, s.set(n, _), c.meta(i).set(o, s);
+    let i = c.meta(s).get(o), _ = i ? i.clone() : new m(), p = _.get(n) ? [..._.get(n)] : [];
+    p[t].resolutionStrategy = { load: true }, _.set(n, p), c.meta(s).set(o, _);
   };
 }
 __name(Ae, "Ae");
-function me(i = -1) {
+function me(s = -1) {
   return function(e, t, r2) {
     let n = l.getComponentName(e);
     if (!a.isTargetAvailableForInjection(e)) throw new T(T.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof e} (${n})`);
-    let o = t ? String(t) : "constructor", s;
+    let o = t ? String(t) : "constructor", i;
     switch (true) {
       case (a.isComponentConstructor(e) || a.isComponentInstance(e)):
-        s = "a-component-injections";
+        i = "a-component-injections";
         break;
       case a.isContainerInstance(e):
-        s = "a-container-injections";
+        i = "a-container-injections";
         break;
       case a.isEntityInstance(e):
-        s = "a-component-injections";
+        i = "a-component-injections";
         break;
     }
-    let _ = c.meta(e).get(s) || new m(), p = _.get(o) || [];
-    p[r2].resolutionStrategy = { parent: i }, _.set(o, p), c.meta(e).set(s, _);
+    let _ = c.meta(e).get(i), p = _ ? _.clone() : new m(), d2 = p.get(o) ? [...p.get(o)] : [];
+    d2[r2].resolutionStrategy = { parent: s }, p.set(o, d2), c.meta(e).set(i, p);
   };
 }
 __name(me, "me");
 function Ee() {
-  return function(i, e, t) {
-    let r2 = l.getComponentName(i);
-    if (!a.isTargetAvailableForInjection(i)) throw new T(T.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof i} (${r2})`);
+  return function(s, e, t) {
+    let r2 = l.getComponentName(s);
+    if (!a.isTargetAvailableForInjection(s)) throw new T(T.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof s} (${r2})`);
     let n = e ? String(e) : "constructor", o;
     switch (true) {
-      case (a.isComponentConstructor(i) || a.isComponentInstance(i)):
+      case (a.isComponentConstructor(s) || a.isComponentInstance(s)):
         o = "a-component-injections";
         break;
-      case a.isContainerInstance(i):
+      case a.isContainerInstance(s):
         o = "a-container-injections";
         break;
-      case a.isEntityInstance(i):
+      case a.isEntityInstance(s):
         o = "a-component-injections";
         break;
     }
-    let s = c.meta(i).get(o) || new m(), _ = s.get(n) || [];
-    _[t].resolutionStrategy = { require: true }, s.set(n, _), c.meta(i).set(o, s);
+    let i = c.meta(s).get(o), _ = i ? i.clone() : new m(), p = _.get(n) ? [..._.get(n)] : [];
+    p[t].resolutionStrategy = { require: true }, _.set(n, p), c.meta(s).set(o, _);
   };
 }
 __name(Ee, "Ee");
 function fe() {
-  return function(i, e, t) {
-    let r2 = l.getComponentName(i);
-    if (!a.isTargetAvailableForInjection(i)) throw new T(T.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof i} (${r2})`);
+  return function(s, e, t) {
+    let r2 = l.getComponentName(s);
+    if (!a.isTargetAvailableForInjection(s)) throw new T(T.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof s} (${r2})`);
     let n = e ? String(e) : "constructor", o;
     switch (true) {
-      case (a.isComponentConstructor(i) || a.isComponentInstance(i)):
+      case (a.isComponentConstructor(s) || a.isComponentInstance(s)):
         o = "a-component-injections";
         break;
-      case a.isContainerInstance(i):
+      case a.isContainerInstance(s):
         o = "a-container-injections";
         break;
-      case a.isEntityInstance(i):
+      case a.isEntityInstance(s):
         o = "a-component-injections";
         break;
     }
-    let s = c.meta(i).get(o) || new m(), _ = s.get(n) || [];
-    _[t].resolutionStrategy = { pagination: { ..._[t].resolutionStrategy.pagination, count: -1 } }, s.set(n, _), c.meta(i).set(o, s);
+    let i = c.meta(s).get(o), _ = i ? i.clone() : new m(), p = _.get(n) ? [..._.get(n)] : [];
+    p[t].resolutionStrategy = { pagination: { ...p[t].resolutionStrategy.pagination, count: -1 } }, _.set(n, p), c.meta(s).set(o, _);
   };
 }
 __name(fe, "fe");
-function Te(i, e) {
+function Te(s, e) {
   return function(t, r2, n) {
     let o = l.getComponentName(t);
     if (!a.isTargetAvailableForInjection(t)) throw new T(T.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof t} (${o})`);
-    let s = r2 ? String(r2) : "constructor", _;
+    let i = r2 ? String(r2) : "constructor", _;
     switch (true) {
       case (a.isComponentConstructor(t) || a.isComponentInstance(t)):
         _ = "a-component-injections";
@@ -862,8 +862,8 @@ function Te(i, e) {
         _ = "a-component-injections";
         break;
     }
-    let p = c.meta(t).get(_) || new m(), d2 = p.get(s) || [];
-    d2[n].resolutionStrategy = { query: { ...d2[n].resolutionStrategy.query, ...i }, pagination: { ...d2[n].resolutionStrategy.pagination, ...e } }, p.set(s, d2), c.meta(t).set(_, p);
+    let p = c.meta(t).get(_), d2 = p ? p.clone() : new m(), A = d2.get(i) ? [...d2.get(i)] : [];
+    A[n].resolutionStrategy = { query: { ...A[n].resolutionStrategy.query, ...s }, pagination: { ...A[n].resolutionStrategy.pagination, ...e } }, d2.set(i, A), c.meta(t).set(_, d2);
   };
 }
 __name(Te, "Te");
@@ -1067,25 +1067,25 @@ var a = (_a21 = class {
   static isPromiseInstance(e) {
     return e instanceof Promise;
   }
-}, __name(_a21, "i"), _a21);
-function Se(i = {}) {
+}, __name(_a21, "s"), _a21);
+function Se(s = {}) {
   return function(e, t, r2) {
     let n = l.getComponentName(e);
     if (!a.isAllowedForFeatureDefinition(e)) throw new E(E.FeatureDefinitionError, `A-Feature cannot be defined on the ${n} level`);
-    let o = c.meta(e.constructor), s;
+    let o = c.meta(e.constructor), i;
     switch (true) {
       case a.isEntityInstance(e):
-        s = "a-component-features";
+        i = "a-component-features";
         break;
       case a.isContainerInstance(e):
-        s = "a-container-features";
+        i = "a-container-features";
         break;
       case a.isComponentInstance(e):
-        s = "a-component-features";
+        i = "a-component-features";
         break;
     }
-    let _ = o.get(s) || new m(), p = i.name || t, d2 = i.invoke || false;
-    _.set(t, { name: `${e.constructor.name}.${p}`, handler: t, invoke: d2, template: i.template && i.template.length ? i.template.map((S) => ({ ...S, before: S.before || "", after: S.after || "", behavior: S.behavior || "sync", throwOnError: true, override: S.override || "" })) : [] }), c.meta(e.constructor).set(s, _);
+    let _ = o.get(i) || new m(), p = s.name || t, d2 = s.invoke || false;
+    _.set(t, { name: `${e.constructor.name}.${p}`, handler: t, invoke: d2, template: s.template && s.template.length ? s.template.map((S) => ({ ...S, before: S.before || "", after: S.after || "", behavior: S.behavior || "sync", throwOnError: true, override: S.override || "" })) : [] }), c.meta(e.constructor).set(i, _);
     let A = r2.value;
     return r2.value = function(...S) {
       if (d2) A.apply(this, S);
@@ -1095,11 +1095,11 @@ function Se(i = {}) {
   };
 }
 __name(Se, "Se");
-function he(i) {
+function he(s) {
   return function(e, t, r2) {
     let n = l.getComponentName(e);
     if (!a.isAllowedForFeatureExtension(e)) throw new E(E.FeatureExtensionError, `A-Feature-Extend cannot be applied on the ${n} level`);
-    let o, s = "sync", _ = "", p = "", d2 = "", A = [], S = [], Y = true, j;
+    let o, i = "sync", _ = "", p = "", d2 = "", A = [], S = [], Y = true, j;
     switch (true) {
       case a.isEntityInstance(e):
         j = "a-component-extensions";
@@ -1112,11 +1112,11 @@ function he(i) {
         break;
     }
     switch (true) {
-      case a.isRegExp(i):
-        o = i;
+      case a.isRegExp(s):
+        o = s;
         break;
-      case (!!i && typeof i == "object"):
-        Array.isArray(i.scope) ? A = i.scope : i.scope && typeof i.scope == "object" && (Array.isArray(i.scope.include) && (A = i.scope.include), Array.isArray(i.scope.exclude) && (S = i.scope.exclude)), o = Me(i, A, S, t), s = i.behavior || s, Y = i.throwOnError !== void 0 ? i.throwOnError : Y, _ = a.isArray(i.before) ? new RegExp(`^${i.before.join("|").replace(/\./g, "\\.")}$`).source : i.before instanceof RegExp ? i.before.source : "", p = a.isArray(i.after) ? new RegExp(`^${i.after.join("|").replace(/\./g, "\\.")}$`).source : i.after instanceof RegExp ? i.after.source : "", d2 = a.isArray(i.override) ? new RegExp(`^${i.override.join("|").replace(/\./g, "\\.")}$`).source : i.override instanceof RegExp ? i.override.source : "";
+      case (!!s && typeof s == "object"):
+        Array.isArray(s.scope) ? A = s.scope : s.scope && typeof s.scope == "object" && (Array.isArray(s.scope.include) && (A = s.scope.include), Array.isArray(s.scope.exclude) && (S = s.scope.exclude)), o = Me(s, A, S, t), i = s.behavior || i, Y = s.throwOnError !== void 0 ? s.throwOnError : Y, _ = a.isArray(s.before) ? new RegExp(`^${s.before.join("|").replace(/\./g, "\\.")}$`).source : s.before instanceof RegExp ? s.before.source : "", p = a.isArray(s.after) ? new RegExp(`^${s.after.join("|").replace(/\./g, "\\.")}$`).source : s.after instanceof RegExp ? s.after.source : "", d2 = a.isArray(s.override) ? new RegExp(`^${s.override.join("|").replace(/\./g, "\\.")}$`).source : s.override instanceof RegExp ? s.override.source : "";
         break;
       default:
         o = new RegExp(`^.*${t.replace(/\./g, "\\.")}$`);
@@ -1124,7 +1124,7 @@ function he(i) {
     }
     let C2 = c.meta(e).get(j), P = c.meta(e), J = P.get(j) ? new m().from(P.get(j)) : new m();
     if (C2 && C2.size() && C2.has(t) && C2.get(t).invoke) throw new E(E.FeatureExtensionError, `A-Feature-Extend cannot be used on the method "${t}" because it is already defined as a Feature with "invoke" set to true. Please remove the A-Feature-Extend decorator or set "invoke" to false in the A-Feature decorator.`);
-    let Z = [...J.get(o.source) || []], se = i && typeof i == "object" && !a.isRegExp(i) && i.name || t;
+    let Z = [...J.get(o.source) || []], se = s && typeof s == "object" && !a.isRegExp(s) && s.name || t;
     for (let [N, X] of J.entries()) {
       let ae = X.findIndex((Ie) => Ie.handler === t);
       if (N !== o.source && ae !== -1) {
@@ -1132,17 +1132,17 @@ function he(i) {
         (be ? be[1] : null) === se && (X.splice(ae, 1), X.length === 0 ? J.delete(N) : J.set(N, X));
       }
     }
-    let q = Z.findIndex((N) => N.handler === t), ie = { name: o.source, handler: t, behavior: s, before: _, after: p, throwOnError: Y, override: d2 };
+    let q = Z.findIndex((N) => N.handler === t), ie = { name: o.source, handler: t, behavior: i, before: _, after: p, throwOnError: Y, override: d2 };
     q !== -1 ? Z[q] = ie : Z.push(ie), J.set(o.source, Z), c.meta(e).set(j, J);
   };
 }
 __name(he, "he");
-function Me(i, e, t, r2) {
-  let n = e.length ? `(${e.map((_) => _.name).join("|")})` : ".*", o = t.length ? `(?!${t.map((_) => _.name).join("|")})` : "", s = i.scope ? `^${o}${n}\\.${i.name || r2}$` : `.*\\.${i.name || r2}$`;
-  return new RegExp(s);
+function Me(s, e, t, r2) {
+  let n = e.length ? `(${e.map((_) => _.name).join("|")})` : ".*", o = t.length ? `(?!${t.map((_) => _.name).join("|")})` : "", i = s.scope ? `^${o}${n}\\.${s.name || r2}$` : `.*\\.${s.name || r2}$`;
+  return new RegExp(i);
 }
 __name(Me, "Me");
-var Oe = ((s) => (s.PROCESSING = "PROCESSING", s.COMPLETED = "COMPLETED", s.FAILED = "FAILED", s.SKIPPED = "SKIPPED", s.INITIALIZED = "INITIALIZED", s.ABORTED = "ABORTED", s))(Oe || {});
+var Oe = ((i) => (i.PROCESSING = "PROCESSING", i.COMPLETED = "COMPLETED", i.FAILED = "FAILED", i.SKIPPED = "SKIPPED", i.INITIALIZED = "INITIALIZED", i.ABORTED = "ABORTED", i))(Oe || {});
 var _a22;
 var U = (_a22 = class extends y {
   static get CompileError() {
@@ -1205,12 +1205,12 @@ var W = (_a23 = class {
     if (!this.isProcessed) {
       this._status = "PROCESSING";
       let { handler: r2, params: n } = this.callStepHandler(this._definition, t), o = r2(...n);
-      if (a.isPromiseInstance(o)) return new Promise(async (s, _) => {
+      if (a.isPromiseInstance(o)) return new Promise(async (i, _) => {
         try {
-          return await o, this.completed(), s();
+          return await o, this.completed(), i();
         } catch (p) {
           let d2 = new y(p);
-          return this.failed(d2), this._definition.throwOnError ? s() : _(d2);
+          return this.failed(d2), this._definition.throwOnError ? i() : _(d2);
         }
       });
       this.completed();
@@ -1267,8 +1267,8 @@ var oe = (_a25 = class {
   buildGraph() {
     this._isBuilt || (this._isBuilt = true, this.entities = this.entities.filter((e, t, r2) => !r2.some((n, o) => {
       if (t === o || !n.override) return false;
-      let s = new RegExp(n.override);
-      return s.test(this.baseID(e)) || s.test(e.handler);
+      let i = new RegExp(n.override);
+      return i.test(this.baseID(e)) || i.test(e.handler);
     })), this._uniqueIdMap.clear(), this.assignUniqueIds(), this.entities.forEach((e) => this.graph.set(this.ID(e), /* @__PURE__ */ new Set())), this.entities.forEach((e) => {
       let t = this.ID(e);
       e.before && this.matchEntities(t, e.before).forEach((n) => {
@@ -1385,8 +1385,8 @@ var w = (_a26 = class {
       if (!r2) throw _;
     }
     t && r2 && !r2.isInheritedFrom(t) && r2.inherit(t), this._caller = new G(e.component);
-    let n = t || r2, o = c.featureTemplate(this._name, this._caller.component, n), s = c.getSortedStepsFor(o);
-    s || (this._SM = new oe(o), s = this._SM.toSortedSteps(), c.setSortedStepsFor(o, s)), this._effectiveScope = n, this._stages = s.map((_) => new W(this, _)), this._current = this._stages[0];
+    let n = t || r2, o = c.featureTemplate(this._name, this._caller.component, n), i = c.getSortedStepsFor(o);
+    i || (this._SM = new oe(o), i = this._SM.toSortedSteps(), c.setSortedStepsFor(o, i)), this._effectiveScope = n, this._stages = i.map((_) => new W(this, _)), this._current = this._stages[0];
   }
   process(e) {
     try {
@@ -1454,9 +1454,9 @@ var w = (_a26 = class {
   chain(e, t, r2) {
     let n, o;
     e instanceof _a26 ? (n = e, o = t instanceof D ? t : void 0) : (n = new _a26({ name: t, component: e }), o = r2 instanceof D ? r2 : void 0);
-    let s = o || this.scope;
+    let i = o || this.scope;
     n._caller = this._caller;
-    let _ = n.process(s);
+    let _ = n.process(i);
     return a.isPromiseInstance(_) ? _.catch((p) => {
       throw p;
     }) : _;
@@ -1464,7 +1464,7 @@ var w = (_a26 = class {
   toString() {
     return `A-Feature(${this.caller.component?.constructor?.name || "Unknown"}::${this.name})`;
   }
-}, __name(_a26, "i"), _a26);
+}, __name(_a26, "s"), _a26);
 var _a27;
 var v = (_a27 = class {
   call(e, t) {
@@ -1480,8 +1480,8 @@ var R = (_a28 = class extends m {
   extensions(e) {
     let t = [];
     return this.get("a-component-extensions")?.find(e).forEach(([n, o]) => {
-      o.forEach((s) => {
-        t.push({ name: s.name, handler: s.handler, behavior: s.behavior, before: s.before || "", after: s.after || "", throwOnError: s.throwOnError || true, override: s.override || "" });
+      o.forEach((i) => {
+        t.push({ name: i.name, handler: i.handler, behavior: i.behavior, before: i.before || "", after: i.after || "", throwOnError: i.throwOnError || true, override: i.override || "" });
       });
     }), t;
   }
@@ -1490,8 +1490,8 @@ var R = (_a28 = class extends m {
   }
   abstractions(e) {
     let t = [], r2 = this.get("a-component-abstractions"), n = this.get("a-component-injections");
-    return r2?.find(`CONCEPT_ABSTRACTION::${e}`).forEach(([o, s]) => {
-      s.forEach((_) => {
+    return r2?.find(`CONCEPT_ABSTRACTION::${e}`).forEach(([o, i]) => {
+      i.forEach((_) => {
         let p = n?.get(_.handler) || [];
         t.push({ ..._, args: p });
       });
@@ -1587,8 +1587,8 @@ var D = (_a29 = class {
     t.push("AE:" + n.join(","));
     let o = Array.from(this._allowedFragments).map((A) => l.getComponentName(A.name)).sort();
     t.push("AF:" + o.join(","));
-    let s = Array.from(this._allowedErrors).map((A) => l.getComponentName(A.name)).sort();
-    t.push("AR:" + s.join(","));
+    let i = Array.from(this._allowedErrors).map((A) => l.getComponentName(A.name)).sort();
+    t.push("AR:" + i.join(","));
     let _ = Array.from(this._imports).map((A) => A.computeFingerprint(e)).sort();
     t.push("I:" + _.join(","));
     let p = t.join("|"), d2 = 5381;
@@ -1739,7 +1739,7 @@ var D = (_a29 = class {
       let A = e.query;
       return A ? Object.entries(A).every(([S, Y]) => d2[S] === Y) : true;
     }));
-    let n = e.pagination.count, o = e.pagination.from, s = o === "end" ? n === -1 ? 0 : Math.max(t.length - n, 0) : 0, _ = o === "end" || n === -1 ? t.length : Math.min(n, t.length), p = t.slice(s, _);
+    let n = e.pagination.count, o = e.pagination.from, i = o === "end" ? n === -1 ? 0 : Math.max(t.length - n, 0) : 0, _ = o === "end" || n === -1 ? t.length : Math.min(n, t.length), p = t.slice(i, _);
     return p.length === 1 && n !== -1 ? p[0] : p.length ? p : void 0;
   }
   resolveConstructor(e) {
@@ -1766,47 +1766,47 @@ var D = (_a29 = class {
     let t = Array.from(this.allowedComponents).find((o) => o.name === e || o.name === h.toPascalCase(e));
     if (t) return t;
     {
-      let o = h.toPascalCase(e), s = Array.from(this.allowedComponents).find((_) => {
+      let o = h.toPascalCase(e), i = Array.from(this.allowedComponents).find((_) => {
         let p = c.getAncestors(_);
         if (!p) return false;
         for (let d2 of p) if (d2.name === e || d2.name === o) return true;
         return false;
       });
-      if (s) return s;
+      if (i) return i;
     }
     let r2 = Array.from(this.allowedEntities).find((o) => o.name === e || o.name === h.toPascalCase(e) || o.entity === e || o.entity === h.toKebabCase(e));
     if (r2) return r2;
     {
-      let o = h.toPascalCase(e), s = Array.from(this.allowedEntities).find((_) => {
+      let o = h.toPascalCase(e), i = Array.from(this.allowedEntities).find((_) => {
         let p = c.getAncestors(_);
         if (!p) return false;
         for (let d2 of p) if (d2.name === e || d2.name === o) return true;
         return false;
       });
-      if (s) return s;
+      if (i) return i;
     }
     let n = Array.from(this.allowedFragments).find((o) => o.name === e || o.name === h.toPascalCase(e));
     if (n) return n;
     {
-      let o = h.toPascalCase(e), s = Array.from(this.allowedFragments).find((_) => {
+      let o = h.toPascalCase(e), i = Array.from(this.allowedFragments).find((_) => {
         let p = c.getAncestors(_);
         if (!p) return false;
         for (let d2 of p) if (d2.name === e || d2.name === o) return true;
         return false;
       });
-      if (s) return s;
+      if (i) return i;
     }
     for (let o of this._imports) {
-      let s = o.resolveConstructor(e);
-      if (s) return s;
+      let i = o.resolveConstructor(e);
+      if (i) return i;
     }
     if (this._parent) return this._parent.resolveConstructor(e);
   }
   resolveAll(e) {
     if (this._resolveAllCache.has(e)) return this._resolveAllCache.get(e);
     let t = /* @__PURE__ */ new Set();
-    this.resolveFlatAll(e).forEach((s) => t.add(s)), this._imports.forEach((s) => {
-      s.has(e) && s.resolveFlatAll(e).forEach((p) => t.add(p));
+    this.resolveFlatAll(e).forEach((i) => t.add(i)), this._imports.forEach((i) => {
+      i.has(e) && i.resolveFlatAll(e).forEach((p) => t.add(p));
     });
     let n = this._parent;
     for (; n && n.has(e); ) n.resolveAll(e).forEach((_) => t.add(_)), n = n._parent;
@@ -1916,13 +1916,13 @@ var D = (_a29 = class {
     }
   }
   resolveByName(e) {
-    let t = Array.from(this.allowedComponents).find((s) => s.name === e || s.name === h.toPascalCase(e));
+    let t = Array.from(this.allowedComponents).find((i) => i.name === e || i.name === h.toPascalCase(e));
     if (t) return this.resolveOnce(t);
-    let r2 = Array.from(this.allowedEntities).find((s) => s.name === e || s.name === h.toPascalCase(e) || s.entity === e || s.entity === h.toKebabCase(e));
+    let r2 = Array.from(this.allowedEntities).find((i) => i.name === e || i.name === h.toPascalCase(e) || i.entity === e || i.entity === h.toKebabCase(e));
     if (r2) return this.resolveOnce(r2);
-    let n = Array.from(this.allowedFragments).find((s) => s.name === e || s.name === h.toPascalCase(e));
+    let n = Array.from(this.allowedFragments).find((i) => i.name === e || i.name === h.toPascalCase(e));
     if (n) return this.resolveOnce(n);
-    let o = Array.from(this.allowedErrors).find((s) => s.name === e || s.name === h.toPascalCase(e) || s.code === e || s.code === h.toKebabCase(e));
+    let o = Array.from(this.allowedErrors).find((i) => i.name === e || i.name === h.toPascalCase(e) || i.code === e || i.code === h.toKebabCase(e));
     if (o) return this.resolveOnce(o);
   }
   resolveIssuer(e) {
@@ -1956,7 +1956,7 @@ var D = (_a29 = class {
       case (this.allowedComponents.has(e) && this._components.has(e)):
         return this._components.get(e);
       case (this.allowedComponents.has(e) && !this._components.has(e)): {
-        let n = (c.meta(e).get("a-component-injections")?.get("constructor") || []).map((s) => this.resolve(s)), o = new e(...n);
+        let n = (c.meta(e).get("a-component-injections")?.get("constructor") || []).map((i) => this.resolve(i)), o = new e(...n);
         return this.register(o), this._components.get(e);
       }
       case !this.allowedComponents.has(e): {
@@ -2206,9 +2206,9 @@ var x = (_a32 = class {
         break;
       }
       case typeof e == "string": {
-        let s = Array.from(r2._metaStorage).find(([_]) => _.name === e || _.name === h.toKebabCase(e) || _.name === h.toPascalCase(e));
-        if (!(s && s.length)) throw new u(u.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component with name ${e} not found in the meta storage.`);
-        n = s[0], o = R;
+        let i = Array.from(r2._metaStorage).find(([_]) => _.name === e || _.name === h.toKebabCase(e) || _.name === h.toPascalCase(e));
+        if (!(i && i.length)) throw new u(u.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component with name ${e} not found in the meta storage.`);
+        n = i[0], o = R;
         break;
       }
       default: {
@@ -2217,13 +2217,13 @@ var x = (_a32 = class {
       }
     }
     if (!r2._metaStorage.has(n)) {
-      let s, _ = n;
-      for (; !s; ) {
+      let i, _ = n;
+      for (; !i; ) {
         let p = Object.getPrototypeOf(_);
         if (!p) break;
-        s = r2._metaStorage.get(p), _ = p;
+        i = r2._metaStorage.get(p), _ = p;
       }
-      s || (s = new o()), r2._metaStorage.set(n, s.clone()), r2._metaVersion++, this.indexConstructor(n);
+      i || (i = new o()), r2._metaStorage.set(n, i.clone()), r2._metaVersion++, this.indexConstructor(n);
     }
     return r2._metaStorage.get(n);
   }
@@ -2261,12 +2261,12 @@ var x = (_a32 = class {
     if (!t) throw new u(u.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
     if (!e) throw new u(u.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
     if (!a.isAllowedForFeatureDefinition(t)) throw new u(u.InvalidFeatureTemplateParameterError, `Unable to get feature template. Component of type ${l.getComponentName(t)} is not allowed for feature definition.`);
-    let n = this.getInstance(), o = typeof t == "function" ? t : t.constructor, s = n._featureCache.get(o);
-    if (s) {
-      let A = `${String(e)}::s${r2.fingerprint}::m${n._metaVersion}`, S = s.get(A);
+    let n = this.getInstance(), o = typeof t == "function" ? t : t.constructor, i = n._featureCache.get(o);
+    if (i) {
+      let A = `${String(e)}::s${r2.fingerprint}::m${n._metaVersion}`, S = i.get(A);
       if (S) return S;
       let Y = [...this.featureDefinition(e, t), ...this.featureExtensions(e, t, r2)];
-      return s.size >= _a32.FEATURE_EXTENSIONS_CACHE_MAX_SIZE && s.clear(), s.set(A, Y), Y;
+      return i.size >= _a32.FEATURE_EXTENSIONS_CACHE_MAX_SIZE && i.clear(), i.set(A, Y), Y;
     }
     let _ = `${String(e)}::s${r2.fingerprint}::m${n._metaVersion}`, p = [...this.featureDefinition(e, t), ...this.featureExtensions(e, t, r2)], d2 = /* @__PURE__ */ new Map();
     return d2.set(_, p), n._featureCache.set(o, d2), p;
@@ -2276,7 +2276,7 @@ var x = (_a32 = class {
     if (!t) throw new u(u.InvalidFeatureExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
     if (!e) throw new u(u.InvalidFeatureExtensionParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
     if (!a.isAllowedForFeatureDefinition(t)) throw new u(u.InvalidFeatureExtensionParameterError, `Unable to get feature template. Component of type ${l.getComponentName(t)} is not allowed for feature definition.`);
-    let o = l.getClassInheritanceChain(t).filter((C2) => C2 !== v && C2 !== z && C2 !== O).map((C2) => `${C2.name}.${e}`), s = /* @__PURE__ */ new Map(), _ = /* @__PURE__ */ new Set(), p = /* @__PURE__ */ new Map(), d2 = /* @__PURE__ */ new Map(), A = /* @__PURE__ */ __name((C2) => {
+    let o = l.getClassInheritanceChain(t).filter((C2) => C2 !== v && C2 !== z && C2 !== O).map((C2) => `${C2.name}.${e}`), i = /* @__PURE__ */ new Map(), _ = /* @__PURE__ */ new Set(), p = /* @__PURE__ */ new Map(), d2 = /* @__PURE__ */ new Map(), A = /* @__PURE__ */ __name((C2) => {
       let P = p.get(C2);
       return P === void 0 && (P = l.getComponentName(C2), p.set(C2, P)), P;
     }, "A"), S = /* @__PURE__ */ __name((C2) => {
@@ -2289,14 +2289,14 @@ var x = (_a32 = class {
       let Z = J.extensions(C2);
       for (let se = 0; se < Z.length; se++) {
         let q = Z[se], ie = Array.from(_).reverse().find((N) => _a32.isIndexedInheritedFrom(P, N) && N !== P);
-        if (ie && s.delete(`${A(ie)}.${q.handler}`), q.override) {
+        if (ie && i.delete(`${A(ie)}.${q.handler}`), q.override) {
           let N = new RegExp(q.override);
-          for (let [X, ae] of s) (N.test(X) || N.test(ae.handler)) && s.delete(X);
+          for (let [X, ae] of i) (N.test(X) || N.test(ae.handler)) && i.delete(X);
         }
-        s.set(`${A(P)}.${q.handler}`, { dependency: S(P), ...q });
+        i.set(`${A(P)}.${q.handler}`, { dependency: S(P), ...q });
       }
     }
-    return n.filterToMostDerived(r2, Array.from(s.values()));
+    return n.filterToMostDerived(r2, Array.from(i.values()));
   }
   filterToMostDerived(e, t) {
     if (t.length <= 1) return t;
@@ -2305,13 +2305,13 @@ var x = (_a32 = class {
       let p = _.dependency.name;
       r2.has(p) || r2.set(p, e.resolveConstructor(p)), n.add(p);
     }
-    let o = /* @__PURE__ */ new Set(), s = /* @__PURE__ */ new Map();
-    for (let [_, p] of r2) p && s.set(p, _);
+    let o = /* @__PURE__ */ new Set(), i = /* @__PURE__ */ new Map();
+    for (let [_, p] of r2) p && i.set(p, _);
     for (let [_, p] of r2) {
       if (!p) continue;
       let d2 = _a32.getAncestors(p);
       if (d2) for (let A of d2) {
-        let S = s.get(A);
+        let S = i.get(A);
         S && S !== _ && n.has(S) && o.add(S);
       }
     }
@@ -2348,12 +2348,12 @@ var x = (_a32 = class {
     if (!t) throw new u(u.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
     if (!e) throw new u(u.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
     if (!a.isAllowedForAbstractionDefinition(t)) throw new u(u.InvalidAbstractionExtensionParameterError, `Unable to get feature template. Component of type ${n} is not allowed for feature definition.`);
-    let o = /* @__PURE__ */ new Map(), s = this.scope(t), _ = /* @__PURE__ */ new Set();
-    for (let [p, d2] of r2._metaStorage) s.has(p) && (a.isComponentMetaInstance(d2) || a.isContainerMetaInstance(d2)) && (_.add(p), d2.abstractions(e).forEach((A) => {
+    let o = /* @__PURE__ */ new Map(), i = this.scope(t), _ = /* @__PURE__ */ new Set();
+    for (let [p, d2] of r2._metaStorage) i.has(p) && (a.isComponentMetaInstance(d2) || a.isContainerMetaInstance(d2)) && (_.add(p), d2.abstractions(e).forEach((A) => {
       let S = Array.from(_).reverse().find((Y) => _a32.isIndexedInheritedFrom(p, Y) && Y !== p);
       S && o.delete(`${l.getComponentName(S)}.${A.handler}`), o.set(`${l.getComponentName(p)}.${A.handler}`, { dependency: new F(p), ...A });
     }));
-    return r2.filterToMostDerived(s, Array.from(o.values()));
+    return r2.filterToMostDerived(i, Array.from(o.values()));
   }
   static reset() {
     let e = _a32.getInstance();
@@ -2369,9 +2369,9 @@ var x = (_a32 = class {
       r2.add(n);
       let o = t._descendants.get(n);
       o || (o = /* @__PURE__ */ new Set(), t._descendants.set(n, o)), o.add(e);
-      let s = t._ancestors.get(n);
-      if (s) {
-        for (let _ of s) {
+      let i = t._ancestors.get(n);
+      if (i) {
+        for (let _ of i) {
           r2.add(_);
           let p = t._descendants.get(_);
           p || (p = /* @__PURE__ */ new Set(), t._descendants.set(_, p)), p.add(e);
@@ -2392,8 +2392,8 @@ var x = (_a32 = class {
     if (t instanceof Set) {
       if (t.has(e)) return e;
     } else if (t.includes(e)) return e;
-    let n = this.getInstance(), o = n._descendants.get(e), s = o ? o.size : 0;
-    if (s === 0) {
+    let n = this.getInstance(), o = n._descendants.get(e), i = o ? o.size : 0;
+    if (i === 0) {
       if (t instanceof Set) for (let _ of t) {
         let p = n._ancestors.get(_);
         if (p && p.has(e)) return _;
@@ -2404,7 +2404,7 @@ var x = (_a32 = class {
       }
       return;
     }
-    if (r2 <= s) if (t instanceof Set) for (let _ of t) {
+    if (r2 <= i) if (t instanceof Set) for (let _ of t) {
       if (_ === e) return _;
       let p = n._ancestors.get(_);
       if (p && p.has(e)) return _;
@@ -2440,22 +2440,22 @@ var _a33;
 var K = (_a33 = class extends y {
 }, __name(_a33, "K"), _a33);
 K.AbstractionExtensionError = "Unable to extend abstraction execution";
-function ye(i, e = {}) {
+function ye(s, e = {}) {
   return function(t, r2, n) {
     let o = l.getComponentName(t);
-    if (!i) throw new K(K.AbstractionExtensionError, `Abstraction name must be provided to extend abstraction for '${o}'.`);
-    if (!a.isConstructorAvailableForAbstraction(t)) throw new K(K.AbstractionExtensionError, `Unable to extend Abstraction '${i}' for '${o}'. Only A-Containers and A-Components can extend Abstractions.`);
-    let s, _ = c.meta(t);
+    if (!s) throw new K(K.AbstractionExtensionError, `Abstraction name must be provided to extend abstraction for '${o}'.`);
+    if (!a.isConstructorAvailableForAbstraction(t)) throw new K(K.AbstractionExtensionError, `Unable to extend Abstraction '${s}' for '${o}'. Only A-Containers and A-Components can extend Abstractions.`);
+    let i, _ = c.meta(t);
     switch (true) {
       case (a.isContainerConstructor(t) || a.isContainerInstance(t)):
-        s = "a-container-abstractions";
+        i = "a-container-abstractions";
         break;
       case (a.isComponentConstructor(t) || a.isComponentInstance(t)):
-        s = "a-component-abstractions";
+        i = "a-component-abstractions";
         break;
     }
-    let p = `CONCEPT_ABSTRACTION::${i}`, d2 = _.get(s) ? new m().from(_.get(s)) : new m(), A = [...d2.get(p) || []], S = A.findIndex((j) => j.handler === r2), Y = { name: p, handler: r2, behavior: e.behavior || "sync", throwOnError: e.throwOnError !== void 0 ? e.throwOnError : true, before: a.isArray(e.before) ? new RegExp(`^${e.before.join("|").replace(/\./g, "\\.")}$`).source : e.before instanceof RegExp ? e.before.source : "", after: a.isArray(e.after) ? new RegExp(`^${e.after.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "", override: a.isArray(e.override) ? new RegExp(`^${e.override.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "" };
-    S !== -1 ? A[S] = Y : A.push(Y), d2.set(p, A), c.meta(t).set(s, d2);
+    let p = `CONCEPT_ABSTRACTION::${s}`, d2 = _.get(i) ? new m().from(_.get(i)) : new m(), A = [...d2.get(p) || []], S = A.findIndex((j) => j.handler === r2), Y = { name: p, handler: r2, behavior: e.behavior || "sync", throwOnError: e.throwOnError !== void 0 ? e.throwOnError : true, before: a.isArray(e.before) ? new RegExp(`^${e.before.join("|").replace(/\./g, "\\.")}$`).source : e.before instanceof RegExp ? e.before.source : "", after: a.isArray(e.after) ? new RegExp(`^${e.after.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "", override: a.isArray(e.override) ? new RegExp(`^${e.override.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "" };
+    S !== -1 ? A[S] = Y : A.push(Y), d2.set(p, A), c.meta(t).set(i, d2);
   };
 }
 __name(ye, "ye");
@@ -2563,12 +2563,12 @@ var _a36;
 var $ = (_a36 = class extends y {
 }, __name(_a36, "$"), _a36);
 $.InvalidInjectionTarget = "Invalid target for A-Inject decorator", $.MissingInjectionTarget = "Missing target for A-Inject decorator";
-function ke(i, e) {
-  if (!i) throw new $($.MissingInjectionTarget, "A-Inject decorator is missing the target to inject");
+function ke(s, e) {
+  if (!s) throw new $($.MissingInjectionTarget, "A-Inject decorator is missing the target to inject");
   return function(t, r2, n) {
     let o = l.getComponentName(t);
     if (!a.isTargetAvailableForInjection(t)) throw new $($.InvalidInjectionTarget, `A-Inject cannot be used on the target of type ${typeof t} (${o})`);
-    let s = r2 ? String(r2) : "constructor", _;
+    let i = r2 ? String(r2) : "constructor", _;
     switch (true) {
       case (a.isComponentConstructor(t) || a.isComponentInstance(t)):
         _ = "a-component-injections";
@@ -2580,8 +2580,8 @@ function ke(i, e) {
         _ = "a-component-injections";
         break;
     }
-    let p = c.meta(t).get(_) || new m(), d2 = p.get(s) || [];
-    d2[n] = i instanceof F ? i : new F(i, e), p.set(s, d2), c.meta(t).set(_, p);
+    let p = c.meta(t).get(_), d2 = p ? p.clone() : new m(), A = d2.get(i) ? [...d2.get(i)] : [];
+    A[n] = s instanceof F ? s : new F(s, e), d2.set(i, A), c.meta(t).set(_, d2);
   };
 }
 __name(ke, "ke");
@@ -4500,7 +4500,7 @@ var A_LoggerEnvVariablesArray = [
   A_LoggerEnvVariables.A_LOGGER_DEFAULT_LOG_COLOR
 ];
 
-// node_modules/@adaas/a-utils/dist/browser/chunk-S2RSPZXR.mjs
+// node_modules/@adaas/a-utils/dist/browser/chunk-APWFZSDX.mjs
 var _a69;
 var A_UtilsHelper = (_a69 = class extends v {
   // ─────────────────────────────────────────────────────────────────────────────
@@ -4584,6 +4584,55 @@ var A_UtilsHelper = (_a69 = class extends v {
     const pairs = keys.map((k2) => `${k2}:${A_UtilsHelper.serialize(value[k2])}`).join(",");
     return `{${pairs}}`;
   }
+  /**
+   * Sets a nested property on an object using a dot-separated path string. This method safely navigates through the object structure and sets the value at the specified path, creating intermediate objects as needed. If any part of the path is invalid or if the input parameters are not properly formatted, the method will simply return without making any changes to the object.
+   * 
+   * @param obj The object on which to set the property.
+   * @param path A dot-separated string representing the path to the desired property (e.g., "user.profile.name").
+   * @param value The value to set at the specified path.
+   * @returns the target object with the updated property, or undefined if the input parameters are invalid.
+   */
+  static setBypath(obj, path, value) {
+    if (!obj || typeof obj !== "object" || !path || typeof path !== "string") {
+      return;
+    }
+    const parts = path.split(".");
+    const lastPart = parts.pop();
+    const target = parts.reduce((acc, part) => {
+      if (acc[part] === void 0) {
+        acc[part] = {};
+      }
+      return acc[part];
+    }, obj);
+    target[lastPart] = value;
+    return obj;
+  }
+  /**
+   * Extracts a nested property from an object using a dot-separated path string. This method safely navigates through the object structure and returns the value at the specified path, or undefined if any part of the path is invalid or does not exist.
+   * 
+   * @param obj The object from which to extract the property.
+   * @param path A dot-separated string representing the path to the desired property (e.g., "user.profile.name"). 
+   * @returns The value at the specified path, or undefined if the path is invalid or does not exist. 
+   */
+  static getByPath(obj, path) {
+    if (!path || typeof path !== "string") {
+      return obj;
+    }
+    if (!obj || typeof obj !== "object") {
+      return void 0;
+    }
+    try {
+      const result = path.split(".").reduce((acc, part) => {
+        if (acc === null || acc === void 0) {
+          return void 0;
+        }
+        return acc[part];
+      }, obj);
+      return result;
+    } catch {
+      return void 0;
+    }
+  }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── FNV-1a (pure Number, no BigInt) ──────────────────────────────────────────
   // ─────────────────────────────────────────────────────────────────────────────
@@ -4620,6 +4669,23 @@ var A_UtilsHelper = (_a69 = class extends v {
     const hash = A_UtilsHelper.hash(caller);
     context.set(feature.name, hash);
   }
+  serialize(caller, context, feature) {
+    const serialized = A_UtilsHelper.serialize(caller);
+    context.set(feature.name, serialized);
+  }
+  setByPath(caller, context, feature) {
+    const obj = context.get("object");
+    const path = context.get("path");
+    const value = context.get("value");
+    const result = A_UtilsHelper.setBypath(obj, path, value);
+    context.set(feature.name, result);
+  }
+  getByPath(caller, context, feature) {
+    const obj = context.get("object");
+    const path = context.get("path");
+    const result = A_UtilsHelper.getByPath(obj, path);
+    context.set(feature.name, result);
+  }
 }, __name(_a69, "A_UtilsHelper"), _a69);
 __decorateClass2([
   c2.Method({
@@ -4629,6 +4695,30 @@ __decorateClass2([
   __decorateParam2(1, ke(A_ExecutionContext)),
   __decorateParam2(2, ke(w))
 ], A_UtilsHelper.prototype, "hash", 1);
+__decorateClass2([
+  c2.Method({
+    description: "Instance method wrapper for the static serialize function, allowing it to be injected as a dependency."
+  }),
+  __decorateParam2(0, ke(G)),
+  __decorateParam2(1, ke(A_ExecutionContext)),
+  __decorateParam2(2, ke(w))
+], A_UtilsHelper.prototype, "serialize", 1);
+__decorateClass2([
+  c2.Method({
+    description: "Instance method wrapper for the static setByPath function, allowing it to be injected as a dependency."
+  }),
+  __decorateParam2(0, ke(G)),
+  __decorateParam2(1, ke(A_ExecutionContext)),
+  __decorateParam2(2, ke(w))
+], A_UtilsHelper.prototype, "setByPath", 1);
+__decorateClass2([
+  c2.Method({
+    description: "Instance method wrapper for the static getByPath function, allowing it to be injected as a dependency."
+  }),
+  __decorateParam2(0, ke(G)),
+  __decorateParam2(1, ke(A_ExecutionContext)),
+  __decorateParam2(2, ke(w))
+], A_UtilsHelper.prototype, "getByPath", 1);
 A_UtilsHelper = __decorateClass2([
   c2.Component({
     namespace: "A-Utils",
@@ -5143,7 +5233,7 @@ var A_SignalBus = (_a76 = class extends v {
       entities: signals
     }).inherit(c.scope(this));
     try {
-      await this.call("_A_SignalBusFeatures_onBeforeNext", scope);
+      await this.call("_A_SignalBusFeatures_onBeforeNext", c.scope(this));
       await this.call("_A_SignalBusFeatures_onNext", scope);
       scope.destroy();
     } catch (error) {
@@ -5164,10 +5254,7 @@ var A_SignalBus = (_a76 = class extends v {
           break;
       }
       scope.register(wrappedError);
-      await this.call(
-        "_A_SignalBusFeatures_onError"
-        /* onError */
-      );
+      await this.call("_A_SignalBusFeatures_onError", scope);
       scope.destroy();
     }
   }
@@ -5183,7 +5270,10 @@ var A_SignalBus = (_a76 = class extends v {
   ](scope, globalConfig, state, logger, config) {
     const componentContext = c.scope(this);
     if (!config) {
+      const entries = componentContext.allowedEntities.entries();
+      const signalTypes = Array.from(entries).filter(([_, entity]) => l.isInheritedFrom(entity, A_Signal)).map(([ctor, _]) => ctor);
       config = new A_SignalConfig({
+        structure: signalTypes.length ? signalTypes : void 0,
         stringStructure: globalConfig?.get("A_SIGNAL_VECTOR_STRUCTURE") || void 0
       });
       componentContext.register(config);
@@ -5255,128 +5345,338 @@ A_SignalBus = __decorateClass2([
   })
 ], A_SignalBus);
 
-// src/lib/AreComponent/Are.context.ts
-var AreContext = class extends A_ExecutionContext {
-  constructor(source = "") {
-    super("AreContext");
-    /**
-     * The roots array holds references to the root nodes of the ARE scene, allowing for easy access and management of the top-level components in the rendering hierarchy. The signalsMap is a mapping between root nodes and their associated signal vectors, enabling efficient management of reactive updates and interactions within the ARE framework based on changes in the application state or user input.
-     */
-    this._roots = [];
-    /**
-     * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
-     */
-    this._signalsMap = /* @__PURE__ */ new Map();
-    this._performance = /* @__PURE__ */ new Map();
-    this._performanceStart = /* @__PURE__ */ new Map();
-    this._performanceDepth = /* @__PURE__ */ new Map();
-    this._source = source;
-  }
+// node_modules/@adaas/a-utils/dist/browser/a-service.mjs
+var A_ServiceFeatures = /* @__PURE__ */ ((A_ServiceFeatures2) => {
+  A_ServiceFeatures2["onBeforeLoad"] = "_A_Service_onBeforeLoad";
+  A_ServiceFeatures2["onLoad"] = "_A_Service_onLoad";
+  A_ServiceFeatures2["onAfterLoad"] = "_A_Service_onAfterLoad";
+  A_ServiceFeatures2["onBeforeStart"] = "_A_Service_onBeforeStart";
+  A_ServiceFeatures2["onStart"] = "_A_Service_onStart";
+  A_ServiceFeatures2["onAfterStart"] = "_A_Service_onAfterStart";
+  A_ServiceFeatures2["onBeforeStop"] = "_A_Service_onBeforeStop";
+  A_ServiceFeatures2["onStop"] = "_A_Service_onStop";
+  A_ServiceFeatures2["onAfterStop"] = "_A_Service_onAfterStop";
+  A_ServiceFeatures2["onError"] = "_A_Service_onError";
+  return A_ServiceFeatures2;
+})(A_ServiceFeatures || {});
+var _a77;
+var A_Service_Error = (_a77 = class extends y {
+}, __name(_a77, "A_Service_Error"), _a77);
+A_Service_Error.ServiceLoadError = "Service load error";
+A_Service_Error.ServiceStartError = "Service start error";
+A_Service_Error.ServiceStopError = "Service stop error";
+var _a78;
+var _b2;
+var _c2;
+var _d;
+var _e2;
+var _f;
+var _g;
+var _h;
+var _i;
+var _j;
+var _a79;
+var A_Service = (_a79 = class extends z {
   /**
-   * The global object can be used to store any global data or configurations that need to be accessed across different components and entities within the ARE framework. This can include things like theme settings, user preferences, or any other shared data that is relevant to the entire scene or application. By centralizing this information in the context, it allows for easier management and access to global state without needing to pass it through multiple layers of components or entities.
+   * Load the service
    */
-  get globals() {
-    return this.get("globals") || {};
-  }
-  /**
-   * The scope of the context, which can be used to access other entities and features within the same scope. This is particularly useful for components that need to interact with other parts of the scene or component, as it allows them to access shared data and functionality without needing to pass it explicitly through parameters.
-   */
-  get scope() {
-    return c.scope(this);
-  }
-  /**
-   * The roots array holds references to the root nodes of the ARE scene, allowing for easy access and management of the top-level components in the rendering hierarchy. The signalsMap is a mapping between root nodes and their associated signal vectors, enabling efficient management of reactive updates and interactions within the ARE framework based on changes in the application state or user input.
-   */
-  get roots() {
-    return this._roots;
-  }
-  /**
-   * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
-   */
-  get source() {
-    return this._source;
-  }
-  get performance() {
-    const perfObj = [];
-    this._performance.forEach((value, key) => {
-      perfObj.push(`${key}: ${value} ms`);
-    });
-    return perfObj;
-  }
-  get stats() {
-    return [
-      `- Total Roots: ${this._roots.length}`,
-      `- Total Nodes in Scene: ${this._roots.reduce((acc, root) => acc + this.countNodes(root), 0)}`,
-      `- Total Instructions: ${this._roots.reduce((acc, root) => acc + this.countInstructions(root), 0)}`
-    ];
-  }
-  countInstructions(node) {
-    let count = 0;
-    if (node.scene) {
-      count += node.scene.instructions.length;
-    }
-    for (const child of node.children) {
-      count += this.countInstructions(child);
-    }
-    return count;
-  }
-  countNodes(node) {
-    let count = 1;
-    for (const child of node.children) {
-      count += this.countNodes(child);
-    }
-    return count;
-  }
-  /**
-   * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
-   * 
-   * @param node 
-   */
-  addRoot(node) {
-    this._roots.push(node);
-    this.scope.register(node);
-  }
-  /**
-   * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
-   * 
-   * @param node 
-   */
-  removeRoot(node) {
-    this._roots = this._roots.filter((r2) => r2.aseid.toString() !== node.aseid.toString());
-  }
-  startPerformance(label = "default") {
-    const depth = this._performanceDepth.get(label) || 0;
-    this._performanceDepth.set(label, depth + 1);
-    if (depth === 0) {
-      this._performanceStart.set(label, Date.now());
-    }
-  }
-  endPerformance(label) {
-    const depth = this._performanceDepth.get(label) || 0;
-    if (depth <= 1) {
-      const startTime = this._performanceStart.get(label) || this._performanceStart.get("default");
-      if (startTime) {
-        const duration = Date.now() - startTime;
-        const accumulated = this._performance.get(label) || 0;
-        this._performance.set(label, accumulated + duration);
-        this._performanceStart.delete(label);
+  async load() {
+    try {
+      await this.call("_A_Service_onBeforeLoad", this.scope);
+      await this.call("_A_Service_onLoad", this.scope);
+      await this.call("_A_Service_onAfterLoad", this.scope);
+    } catch (error) {
+      let wrappedError;
+      switch (true) {
+        case error instanceof A_Service_Error:
+          wrappedError = error;
+          break;
+        case (error instanceof y && error.originalError instanceof A_Service_Error):
+          wrappedError = error.originalError;
+          break;
+        default:
+          wrappedError = new A_Service_Error({
+            title: A_Service_Error.ServiceLoadError,
+            description: "An error occurred while processing the request.",
+            originalError: error
+          });
+          break;
       }
-      this._performanceDepth.delete(label);
-    } else {
-      this._performanceDepth.set(label, depth - 1);
+      this.scope.register(wrappedError);
+      await this.call("_A_Service_onError", this.scope);
     }
   }
-};
-__name(AreContext, "AreContext");
-AreContext = __decorateClass([
-  c2.Fragment({
-    namespace: "A-ARE",
-    name: "AreContext",
-    description: "Context fragment for the A-Concept Rendering Engine (ARE) framework, serving as a foundational component for managing shared state and configurations within the ARE environment. This Context uses to encapsulate global settings, resources, and utilities that can be accessed by various ARE components and entities during the rendering and interaction processes."
+  /**
+   * Start the server
+   */
+  async start() {
+    try {
+      await this.call("_A_Service_onBeforeStart", this.scope);
+      await this.call("_A_Service_onStart", this.scope);
+      await this.call("_A_Service_onAfterStart", this.scope);
+    } catch (error) {
+      let wrappedError;
+      switch (true) {
+        case error instanceof A_Service_Error:
+          wrappedError = error;
+          break;
+        case (error instanceof y && error.originalError instanceof A_Service_Error):
+          wrappedError = error.originalError;
+          break;
+        default:
+          wrappedError = new A_Service_Error({
+            title: A_Service_Error.ServiceStartError,
+            description: "An error occurred while processing the request.",
+            originalError: error
+          });
+          break;
+      }
+      this.scope.register(wrappedError);
+      await this.call("_A_Service_onError", this.scope);
+    }
+  }
+  /**
+   * Stop the server
+   */
+  async stop() {
+    try {
+      await this.call("_A_Service_onBeforeStop", this.scope);
+      await this.call("_A_Service_onStop", this.scope);
+      await this.call("_A_Service_onAfterStop", this.scope);
+    } catch (error) {
+      let wrappedError;
+      switch (true) {
+        case error instanceof A_Service_Error:
+          wrappedError = error;
+          break;
+        case (error instanceof y && error.originalError instanceof A_Service_Error):
+          wrappedError = error.originalError;
+          break;
+        default:
+          wrappedError = new A_Service_Error({
+            title: A_Service_Error.ServiceStopError,
+            description: "An error occurred while processing the request.",
+            originalError: error
+          });
+          break;
+      }
+      this.scope.register(wrappedError);
+      await this.call("_A_Service_onError", this.scope);
+    }
+  }
+  async [
+    _j = "_A_Service_onBeforeLoad"
+    /* onBeforeLoad */
+  ](polyfill, ...args) {
+    if (!polyfill) {
+      this.scope.register(A_Polyfill);
+      polyfill = this.scope.resolve(A_Polyfill);
+    }
+  }
+  async [
+    _i = "_A_Service_onLoad"
+    /* onLoad */
+  ](...args) {
+  }
+  async [
+    _h = "_A_Service_onAfterLoad"
+    /* onAfterLoad */
+  ](...args) {
+  }
+  async [
+    _g = "_A_Service_onBeforeStart"
+    /* onBeforeStart */
+  ](...args) {
+  }
+  async [
+    _f = "_A_Service_onStart"
+    /* onStart */
+  ](...args) {
+  }
+  async [
+    _e2 = "_A_Service_onAfterStart"
+    /* onAfterStart */
+  ](...args) {
+  }
+  async [
+    _d = "_A_Service_onBeforeStop"
+    /* onBeforeStop */
+  ](...args) {
+  }
+  async [
+    _c2 = "_A_Service_onStop"
+    /* onStop */
+  ](...args) {
+  }
+  async [
+    _b2 = "_A_Service_onAfterStop"
+    /* onAfterStop */
+  ](...args) {
+  }
+  async [
+    _a78 = "_A_Service_onError"
+    /* onError */
+  ](error, logger, ...args) {
+    logger?.error(error);
+  }
+}, __name(_a79, "A_Service"), _a79);
+__decorateClass2([
+  Ce.Load()
+], A_Service.prototype, "load", 1);
+__decorateClass2([
+  Ce.Start()
+], A_Service.prototype, "start", 1);
+__decorateClass2([
+  Ce.Stop()
+], A_Service.prototype, "stop", 1);
+__decorateClass2([
+  w.Extend(),
+  __decorateParam2(0, ke(A_Polyfill))
+], A_Service.prototype, _j, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _i, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _h, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _g, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _f, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _e2, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _d, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _c2, 1);
+__decorateClass2([
+  w.Extend()
+], A_Service.prototype, _b2, 1);
+__decorateClass2([
+  w.Extend({
+    before: /.*/
+  }),
+  __decorateParam2(0, ke(y)),
+  __decorateParam2(1, ke(A_Logger))
+], A_Service.prototype, _a78, 1);
+A_Service = __decorateClass2([
+  c2.Container({
+    namespace: "A-Utils",
+    name: "A-Service",
+    description: "Service container that manages the lifecycle of various types of services, such as HTTP servers and workers or UI loader. It dynamically loads necessary components based on the provided configuration and orchestrates the start and stop processes, ensuring proper error handling and extensibility through feature hooks."
   })
-], AreContext);
+], A_Service);
 
-// src/lib/AreComponent/Are.constants.ts
+// node_modules/@adaas/a-utils/dist/browser/a-route.mjs
+var _a80;
+var A_Route = (_a80 = class extends L {
+  constructor(url) {
+    super();
+    this.url = url instanceof RegExp ? url.source : url;
+  }
+  /**
+   * Returns path only without query and hash
+   */
+  get path() {
+    const p = this.url.split("?")[0].split("#")[0];
+    if (p.includes("://")) {
+      const pathStartIndex = p.indexOf("/", p.indexOf("://") + 3);
+      if (pathStartIndex === -1) {
+        return "/";
+      } else {
+        const path = p.slice(pathStartIndex);
+        return path.endsWith("/") ? path.slice(0, -1) : path;
+      }
+    }
+    return p.endsWith("/") ? p.slice(0, -1) : p;
+  }
+  /**
+   * Returns array of parameter names in the route path
+   */
+  get params() {
+    return this.path.match(/:([^\/]+)/g)?.map((param) => param.slice(1)) || [];
+  }
+  /**
+   * Returns protocol based on URL scheme
+   */
+  get protocol() {
+    switch (true) {
+      case this.url.startsWith("http://"):
+        return "http";
+      case this.url.startsWith("https://"):
+        return "https";
+      case this.url.startsWith("ws://"):
+        return "ws";
+      case this.url.startsWith("wss://"):
+        return "wss";
+      default:
+        return this.url.includes("://") ? this.url.split("://")[0] : "http";
+    }
+  }
+  extractParams(url) {
+    const cleanUrl = url.split("?")[0];
+    const urlSegments = cleanUrl.split("/").filter(Boolean);
+    const maskSegments = this.path.split("/").filter(Boolean);
+    const params = {};
+    for (let i = 0; i < maskSegments.length; i++) {
+      const maskSegment = maskSegments[i];
+      const urlSegment = urlSegments[i];
+      if (maskSegment.startsWith(":")) {
+        const paramName = maskSegment.slice(1);
+        params[paramName] = urlSegment;
+      } else if (maskSegment !== urlSegment) {
+        return {};
+      }
+    }
+    return params;
+  }
+  extractQuery(url) {
+    const query = {};
+    const queryString = url.split("?")[1];
+    if (!queryString) return query;
+    const cleanQuery = queryString.split("#")[0];
+    for (const pair of cleanQuery.split("&")) {
+      if (!pair) continue;
+      const [key, value = ""] = pair.split("=");
+      query[decodeURIComponent(key)] = decodeURIComponent(value);
+    }
+    return query;
+  }
+  toString() {
+    return `${this.path}`;
+  }
+  toRegExp() {
+    return new RegExp(`^${this.path.replace(/\/:([^\/]+)/g, "/([^/]+)")}$`);
+  }
+  toAFeatureExtension(extensionScope = []) {
+    return new RegExp(`^${extensionScope.length ? `(${extensionScope.join("|")})` : ".*"}\\.${this.path.replace(/\/:([^\/]+)/g, "/([^/]+)")}$`);
+  }
+}, __name(_a80, "A_Route"), _a80);
+A_Route = __decorateClass2([
+  c2.Fragment({
+    namespace: "A-Utils",
+    name: "A-Route",
+    description: "Route fragment that defines URL patterns for routing purposes. It supports dynamic parameters and query extraction, allowing for flexible route definitions. This fragment can be used in routing systems to match incoming URLs against defined routes and extract relevant parameters and query strings."
+  })
+], A_Route);
+
+// node_modules/@adaas/are/dist/browser/index.mjs
+var __defProp3 = Object.defineProperty;
+var __getOwnPropDesc3 = Object.getOwnPropertyDescriptor;
+var __decorateClass3 = /* @__PURE__ */ __name((decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc3(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result) __defProp3(target, key, result);
+  return result;
+}, "__decorateClass");
+var __decorateParam3 = /* @__PURE__ */ __name((index, decorator) => (target, key) => decorator(target, key, index), "__decorateParam");
 var AreFeatures = {
   //===================================================================================
   // -----------------------------Node Lifecycle Hooks---------------------------------
@@ -5435,8 +5735,6 @@ var AreFeatures = {
   //=================================================================================== 
   onSignal: "_Are_onSignal"
 };
-
-// src/lib/AreInstruction/AreInstruction.constants.ts
 var AreInstructionFeatures = {
   /**
    * The 'Apply' feature indicates that the instruction has been applied to the scene or component, meaning that its effects have been executed and are now reflected in the state of the scene or component. This status is typically used to track the lifecycle of an instruction, allowing for proper management and potential reversal of changes if needed.
@@ -5456,9 +5754,8 @@ var AreInstructionDefaultNames = {
   Declaration: "_Are_DeclarationInstruction",
   Mutation: "_Are_MutationInstruction"
 };
-
-// src/lib/AreInstruction/AreInstruction.entity.ts
-var _AreInstruction = class _AreInstruction extends O {
+var _a81;
+var AreInstruction = (_a81 = class extends O {
   /**
    * The name of the instruction, for example "CreateElement", "AddAttribute", "RemoveNode", etc. This is used to identify the type of the instruction and how to process it. The name should be in PascalCase format, and should be unique across all instruction types. It is recommended to use a prefix that indicates the category of the instruction, for example "CreateElement" for instructions that create new elements, "UpdateAttribute" for instructions that update attributes, etc.
    */
@@ -5586,54 +5883,56 @@ var _AreInstruction = class _AreInstruction extends O {
   revert(scope) {
     this.call(AreInstructionFeatures.Revert, scope);
   }
-};
-__name(_AreInstruction, "AreInstruction");
-var AreInstruction = _AreInstruction;
-
-// src/lib/AreInstruction/types/AreDeclaration.instruction.ts
-var _AreDeclaration = class _AreDeclaration extends AreInstruction {
+}, __name(_a81, "AreInstruction"), _a81);
+AreInstruction = __decorateClass3([
+  c2.Entity({
+    namespace: "A-ARE",
+    name: "AreInstruction",
+    description: "AreInstruction is the base entity for all rendering instructions in the ARE framework. It represents a serializable, reversible operation (such as creating or mutating a DOM element) that can be applied to and tracked within the AreScene, enabling deterministic rendering and undo/redo capabilities."
+  })
+], AreInstruction);
+var _a82;
+var AreDeclaration = (_a82 = class extends AreInstruction {
   constructor(param1, param2, param3) {
     if (typeof param1 === "object" && "aseid" in param1)
       super(param1);
     else
       super({
         name: param1 || AreInstructionDefaultNames.Default,
-        parent: param2 instanceof _AreDeclaration ? param2 : void 0,
-        group: param2 instanceof _AreDeclaration ? param2.group : void 0,
-        payload: param2 instanceof _AreDeclaration ? param3 || {} : param2 || {}
+        parent: param2 instanceof AreDeclaration ? param2 : void 0,
+        group: param2 instanceof AreDeclaration ? param2.group : void 0,
+        payload: param2 instanceof AreDeclaration ? param3 || {} : param2 || {}
         // id: [param1, A_IdentityHelper.generateTimeId(), param2 instanceof AreDeclaration ? (param3 || {}) as T : (param2 || {}) as T]
       });
   }
-};
-__name(_AreDeclaration, "AreDeclaration");
-var AreDeclaration = _AreDeclaration;
-
-// src/lib/AreScene/AreScene.error.ts
-var _AreSceneError = class _AreSceneError extends y {
-};
-__name(_AreSceneError, "AreSceneError");
-_AreSceneError.SceneAlreadyInactive = "AreSceneError.SceneAlreadyInactive";
-_AreSceneError.SceneAlreadyActive = "AreSceneError.SceneAlreadyActive";
-_AreSceneError.HostInstructionHasConnectedInstructions = "AreSceneError.HostInstructionHasConnectedInstructions";
-_AreSceneError.SingleHostInstruction = "AreSceneError.SingleHostInstruction";
-_AreSceneError.SceneError = "AreSceneError.SceneError";
-_AreSceneError.RootNotFound = "AreSceneError.RootNotFound";
-_AreSceneError.UpdateFailed = "AreSceneError.UpdateFailed";
-_AreSceneError.MountFailed = "AreSceneError.MountFailed";
-_AreSceneError.UnmountFailed = "AreSceneError.UnmountFailed";
-_AreSceneError.MountPointNotFound = "AreSceneError.MountPointNotFound";
-_AreSceneError.InvalidTemplate = "AreSceneError.InvalidTemplate";
-_AreSceneError.RenderFailed = "AreSceneError.RenderFailed";
-var AreSceneError = _AreSceneError;
-
-// src/lib/AreInstruction/AreInstruction.error.ts
-var _AreInstructionError = class _AreInstructionError extends y {
-};
-__name(_AreInstructionError, "AreInstructionError");
-var AreInstructionError = _AreInstructionError;
-
-// src/lib/AreInstruction/types/AreMutation.instruction.ts
-var _AreMutation = class _AreMutation extends AreInstruction {
+}, __name(_a82, "AreDeclaration"), _a82);
+AreDeclaration = __decorateClass3([
+  c2.Entity({
+    namespace: "A-ARE",
+    name: "AreDeclaration",
+    description: "AreDeclaration is a top-level rendering instruction that represents the creation of a new element in the ARE scene. It carries the target tag name and parent reference needed by the Host to construct the DOM element, and can be applied or reverted to manage element creation and removal deterministically."
+  })
+], AreDeclaration);
+var _a83;
+var AreSceneError = (_a83 = class extends y {
+}, __name(_a83, "AreSceneError"), _a83);
+AreSceneError.SceneAlreadyInactive = "AreSceneError.SceneAlreadyInactive";
+AreSceneError.SceneAlreadyActive = "AreSceneError.SceneAlreadyActive";
+AreSceneError.HostInstructionHasConnectedInstructions = "AreSceneError.HostInstructionHasConnectedInstructions";
+AreSceneError.SingleHostInstruction = "AreSceneError.SingleHostInstruction";
+AreSceneError.SceneError = "AreSceneError.SceneError";
+AreSceneError.RootNotFound = "AreSceneError.RootNotFound";
+AreSceneError.UpdateFailed = "AreSceneError.UpdateFailed";
+AreSceneError.MountFailed = "AreSceneError.MountFailed";
+AreSceneError.UnmountFailed = "AreSceneError.UnmountFailed";
+AreSceneError.MountPointNotFound = "AreSceneError.MountPointNotFound";
+AreSceneError.InvalidTemplate = "AreSceneError.InvalidTemplate";
+AreSceneError.RenderFailed = "AreSceneError.RenderFailed";
+var _a84;
+var AreInstructionError = (_a84 = class extends y {
+}, __name(_a84, "AreInstructionError"), _a84);
+var _a85;
+var AreMutation = (_a85 = class extends AreInstruction {
   get parent() {
     return this._parent;
   }
@@ -5660,43 +5959,26 @@ var _AreMutation = class _AreMutation extends AreInstruction {
       });
     super.fromNew(newEntity);
   }
-};
-__name(_AreMutation, "AreMutation");
-var AreMutation = _AreMutation;
-
-// src/lib/AreScene/AreScene.constants.ts
+}, __name(_a85, "AreMutation"), _a85);
+AreMutation = __decorateClass3([
+  c2.Entity({
+    namespace: "A-ARE",
+    name: "AreMutation",
+    description: "AreMutation is a rendering instruction that represents a reversible change applied to an existing declaration node in the ARE scene \u2014 such as updating an attribute, modifying content, or altering child structure. It references a parent AreDeclaration and is grouped with related mutations for coordinated apply and revert operations."
+  })
+], AreMutation);
 var AreSceneStatuses = {
   Active: "active",
   Inactive: "inactive",
   Destroyed: "destroyed"
 };
-
-// src/lib/AreScene/AreScene.context.ts
-var AreScene = class extends L {
+var _a86;
+var AreScene = (_a86 = class extends L {
   constructor(id) {
     super({ name: id.toString() });
-    // -----------------------------------------------------------------------------------
-    // -----------------------------------Scene Index-------------------------------------
-    // -----------------------------------------------------------------------------------
     this._groupToInstructionsMap = /* @__PURE__ */ new Map();
-    /**
-     * Plan is a queue of changes that should be applied to render the node
-     * 
-     * It works as FIFO, so the first instruction that should be applied is the first one in the queue, and so on.
-     */
     this._plan = [];
-    /**
-     * State is a list of instructions that are currently applied to the node, 
-     * so it represents the current state of the node in the scene.
-     * 
-     * It always in a reverse order of the plan, so the last instruction in the state is the first one that should be reverted when we need to revert the changes, and so on.
-     * 
-     * For example, if we have a node with two instructions in the plan: [Instruction A, Instruction B], and both of them are applied to the node, then the state will be [Instruction B, Instruction A], so when we need to revert the changes, we will revert Instruction B first, and then Instruction A.
-     */
     this._state = [];
-    /**
-     * Scene status is used to determine the current lifecycle stage of the scene, which can be 'active', 'inactive' or 'destroyed'. This status can be used to control the behavior of the scene and its instructions, for example, we can prevent applying new instructions to an inactive or destroyed scene, or we can trigger certain actions when the scene becomes active or inactive. The default status of the scene is 'inactive', which means that the scene is not yet rendered and its instructions are not applied, and it will become 'active' when it is mounted and its instructions are applied, and it will become 'destroyed' when it is unmounted and its instructions are reverted.
-     */
     this._status = AreSceneStatuses.Active;
   }
   /**
@@ -5991,65 +6273,14 @@ var AreScene = class extends L {
     this._plan = [];
     this._state = [];
   }
-};
-__name(AreScene, "AreScene");
-AreScene = __decorateClass([
+}, __name(_a86, "AreScene"), _a86);
+AreScene = __decorateClass3([
   c2.Component({
     namespace: "A-ARE",
     name: "AreScene",
     description: "Persistent runtime structure that owns the rendering state for a component's lifetime. Maintains two sets \u2014 applied (what is currently in the DOM) and planned (what should be). Acts as the single source of truth for all rendering decisions. The Compiler produces it once, the Interpreter reads it on every update."
   })
 ], AreScene);
-
-// src/helpers/AreChache.helper.ts
-var _AreCacheHelper = class _AreCacheHelper {
-  static createHash(str) {
-    let hashSource;
-    if (str instanceof Map) {
-      hashSource = JSON.stringify(Array.from(str.entries()));
-    } else if (str instanceof Set) {
-      hashSource = JSON.stringify(Array.from(str.values()));
-    } else {
-      switch (typeof str) {
-        case "string":
-          hashSource = str;
-          break;
-        case "undefined":
-          hashSource = "undefined";
-          break;
-        case "object":
-          if ("toJSON" in str)
-            hashSource = JSON.stringify(str.toJSON());
-          else
-            hashSource = JSON.stringify(str);
-          break;
-        case "number":
-          hashSource = str.toString();
-          break;
-        case "boolean":
-          hashSource = str ? "true" : "false";
-          break;
-        case "function":
-          hashSource = str.toString();
-          break;
-        default:
-          hashSource = String(str);
-      }
-    }
-    let hash = 0, i, chr;
-    for (i = 0; i < hashSource.length; i++) {
-      chr = hashSource.charCodeAt(i);
-      hash = (hash << 5) - hash + chr;
-      hash |= 0;
-    }
-    const hashString = hash.toString();
-    return hashString;
-  }
-};
-__name(_AreCacheHelper, "AreCacheHelper");
-var AreCacheHelper = _AreCacheHelper;
-
-// src/lib/AreAttribute/AreAttribute.constants.ts
 var AreAttributeFeatures = {
   /**
    * Initializes the attribute. This method is called when the attribute is first created and should set up any necessary state or perform any initial processing based on the provided content and context. It can also be used to validate the attribute's content and throw errors if it is invalid.
@@ -6072,9 +6303,8 @@ var AreAttributeFeatures = {
    */
   Validate: "_AreAttribute_Validate"
 };
-
-// src/lib/AreAttribute/AreAttribute.entity.ts
-var AreAttribute = class extends O {
+var _a87;
+var AreAttribute = (_a87 = class extends O {
   /**
    * The scope where the attribute is defined, which can be used to access other entities and features within the same scope. This is particularly useful for attributes that need to interact with other parts of the scene or component, as it allows them to access shared data and functionality without needing to pass it explicitly through parameters.
    */
@@ -6093,12 +6323,6 @@ var AreAttribute = class extends O {
    * @param newEntity 
    */
   fromNew(newEntity) {
-    const identity = {
-      name: newEntity.name,
-      prefix: newEntity.prefix,
-      content: newEntity.content
-    };
-    const id = AreCacheHelper.createHash(identity);
     this.aseid = this.generateASEID({
       entity: newEntity.name
       // id: id,
@@ -6162,22 +6386,19 @@ var AreAttribute = class extends O {
   validate(scope) {
     this.call(AreAttributeFeatures.Validate, scope || this.scope);
   }
-};
-__name(AreAttribute, "AreAttribute");
-__decorateClass([
+}, __name(_a87, "AreAttribute"), _a87);
+__decorateClass3([
   c2.Method({
     description: "Compile the attribute. This method should transform attribute details into a set of SceneInstructions. It may also modify attribute value, since this field is editable during runtime."
   })
 ], AreAttribute.prototype, "compile", 1);
-AreAttribute = __decorateClass([
+AreAttribute = __decorateClass3([
   c2.Component({
     namespace: "A-ARE",
     name: "AreAttribute",
     description: "Represents an HTML attribute within the A-Concept Rendering Engine (ARE) framework, encapsulating the attribute's name, raw content, evaluated value, and associated features for initialization, transformation, compilation, updating, and validation."
   })
 ], AreAttribute);
-
-// src/lib/AreNode/AreNode.constants.ts
 var AreNodeFeatures = {
   // ==============================================================================
   // Lifecycle features
@@ -6288,9 +6509,121 @@ var AreNodeStatuses = {
    */
   Unmounted: "unmounted"
 };
-
-// src/lib/AreNode/AreNode.entity.ts
-var AreNode = class extends O {
+var _a88;
+var AreContext = (_a88 = class extends A_ExecutionContext {
+  constructor(source = "") {
+    super("AreContext");
+    this._roots = [];
+    this._signalsMap = /* @__PURE__ */ new Map();
+    this._performance = /* @__PURE__ */ new Map();
+    this._performanceStart = /* @__PURE__ */ new Map();
+    this._performanceDepth = /* @__PURE__ */ new Map();
+    this._source = source;
+  }
+  /**
+   * The global object can be used to store any global data or configurations that need to be accessed across different components and entities within the ARE framework. This can include things like theme settings, user preferences, or any other shared data that is relevant to the entire scene or application. By centralizing this information in the context, it allows for easier management and access to global state without needing to pass it through multiple layers of components or entities.
+   */
+  get globals() {
+    return this.get("globals") || {};
+  }
+  /**
+   * The scope of the context, which can be used to access other entities and features within the same scope. This is particularly useful for components that need to interact with other parts of the scene or component, as it allows them to access shared data and functionality without needing to pass it explicitly through parameters.
+   */
+  get scope() {
+    return c.scope(this);
+  }
+  /**
+   * The roots array holds references to the root nodes of the ARE scene, allowing for easy access and management of the top-level components in the rendering hierarchy. The signalsMap is a mapping between root nodes and their associated signal vectors, enabling efficient management of reactive updates and interactions within the ARE framework based on changes in the application state or user input.
+   */
+  get roots() {
+    return this._roots;
+  }
+  /**
+   * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
+   */
+  get source() {
+    return this._source;
+  }
+  get performance() {
+    const perfObj = [];
+    this._performance.forEach((value, key) => {
+      perfObj.push(`${key}: ${value} ms`);
+    });
+    return perfObj;
+  }
+  get stats() {
+    return [
+      `- Total Roots: ${this._roots.length}`,
+      `- Total Nodes in Scene: ${this._roots.reduce((acc, root) => acc + this.countNodes(root), 0)}`,
+      `- Total Instructions: ${this._roots.reduce((acc, root) => acc + this.countInstructions(root), 0)}`
+    ];
+  }
+  countInstructions(node) {
+    let count = 0;
+    if (node.scene) {
+      count += node.scene.instructions.length;
+    }
+    for (const child of node.children) {
+      count += this.countInstructions(child);
+    }
+    return count;
+  }
+  countNodes(node) {
+    let count = 1;
+    for (const child of node.children) {
+      count += this.countNodes(child);
+    }
+    return count;
+  }
+  /**
+   * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
+   * 
+   * @param node 
+   */
+  addRoot(node) {
+    this._roots.push(node);
+    this.scope.register(node);
+  }
+  /**
+   * This property stores a map between root node and conditions that should be met to render particular component inside the root node. This can be used to manage complex rendering logic and to optimize performance by ensuring that components are only rendered when necessary based on the defined conditions.
+   * 
+   * @param node 
+   */
+  removeRoot(node) {
+    this._roots = this._roots.filter((r2) => r2.aseid.toString() !== node.aseid.toString());
+  }
+  startPerformance(label = "default") {
+    const depth = this._performanceDepth.get(label) || 0;
+    this._performanceDepth.set(label, depth + 1);
+    if (depth === 0) {
+      this._performanceStart.set(label, Date.now());
+    }
+  }
+  endPerformance(label) {
+    const depth = this._performanceDepth.get(label) || 0;
+    if (depth <= 1) {
+      const startTime = this._performanceStart.get(label) || this._performanceStart.get("default");
+      if (startTime) {
+        const duration = Date.now() - startTime;
+        const accumulated = this._performance.get(label) || 0;
+        this._performance.set(label, accumulated + duration);
+        this._performanceStart.delete(label);
+      }
+      this._performanceDepth.delete(label);
+    } else {
+      this._performanceDepth.set(label, depth - 1);
+    }
+  }
+}, __name(_a88, "AreContext"), _a88);
+AreContext = __decorateClass3([
+  c2.Fragment({
+    namespace: "A-ARE",
+    name: "AreContext",
+    description: "Context fragment for the A-Concept Rendering Engine (ARE) framework, serving as a foundational component for managing shared state and configurations within the ARE environment. This Context uses to encapsulate global settings, resources, and utilities that can be accessed by various ARE components and entities during the rendering and interaction processes."
+  })
+], AreContext);
+var _a89;
+var AreNode = (_a89 = class extends O {
   /**
    * Actual node identifier. 
    */
@@ -6434,7 +6767,9 @@ var AreNode = class extends O {
    * Executes initialization logic for the node, which typically involves setting up the node's scope, registering any necessary entities, and preparing the node for rendering and interaction within the scene. This method is called during the initial phase of the node's lifecycle and is responsible for ensuring that the node is properly initialized before it is compiled and rendered in the scene.
    */
   init() {
+    this.call(AreNodeFeatures.onBeforeInit, this.scope);
     this.call(AreNodeFeatures.onInit, this.scope);
+    this.call(AreNodeFeatures.onAfterInit, this.scope);
   }
   /**
    * Loads the node, which typically involves executing any necessary setup or initialization logic to prepare the node for rendering and interaction within the scene. This may include processing the node's content, markup, styles, and features to generate the corresponding SceneInstructions, as well as setting up any event listeners or reactive properties as needed.
@@ -6539,7 +6874,9 @@ var AreNode = class extends O {
     try {
       const context = this.scope.resolve(AreContext);
       context?.startPerformance("Node Update");
+      this.call(AreNodeFeatures.onBeforeUpdate, this.scope);
       this.call(AreNodeFeatures.onUpdate, this.scope);
+      this.call(AreNodeFeatures.onAfterUpdate, this.scope);
       context?.endPerformance("Node Update");
     } catch (error) {
       throw error;
@@ -6555,7 +6892,9 @@ var AreNode = class extends O {
     try {
       const context = this.scope.resolve(AreContext);
       context?.startPerformance("Node Unmount");
+      this.call(AreNodeFeatures.onBeforeUnmount, this.scope);
       this.call(AreNodeFeatures.onUnmount, this.scope);
+      this.call(AreNodeFeatures.onAfterUnmount, this.scope);
       context?.endPerformance("Node Unmount");
     } catch (error) {
       throw error;
@@ -6653,30 +6992,26 @@ var AreNode = class extends O {
       });
     }
   }
-};
-__name(AreNode, "AreNode");
-AreNode = __decorateClass([
+}, __name(_a89, "AreNode"), _a89);
+AreNode = __decorateClass3([
   c2.Entity({
     namespace: "A-ARE",
     name: "AreNode",
     description: "An AreNode entity represents a node within the A-Concept Rendering Engine (ARE) framework. It encapsulates content, markup, and styles, and manages its own scope for nested fragments and entities. AreNodes are responsible for handling events, compiling, rendering, updating, and lifecycle management within the ARE context."
   })
 ], AreNode);
-
-// src/lib/AreEvent/AreEvent.context.ts
-var AreEvent = class extends A_ExecutionContext {
-};
-__name(AreEvent, "AreEvent");
-AreEvent = __decorateClass([
+var _a90;
+var AreEvent = (_a90 = class extends A_ExecutionContext {
+}, __name(_a90, "AreEvent"), _a90);
+AreEvent = __decorateClass3([
   c2.Fragment({
     namespace: "A-ARE",
     name: "AreEvent",
     description: "Event context for managing events within the A-Concept Rendering Engine (ARE) framework, encapsulating event data and associated nodes to facilitate event-driven interactions."
   })
 ], AreEvent);
-
-// src/lib/AreSignals/AreSignals.meta.ts
-var _AreSignalsMeta = class _AreSignalsMeta extends R {
+var _a91;
+var AreSignalsMeta = (_a91 = class extends R {
   registerCondition(component, vector) {
     const vectorToComponent = this.get("vectorToComponent") || /* @__PURE__ */ new Map();
     const componentToVector = this.get("componentToVector") || /* @__PURE__ */ new Map();
@@ -6715,27 +7050,157 @@ var _AreSignalsMeta = class _AreSignalsMeta extends R {
     }
     return void 0;
   }
-};
-__name(_AreSignalsMeta, "AreSignalsMeta");
-var AreSignalsMeta = _AreSignalsMeta;
-
-// src/lib/AreSignals/AreSignals.component.ts
-var AreSignals = class extends v {
-  handleSignalVector(vector, context, state, scope, logger) {
-    logger?.info(`Handling Signal Vector with ${context.roots.length} root nodes.`);
+}, __name(_a91, "AreSignalsMeta"), _a91);
+var _a92;
+var AreSignalsContext = (_a92 = class extends L {
+  constructor(config) {
+    super({ name: "AreSignalsContext" });
+    this._componentMap = /* @__PURE__ */ new Map();
+    this._defaultsMap = /* @__PURE__ */ new Map();
+    this._conditionsMap = /* @__PURE__ */ new Map();
+    this._subscribers = /* @__PURE__ */ new Set();
+    const configEntries = config ? Object.entries(config) : [];
+    for (const [rootId, conf] of configEntries) {
+      const def = conf?.default;
+      const pool = conf?.pool || [];
+      const conditions = conf?.conditions || [];
+      this._componentMap.set(rootId, new Set(pool));
+      if (def)
+        this._defaultsMap.set(rootId, def);
+      this._conditionsMap.set(rootId, conditions);
+    }
+  }
+  signalsMeta() {
+    const signalsMeta = c.meta(AreSignals);
+    if (!signalsMeta) {
+      throw new Error("AreSignalsMeta not found in context. Please ensure that AreSignalsMeta is properly registered in the A-Concept context.");
+    }
+    return signalsMeta;
+  }
+  subscribe(subscriber) {
+    this._subscribers.add(subscriber);
+  }
+  unsubscribe(subscriber) {
+    this._subscribers.delete(subscriber);
+  }
+  get subscribers() {
+    return this._subscribers;
+  }
+  /**
+   * Returns the components associated with the given ID. If no components are found, returns an empty array.
+   * 
+   * @param id The ID of the component group.
+   * @returns An array of component constructors.
+   */
+  getComponentById(id) {
+    const set = this._componentMap.get(id) || /* @__PURE__ */ new Set();
+    return Array.from(set);
+  }
+  /**
+   * Returns the components associated with the root ID of the given node. If no components are found, returns an empty array.
+   * 
+   * @param node The AreNode whose root ID is used to retrieve the components.
+   * @returns An array of component constructors.
+   */
+  getComponentByRoot(node) {
+    return this.getComponentById(node.id);
+  }
+  /**
+   * Adds a new component to the specified root ID. If the root ID does not exist, it will be created.
+   * 
+   * @param rootId The ID of the root component group.
+   * @param components An array of component constructors to add.
+   */
+  extendRoot(rootId, components) {
+    if (!this._componentMap.has(rootId)) {
+      this._componentMap.set(rootId, /* @__PURE__ */ new Set());
+    }
+    const set = this._componentMap.get(rootId);
+    for (const comp of components) {
+      set.add(comp);
+    }
+  }
+  /**
+   * Whether routing is configured for the given root ID.
+   * When false, the root should leave its original template content untouched.
+   * 
+   * @param rootId The id attribute of the <are-root> element.
+   */
+  hasRoot(rootId) {
+    return this._componentMap.has(rootId) || this._conditionsMap.has(rootId);
+  }
+  /**
+   * Returns the default component associated with the given root ID, if any.
+   * 
+   * @param rootId The ID of the root component group.
+   */
+  getDefault(rootId) {
+    return this._defaultsMap.get(rootId);
+  }
+  /**
+   * Finds the matching component for the given root ID and incoming signal vector.
+   * 
+   * Matching priorities (mirroring AreSignalsMeta):
+   * 1. Full equivalence  — vector.equals(conditionVector)
+   * 2. Logical match     — vector.match(conditionVector)
+   * 3. Inclusion         — incoming vector contains every signal type from condition, checked with signal.compare()
+   * 
+   * @param rootId  The id attribute of the <are-root> element.
+   * @param vector  The incoming signal vector from the bus.
+   */
+  findComponentByVector(rootId, vector) {
+    const conditions = this._conditionsMap.get(rootId) || [];
+    for (const condition of conditions) {
+      const conditionVector = new A_SignalVector(condition.vector);
+      if (vector.equals(conditionVector)) {
+        return condition.component;
+      }
+    }
+    for (const condition of conditions) {
+      const conditionVector = new A_SignalVector(condition.vector);
+      if (vector.match(conditionVector)) {
+        return condition.component;
+      }
+    }
+    for (const condition of conditions) {
+      const allMatch = condition.vector.every((condSignal) => {
+        for (const incomingSignal of vector) {
+          if (!incomingSignal)
+            continue;
+          if (incomingSignal.constructor === condSignal.constructor && condSignal.compare(incomingSignal)) {
+            return true;
+          }
+        }
+        return false;
+      });
+      if (allMatch) {
+        return condition.component;
+      }
+    }
+    return void 0;
+  }
+}, __name(_a92, "AreSignalsContext"), _a92);
+AreSignalsContext = __decorateClass3([
+  c2.Fragment({
+    description: "AreSignalsContext is a fragment that manages the set of root nodes subscribed to the signal bus. It tracks which Are components should receive signal vectors from AreSignals and provides the subscriber registry used during signal dispatch."
+  })
+], AreSignalsContext);
+var _a93;
+var AreSignals = (_a93 = class extends v {
+  async handleSignalVector(vector, context, state, scope, logger) {
+    logger?.debug(`Handling Signal Vector with ${context.subscribers.size} root nodes.`, vector);
     try {
-      for (const root of context.roots) {
+      for (const root of context.subscribers) {
         const callScope = new D({
           fragments: [new AreEvent(
             AreFeatures.onSignal,
             {
-              event: "SignalVectorNext",
-              data: { vector }
+              vector
             }
           )]
         }).import(scope, root.scope);
         logger?.debug("Emitting signal for root node:", vector);
-        root.emit(callScope);
+        await root.emit(callScope);
         callScope.destroy();
       }
     } catch (error) {
@@ -6752,53 +7217,46 @@ var AreSignals = class extends v {
       }
       currentNode = currentNode.parent;
     }
-    console.log(`Propagating event '${event.name}' from node ${node.aseid.toString()} to component ${target.component ? target.component.constructor.name : "None"}`);
     if (target.component)
       await feature.chain(target.component, event.name, scope);
   }
-};
-__name(AreSignals, "AreSignals");
-__decorateClass([
+}, __name(_a93, "AreSignals"), _a93);
+__decorateClass3([
   w.Extend({
     name: A_SignalBusFeatures.onNext
   }),
-  __decorateParam(0, ke(A_SignalVector)),
-  __decorateParam(1, ke(AreContext)),
-  __decorateParam(2, ke(A_SignalState)),
-  __decorateParam(3, ke(D)),
-  __decorateParam(4, ke(A_Logger))
+  __decorateParam3(0, ke(A_SignalVector)),
+  __decorateParam3(1, ke(AreSignalsContext)),
+  __decorateParam3(2, ke(A_SignalState)),
+  __decorateParam3(3, ke(D)),
+  __decorateParam3(4, ke(A_Logger))
 ], AreSignals.prototype, "handleSignalVector", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onEmit,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreEvent)),
-  __decorateParam(3, ke(w)),
-  __decorateParam(4, ke(A_Logger))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreEvent)),
+  __decorateParam3(3, ke(w)),
+  __decorateParam3(4, ke(A_Logger))
 ], AreSignals.prototype, "propagateEvent", 1);
-AreSignals = __decorateClass([
+AreSignals = __decorateClass3([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AreSignals",
+    description: "AreSignals is the central signal bus component within the ARE framework. It listens for incoming signal vectors and dispatches them to all subscribed root nodes, enabling reactive, event-driven rendering and lifecycle management across the component tree."
+  }),
   m.Define(AreSignalsMeta)
 ], AreSignals);
-
-// src/lib/AreComponent/Are.meta.ts
-var _AreMeta = class _AreMeta extends R {
-};
-__name(_AreMeta, "AreMeta");
-var AreMeta = _AreMeta;
-
-// src/lib/AreComponent/Are.component.ts
-var Are = class extends v {
+var _a94;
+var AreMeta = (_a94 = class extends R {
+}, __name(_a94, "AreMeta"), _a94);
+var _a95;
+var Are = (_a95 = class extends v {
   constructor() {
     super(...arguments);
-    // ==================================================================================
-    // ========================= COMPONENT PROPERTIES ===================================
-    // ==================================================================================
-    /**
-     * Props can be used to store any additional data or configuration for the component. They are not reactive by default but can be used in the component's methods and lifecycle hooks to manage state or pass information. Props can be defined as a simple object with key-value pairs, where keys are the prop names and values are the prop values. They can be accessed and modified within the component's methods to influence rendering or behavior based on the component's state or external inputs.
-     */
     this.props = {};
   }
   static Condition(signals) {
@@ -6975,18 +7433,17 @@ var Are = class extends v {
   }
   data(...args) {
   }
-};
-__name(Are, "Are");
-__decorateClass([
+}, __name(_a95, "Are"), _a95);
+__decorateClass3([
   Are.Template
 ], Are.prototype, "template", 1);
-__decorateClass([
+__decorateClass3([
   Are.Styles
 ], Are.prototype, "styles", 1);
-__decorateClass([
+__decorateClass3([
   Are.Data
 ], Are.prototype, "data", 1);
-Are = __decorateClass([
+Are = __decorateClass3([
   c2.Component({
     namespace: "A-ARE",
     name: "Are",
@@ -6994,62 +7451,91 @@ Are = __decorateClass([
   }),
   m.Define(AreMeta)
 ], Are);
-
-// src/helpers/AreCommon.helper.ts
-var _AreCommonHelper = class _AreCommonHelper {
-  /**
-   * Sets a nested property on an object using a dot-separated path string. This method safely navigates through the object structure and sets the value at the specified path, creating intermediate objects as needed. If any part of the path is invalid or if the input parameters are not properly formatted, the method will simply return without making any changes to the object.
-   * 
-   * @param obj The object on which to set the property.
-   * @param path A dot-separated string representing the path to the desired property (e.g., "user.profile.name").
-   * @param value The value to set at the specified path.
-   * @returns the target object with the updated property, or undefined if the input parameters are invalid.
-   */
-  static setPropertyByPath(obj, path, value) {
-    if (!obj || typeof obj !== "object" || !path || typeof path !== "string") {
-      return;
-    }
-    const parts = path.split(".");
-    const lastPart = parts.pop();
-    const target = parts.reduce((acc, part) => {
-      if (acc[part] === void 0) {
-        acc[part] = {};
-      }
-      return acc[part];
-    }, obj);
-    target[lastPart] = value;
-    return obj;
+var _a96;
+var AreSyntax = (_a96 = class extends L {
+  constructor(config) {
+    super({ name: "AreSyntax" });
+    this.MAX_LENGTH = 500;
+    this.MAX_DEPTH = 5;
+    this.BLOCKED_PATTERNS = [
+      /\beval\b/,
+      /\bFunction\b/,
+      /\bfetch\b/,
+      /\bXMLHttpRequest\b/,
+      /\bimport\b/,
+      /\brequire\b/,
+      /\bdocument\b/,
+      /\bwindow\b/,
+      /\bglobalThis\b/,
+      /\bglobal\b/,
+      /\bprocess\b/,
+      /\b__proto__\b/,
+      /\bprototype\b/,
+      /\bconstructor\b/,
+      /\bObject\s*\.\s*assign\b/,
+      /\bObject\s*\.\s*defineProperty\b/,
+      /\bsetTimeout\b/,
+      /\bsetInterval\b/,
+      /\blocalStorage\b/,
+      /\bsessionStorage\b/,
+      /\bcookie\b/,
+      /\bWebSocket\b/,
+      /\bWorker\b/
+    ];
+    this.BLOCKED_GLOBALS = /* @__PURE__ */ new Set([
+      "eval",
+      "Function",
+      "fetch",
+      "XMLHttpRequest",
+      "document",
+      "window",
+      "globalThis",
+      "global",
+      "process",
+      "setTimeout",
+      "setInterval",
+      "clearTimeout",
+      "clearInterval",
+      "localStorage",
+      "sessionStorage",
+      "indexedDB",
+      "WebSocket",
+      "Worker",
+      "Blob",
+      "File",
+      "require",
+      "module",
+      "exports",
+      "alert",
+      "confirm",
+      "prompt"
+    ]);
+    this.ALLOWED_CHARS = /^[\w\s\d\.\[\]()=><|&!+\-*/%?:,'"`;~^$]+$/;
+    this.SIMPLE_PATH = /^[a-zA-Z_$][\w$]*(?:\.[a-zA-Z_$][\w$]*)*$/;
+    this._trimWhitespace = config?.trimWhitespace !== false;
+    this._strictMode = config?.strictMode !== false;
+    this._rules = [...config?.rules ?? []].sort(
+      (a2, b2) => (b2.priority ?? 0) - (a2.priority ?? 0)
+    );
   }
   /**
-   * Extracts a nested property from an object using a dot-separated path string. This method safely navigates through the object structure and returns the value at the specified path, or undefined if any part of the path is invalid or does not exist.
-   * 
-   * @param obj The object from which to extract the property.
-   * @param path A dot-separated string representing the path to the desired property (e.g., "user.profile.name"). 
-   * @returns The value at the specified path, or undefined if the path is invalid or does not exist. 
+   * Get the array of token rules that define the syntax for parsing templates. Each rule specifies how to identify and process a particular type of token (e.g. interpolation, directive, comment) within templates. The rules are checked in order of priority, allowing for flexible and customizable parsing behavior.
    */
-  static extractPropertyByPath(obj, path) {
-    if (!path || typeof path !== "string") {
-      return obj;
-    }
-    if (!obj || typeof obj !== "object") {
-      return void 0;
-    }
-    try {
-      const result = path.split(".").reduce((acc, part) => {
-        if (acc === null || acc === void 0) {
-          return void 0;
-        }
-        return acc[part];
-      }, obj);
-      return result;
-    } catch {
-      return void 0;
-    }
+  get rules() {
+    return this._rules;
   }
   /**
-   * Compiled expression — a pre-parsed function ready for repeated execution.
-   * Created once via compile(), reused on every apply/click.
+   * Indicates whether leading and trailing whitespace should be trimmed from token content. When enabled, any whitespace at the start or end of the content captured by a token will be removed before further processing. This can help prevent issues with unintended spaces affecting rendering or logic, especially in cases like interpolations or directives where extra whitespace may be common. Default is true.
    */
+  get trimWhitespace() {
+    return this._trimWhitespace;
+  }
+  /**
+   * Indicates whether the parser should throw an error when it encounters unclosed tokens. When enabled, if the parser finds an opening delimiter without a corresponding closing delimiter (e.g. an unclosed interpolation or directive), it will throw an error instead of silently ignoring it. This can help catch syntax errors and ensure that templates are well-formed. Default is true.
+   */
+  get strictMode() {
+    return this._strictMode;
+  }
   /**
    * Compiles an expression string into a reusable executor.
    * Performs validation and Function construction once.
@@ -7066,11 +7552,11 @@ var _AreCommonHelper = class _AreCommonHelper {
    *       if (typeof fn === 'function') fn(e)
    *   })
    */
-  static compile(expr) {
+  compile(expr) {
     const trimmed = expr.trim();
-    _AreCommonHelper.validate(trimmed);
-    const isCallable = _AreCommonHelper.isCallableExpression(trimmed);
-    const isSimplePath = _AreCommonHelper.SIMPLE_PATH.test(trimmed);
+    this.validate(trimmed);
+    const isCallable = this.isCallableExpression(trimmed);
+    const isSimplePath = this.SIMPLE_PATH.test(trimmed);
     let compiled = null;
     if (!isSimplePath) {
       try {
@@ -7079,6 +7565,7 @@ var _AreCommonHelper = class _AreCommonHelper {
         throw new Error(`Expression syntax error in "${trimmed}": ${e.message}`);
       }
     }
+    const createSandboxFn = this.createSandbox.bind(this);
     return {
       isCallable,
       execute(store, scope) {
@@ -7087,7 +7574,7 @@ var _AreCommonHelper = class _AreCommonHelper {
           const value = store.get(trimmed);
           if (value !== void 0) return value;
         }
-        const sandbox = _AreCommonHelper.createSandbox(store, scope);
+        const sandbox = createSandboxFn(store, scope);
         let result;
         try {
           result = compiled ? compiled(sandbox) : new Function("scope", `"use strict"; with(scope) { return (${trimmed}) }`)(sandbox);
@@ -7132,17 +7619,17 @@ var _AreCommonHelper = class _AreCommonHelper {
    *       $handleClick: (...args) => node.emit(new AreEvent('handleClick', args)),
    *   })
    */
-  static evaluate(expr, store, scope) {
+  evaluate(expr, store, scope) {
     const trimmed = expr.trim();
-    _AreCommonHelper.validate(trimmed);
-    if (_AreCommonHelper.SIMPLE_PATH.test(trimmed)) {
+    this.validate(trimmed);
+    if (this.SIMPLE_PATH.test(trimmed)) {
       if (scope && trimmed in scope) return scope[trimmed];
       const value = store.get(trimmed);
       if (value !== void 0) return value;
     }
-    const sandbox = _AreCommonHelper.createSandbox(store, scope);
-    const result = _AreCommonHelper.execute(trimmed, sandbox);
-    if (_AreCommonHelper.isCallableExpression(trimmed)) {
+    const sandbox = this.createSandbox(store, scope);
+    const result = this.execute(trimmed, sandbox);
+    if (this.isCallableExpression(trimmed)) {
       if (typeof result !== "function") {
         throw new Error(
           `Expression "${trimmed}" was expected to be callable \u2014 got ${result === null ? "null" : typeof result}`
@@ -7160,7 +7647,7 @@ var _AreCommonHelper = class _AreCommonHelper {
    *   "$handleClick(user.name)"                           → Set(["handleClick"])
    *   "(e) => isValid(user.name) ? $handleClick(e) : null" → Set(["handleClick"])
    */
-  static extractEmitHandlers(expr) {
+  extractEmitHandlers(expr) {
     const stripped = expr.trim().replace(/'[^']*'|"[^"]*"|`[^`]*`/g, '""');
     const handlers = /* @__PURE__ */ new Set();
     const pattern = /\$([a-zA-Z_][\w$]*)/g;
@@ -7171,29 +7658,29 @@ var _AreCommonHelper = class _AreCommonHelper {
     return handlers;
   }
   // ── Classification ────────────────────────────────────────────────────────
-  static isCallableExpression(expr) {
+  isCallableExpression(expr) {
     if (/^\(?[\w\s,]*\)?\s*=>/.test(expr)) return true;
     if (/^function\s*\(/.test(expr)) return true;
     return false;
   }
   // ── Validation ────────────────────────────────────────────────────────────
-  static validate(expr) {
-    if (expr.length > _AreCommonHelper.MAX_LENGTH) {
+  validate(expr) {
+    if (expr.length > this.MAX_LENGTH) {
       throw new Error(
-        `Expression exceeds maximum length of ${_AreCommonHelper.MAX_LENGTH} characters`
+        `Expression exceeds maximum length of ${this.MAX_LENGTH} characters`
       );
     }
-    for (const pattern of _AreCommonHelper.BLOCKED_PATTERNS) {
+    for (const pattern of this.BLOCKED_PATTERNS) {
       if (pattern.test(expr)) {
         throw new Error(`Expression contains blocked pattern: ${pattern.source}`);
       }
     }
-    if (!_AreCommonHelper.ALLOWED_CHARS.test(expr)) {
+    if (!this.ALLOWED_CHARS.test(expr)) {
       throw new Error(`Expression contains disallowed characters`);
     }
-    _AreCommonHelper.checkDepth(expr);
+    this.checkDepth(expr);
   }
-  static checkDepth(expr) {
+  checkDepth(expr) {
     let depth = 0;
     let max = 0;
     for (const ch of expr) {
@@ -7203,25 +7690,25 @@ var _AreCommonHelper = class _AreCommonHelper {
       }
       if (ch === ")" || ch === "]" || ch === "}") depth--;
     }
-    if (max > _AreCommonHelper.MAX_DEPTH) {
-      throw new Error(`Expression exceeds maximum nesting depth of ${_AreCommonHelper.MAX_DEPTH}`);
+    if (max > this.MAX_DEPTH) {
+      throw new Error(`Expression exceeds maximum nesting depth of ${this.MAX_DEPTH}`);
     }
   }
   // ── Sandbox ───────────────────────────────────────────────────────────────
-  static createSandbox(store, scope) {
+  createSandbox(store, scope) {
     return new Proxy({}, {
       has: /* @__PURE__ */ __name((_, key) => {
-        if (typeof key === "string" && _AreCommonHelper.BLOCKED_GLOBALS.has(key)) return false;
+        if (typeof key === "string" && this.BLOCKED_GLOBALS.has(key)) return false;
         return true;
       }, "has"),
       get: /* @__PURE__ */ __name((_, key) => {
         if (typeof key !== "string") return void 0;
         if (scope && key in scope) return scope[key];
-        _AreCommonHelper.assertSafeKey(key);
+        this.assertSafeKey(key);
         const value = store.get(key);
         if (typeof value === "function") return value.bind(store);
         if (value !== null && typeof value === "object" && value !== void 0) {
-          return new Proxy(value, _AreCommonHelper.nestedHandler(key, store));
+          return new Proxy(value, this.nestedHandler(key, store));
         }
         return value;
       }, "get"),
@@ -7230,18 +7717,18 @@ var _AreCommonHelper = class _AreCommonHelper {
       }, "set")
     });
   }
-  static nestedHandler(prefix, store) {
+  nestedHandler(prefix, store) {
     return {
       has: /* @__PURE__ */ __name(() => true, "has"),
       get: /* @__PURE__ */ __name((target, key) => {
         if (typeof key !== "string") return void 0;
-        _AreCommonHelper.assertSafeKey(key);
+        this.assertSafeKey(key);
         const fullKey = `${prefix}.${key}`;
         const value = store.get(fullKey);
         if (value === void 0) return target[key];
         if (typeof value === "function") return value.bind(store);
         if (value !== null && typeof value === "object") {
-          return new Proxy(value, _AreCommonHelper.nestedHandler(fullKey, store));
+          return new Proxy(value, this.nestedHandler(fullKey, store));
         }
         return value;
       }, "get"),
@@ -7250,16 +7737,16 @@ var _AreCommonHelper = class _AreCommonHelper {
       }, "set")
     };
   }
-  static assertSafeKey(key) {
+  assertSafeKey(key) {
     if (key === "__proto__" || key === "constructor" || key === "prototype") {
       throw new Error(`Access to "${key}" is not allowed in expressions`);
     }
-    if (_AreCommonHelper.BLOCKED_GLOBALS.has(key)) {
+    if (this.BLOCKED_GLOBALS.has(key)) {
       throw new Error(`Access to "${key}" is not allowed in expressions`);
     }
   }
   // ── Execution ─────────────────────────────────────────────────────────────
-  static execute(expr, sandbox) {
+  execute(expr, sandbox) {
     let fn;
     try {
       fn = new Function("scope", `with(scope) { return (${expr}) }`);
@@ -7272,80 +7759,138 @@ var _AreCommonHelper = class _AreCommonHelper {
       throw new Error(`Expression evaluation error in "${expr}": ${e.message}`);
     }
   }
-};
-__name(_AreCommonHelper, "AreCommonHelper");
-// ── Constants ─────────────────────────────────────────────────────────────
-_AreCommonHelper.MAX_LENGTH = 500;
-_AreCommonHelper.MAX_DEPTH = 5;
-_AreCommonHelper.BLOCKED_PATTERNS = [
-  /\beval\b/,
-  /\bFunction\b/,
-  /\bfetch\b/,
-  /\bXMLHttpRequest\b/,
-  /\bimport\b/,
-  /\brequire\b/,
-  /\bdocument\b/,
-  /\bwindow\b/,
-  /\bglobalThis\b/,
-  /\bglobal\b/,
-  /\bprocess\b/,
-  /\b__proto__\b/,
-  /\bprototype\b/,
-  /\bconstructor\b/,
-  /\bObject\s*\.\s*assign\b/,
-  /\bObject\s*\.\s*defineProperty\b/,
-  /\bsetTimeout\b/,
-  /\bsetInterval\b/,
-  /\blocalStorage\b/,
-  /\bsessionStorage\b/,
-  /\bcookie\b/,
-  /\bWebSocket\b/,
-  /\bWorker\b/
-];
-_AreCommonHelper.BLOCKED_GLOBALS = /* @__PURE__ */ new Set([
-  "eval",
-  "Function",
-  "fetch",
-  "XMLHttpRequest",
-  "document",
-  "window",
-  "globalThis",
-  "global",
-  "process",
-  "setTimeout",
-  "setInterval",
-  "clearTimeout",
-  "clearInterval",
-  "localStorage",
-  "sessionStorage",
-  "indexedDB",
-  "WebSocket",
-  "Worker",
-  "Blob",
-  "File",
-  "require",
-  "module",
-  "exports",
-  "alert",
-  "confirm",
-  "prompt"
-]);
-_AreCommonHelper.ALLOWED_CHARS = /^[\w\s\d\.\[\]()=><|&!+\-*/%?:,'"`;~^$]+$/;
-// ── Public ────────────────────────────────────────────────────────────────
-/**
- * Simple dot-path identifier pattern (e.g. "name", "user.name", "user.profile.name").
- * Matches strings that consist solely of identifier characters separated by dots.
- */
-_AreCommonHelper.SIMPLE_PATH = /^[a-zA-Z_$][\w$]*(?:\.[a-zA-Z_$][\w$]*)*$/;
-var AreCommonHelper = _AreCommonHelper;
-
-// src/lib/AreStore/AreStore.constants.ts
+}, __name(_a96, "AreSyntax"), _a96);
+AreSyntax = __decorateClass3([
+  c2.Fragment({
+    namespace: "A-ARE",
+    name: "AreSyntaxContext",
+    description: "Context that defines the syntax rules and structures for the A-Concept Rendering Engine (ARE). It provides mechanisms for parsing and interpreting templates, attributes, directives, interpolations, and event listeners, enabling dynamic and interactive UI rendering within the ARE framework."
+  })
+], AreSyntax);
+var _a97;
+var AreCompiler = (_a97 = class extends v {
+  static Compile(param1) {
+    return (target, propertyKey, descriptor) => {
+      return w.Extend({
+        name: param1.prototype instanceof AreNode ? AreNodeFeatures.onCompile : AreAttributeFeatures.Compile,
+        scope: [param1],
+        override: ["compile"]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  compile(node, scene, logger, ...args) {
+    try {
+      logger?.debug("cyan", `AreCompiler: compile node <${node.aseid.toString()}>`);
+      const hostInstruction = new AreDeclaration();
+      scene.setHost(hostInstruction);
+      scene.plan(hostInstruction);
+      for (let i = 0; i < node.attributes.length; i++) {
+        const attribute = node.attributes[i];
+        attribute.compile();
+      }
+      if (node.children && node.children.length > 0) {
+        for (let i = 0; i < node.children.length; i++) {
+          const child = node.children[i];
+          child.compile();
+        }
+      }
+    } catch (error) {
+      logger?.error(error);
+    }
+  }
+}, __name(_a97, "AreCompiler"), _a97);
+__decorateClass3([
+  w.Extend({
+    name: AreNodeFeatures.onCompile,
+    scope: [AreNode]
+  }),
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreScene)),
+  __decorateParam3(2, ke(A_Logger))
+], AreCompiler.prototype, "compile", 1);
+AreCompiler = __decorateClass3([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AreCompiler",
+    description: "Walks the transformed AreNode tree and emits a Scene. Translates each node, binding, directive and interpolation into a typed instruction. Knows nothing about the DOM or any rendering target \u2014 its only concern is producing a complete and ordered set of instructions that fully describes how the tree should be rendered."
+  })
+], AreCompiler);
+var _a98;
+var AreTransformer = (_a98 = class extends v {
+  transform(node, scope, scene, ...args) {
+    const queue = [node];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      for (let i = 0; i < current.attributes.length; i++) {
+        const attribute = current.attributes[i];
+        attribute.transform();
+      }
+      queue.push(...current.children);
+    }
+  }
+}, __name(_a98, "AreTransformer"), _a98);
+__decorateClass3([
+  w.Extend({
+    name: AreNodeFeatures.onTransform,
+    scope: [AreNode]
+  }),
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene))
+], AreTransformer.prototype, "transform", 1);
+AreTransformer = __decorateClass3([
+  c2.Component({
+    description: "Reshapes the AreNode tree before compilation without changing its abstraction level. Responsible for structural rewrites that would complicate the compiler if left unhandled \u2014 converting $for nodes into AreGroupNode, extracting AreText and AreInterpolation from raw text, sorting directives via TopologicalSorter, and flagging static nodes."
+  })
+], AreTransformer);
+var _a99;
+var AreLoader = (_a99 = class extends v {
+  async load(node, scope, feature, logger, context, ...args) {
+    logger?.debug("red", `Loading node <${node.aseid.toString()}> with content:`, scope);
+    if (node.component) {
+      context?.startPerformance("Total AreFeatures.onData");
+      await feature.chain(node.component, AreFeatures.onData, scope);
+      context?.endPerformance("Total AreFeatures.onData");
+      context?.startPerformance("Total AreFeatures.onLoad");
+      await feature.chain(node.component, AreFeatures.onStyles, scope);
+      context?.endPerformance("Total AreFeatures.onLoad");
+      context?.startPerformance("Total AreFeatures.onTemplate");
+      await feature.chain(node.component, AreFeatures.onTemplate, scope);
+      context?.endPerformance("Total AreFeatures.onTemplate");
+    }
+    context?.startPerformance("Tokenization");
+    node.tokenize();
+    context?.endPerformance("Tokenization");
+    for (let i = 0; i < node.children.length; i++) {
+      const childNode = node.children[i];
+      const res = childNode.load();
+      if (res instanceof Promise) {
+        await res;
+      }
+    }
+  }
+}, __name(_a99, "AreLoader"), _a99);
+__decorateClass3([
+  w.Extend({
+    name: ce.LOAD,
+    scope: [AreNode]
+  }),
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(w)),
+  __decorateParam3(3, ke(A_Logger)),
+  __decorateParam3(4, ke(AreContext))
+], AreLoader.prototype, "load", 1);
+AreLoader = __decorateClass3([
+  c2.Component({
+    description: "Entry point of the pipeline. Accepts a raw template string and orchestrates the initial processing by delegating to Syntax. Returns a structured AreNode tree ready for transformation. Knows nothing about the template content or grammar rules."
+  })
+], AreLoader);
 var AreStoreAreComponentMetaKeys = {
   StoreExtensions: "_AreStore_StoreExtensions"
 };
-
-// src/lib/AreStore/AreStore.context.ts
-var AreStore = class extends A_ExecutionContext {
+var _a100;
+var AreStore = (_a100 = class extends A_ExecutionContext {
   constructor(aseid) {
     super(aseid.toString());
     this.dependencies = /* @__PURE__ */ new Map();
@@ -7415,7 +7960,7 @@ var AreStore = class extends A_ExecutionContext {
       }
     }
     const primaryObject = super.get(firstPart);
-    const value = AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join("."));
+    const value = A_UtilsHelper.getByPath(primaryObject, pathPart.join("."));
     return value;
   }
   setAsObject(values) {
@@ -7439,7 +7984,7 @@ var AreStore = class extends A_ExecutionContext {
     const [firstPart, ...pathPart] = String(key).split(".");
     this._keys.add(firstPart);
     const primaryObject = super.get(firstPart);
-    const result = AreCommonHelper.setPropertyByPath(primaryObject, pathPart.join("."), value);
+    const result = A_UtilsHelper.setBypath(primaryObject, pathPart.join("."), value);
     super.set(firstPart, result ? result[firstPart] : value);
     const normChanged = this.normalizePath(String(key));
     const prefix = normChanged + ".";
@@ -7511,931 +8056,14 @@ var AreStore = class extends A_ExecutionContext {
     const allExtensions = targetMeta.get(AreStoreAreComponentMetaKeys.StoreExtensions) || {};
     this.set(allExtensions);
   }
-};
-__name(AreStore, "AreStore");
-AreStore = __decorateClass([
+}, __name(_a100, "AreStore"), _a100);
+AreStore = __decorateClass3([
   c2.Fragment({
     description: "Are Store uses to keep AreNode related information for interpolations, runtime data, etc. This object can be injected to manipulate with data at runtime."
   })
 ], AreStore);
-
-// examples/jumpstart/src/components/A-Btn.component.ts
-var _ABtn = class _ABtn extends Are {
-  constructor() {
-    super(...arguments);
-    this.props = {
-      name: {
-        type: "string",
-        default: "A_Button Element"
-      }
-    };
-  }
-  async template(node, store) {
-    node.setContent(`
-                <button class="a-btn" @click="handleClick"> Make it:  {{name}} {{number}}</button> 
-        `);
-  }
-  filter(test) {
-    console.log("test", test);
-  }
-  async styles(node) {
-  }
-  async data(node, store) {
-    store.set({
-      name: "A_Button Element",
-      showInput: false,
-      bgColor: "#007BFF",
-      btn2: "Button 2",
-      showInput2: false,
-      number: 0
-    });
-  }
-  async handleClick(scope, node, store, logger, event, scene) {
-    store.set("number", Math.floor(Math.random() * 1e3));
-    store.set("name", `Clicked! `);
-    console.log("Changing ShowInput from ", store.get("showInput"));
-    store.set("showInput", !store.get("showInput"));
-    console.log("Changing ShowInput to ", store.get("showInput"), store);
-    store.set("bgColor", "#ff5733");
-    console.log("event data:", event);
-    await node.update();
-  }
-  async handleClick2(scope, node, store, logger, event, scene) {
-    store.set("btn2", `Button 2 Clicked! `);
-    store.set("showInput2", !store.get("showInput2"));
-    console.log("event data:", event);
-    await node.update();
-  }
-};
-__name(_ABtn, "ABtn");
-__decorateClass([
-  Are.Template,
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreStore))
-], _ABtn.prototype, "template", 1);
-__decorateClass([
-  AreStore.Function
-], _ABtn.prototype, "filter", 1);
-__decorateClass([
-  Are.Styles,
-  __decorateParam(0, ke(G))
-], _ABtn.prototype, "styles", 1);
-__decorateClass([
-  Are.Data,
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreStore))
-], _ABtn.prototype, "data", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, ke(D)),
-  __decorateParam(1, ke(G)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(A_Logger)),
-  __decorateParam(4, ke(AreEvent)),
-  __decorateParam(5, ke(AreScene))
-], _ABtn.prototype, "handleClick", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, ke(D)),
-  __decorateParam(1, ke(G)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(A_Logger)),
-  __decorateParam(4, ke(AreEvent)),
-  __decorateParam(5, ke(AreScene))
-], _ABtn.prototype, "handleClick2", 1);
-var ABtn = _ABtn;
-
-// node_modules/@adaas/a-utils/dist/browser/a-service.mjs
-var A_ServiceFeatures = /* @__PURE__ */ ((A_ServiceFeatures2) => {
-  A_ServiceFeatures2["onBeforeLoad"] = "_A_Service_onBeforeLoad";
-  A_ServiceFeatures2["onLoad"] = "_A_Service_onLoad";
-  A_ServiceFeatures2["onAfterLoad"] = "_A_Service_onAfterLoad";
-  A_ServiceFeatures2["onBeforeStart"] = "_A_Service_onBeforeStart";
-  A_ServiceFeatures2["onStart"] = "_A_Service_onStart";
-  A_ServiceFeatures2["onAfterStart"] = "_A_Service_onAfterStart";
-  A_ServiceFeatures2["onBeforeStop"] = "_A_Service_onBeforeStop";
-  A_ServiceFeatures2["onStop"] = "_A_Service_onStop";
-  A_ServiceFeatures2["onAfterStop"] = "_A_Service_onAfterStop";
-  A_ServiceFeatures2["onError"] = "_A_Service_onError";
-  return A_ServiceFeatures2;
-})(A_ServiceFeatures || {});
-var _a77;
-var A_Service_Error = (_a77 = class extends y {
-}, __name(_a77, "A_Service_Error"), _a77);
-A_Service_Error.ServiceLoadError = "Service load error";
-A_Service_Error.ServiceStartError = "Service start error";
-A_Service_Error.ServiceStopError = "Service stop error";
-var _a78;
-var _b2;
-var _c2;
-var _d;
-var _e2;
-var _f;
-var _g;
-var _h;
-var _i;
-var _j;
-var _a79;
-var A_Service = (_a79 = class extends z {
-  /**
-   * Load the service
-   */
-  async load() {
-    try {
-      await this.call("_A_Service_onBeforeLoad", this.scope);
-      await this.call("_A_Service_onLoad", this.scope);
-      await this.call("_A_Service_onAfterLoad", this.scope);
-    } catch (error) {
-      let wrappedError;
-      switch (true) {
-        case error instanceof A_Service_Error:
-          wrappedError = error;
-          break;
-        case (error instanceof y && error.originalError instanceof A_Service_Error):
-          wrappedError = error.originalError;
-          break;
-        default:
-          wrappedError = new A_Service_Error({
-            title: A_Service_Error.ServiceLoadError,
-            description: "An error occurred while processing the request.",
-            originalError: error
-          });
-          break;
-      }
-      this.scope.register(wrappedError);
-      await this.call("_A_Service_onError", this.scope);
-    }
-  }
-  /**
-   * Start the server
-   */
-  async start() {
-    try {
-      await this.call("_A_Service_onBeforeStart", this.scope);
-      await this.call("_A_Service_onStart", this.scope);
-      await this.call("_A_Service_onAfterStart", this.scope);
-    } catch (error) {
-      let wrappedError;
-      switch (true) {
-        case error instanceof A_Service_Error:
-          wrappedError = error;
-          break;
-        case (error instanceof y && error.originalError instanceof A_Service_Error):
-          wrappedError = error.originalError;
-          break;
-        default:
-          wrappedError = new A_Service_Error({
-            title: A_Service_Error.ServiceStartError,
-            description: "An error occurred while processing the request.",
-            originalError: error
-          });
-          break;
-      }
-      this.scope.register(wrappedError);
-      await this.call("_A_Service_onError", this.scope);
-    }
-  }
-  /**
-   * Stop the server
-   */
-  async stop() {
-    try {
-      await this.call("_A_Service_onBeforeStop", this.scope);
-      await this.call("_A_Service_onStop", this.scope);
-      await this.call("_A_Service_onAfterStop", this.scope);
-    } catch (error) {
-      let wrappedError;
-      switch (true) {
-        case error instanceof A_Service_Error:
-          wrappedError = error;
-          break;
-        case (error instanceof y && error.originalError instanceof A_Service_Error):
-          wrappedError = error.originalError;
-          break;
-        default:
-          wrappedError = new A_Service_Error({
-            title: A_Service_Error.ServiceStopError,
-            description: "An error occurred while processing the request.",
-            originalError: error
-          });
-          break;
-      }
-      this.scope.register(wrappedError);
-      await this.call("_A_Service_onError", this.scope);
-    }
-  }
-  async [
-    _j = "_A_Service_onBeforeLoad"
-    /* onBeforeLoad */
-  ](polyfill, ...args) {
-    if (!polyfill) {
-      this.scope.register(A_Polyfill);
-      polyfill = this.scope.resolve(A_Polyfill);
-    }
-  }
-  async [
-    _i = "_A_Service_onLoad"
-    /* onLoad */
-  ](...args) {
-  }
-  async [
-    _h = "_A_Service_onAfterLoad"
-    /* onAfterLoad */
-  ](...args) {
-  }
-  async [
-    _g = "_A_Service_onBeforeStart"
-    /* onBeforeStart */
-  ](...args) {
-  }
-  async [
-    _f = "_A_Service_onStart"
-    /* onStart */
-  ](...args) {
-  }
-  async [
-    _e2 = "_A_Service_onAfterStart"
-    /* onAfterStart */
-  ](...args) {
-  }
-  async [
-    _d = "_A_Service_onBeforeStop"
-    /* onBeforeStop */
-  ](...args) {
-  }
-  async [
-    _c2 = "_A_Service_onStop"
-    /* onStop */
-  ](...args) {
-  }
-  async [
-    _b2 = "_A_Service_onAfterStop"
-    /* onAfterStop */
-  ](...args) {
-  }
-  async [
-    _a78 = "_A_Service_onError"
-    /* onError */
-  ](error, logger, ...args) {
-    logger?.error(error);
-  }
-}, __name(_a79, "A_Service"), _a79);
-__decorateClass2([
-  Ce.Load()
-], A_Service.prototype, "load", 1);
-__decorateClass2([
-  Ce.Start()
-], A_Service.prototype, "start", 1);
-__decorateClass2([
-  Ce.Stop()
-], A_Service.prototype, "stop", 1);
-__decorateClass2([
-  w.Extend(),
-  __decorateParam2(0, ke(A_Polyfill))
-], A_Service.prototype, _j, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _i, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _h, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _g, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _f, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _e2, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _d, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _c2, 1);
-__decorateClass2([
-  w.Extend()
-], A_Service.prototype, _b2, 1);
-__decorateClass2([
-  w.Extend({
-    before: /.*/
-  }),
-  __decorateParam2(0, ke(y)),
-  __decorateParam2(1, ke(A_Logger))
-], A_Service.prototype, _a78, 1);
-A_Service = __decorateClass2([
-  c2.Container({
-    namespace: "A-Utils",
-    name: "A-Service",
-    description: "Service container that manages the lifecycle of various types of services, such as HTTP servers and workers or UI loader. It dynamically loads necessary components based on the provided configuration and orchestrates the start and stop processes, ensuring proper error handling and extensibility through feature hooks."
-  })
-], A_Service);
-
-// src/lib/AreCompiler/AreCompiler.component.ts
-var AreCompiler = class extends v {
-  static Compile(param1) {
-    return (target, propertyKey, descriptor) => {
-      return w.Extend({
-        name: param1.prototype instanceof AreNode ? AreNodeFeatures.onCompile : AreAttributeFeatures.Compile,
-        scope: [param1],
-        override: ["compile"]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  compile(node, scene, logger, ...args) {
-    try {
-      logger?.debug("cyan", `AreCompiler: compile node <${node.aseid.toString()}>`);
-      const hostInstruction = new AreDeclaration();
-      scene.setHost(hostInstruction);
-      scene.plan(hostInstruction);
-      for (let i = 0; i < node.attributes.length; i++) {
-        const attribute = node.attributes[i];
-        attribute.compile();
-      }
-      if (node.children && node.children.length > 0) {
-        for (let i = 0; i < node.children.length; i++) {
-          const child = node.children[i];
-          child.compile();
-        }
-      }
-    } catch (error) {
-      logger?.error(error);
-    }
-  }
-};
-__name(AreCompiler, "AreCompiler");
-__decorateClass([
-  w.Extend({
-    name: AreNodeFeatures.onCompile,
-    scope: [AreNode]
-  }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene)),
-  __decorateParam(2, ke(A_Logger))
-], AreCompiler.prototype, "compile", 1);
-AreCompiler = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AreCompiler",
-    description: "Walks the transformed AreNode tree and emits a Scene. Translates each node, binding, directive and interpolation into a typed instruction. Knows nothing about the DOM or any rendering target \u2014 its only concern is producing a complete and ordered set of instructions that fully describes how the tree should be rendered."
-  })
-], AreCompiler);
-
-// src/engines/html/attributes/AreHTMLAttribute.ts
-var _AreHTMLAttribute = class _AreHTMLAttribute extends AreAttribute {
-  get owner() {
-    return this.scope.issuer();
-  }
-};
-__name(_AreHTMLAttribute, "AreHTMLAttribute");
-var AreHTMLAttribute = _AreHTMLAttribute;
-
-// src/engines/html/attributes/AreDirective.attribute.ts
-var _AreDirectiveAttribute = class _AreDirectiveAttribute extends AreHTMLAttribute {
-  /**
-   * Returns a custom directive component associated with this attribute, if available.
-   * 
-   * The method uses the attribute's name to resolve the corresponding directive component from the scope. It constructs the expected directive name by converting the attribute name to PascalCase and prefixing it with "AreDirective". If a matching directive component is found in the scope, it is returned; otherwise, the method returns undefined.
-   */
-  get component() {
-    const component = this.scope.resolve(`AreDirective${h.toPascalCase(this.name)}`);
-    return component;
-  }
-};
-__name(_AreDirectiveAttribute, "AreDirectiveAttribute");
-var AreDirectiveAttribute = _AreDirectiveAttribute;
-
-// src/lib/AreCompiler/AreCompiler.error.ts
-var _AreCompilerError = class _AreCompilerError extends y {
-};
-__name(_AreCompilerError, "AreCompilerError");
-_AreCompilerError.RenderError = "Are Compiler Render Error";
-_AreCompilerError.CompilationError = "Are Compiler Compilation Error";
-var AreCompilerError = _AreCompilerError;
-
-// src/engines/html/attributes/AreStatic.attribute.ts
-var _AreStaticAttribute = class _AreStaticAttribute extends AreHTMLAttribute {
-};
-__name(_AreStaticAttribute, "AreStaticAttribute");
-var AreStaticAttribute = _AreStaticAttribute;
-
-// src/engines/html/components/AreDirective/AreDirective.constants.ts
-var AreDirectiveFeatures = {
-  /**
-   * Feature that should transform the tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   */
-  Transform: "_AreDirective_Transform",
-  /**
-   * Feature that should convert a directiveAttribute definition into a set of SceneInstructions to be rendered correctly
-   */
-  Compile: "_AreDirective_Compile",
-  /**
-   * Feature that should update the directiveAttribute based on the changes in the store or other dependencies. 
-   */
-  Update: "_AreDirective_Update"
-};
-
-// src/engines/html/attributes/AreEvent.attribute.ts
-var _AreEventAttribute = class _AreEventAttribute extends AreHTMLAttribute {
-};
-__name(_AreEventAttribute, "AreEventAttribute");
-var AreEventAttribute = _AreEventAttribute;
-
-// src/engines/html/attributes/AreBinding.attribute.ts
-var _AreBindingAttribute = class _AreBindingAttribute extends AreHTMLAttribute {
-  // get value(): string {
-  //     const [firstPart, ...pathPart] = this.content.split('.');
-  //     const primaryObject = this.owner.store.get(firstPart);
-  //     return AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join('.')) as string;
-  // }
-};
-__name(_AreBindingAttribute, "AreBindingAttribute");
-var AreBindingAttribute = _AreBindingAttribute;
-
-// src/engines/html/context/AreStyle/AreStyle.context.ts
-var _AreStyle = class _AreStyle extends L {
-  constructor(styles, aseid) {
-    super({
-      name: aseid ? aseid.toString() : "default-style"
-    });
-    this.styles = styles;
-  }
-};
-__name(_AreStyle, "AreStyle");
-var AreStyle = _AreStyle;
-
-// src/engines/html/nodes/AreHTMLNode.ts
-var _AreHTMLNode = class _AreHTMLNode extends AreNode {
-  /**
-   * Actual node type. 
-   * By default it's a tag name
-   */
-  get tag() {
-    return this.aseid.entity;
-  }
-  /**
-    * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
-    * 
-    * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.
-    */
-  get staticAttributes() {
-    return this.scope.resolveFlatAll(AreStaticAttribute);
-  }
-  /**
-   * The binding attributes defined for the node, which are typically used to represent dynamic properties or characteristics of the node that can change based on the context or state. These attributes are usually defined in the template with a specific syntax (e.g., `:prop="value"` or `v-bind:prop="value"`) and are reactive, meaning that they will update automatically when the underlying data changes.
-   * 
-   * Example: For a node defined as `<div :class="dynamicClass">`, the binding attribute would be `:class="dynamicClass"`.
-   */
-  get bindings() {
-    return this.scope.resolveFlatAll(AreBindingAttribute);
-  }
-  /**
-   * The directive attributes defined for the node, which are typically used to represent special instructions or behaviors that should be applied to the node. These attributes are usually defined in the template with a specific syntax (e.g., `v-if="condition"` or `v-for="item in list"`) and are processed by the rendering engine to apply the corresponding logic or behavior to the node.
-   * 
-   * Example: For a node defined as `<div v-if="isVisible">`, the directive attribute would be `v-if="isVisible"`.
-   */
-  get directives() {
-    const directives = this.scope.resolveFlatAll(AreDirectiveAttribute);
-    return directives.filter((d2) => d2.component).sort((a2, b2) => {
-      const aMeta = c.meta(a2.component);
-      const bMeta = c.meta(b2.component);
-      const aPriority = aMeta.priority ?? 0;
-      const bPriority = bMeta.priority ?? 0;
-      return bPriority - aPriority;
-    });
-  }
-  /**
-   * The interpolations inside the node template, which are typically used to represent dynamic content or expressions that should be evaluated and rendered within the node. These interpolations are usually defined in the template with a specific syntax (e.g., `{{ expression }}`) and are reactive, meaning that they will update automatically when the underlying data changes.
-   * 
-   * Example: For a node defined as `<div>{{ name }}</div>`, the interpolation would be `{{ name }}`.
-   */
-  get interpolations() {
-    return this.scope.resolveFlatAll(AreInterpolation);
-  }
-  /**
-   * The event attributes defined for the node, which are typically used to represent event listeners or handlers that should be attached to the node. These attributes are usually defined in the template with a specific syntax (e.g., `@click="handleClick"` or `v-on:click="handleClick"`) and are processed by the rendering engine to attach the corresponding event listeners to the node.
-   * 
-   * Example: For a node defined as `<button @click="handleClick">`, the event attribute would be `@click="handleClick"`.
-   */
-  get events() {
-    return this.scope.resolveFlatAll(AreEventAttribute);
-  }
-  /**
-   * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
-   */
-  get styles() {
-    return this.scope.resolveFlat(AreStyle);
-  }
-};
-__name(_AreHTMLNode, "AreHTMLNode");
-var AreHTMLNode = _AreHTMLNode;
-
-// src/engines/html/nodes/AreInterpolation.node.ts
-var _AreInterpolation = class _AreInterpolation extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-interpolation"
-      }
-    });
-  }
-};
-__name(_AreInterpolation, "AreInterpolation");
-var AreInterpolation = _AreInterpolation;
-
-// src/engines/html/nodes/AreText.node.ts
-var _AreText = class _AreText extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-text"
-      }
-    });
-  }
-};
-__name(_AreText, "AreText");
-var AreText = _AreText;
-
-// src/engines/html/instructions/AreHTML.instructions.constants.ts
-var AreHTMLInstructions = {
-  AddElement: "_AreHTML_AddElement",
-  AddText: "_AreHTML_AddText",
-  AddAttribute: "_AreHTML_AddAttribute",
-  AddStyle: "_AreHTML_AddStyle",
-  AddListener: "_AreHTML_AddListener",
-  AddInterpolation: "_AreHTML_AddInterpolation",
-  AddComment: "_AreHTML_AddComment"
-};
-
-// src/engines/html/instructions/AreHTML.instructions.ts
-var AddElementInstruction = class extends AreDeclaration {
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddElement, props);
-    }
-  }
-};
-__name(AddElementInstruction, "AddElementInstruction");
-AddElementInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddElementInstruction",
-    description: "Creates a new HTML element in the DOM. Apply creates the element; revert removes it."
-  })
-], AddElementInstruction);
-var AddTextInstruction = class extends AreDeclaration {
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddText, props);
-    }
-  }
-};
-__name(AddTextInstruction, "AddTextInstruction");
-AddTextInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddTextInstruction",
-    description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
-  })
-], AddTextInstruction);
-var AddAttributeInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddAttribute, parent, props);
-    }
-  }
-};
-__name(AddAttributeInstruction, "AddAttributeInstruction");
-AddAttributeInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddAttributeInstruction",
-    description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
-  })
-], AddAttributeInstruction);
-var AddStyleInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddStyle, parent, props);
-    }
-  }
-};
-__name(AddStyleInstruction, "AddStyleInstruction");
-AddStyleInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddStyleInstruction",
-    description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
-  })
-], AddStyleInstruction);
-var AddListenerInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddListener, parent, props);
-    }
-  }
-};
-__name(AddListenerInstruction, "AddListenerInstruction");
-AddListenerInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddListenerInstruction",
-    description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
-  })
-], AddListenerInstruction);
-var AddInterpolationInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddInterpolation, parent, props);
-    }
-  }
-};
-__name(AddInterpolationInstruction, "AddInterpolationInstruction");
-AddInterpolationInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddInterpolationInstruction",
-    description: "Appends a reactive text node whose content is resolved dynamically from the store. Apply creates the text node with the getter; revert removes it."
-  })
-], AddInterpolationInstruction);
-var AddCommentInstruction = class extends AreDeclaration {
-  get content() {
-    return this.payload.content;
-  }
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddComment, props);
-    }
-  }
-};
-__name(AddCommentInstruction, "AddCommentInstruction");
-AddCommentInstruction = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AddCommentInstruction",
-    description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
-  })
-], AddCommentInstruction);
-
-// src/engines/html/AreHTML.compiler.ts
-var AreHTMLCompiler = class extends AreCompiler {
-  compileInterpolation(interpolation, scene, store, logger, ...args) {
-    scene.plan(new AddTextInstruction({ content: interpolation.content, evaluate: true }));
-  }
-  compileText(text, scene, logger, ...args) {
-    logger?.debug("cyan", `AreHTMLCompiler: compile text node <${text.aseid.toString()}> with content: "${text.content}"`);
-    if (scene.host)
-      scene.unPlan(scene.host);
-    scene.plan(new AddTextInstruction({ content: text.content }));
-  }
-  compileStaticAttribute(attribute, scene, ...args) {
-    if (!scene.host)
-      throw new AreCompilerError({
-        title: "Scene Host Not Found",
-        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
-      });
-    scene.plan(new AddAttributeInstruction(scene.host, {
-      name: attribute.name,
-      content: attribute.content
-    }));
-  }
-  compileDirectiveAttribute(directive, store, feature, logger, ...args) {
-    store.watch(directive);
-    if (directive.component) {
-      feature.chain(directive.component, AreDirectiveFeatures.Compile, directive.owner.scope);
-    } else {
-      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${h.toPascalCase(directive.name)}" to handle this directive.`);
-    }
-    store.unwatch(directive);
-  }
-  compileEventAttribute(attribute, scene, ...args) {
-    if (!scene.host)
-      throw new AreCompilerError({
-        title: "Scene Host Not Found",
-        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
-      });
-    scene.plan(new AddListenerInstruction(scene.host, {
-      name: attribute.name,
-      handler: attribute.content
-    }));
-  }
-  compileBindingAttribute(attribute, scene, parentStore, store, ...args) {
-    if (!scene.host)
-      throw new AreCompilerError({
-        title: "Scene Host Not Found",
-        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
-      });
-    const node = attribute.owner;
-    if (node.component && node.component.props[attribute.name]) {
-      const propDefinition = node.component.props[attribute.name];
-      let value = parentStore.get(attribute.content);
-      if (propDefinition.type) {
-        switch (propDefinition.type) {
-          case "string":
-            value = String(value);
-            break;
-          case "number":
-            value = Number(value);
-            break;
-          case "boolean":
-            value = Boolean(value);
-            break;
-          default:
-            break;
-        }
-      }
-      store.set(attribute.name, value);
-    } else {
-      const instruction = new AddAttributeInstruction(scene.host, {
-        name: attribute.name,
-        content: attribute.content,
-        evaluate: true
-      });
-      scene.plan(instruction);
-    }
-  }
-};
-__name(AreHTMLCompiler, "AreHTMLCompiler");
-__decorateClass([
-  AreCompiler.Compile(AreInterpolation),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(A_Logger))
-], AreHTMLCompiler.prototype, "compileInterpolation", 1);
-__decorateClass([
-  AreCompiler.Compile(AreText),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene)),
-  __decorateParam(2, ke(A_Logger))
-], AreHTMLCompiler.prototype, "compileText", 1);
-__decorateClass([
-  AreCompiler.Compile(AreStaticAttribute),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene))
-], AreHTMLCompiler.prototype, "compileStaticAttribute", 1);
-__decorateClass([
-  AreCompiler.Compile(AreDirectiveAttribute),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreStore)),
-  __decorateParam(2, ke(w)),
-  __decorateParam(3, ke(A_Logger))
-], AreHTMLCompiler.prototype, "compileDirectiveAttribute", 1);
-__decorateClass([
-  AreCompiler.Compile(AreEventAttribute),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene))
-], AreHTMLCompiler.prototype, "compileEventAttribute", 1);
-__decorateClass([
-  AreCompiler.Compile(AreBindingAttribute),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene)),
-  __decorateParam(2, F.Parent()),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(AreStore))
-], AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
-AreHTMLCompiler = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AreHTMLCompiler",
-    description: "HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments."
-  })
-], AreHTMLCompiler);
-
-// src/lib/AreSyntax/AreSyntax.context.ts
-var AreSyntax = class extends L {
-  constructor(config) {
-    super({ name: "AreSyntax" });
-    this._trimWhitespace = config?.trimWhitespace !== false;
-    this._strictMode = config?.strictMode !== false;
-    this._rules = [...config?.rules ?? []].sort(
-      (a2, b2) => (b2.priority ?? 0) - (a2.priority ?? 0)
-    );
-  }
-  /**
-   * Get the array of token rules that define the syntax for parsing templates. Each rule specifies how to identify and process a particular type of token (e.g. interpolation, directive, comment) within templates. The rules are checked in order of priority, allowing for flexible and customizable parsing behavior.
-   */
-  get rules() {
-    return this._rules;
-  }
-  /**
-   * Indicates whether leading and trailing whitespace should be trimmed from token content. When enabled, any whitespace at the start or end of the content captured by a token will be removed before further processing. This can help prevent issues with unintended spaces affecting rendering or logic, especially in cases like interpolations or directives where extra whitespace may be common. Default is true.
-   */
-  get trimWhitespace() {
-    return this._trimWhitespace;
-  }
-  /**
-   * Indicates whether the parser should throw an error when it encounters unclosed tokens. When enabled, if the parser finds an opening delimiter without a corresponding closing delimiter (e.g. an unclosed interpolation or directive), it will throw an error instead of silently ignoring it. This can help catch syntax errors and ensure that templates are well-formed. Default is true.
-   */
-  get strictMode() {
-    return this._strictMode;
-  }
-};
-__name(AreSyntax, "AreSyntax");
-AreSyntax = __decorateClass([
-  c2.Fragment({
-    namespace: "A-ARE",
-    name: "AreSyntaxContext",
-    description: "Context that defines the syntax rules and structures for the A-Concept Rendering Engine (ARE). It provides mechanisms for parsing and interpreting templates, attributes, directives, interpolations, and event listeners, enabling dynamic and interactive UI rendering within the ARE framework."
-  })
-], AreSyntax);
-
-// src/lib/AreTransformer/AreTransformer.component.ts
-var AreTransformer = class extends v {
-  transform(node, scope, scene, ...args) {
-    const queue = [node];
-    while (queue.length > 0) {
-      const current = queue.shift();
-      for (let i = 0; i < current.attributes.length; i++) {
-        const attribute = current.attributes[i];
-        attribute.transform();
-      }
-      queue.push(...current.children);
-    }
-  }
-};
-__name(AreTransformer, "AreTransformer");
-__decorateClass([
-  w.Extend({
-    name: AreNodeFeatures.onTransform,
-    scope: [AreNode]
-  }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene))
-], AreTransformer.prototype, "transform", 1);
-AreTransformer = __decorateClass([
-  c2.Component({
-    description: "Reshapes the AreNode tree before compilation without changing its abstraction level. Responsible for structural rewrites that would complicate the compiler if left unhandled \u2014 converting $for nodes into AreGroupNode, extracting AreText and AreInterpolation from raw text, sorting directives via TopologicalSorter, and flagging static nodes."
-  })
-], AreTransformer);
-
-// src/lib/AreLoader/AreLoader.component.ts
-var AreLoader = class extends v {
-  async load(node, scope, feature, logger, context, ...args) {
-    logger?.debug("red", `Loading node <${node.aseid.toString()}> with content:`, scope);
-    if (node.component) {
-      context?.startPerformance("Total AreFeatures.onData");
-      await feature.chain(node.component, AreFeatures.onData, scope);
-      context?.endPerformance("Total AreFeatures.onData");
-      context?.startPerformance("Total AreFeatures.onLoad");
-      await feature.chain(node.component, AreFeatures.onStyles, scope);
-      context?.endPerformance("Total AreFeatures.onLoad");
-      context?.startPerformance("Total AreFeatures.onTemplate");
-      await feature.chain(node.component, AreFeatures.onTemplate, scope);
-      context?.endPerformance("Total AreFeatures.onTemplate");
-    }
-    context?.startPerformance("Tokenization");
-    node.tokenize();
-    context?.endPerformance("Tokenization");
-    for (let i = 0; i < node.children.length; i++) {
-      const childNode = node.children[i];
-      const res = childNode.load();
-      if (res instanceof Promise) {
-        await res;
-      }
-    }
-  }
-};
-__name(AreLoader, "AreLoader");
-__decorateClass([
-  w.Extend({
-    name: ce.LOAD,
-    scope: [AreNode]
-  }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(w)),
-  __decorateParam(3, ke(A_Logger)),
-  __decorateParam(4, ke(AreContext))
-], AreLoader.prototype, "load", 1);
-AreLoader = __decorateClass([
-  c2.Component({
-    description: "Entry point of the pipeline. Accepts a raw template string and orchestrates the initial processing by delegating to Syntax. Returns a structured AreNode tree ready for transformation. Knows nothing about the template content or grammar rules."
-  })
-], AreLoader);
-
-// src/lib/AreInterpreter/AreInterpreter.component.ts
-var AreInterpreter = class extends v {
+var _a101;
+var AreInterpreter = (_a101 = class extends v {
   /**
    * Decorator to mark a method as an instruction Apply handler for the specific instruction type. The method will be called during the render phase of the ARE component when the corresponding instruction needs to be applied. The method should contain logic to perform the necessary operations on the rendering target based on the instruction's content and context.
    * 
@@ -8529,63 +8157,58 @@ var AreInterpreter = class extends v {
       throw error;
     }
   }
-};
-__name(AreInterpreter, "AreInterpreter");
-__decorateClass([
+}, __name(_a101, "AreInterpreter"), _a101);
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onInterpret,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(AreScene))
+  __decorateParam3(0, ke(AreScene))
 ], AreInterpreter.prototype, "interpret", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreInstructionFeatures.Apply,
     scope: [AreInstruction]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreInterpreter)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(D)),
-  __decorateParam(4, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreInterpreter)),
+  __decorateParam3(2, ke(AreStore)),
+  __decorateParam3(3, ke(D)),
+  __decorateParam3(4, ke(w))
 ], AreInterpreter.prototype, "applyInstruction", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreInstructionFeatures.Update,
     scope: [AreInstruction]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreInterpreter)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(D)),
-  __decorateParam(4, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreInterpreter)),
+  __decorateParam3(2, ke(AreStore)),
+  __decorateParam3(3, ke(D)),
+  __decorateParam3(4, ke(w))
 ], AreInterpreter.prototype, "updateInstruction", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreInstructionFeatures.Revert,
     scope: [AreInstruction]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreInterpreter)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(D)),
-  __decorateParam(4, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreInterpreter)),
+  __decorateParam3(2, ke(AreStore)),
+  __decorateParam3(3, ke(D)),
+  __decorateParam3(4, ke(w))
 ], AreInterpreter.prototype, "revertInstruction", 1);
-AreInterpreter = __decorateClass([
+AreInterpreter = __decorateClass3([
   c2.Component({
     description: "Stateless executor that reads the Scene and translates its instructions into operations on a rendering target. Computes the diff between applied and planned, calls revert on removed instructions and apply on added ones. Owns no state of its own \u2014 all state lives in the Scene. Can be swapped for any target implementation (DOMInterpreter, SSRInterpreter, CanvasInterpreter) without touching any other part of the pipeline."
   })
 ], AreInterpreter);
-
-// src/lib/AreEngine/AreEngine.error.ts
-var _AreEngineError = class _AreEngineError extends y {
-};
-__name(_AreEngineError, "AreEngineError");
-_AreEngineError.MissedRequiredDependency = "A Required Dependency is missing in AreEngine";
-var AreEngineError = _AreEngineError;
-
-// src/lib/AreLifecycle/AreLifecycle.component.ts
-var AreLifecycle = class extends v {
+var _a102;
+var AreEngineError = (_a102 = class extends y {
+}, __name(_a102, "AreEngineError"), _a102);
+AreEngineError.MissedRequiredDependency = "A Required Dependency is missing in AreEngine";
+var _a103;
+var AreLifecycle = (_a103 = class extends v {
   static Init(param1) {
     return (target, propertyKey, descriptor) => {
       return w.Extend({
@@ -8750,179 +8373,174 @@ var AreLifecycle = class extends v {
     if (node.component)
       feature.chain(node.component, AreFeatures.onAfterDestroy, node.scope);
   }
-};
-__name(AreLifecycle, "AreLifecycle");
-__decorateClass([
+}, __name(_a103, "AreLifecycle"), _a103);
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onBeforeInit,
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "beforeInit", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onInit,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreContext)),
-  __decorateParam(3, ke(A_Logger))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreContext)),
+  __decorateParam3(3, ke(A_Logger))
 ], AreLifecycle.prototype, "init", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onAfterInit,
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "afterInit", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onBeforeMount,
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "beforeMount", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onMount,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene)),
-  __decorateParam(2, ke(A_Logger))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreScene)),
+  __decorateParam3(2, ke(A_Logger))
 ], AreLifecycle.prototype, "mount", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onAfterMount,
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "afterMount", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onUpdate,
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "beforeUpdate", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onUpdate,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreContext)),
-  __decorateParam(2, ke(A_Logger))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreContext)),
+  __decorateParam3(2, ke(A_Logger))
 ], AreLifecycle.prototype, "update", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onUpdate,
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "afterUpdate", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onBeforeUnmount,
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "beforeUnmount", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onUnmount,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreScene))
 ], AreLifecycle.prototype, "unmount", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onAfterUnmount,
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(AreScene)),
+  __decorateParam3(3, ke(w))
 ], AreLifecycle.prototype, "afterUnmount", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onBeforeDestroy,
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(w))
 ], AreLifecycle.prototype, "beforeDestroy", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: ce.DESTROY,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreScene))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreScene))
 ], AreLifecycle.prototype, "destroy", 1);
-__decorateClass([
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onAfterDestroy,
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(w))
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(D)),
+  __decorateParam3(2, ke(w))
 ], AreLifecycle.prototype, "afterDestroy", 1);
-AreLifecycle = __decorateClass([
+AreLifecycle = __decorateClass3([
   c2.Component({
     description: "Handles the lifecycle of the AreNode and related entities such as interpolations, directives, attributes, and so on. It provides lifecycle hooks for initialization, mounting, updating, and unmounting of the nodes, allowing to manage the state and behavior of the nodes throughout their lifecycle in a structured and consistent way."
   })
 ], AreLifecycle);
-
-// src/lib/AreEngine/AreEngine.constants.ts
 var AreEngineFeatures = {
-  Load: "_AreEngine_Load"
+  Load: "_AreEngine_Load",
+  Build: "_AreEngine_Build",
+  Execute: "_AreEngine_Execute"
 };
-
-// src/lib/AreTokenizer/AreTokenizer.error.ts
-var _AreTokenizerError = class _AreTokenizerError extends y {
-};
-__name(_AreTokenizerError, "AreTokenizerError");
-var AreTokenizerError = _AreTokenizerError;
-
-// src/lib/AreTokenizer/AreTokenizer.component.ts
-var _AreTokenizer = class _AreTokenizer extends v {
+var _a104;
+var AreTokenizerError = (_a104 = class extends y {
+}, __name(_a104, "AreTokenizerError"), _a104);
+var _a105;
+var AreTokenizer = (_a105 = class extends v {
   /**
    * Get the AreSyntax from the current scope. The AreSyntax defines the syntax rules and structures for tokenizing templates. It provides mechanisms for parsing and interpreting templates, attributes, directives, interpolations, and event listeners, enabling dynamic and interactive UI rendering within the ARE framework. If no AreSyntax is found in the scope, an error is thrown indicating that AreTokenizer requires an AreSyntax to function properly.
    */
@@ -9111,127 +8729,132 @@ var _AreTokenizer = class _AreTokenizer extends v {
     if (match._rule) return match._rule;
     return this.config.rules.find((r2) => (r2.opening ?? "") === match.opening && (r2.closing ?? "") === match.closing);
   }
-};
-__name(_AreTokenizer, "AreTokenizer");
-__decorateClass([
+}, __name(_a105, "AreTokenizer"), _a105);
+__decorateClass3([
   w.Extend({
     name: AreEngineFeatures.Load
     // scope: [AreEngine]
   }),
-  c2.Method({
-    description: "Instantiate AreNodes based on the token matches obtained from scanning the source template. This method takes the raw source string from the context, scans it for tokens using the defined syntax rules, and creates corresponding AreNode instances for each matched token. The resulting array of AreNodes represents the structured representation of the template, which can then be used for further processing, such as rendering or applying scene instructions."
-  }),
-  __decorateParam(0, ke(AreContext))
-], _AreTokenizer.prototype, "instantiate", 1);
-__decorateClass([
+  __decorateParam3(0, ke(AreContext))
+], AreTokenizer.prototype, "instantiate", 1);
+__decorateClass3([
   w.Extend({
     name: AreNodeFeatures.onTokenize,
     scope: [AreNode]
   }),
-  c2.Method({
-    description: "Tokenise the input string based on the defined syntax rules. Returns an array of token matches, each containing the raw matched string, content, position, and any extracted metadata. The tokenisation process involves scanning the input string for patterns defined by the syntax rules, handling nested tokens if specified, and applying any custom extraction logic to enrich the token matches with additional data."
-  }),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(AreContext)),
-  __decorateParam(2, ke(A_Logger))
-], _AreTokenizer.prototype, "tokenize", 1);
-var AreTokenizer = _AreTokenizer;
-
-// src/lib/AreEngine/AreEngine.component.ts
-var AreEngine = class extends v {
+  __decorateParam3(0, ke(G)),
+  __decorateParam3(1, ke(AreContext)),
+  __decorateParam3(2, ke(A_Logger))
+], AreTokenizer.prototype, "tokenize", 1);
+AreTokenizer = __decorateClass3([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AreTokenizer",
+    description: "AreTokenizer is responsible for scanning and tokenizing template source strings using the syntax rules defined in AreSyntax. It converts raw template strings into AreNode instances that represent the structured AST of the template, enabling downstream compilation and rendering within the ARE framework."
+  })
+], AreTokenizer);
+var _a106;
+var AreSignal = (_a106 = class extends A_Signal {
+}, __name(_a106, "AreSignal"), _a106);
+AreSignal = __decorateClass3([
+  c2.Entity({
+    namespace: "A-ARE",
+    name: "AreSignal",
+    description: "AreSignal is the base class for all signals used within the ARE framework. It extends A_Signal to provide a typed signal entity that components can subscribe to and emit, enabling reactive communication between ARE components and driving lifecycle and rendering updates."
+  })
+], AreSignal);
+var _a107;
+var AreInit = (_a107 = class extends AreSignal {
+  static default() {
+    return new _a107({ data: { ready: false } });
+  }
+}, __name(_a107, "_AreInit"), _a107);
+var _a108;
+var AreEngine = (_a108 = class extends v {
+  /**
+   * Feature decorator for the load method, which is responsible for the initial loading phase of the engine. This method is where the engine reads the source template, tokenizes it, and prepares the initial context for building the scene. The decorator allows for extending or overriding the default loading behavior by attaching additional functionality before or after the load process.
+   */
+  static get Load() {
+    return (target, propertyKey, descriptor) => {
+      return w.Extend({
+        name: AreEngineFeatures.Load,
+        scope: [target.constructor],
+        override: ["defaultLoad"]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Feature decorator for the build method, which is responsible for constructing the scene based on the loaded context. This method typically involves initializing root nodes, applying transformations, and compiling the scene into a format that can be executed by the interpreter. The decorator allows for customizing the build process by adding additional steps or modifying the existing behavior.
+   */
+  static get Build() {
+    return (target, propertyKey, descriptor) => {
+      return w.Extend({
+        name: AreEngineFeatures.Build,
+        scope: [target.constructor],
+        override: ["defaultBuild"]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Feature decorator for the execute method, which is responsible for the final execution phase of the engine. This method typically involves mounting the root nodes to the DOM and starting the reactive update cycle based on signals and state changes. The decorator allows for customizing the execution process by adding additional steps or modifying the existing behavior.
+   */
+  static get Execute() {
+    return (target, propertyKey, descriptor) => {
+      return w.Extend({
+        name: AreEngineFeatures.Execute,
+        scope: [target.constructor],
+        override: ["defaultExecute"]
+      })(target, propertyKey, descriptor);
+    };
+  }
   async load(scope) {
     const context = scope?.resolve(AreContext) || c.scope(this).resolve(AreContext);
     context?.startPerformance();
-    return this.call(AreEngineFeatures.Load, scope || c.scope(this));
+    await this.call(AreEngineFeatures.Load, scope || c.scope(this));
   }
-  async build(context, logger) {
-    try {
-      context.startPerformance("Build Total");
-      for (const root of context.roots) {
-        context.startPerformance(`Init root <${root.aseid.id}>`);
-        root.init();
-        context.endPerformance(`Init root <${root.aseid.id}>`);
-        context.startPerformance(`Load root <${root.aseid.id}>`);
-        const res = root.load();
-        if (res instanceof Promise) {
-          await res;
-        }
-        context.endPerformance(`Load root <${root.aseid.id}>`);
-        context.startPerformance(`Transform root <${root.aseid.id}>`);
-        root.transform();
-        context.endPerformance(`Transform root <${root.aseid.id}>`);
-        context.startPerformance(`Compile root <${root.aseid.id}>`);
-        root.compile();
-        context.endPerformance(`Compile root <${root.aseid.id}>`);
-        context.endPerformance(`Root <${root.aseid.id}> Total`);
-      }
-      context.endPerformance("Build Total");
-    } catch (error) {
-      logger?.error(error);
+  async build(scope) {
+    const context = scope?.resolve(AreContext) || c.scope(this).resolve(AreContext);
+    context?.startPerformance("Build Total");
+    await this.call(AreEngineFeatures.Build, scope || c.scope(this));
+    context?.endPerformance("Build Total");
+  }
+  async execute(scope) {
+    const context = scope?.resolve(AreContext) || c.scope(this).resolve(AreContext);
+    context?.startPerformance("Execute Total");
+    await this.call(AreEngineFeatures.Execute, scope || c.scope(this));
+    context?.endPerformance("Execute Total");
+    context?.endPerformance("Total");
+  }
+  async defaultBuild(context, logger) {
+    logger?.debug("cyan", "Starting to build the scene...");
+    for (const root of context.roots) {
+      context.startPerformance(`Init root <${root.aseid.id}>`);
+      root.init();
+      context.endPerformance(`Init root <${root.aseid.id}>`);
+      context.startPerformance(`Load root <${root.aseid.id}>`);
+      await root.load();
+      context.endPerformance(`Load root <${root.aseid.id}>`);
+      context.startPerformance(`Transform root <${root.aseid.id}>`);
+      root.transform();
+      context.endPerformance(`Transform root <${root.aseid.id}>`);
+      context.startPerformance(`Compile root <${root.aseid.id}>`);
+      root.compile();
+      context.endPerformance(`Compile root <${root.aseid.id}>`);
+      context.endPerformance(`Root <${root.aseid.id}> Total`);
     }
   }
-  async execute(context, logger) {
-    try {
-      context.startPerformance("Execute Total");
-      for (const root of context.roots) {
-        context.startPerformance(`Mount root <${root.aseid.id}>`);
-        root.mount();
-        context.endPerformance(`Mount root <${root.aseid.id}>`);
-      }
-      context.endPerformance("Execute Total");
-      context.endPerformance("Total");
-      logger?.info("cyan", `UI Application started at <${context.roots.map((root) => root.aseid.id).join(", ")}> with ${context.roots.length} root nodes.`, context);
-      logger?.info(
-        "cyan",
-        "Performance:",
-        "------------------------------ \n",
-        ...context.performance,
-        "------------------------------ \n",
-        "Stats:",
-        "------------------------------ \n",
-        ...context.stats
-      );
-    } catch (error) {
-      logger?.error(error);
+  async defaultExecute(context, bus, logger) {
+    logger?.debug("cyan", "Starting to execute the scene and mount root nodes...");
+    for (const root of context.roots) {
+      context.startPerformance(`Mount root <${root.aseid.id}>`);
+      root.mount();
+      context.endPerformance(`Mount root <${root.aseid.id}>`);
     }
+    logger?.debug("cyan", "Emitting AreInit signal to start the reactive update cycle...");
+    await bus?.next(new AreInit());
   }
   async init(scope) {
     this.package(scope);
-  }
-  package(scope, dependencies) {
-    const { context, syntax, loader, tokenizer, compiler, transformer, interpreter, lifecycle, signals } = dependencies || {};
-    const existedContext = scope.resolveConstructor(AreContext);
-    const existedSyntax = scope.resolveConstructor(AreSyntax);
-    const existedLoader = scope.resolveConstructor(AreLoader);
-    const existedTokenizer = scope.resolveConstructor(AreTokenizer);
-    const existedCompiler = scope.resolveConstructor(AreCompiler);
-    const existedInterpreter = scope.resolveConstructor(AreInterpreter);
-    const existedLifecycle = scope.resolveConstructor(AreLifecycle);
-    const existedTransformer = scope.resolveConstructor(AreTransformer);
-    const existedSignals = scope.resolveConstructor(AreSignals);
-    this.packDependency(scope, context || AreContext, existedContext);
-    this.packDependency(scope, syntax || AreSyntax, existedSyntax);
-    this.packDependency(scope, tokenizer || AreTokenizer, existedTokenizer);
-    this.packDependency(scope, loader || AreLoader, existedLoader);
-    this.packDependency(scope, compiler || AreCompiler, existedCompiler);
-    this.packDependency(scope, transformer || AreTransformer, existedTransformer);
-    this.packDependency(scope, interpreter || AreInterpreter, existedInterpreter);
-    this.packDependency(scope, lifecycle || AreLifecycle, existedLifecycle);
-    this.packDependency(scope, signals || AreSignals, existedSignals);
-  }
-  packDependency(scope, dependency, existed) {
-    const logger = scope.resolve(A_Logger);
-    const thisName = l.getComponentName(this);
-    const scopeIssuerName = l.getComponentName(scope.issuer());
-    const dependencyName = l.getComponentName(dependency);
-    if (existed) {
-      logger?.debug("cyan", `Dependency ${dependencyName} already exists in ${scopeIssuerName} scope. Skipping injection.`);
-      return existed;
-    } else {
-      logger?.info("cyan", `Injecting ${dependencyName} into ${scopeIssuerName} scope for ${thisName}...`);
-      scope.register(dependency);
-      return dependency;
-    }
   }
   async verify(scope, syntax, syntaxContext, transformer, loader, compiler, interpreter, lifecycle, logger) {
     if (!syntax)
@@ -9270,64 +8893,427 @@ var AreEngine = class extends v {
         description: `AreLifecycle or its inherited variation is a required dependency for ${this.constructor.name}. Please ensure that it is registered in the container scope before starting the engine.`
       });
   }
-};
-__name(AreEngine, "AreEngine");
-__decorateClass([
+  package(scope, dependencies) {
+    const { context, syntax, loader, tokenizer, compiler, transformer, interpreter, lifecycle, signals } = dependencies || {};
+    const existedContext = scope.resolveConstructor(AreContext);
+    const existedSyntax = scope.resolveConstructor(AreSyntax);
+    const existedLoader = scope.resolveConstructor(AreLoader);
+    const existedTokenizer = scope.resolveConstructor(AreTokenizer);
+    const existedCompiler = scope.resolveConstructor(AreCompiler);
+    const existedInterpreter = scope.resolveConstructor(AreInterpreter);
+    const existedLifecycle = scope.resolveConstructor(AreLifecycle);
+    const existedTransformer = scope.resolveConstructor(AreTransformer);
+    const existedSignals = scope.resolveConstructor(AreSignals);
+    this.packDependency(scope, context || AreContext, existedContext);
+    this.packDependency(scope, syntax || AreSyntax, existedSyntax);
+    this.packDependency(scope, tokenizer || AreTokenizer, existedTokenizer);
+    this.packDependency(scope, loader || AreLoader, existedLoader);
+    this.packDependency(scope, compiler || AreCompiler, existedCompiler);
+    this.packDependency(scope, transformer || AreTransformer, existedTransformer);
+    this.packDependency(scope, interpreter || AreInterpreter, existedInterpreter);
+    this.packDependency(scope, lifecycle || AreLifecycle, existedLifecycle);
+    this.packDependency(scope, signals || AreSignals, existedSignals);
+  }
+  packDependency(scope, dependency, existed) {
+    const logger = scope.resolve(A_Logger);
+    const thisName = l.getComponentName(this);
+    const scopeIssuerName = l.getComponentName(scope.issuer());
+    const dependencyName = l.getComponentName(dependency);
+    if (existed) {
+      logger?.debug("cyan", `Dependency ${dependencyName} already exists in ${scopeIssuerName} scope. Skipping injection.`);
+      return existed;
+    } else {
+      logger?.debug("cyan", `Injecting ${dependencyName} into ${scopeIssuerName} scope for ${thisName}...`);
+      scope.register(dependency);
+      return dependency;
+    }
+  }
+}, __name(_a108, "AreEngine"), _a108);
+__decorateClass3([
   c2.Method({
     description: "Method does engine loading, first read of the source and tokenization."
   })
 ], AreEngine.prototype, "load", 1);
-__decorateClass([
+__decorateClass3([
   c2.Method({
     description: "Method responsible for building the scene, which includes initializing root nodes, loading necessary data, applying transformations, and compiling the scene into a format that can be executed by the interpreter."
-  }),
-  __decorateParam(0, F.Required()),
-  __decorateParam(0, ke(AreContext)),
-  __decorateParam(1, ke(A_Logger))
+  })
 ], AreEngine.prototype, "build", 1);
-__decorateClass([
+__decorateClass3([
   c2.Method({
     description: "Method responsible for executing the rendering process, which involves mounting the root nodes to the DOM and starting the reactive update cycle based on signals and state changes."
-  }),
-  __decorateParam(0, F.Required()),
-  __decorateParam(0, ke(AreContext)),
-  __decorateParam(1, ke(A_Logger))
+  })
 ], AreEngine.prototype, "execute", 1);
-__decorateClass([
+__decorateClass3([
+  w.Extend({
+    name: AreEngineFeatures.Build,
+    before: /.*/
+  }),
+  __decorateParam3(0, F.Required()),
+  __decorateParam3(0, ke(AreContext)),
+  __decorateParam3(1, ke(A_Logger))
+], AreEngine.prototype, "defaultBuild", 1);
+__decorateClass3([
+  w.Extend({
+    name: AreEngineFeatures.Execute,
+    before: /.*/
+  }),
+  __decorateParam3(0, F.Required()),
+  __decorateParam3(0, ke(AreContext)),
+  __decorateParam3(1, ke(A_SignalBus)),
+  __decorateParam3(2, ke(A_Logger))
+], AreEngine.prototype, "defaultExecute", 1);
+__decorateClass3([
   w.Extend({
     name: AreEngineFeatures.Load,
     before: /.*/
   }),
-  __decorateParam(0, ke(D))
+  __decorateParam3(0, ke(D))
 ], AreEngine.prototype, "init", 1);
-__decorateClass([
+__decorateClass3([
+  w.Extend({
+    name: AreEngineFeatures.Load,
+    before: /.*/
+  }),
+  __decorateParam3(0, ke(D)),
+  __decorateParam3(1, ke(AreSyntax)),
+  __decorateParam3(2, ke(AreSyntax)),
+  __decorateParam3(3, ke(AreTransformer)),
+  __decorateParam3(4, ke(AreLoader)),
+  __decorateParam3(5, ke(AreCompiler)),
+  __decorateParam3(6, ke(AreInterpreter)),
+  __decorateParam3(7, ke(AreLifecycle)),
+  __decorateParam3(8, ke(A_Logger))
+], AreEngine.prototype, "verify", 1);
+__decorateClass3([
   c2.Method({
     description: "Method to pack all necessary dependencies for the engine. This method is called during the initialization phase of the engine and ensures that all required components are registered in the container scope, allowing for proper dependency injection and management throughout the engine's lifecycle."
   })
 ], AreEngine.prototype, "package", 1);
-__decorateClass([
-  __decorateParam(0, ke(D)),
-  __decorateParam(1, ke(AreSyntax)),
-  __decorateParam(2, ke(AreSyntax)),
-  __decorateParam(3, ke(AreTransformer)),
-  __decorateParam(4, ke(AreLoader)),
-  __decorateParam(5, ke(AreCompiler)),
-  __decorateParam(6, ke(AreInterpreter)),
-  __decorateParam(7, ke(AreLifecycle)),
-  __decorateParam(8, ke(A_Logger))
-], AreEngine.prototype, "verify", 1);
-AreEngine = __decorateClass([
+AreEngine = __decorateClass3([
   c2.Component({
     namespace: "A-ARE",
     name: "AreEngine",
     description: "Core rendering engine for A-Concept Rendering Engine (ARE), responsible for orchestrating the loading, building, and execution of the rendering process. It manages the lifecycle of root nodes, coordinates the interactions between syntax, transformer, loader, compiler, and interpreter components, and ensures the proper initialization and mounting of the UI application."
   })
 ], AreEngine);
+var _a109;
+var AreWatcher = (_a109 = class extends v {
+  /**
+   * Initialize the watcher. This method is called once when the watcher is first created. Use this to set up any necessary state or start observing changes.
+   */
+  init() {
+  }
+  /**
+   * Start watching for changes. This method is called after the engine has executed. Use this to set up any necessary event listeners or intervals to observe changes and produce signals.
+   */
+  watch() {
+  }
+  destroy() {
+  }
+}, __name(_a109, "AreWatcher"), _a109);
+__decorateClass3([
+  Ce.Stop()
+], AreWatcher.prototype, "destroy", 1);
+AreWatcher = __decorateClass3([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AreWatcher",
+    description: "AreWatcher is a component that observes changes and produces A_Signals Depending on the actual handlers"
+  })
+], AreWatcher);
+var _a110;
+var _a111;
+var AreContainer = (_a111 = class extends A_Service {
+  async [_a110 = A_ServiceFeatures.onStart](engine, context, watchers, logger) {
+    try {
+      for (const watcher of watchers ?? []) {
+        await watcher.init();
+      }
+      await engine.load();
+      await engine.build();
+      await engine.execute();
+      for (const watcher of watchers ?? []) {
+        await watcher.watch();
+      }
+      logger?.info("cyan", `UI Application started at <${context.roots.map((root) => root.aseid.id).join(", ")}> with ${context.roots.length} root nodes.`);
+      logger?.debug(
+        "cyan",
+        "Performance:",
+        "------------------------------ \n",
+        ...context.performance,
+        "------------------------------ \n",
+        "Stats:",
+        "------------------------------ \n",
+        ...context.stats
+      );
+    } catch (error) {
+      logger?.error(error);
+    }
+  }
+}, __name(_a111, "AreContainer"), _a111);
+__decorateClass3([
+  w.Extend(),
+  __decorateParam3(0, F.Required()),
+  __decorateParam3(0, ke(AreEngine)),
+  __decorateParam3(1, F.Required()),
+  __decorateParam3(1, ke(AreContext)),
+  __decorateParam3(2, F.All()),
+  __decorateParam3(2, F.Flat()),
+  __decorateParam3(2, ke(AreWatcher)),
+  __decorateParam3(3, ke(A_Logger))
+], AreContainer.prototype, _a110, 1);
+var _a112;
+var AreSyntaxError = (_a112 = class extends y {
+}, __name(_a112, "AreSyntaxError"), _a112);
+AreSyntaxError.SyntaxParseError = "Are Syntax Parse Error";
+AreSyntaxError.SyntaxNotSupportedError = "Are Syntax Not Supported Error";
+AreSyntaxError.MethodNotImplementedError = "Are Syntax Method Not Implemented Error";
+var _a113;
+var AreCompilerError = (_a113 = class extends y {
+}, __name(_a113, "AreCompilerError"), _a113);
+AreCompilerError.RenderError = "Are Compiler Render Error";
+AreCompilerError.CompilationError = "Are Compiler Compilation Error";
+var _a114;
+var AreInterpreterError = (_a114 = class extends y {
+}, __name(_a114, "AreInterpreterError"), _a114);
+var _a115;
+var AreLifecycleError = (_a115 = class extends y {
+}, __name(_a115, "AreLifecycleError"), _a115);
+AreLifecycleError.InvalidLifecycleMethod = "Invalid lifecycle method. Lifecycle method must be one of the following: onBeforeLoad, onLoad, onUpdate, onDestroy.";
+var _a116;
+var AreLoaderError = (_a116 = class extends y {
+}, __name(_a116, "AreLoaderError"), _a116);
+AreLoaderError.SyntaxError = "Are Loader Syntax Error";
+AreLoaderError.EmptyTemplateError = "Are Loader Empty Template Error";
+var _a117;
+var AreRoute = (_a117 = class extends AreSignal {
+  constructor(path) {
+    super({
+      data: new A_Route(path)
+    });
+  }
+  get route() {
+    return this.data;
+  }
+  static default() {
+    return new _a117(document.location.pathname || "/");
+  }
+  compare(other) {
+    return this.route.toRegExp().test(other.data.toString());
+  }
+}, __name(_a117, "_AreRoute"), _a117);
 
-// src/engines/html/AreHTML.context.ts
-var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
+// examples/jumpstart/src/components/A-Btn.component.ts
+var _ABtn = class _ABtn extends Are {
   constructor() {
     super(...arguments);
+    this.props = {
+      name: {
+        type: "string",
+        default: "A_Button Element"
+      }
+    };
+  }
+  async template(node, store) {
+    node.setContent(`
+                <button class="a-btn" @click="handleClick"> Make it:  {{name}} {{number}}</button> 
+        `);
+  }
+  filter(test) {
+    console.log("test", test);
+  }
+  async styles(node) {
+  }
+  async data(node, store) {
+    store.set({
+      name: "A_Button Element",
+      showInput: false,
+      bgColor: "#007BFF",
+      btn2: "Button 2",
+      showInput2: false,
+      number: 0
+    });
+  }
+  async handleClick(scope, node, store, logger, event, scene) {
+    store.set("number", Math.floor(Math.random() * 1e3));
+    store.set("name", `Clicked! `);
+    console.log("Changing ShowInput from ", store.get("showInput"));
+    store.set("showInput", !store.get("showInput"));
+    console.log("Changing ShowInput to ", store.get("showInput"), store);
+    store.set("bgColor", "#ff5733");
+    console.log("event data:", event);
+    await node.update();
+  }
+  async handleClick2(scope, node, store, logger, event, scene) {
+    store.set("btn2", `Button 2 Clicked! `);
+    store.set("showInput2", !store.get("showInput2"));
+    console.log("event data:", event);
+    await node.update();
+  }
+};
+__name(_ABtn, "ABtn");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreStore))
+], _ABtn.prototype, "template", 1);
+__decorateClass([
+  AreStore.Function
+], _ABtn.prototype, "filter", 1);
+__decorateClass([
+  Are.Styles,
+  __decorateParam(0, ke(G))
+], _ABtn.prototype, "styles", 1);
+__decorateClass([
+  Are.Data,
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreStore))
+], _ABtn.prototype, "data", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, ke(D)),
+  __decorateParam(1, ke(G)),
+  __decorateParam(2, ke(AreStore)),
+  __decorateParam(3, ke(A_Logger)),
+  __decorateParam(4, ke(AreEvent)),
+  __decorateParam(5, ke(AreScene))
+], _ABtn.prototype, "handleClick", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, ke(D)),
+  __decorateParam(1, ke(G)),
+  __decorateParam(2, ke(AreStore)),
+  __decorateParam(3, ke(A_Logger)),
+  __decorateParam(4, ke(AreEvent)),
+  __decorateParam(5, ke(AreScene))
+], _ABtn.prototype, "handleClick2", 1);
+var ABtn = _ABtn;
+
+// src/lib/AreRoot/AreRoot.component.ts
+var AreRoot = class extends Are {
+  constructor() {
+    super(...arguments);
+    this.props = {
+      default: {
+        type: "string",
+        default: ""
+      }
+    };
+  }
+  async template(root, logger, signalsContext) {
+    const rootId = root.id;
+    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      return;
+    }
+    const currentRoute = AreRoute.default();
+    let componentName;
+    if (currentRoute) {
+      const initialVector = new A_SignalVector([currentRoute]);
+      let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
+      if (!renderTarget) {
+        const signalsMeta = c.meta(AreSignals);
+        renderTarget = signalsMeta?.findComponentByVector(initialVector);
+      }
+      if (renderTarget?.name) {
+        componentName = h.toKebabCase(renderTarget.name);
+      }
+    }
+    if (!componentName) {
+      const defaultAttr = root.attributes.find((attr) => attr.name === "default");
+      componentName = defaultAttr?.content;
+    }
+    if (!componentName) {
+      logger.warning('AreRoot: No component found for initial render. Please ensure a route condition or "default" attribute is set.');
+      return;
+    }
+    root.setContent(`<${componentName}></${componentName}>`);
+  }
+  async onSignal(root, vector, store, logger, signalsContext) {
+    console.log("Received signal vector in AreRoot:", root, vector);
+    const rootId = root.id;
+    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      return;
+    }
+    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
+    if (!renderTarget) {
+      const signalsMeta = c.meta(AreSignals);
+      renderTarget = signalsMeta?.findComponentByVector(vector);
+    }
+    const componentName = renderTarget?.name ? h.toKebabCase(renderTarget.name) : store.get("default");
+    if (!componentName) {
+      logger.warning("No component found for rendering in AreRoot. Please ensure that the signal vector matches at least one component or that a default component name is provided in the store.");
+      return;
+    }
+    root.setContent(`<${componentName}></${componentName}>`);
+    for (let i = 0; i < root.children.length; i++) {
+      const child = root.children[i];
+      child.unmount();
+      child.destroy();
+      root.removeChild(child);
+    }
+    root.tokenize();
+    for (let i = 0; i < root.children.length; i++) {
+      const child = root.children[i];
+      child.init();
+      const res = child.load();
+      if (res instanceof Promise) {
+        await res;
+      }
+      child.transform();
+      child.compile();
+      child.mount();
+    }
+  }
+};
+__name(AreRoot, "AreRoot");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(A_Logger)),
+  __decorateParam(2, ke(AreSignalsContext))
+], AreRoot.prototype, "template", 1);
+__decorateClass([
+  Are.Signal,
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(A_SignalVector)),
+  __decorateParam(2, ke(AreStore)),
+  __decorateParam(3, ke(A_Logger)),
+  __decorateParam(4, ke(AreSignalsContext))
+], AreRoot.prototype, "onSignal", 1);
+AreRoot = __decorateClass([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AreRoot",
+    description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
+  })
+], AreRoot);
+
+// src/instructions/AreHTML.instructions.constants.ts
+var AreHTMLInstructions = {
+  AddElement: "_AreHTML_AddElement",
+  AddText: "_AreHTML_AddText",
+  AddAttribute: "_AreHTML_AddAttribute",
+  AddStyle: "_AreHTML_AddStyle",
+  AddListener: "_AreHTML_AddListener",
+  AddInterpolation: "_AreHTML_AddInterpolation",
+  AddComment: "_AreHTML_AddComment"
+};
+
+// src/lib/AreDirective/AreDirective.context.ts
+var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext {
+  constructor(aseid) {
+    super(aseid.toString());
+    this.scope = {};
+  }
+};
+__name(_AreDirectiveContext, "AreDirectiveContext");
+var AreDirectiveContext = _AreDirectiveContext;
+
+// src/engine/AreHTML.context.ts
+var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
+  constructor(props) {
+    super(props.container?.body.innerHTML || props.source || "");
     /**
      * Index structure mapping:
      * 
@@ -9354,7 +9340,7 @@ var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
        * 
        * uses ASEID
        */
-      elementToInstruction: /* @__PURE__ */ new Map(),
+      elementToInstruction: /* @__PURE__ */ new WeakMap(),
       /**
        * 1 Instruction = 1 Dom Node (for CreateElement instructions, for example)
        * 
@@ -9364,8 +9350,12 @@ var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
       /**
        * Event listeners attached to elements, used for proper cleanup when reverting instructions. Maps a DOM element to a map of event names and their corresponding listeners, allowing the engine to track which listeners are attached to which elements and remove them when necessary (e.g., when an instruction is reverted).
        */
-      elementListeners: /* @__PURE__ */ new Map()
+      elementListeners: /* @__PURE__ */ new WeakMap()
     };
+    this._container = props.container;
+  }
+  get container() {
+    return this._container;
   }
   getNodeElement(node) {
     if (typeof node === "string") {
@@ -9374,6 +9364,12 @@ var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
       return this.index.nodeToHostElements.get(node.aseid.toString());
     }
   }
+  /**
+   * Associates a DOM element with a given instruction and its owner node. This method updates the context's index to map the instruction's ASEID to the provided DOM element, and also maps the element back to the instruction's ASEID for reverse lookup. If the instruction has an owner node, it also maps the node's ASEID to the element. Additionally, if the instruction belongs to a group, it adds the element to the set of elements associated with that group. This indexing allows the engine to efficiently manage and update DOM elements based on instructions and their corresponding nodes, enabling dynamic rendering and interaction in response to application state changes.
+   * 
+   * @param instruction 
+   * @param element 
+   */
   setInstructionElement(instruction, element) {
     const node = instruction.owner;
     this.index.instructionToElement.set(instruction.aseid.toString(), element);
@@ -9396,6 +9392,11 @@ var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
       return this.index.instructionToElement.get(instruction.aseid.toString());
     }
   }
+  /**
+   * Removes the association between a given instruction and its corresponding DOM element. This method looks up the instruction's ASEID to find the associated DOM element, and if found, it deletes the mapping from both instructionToElement and elementToInstruction. If the instruction has an owner node, it also removes the mapping from nodeToHostElements. Additionally, if the instruction belongs to a group, it removes the element from the set of elements associated with that group, and if the group has no more elements, it deletes the group from the index. This cleanup is essential for maintaining an accurate and efficient mapping of instructions to DOM elements, especially when instructions are reverted or when nodes are removed from the DOM.
+   * 
+   * @param instruction 
+   */
   removeInstructionElement(instruction) {
     const element = this.index.instructionToElement.get(instruction.aseid.toString());
     if (element) {
@@ -9424,40 +9425,163 @@ var _AreHTMLEngineContext = class _AreHTMLEngineContext extends AreContext {
       return this.index.groupToElements.get(instruction.aseid.toString());
     }
   }
+  /**
+   * Adds an event listener to a specific DOM element and keeps track of it in the context's index for proper cleanup later. This method takes a DOM element, an event name, and a listener function or object, and stores this information in the elementListeners map. This allows the engine to efficiently manage event listeners attached to dynamically created elements, ensuring that they can be removed when the associated instructions are reverted or when nodes are removed from the DOM, preventing memory leaks and unintended behavior.
+   * 
+   * @param element 
+   * @param eventName 
+   * @param listener 
+   */
   addListener(element, eventName, listener) {
     if (!this.index.elementListeners.has(element)) {
       this.index.elementListeners.set(element, /* @__PURE__ */ new Map());
     }
-    this.index.elementListeners.get(element).set(eventName, listener);
+    const byEvent = this.index.elementListeners.get(element);
+    if (!byEvent.has(eventName)) {
+      byEvent.set(eventName, /* @__PURE__ */ new Set());
+    }
+    byEvent.get(eventName).add(listener);
   }
+  /**
+   * Retrieves the event listener associated with a specific DOM element and event name from the context's index. This method looks up the element in the elementListeners map and then retrieves the listener for the specified event name. If no listener is found for the given element and event, it returns undefined. This allows the engine to efficiently access and manage event listeners that have been attached to dynamically created elements, enabling proper cleanup when instructions are reverted or when nodes are removed from the DOM.
+   * 
+   * @param element 
+   * @param eventName 
+   * @returns 
+   */
   getListener(element, eventName) {
+    const set = this.index.elementListeners.get(element)?.get(eventName);
+    if (!set || set.size === 0) return void 0;
+    return set.values().next().value;
+  }
+  /**
+   * Returns all listeners registered for a given element + event name.
+   */
+  getListeners(element, eventName) {
     return this.index.elementListeners.get(element)?.get(eventName);
   }
-  removeListener(element, eventName) {
-    this.index.elementListeners.get(element)?.delete(eventName);
+  /**
+   * Removes an event listener from a specific DOM element and updates the context's index accordingly. This method looks up the element in the elementListeners map and deletes the listener for the specified event name. This is typically called when an instruction is reverted or when a node is removed from the DOM, ensuring that any attached event listeners are properly cleaned up to prevent memory leaks and unintended behavior.
+   * 
+   * @param element 
+   * @param eventName 
+   */
+  removeListener(element, eventName, listener) {
+    const byEvent = this.index.elementListeners.get(element);
+    if (!byEvent) return;
+    if (listener) {
+      const set = byEvent.get(eventName);
+      if (set) {
+        set.delete(listener);
+        if (set.size === 0) byEvent.delete(eventName);
+      }
+    } else {
+      byEvent.delete(eventName);
+    }
   }
 };
 __name(_AreHTMLEngineContext, "AreHTMLEngineContext");
 var AreHTMLEngineContext = _AreHTMLEngineContext;
 
-// src/lib/AreInterpreter/AreInterpreter.error.ts
-var _AreInterpreterError = class _AreInterpreterError extends y {
+// src/engine/AreHTML.constants.ts
+var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
+  "allowfullscreen",
+  "async",
+  "autofocus",
+  "autoplay",
+  "checked",
+  "controls",
+  "default",
+  "defer",
+  "disabled",
+  "formnovalidate",
+  "hidden",
+  "inert",
+  "ismap",
+  "itemscope",
+  "loop",
+  "multiple",
+  "muted",
+  "nomodule",
+  "novalidate",
+  "open",
+  "playsinline",
+  "readonly",
+  "required",
+  "reversed",
+  "selected"
+]);
+function isBooleanAttribute(name) {
+  return BOOLEAN_ATTRIBUTES.has(name.toLowerCase());
+}
+__name(isBooleanAttribute, "isBooleanAttribute");
+var IDL_FORM_PROPERTIES = {
+  INPUT: /* @__PURE__ */ new Set(["value", "checked", "indeterminate"]),
+  TEXTAREA: /* @__PURE__ */ new Set(["value"]),
+  SELECT: /* @__PURE__ */ new Set(["value"]),
+  OPTION: /* @__PURE__ */ new Set(["selected"])
 };
-__name(_AreInterpreterError, "AreInterpreterError");
-var AreInterpreterError = _AreInterpreterError;
-
-// src/engines/html/components/AreDirective/AreDirective.context.ts
-var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext {
-  constructor(aseid) {
-    super(aseid.toString());
-    this.scope = {};
+function isIDLFormProperty(tagName, attrName) {
+  const set = IDL_FORM_PROPERTIES[tagName.toUpperCase()];
+  return !!set && set.has(attrName);
+}
+__name(isIDLFormProperty, "isIDLFormProperty");
+function normalizeClassValue(value) {
+  if (value === null || value === void 0 || value === false) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) {
+    return value.map(normalizeClassValue).filter(Boolean).join(" ");
   }
-};
-__name(_AreDirectiveContext, "AreDirectiveContext");
-var AreDirectiveContext = _AreDirectiveContext;
+  if (typeof value === "object") {
+    const parts = [];
+    for (const key of Object.keys(value)) {
+      if (value[key]) parts.push(key);
+    }
+    return parts.join(" ");
+  }
+  return "";
+}
+__name(normalizeClassValue, "normalizeClassValue");
+function normalizeStyleValue(value) {
+  if (value === null || value === void 0 || value === false) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) {
+    return value.map(normalizeStyleValue).filter(Boolean).join("; ");
+  }
+  if (typeof value === "object") {
+    const parts = [];
+    for (const key of Object.keys(value)) {
+      const v2 = value[key];
+      if (v2 === null || v2 === void 0 || v2 === false) continue;
+      const kebab = key.replace(/[A-Z]/g, (m2) => "-" + m2.toLowerCase());
+      parts.push(`${kebab}: ${v2}`);
+    }
+    return parts.join("; ");
+  }
+  return "";
+}
+__name(normalizeStyleValue, "normalizeStyleValue");
+function parseEventName(raw) {
+  const [event, ...modifiers] = raw.split(".");
+  return { event, modifiers: new Set(modifiers) };
+}
+__name(parseEventName, "parseEventName");
+function toDOMString(value) {
+  if (value === null || value === void 0) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return "";
+  }
+}
+__name(toDOMString, "toDOMString");
 
-// src/engines/html/DOM.interpreter.ts
-var DOMInterpreter = class extends AreInterpreter {
+// src/engine/AreHTML.interpreter.ts
+var AreHTMLInterpreter = class extends AreInterpreter {
   addElement(declaration, context, logger) {
     try {
       const node = declaration.owner;
@@ -9471,7 +9595,6 @@ var DOMInterpreter = class extends AreInterpreter {
         parent = parent.parent;
       }
       const tag = node.tag;
-      console.log("parent: ", parent);
       if (parent) {
         const mountPoint = context.getNodeElement(parent);
         if (!mountPoint) {
@@ -9480,7 +9603,8 @@ var DOMInterpreter = class extends AreInterpreter {
             description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
           });
         }
-        const element = document.createElement(tag);
+        const element = context.container.createElement(tag);
+        element.setAttribute("data-aseid", node.aseid.toString());
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -9488,14 +9612,14 @@ var DOMInterpreter = class extends AreInterpreter {
         }
         context.setInstructionElement(declaration, element);
       } else {
-        const mountPoint = document.getElementById(node.id);
+        const mountPoint = context.container.getElementById(node.id);
         if (!mountPoint) {
           throw new AreInterpreterError({
             title: "Mount Point Not Found",
             description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
           });
         }
-        const element = document.createElement(tag);
+        const element = context.container.createElement(tag);
         element.setAttribute("data-aseid", node.aseid.toString());
         mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
@@ -9513,7 +9637,7 @@ var DOMInterpreter = class extends AreInterpreter {
     }
     context.removeInstructionElement(declaration);
   }
-  addAttribute(mutation, context, store, directiveContext, logger) {
+  addAttribute(mutation, context, store, syntax, directiveContext, logger) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) {
       throw new AreInterpreterError({
@@ -9522,23 +9646,80 @@ var DOMInterpreter = class extends AreInterpreter {
       });
     }
     const { name, content, evaluate } = mutation.payload;
-    const value = evaluate ? AreCommonHelper.evaluate(content, store, {
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
       ...directiveContext?.scope || {}
     }) : content;
-    if (mutation.cache === void 0) {
-      const existingValue = element.getAttribute(name);
-      const result = existingValue ? `${existingValue} ${value}` : value;
-      element.setAttribute(name, result);
-      mutation.cache = value;
-    } else {
-      const existingValue = element.getAttribute(name);
-      const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
-      const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
-      const newParts = value ? value.split(/\s+/).filter(Boolean) : [];
-      const result = [...existingParts.filter((part) => !oldParts.has(part)), ...newParts].join(" ");
-      element.setAttribute(name, result);
-      mutation.cache = value;
+    const el = element;
+    const lowerName = name.toLowerCase();
+    if (isBooleanAttribute(lowerName)) {
+      if (rawValue) {
+        el.setAttribute(lowerName, "");
+        try {
+          el[lowerName] = true;
+        } catch {
+        }
+      } else {
+        el.removeAttribute(lowerName);
+        try {
+          el[lowerName] = false;
+        } catch {
+        }
+      }
+      mutation.cache = rawValue ? "true" : "";
+      return;
     }
+    if (isIDLFormProperty(el.tagName, name)) {
+      const propName = name === "value" ? "value" : name === "checked" ? "checked" : name === "selected" ? "selected" : name === "indeterminate" ? "indeterminate" : name;
+      try {
+        if (propName === "checked" || propName === "selected" || propName === "indeterminate") {
+          el[propName] = !!rawValue;
+        } else {
+          el[propName] = toDOMString(rawValue);
+        }
+      } catch {
+      }
+      if (propName !== "value") {
+        if (rawValue) el.setAttribute(name, "");
+        else el.removeAttribute(name);
+      } else {
+        el.setAttribute(name, toDOMString(rawValue));
+      }
+      mutation.cache = toDOMString(rawValue);
+      return;
+    }
+    if (lowerName === "class") {
+      const newValue = normalizeClassValue(rawValue);
+      if (mutation.cache === void 0) {
+        const existingValue = el.getAttribute("class");
+        const merged = existingValue ? `${existingValue} ${newValue}`.trim() : newValue;
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      } else {
+        const existingValue = el.getAttribute("class");
+        const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
+        const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
+        const newParts = newValue ? newValue.split(/\s+/).filter(Boolean) : [];
+        const merged = [...existingParts.filter((p) => !oldParts.has(p)), ...newParts].join(" ");
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      }
+      mutation.cache = newValue;
+      return;
+    }
+    if (lowerName === "style") {
+      const newValue = normalizeStyleValue(rawValue);
+      if (newValue) el.setAttribute("style", newValue);
+      else el.removeAttribute("style");
+      mutation.cache = newValue;
+      return;
+    }
+    const stringValue = toDOMString(rawValue);
+    if (stringValue === "" && evaluate && (rawValue === false || rawValue === null || rawValue === void 0)) {
+      el.removeAttribute(name);
+    } else {
+      el.setAttribute(name, stringValue);
+    }
+    mutation.cache = stringValue;
   }
   removeAttribute(mutation, context) {
     try {
@@ -9552,7 +9733,7 @@ var DOMInterpreter = class extends AreInterpreter {
       console.log("Error removing attribute:", error);
     }
   }
-  addEventListener(mutation, context, store, directiveContext, logger) {
+  addEventListener(mutation, context, store, syntax, directiveContext, logger) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) {
       throw new AreInterpreterError({
@@ -9560,12 +9741,19 @@ var DOMInterpreter = class extends AreInterpreter {
         description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before adding event listeners.`
       });
     }
-    const handlers = AreCommonHelper.extractEmitHandlers(mutation.payload.handler);
+    const { event: eventName, modifiers } = parseEventName(mutation.payload.name);
+    const listenerOptions = {};
+    if (modifiers.has("capture")) listenerOptions.capture = true;
+    if (modifiers.has("once")) listenerOptions.once = true;
+    if (modifiers.has("passive")) listenerOptions.passive = true;
+    const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
+    let liveEvent = null;
     const handlerScope = {};
     for (const handler of handlers) {
       const handlerFn = /* @__PURE__ */ __name((...args) => {
         const event = new AreEvent(handler);
-        event.set("args", args);
+        const effectiveArgs = args.length === 0 && liveEvent ? [liveEvent] : liveEvent ? [...args, liveEvent] : args;
+        event.set("args", effectiveArgs);
         event.set("element", element);
         event.set("instruction", mutation);
         mutation.owner.emit(event);
@@ -9573,37 +9761,83 @@ var DOMInterpreter = class extends AreInterpreter {
       handlerScope[`$${handler}`] = handlerFn;
     }
     const callback = /* @__PURE__ */ __name((e) => {
-      context.startPerformance("Click");
-      const result = AreCommonHelper.evaluate(mutation.payload.handler, store, {
-        ...handlerScope,
-        ...directiveContext?.scope || {}
-      });
-      if (typeof result === "function") result(e);
+      try {
+        liveEvent = e;
+        if (modifiers.has("self") && e.target !== element) return;
+        if (modifiers.has("stop")) e.stopPropagation();
+        if (modifiers.has("prevent")) e.preventDefault();
+        if (e instanceof KeyboardEvent && modifiers.size > 0) {
+          const key = (e.key || "").toLowerCase();
+          const KEY_ALIASES = {
+            enter: ["enter"],
+            esc: ["escape"],
+            escape: ["escape"],
+            tab: ["tab"],
+            space: [" ", "spacebar"],
+            up: ["arrowup"],
+            down: ["arrowdown"],
+            left: ["arrowleft"],
+            right: ["arrowright"],
+            delete: ["delete", "backspace"]
+          };
+          const keyMods = [...modifiers].filter((m2) => m2 in KEY_ALIASES || m2 === "ctrl" || m2 === "alt" || m2 === "shift" || m2 === "meta");
+          if (keyMods.length > 0) {
+            const keyMatch = keyMods.some((m2) => {
+              if (m2 === "ctrl") return e.ctrlKey;
+              if (m2 === "alt") return e.altKey;
+              if (m2 === "shift") return e.shiftKey;
+              if (m2 === "meta") return e.metaKey;
+              const aliases = KEY_ALIASES[m2];
+              return aliases && aliases.includes(key);
+            });
+            if (!keyMatch) return;
+          }
+        }
+        context.startPerformance("event:" + eventName);
+        const result = syntax.evaluate(mutation.payload.handler, store, {
+          ...handlerScope,
+          $event: e,
+          ...directiveContext?.scope || {}
+        });
+        if (typeof result === "function") result(e);
+        context.endPerformance("event:" + eventName);
+      } catch (err) {
+        logger?.error(err);
+      } finally {
+        liveEvent = null;
+      }
     }, "callback");
-    if (callback) {
-      element.addEventListener(mutation.payload.name, callback);
-      context.addListener(element, mutation.payload.name, callback);
+    const useOptions = listenerOptions.capture || listenerOptions.once || listenerOptions.passive;
+    if (useOptions) {
+      element.addEventListener(eventName, callback, listenerOptions);
+    } else {
+      element.addEventListener(eventName, callback);
     }
+    mutation.payload._callback = callback;
+    context.addListener(element, mutation.payload.name, callback);
   }
   removeEventListener(mutation, context) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) return;
     const { name } = mutation.payload;
-    const listener = context.getListener(element, name);
+    const { event: eventName } = parseEventName(name);
+    const listener = mutation.payload._callback;
     if (listener) {
-      element.removeEventListener(name, listener);
-      context.removeListener(element, name);
+      element.removeEventListener(eventName, listener);
+      context.removeListener(element, name, listener);
+      mutation.payload._callback = void 0;
     }
   }
-  addText(declaration, context, store, directiveContext, logger) {
+  addText(declaration, context, store, syntax, directiveContext, logger) {
     const node = declaration.owner.parent;
     const { content, evaluate } = declaration.payload;
-    const value = evaluate ? AreCommonHelper.evaluate(content, store, {
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
       ...directiveContext?.scope || {}
     }) : content;
+    const value = toDOMString(rawValue);
     if (!node) {
-      const textNode = document.createTextNode(value);
-      document.body.appendChild(textNode);
+      const textNode = context.container.createTextNode(value);
+      context.container.body.appendChild(textNode);
       context.setInstructionElement(declaration, textNode);
     } else {
       const element = context.getNodeElement(node);
@@ -9617,7 +9851,7 @@ var DOMInterpreter = class extends AreInterpreter {
       if (existingNode) {
         existingNode.textContent = value;
       } else {
-        const textNode = document.createTextNode(value);
+        const textNode = context.container.createTextNode(value);
         element.appendChild(textNode);
         context.setInstructionElement(declaration, textNode);
       }
@@ -9630,15 +9864,16 @@ var DOMInterpreter = class extends AreInterpreter {
     element.parentNode?.removeChild(element);
     context.removeInstructionElement(declaration);
   }
-  addComment(declaration, context, store, directiveContext, logger) {
+  addComment(declaration, context, store, syntax, directiveContext, logger) {
     const node = declaration.owner.parent;
     const { content, evaluate } = declaration.payload;
-    const value = evaluate ? AreCommonHelper.evaluate(content, store, {
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
       ...directiveContext?.scope || {}
     }) : content;
+    const value = toDOMString(rawValue);
     if (!node) {
-      const commentNode = document.createComment(value);
-      document.body.appendChild(commentNode);
+      const commentNode = context.container.createComment(value);
+      context.container.body.appendChild(commentNode);
       context.setInstructionElement(declaration, commentNode);
     } else {
       const element = context.getNodeElement(node);
@@ -9652,7 +9887,7 @@ var DOMInterpreter = class extends AreInterpreter {
       if (existingNode) {
         existingNode.textContent = value;
       } else {
-        const commentNode = document.createComment(value);
+        const commentNode = context.container.createComment(value);
         element.appendChild(commentNode);
         context.setInstructionElement(declaration, commentNode);
       }
@@ -9666,7 +9901,7 @@ var DOMInterpreter = class extends AreInterpreter {
     context.removeInstructionElement(declaration);
   }
 };
-__name(DOMInterpreter, "DOMInterpreter");
+__name(AreHTMLInterpreter, "AreHTMLInterpreter");
 __decorateClass([
   c2.Method({
     description: "Create an HTML element based on the provided declaration instruction. Handles both root-level mounting and child element creation based on the structural parent hierarchy."
@@ -9676,7 +9911,7 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext)),
   __decorateParam(2, ke(A_Logger))
-], DOMInterpreter.prototype, "addElement", 1);
+], AreHTMLInterpreter.prototype, "addElement", 1);
 __decorateClass([
   c2.Method({
     description: "Remove an HTML element that was created by a CreateElement declaration. Cleans up the DOM and the context index."
@@ -9685,7 +9920,7 @@ __decorateClass([
   AreInterpreter.Revert(AreHTMLInstructions.AddElement),
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext))
-], DOMInterpreter.prototype, "removeElement", 1);
+], AreHTMLInterpreter.prototype, "removeElement", 1);
 __decorateClass([
   c2.Method({
     description: "Add an attribute to an HTML element based on the provided mutation instruction."
@@ -9695,9 +9930,10 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext)),
   __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(AreDirectiveContext)),
-  __decorateParam(4, ke(A_Logger))
-], DOMInterpreter.prototype, "addAttribute", 1);
+  __decorateParam(3, ke(AreSyntax)),
+  __decorateParam(4, ke(AreDirectiveContext)),
+  __decorateParam(5, ke(A_Logger))
+], AreHTMLInterpreter.prototype, "addAttribute", 1);
 __decorateClass([
   c2.Method({
     description: "Remove an attribute from an HTML element based on the provided mutation instruction."
@@ -9705,7 +9941,7 @@ __decorateClass([
   AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext))
-], DOMInterpreter.prototype, "removeAttribute", 1);
+], AreHTMLInterpreter.prototype, "removeAttribute", 1);
 __decorateClass([
   c2.Method({
     description: "Add an event listener to an HTML element based on the provided mutation instruction."
@@ -9714,9 +9950,10 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext)),
   __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(AreDirectiveContext)),
-  __decorateParam(4, ke(A_Logger))
-], DOMInterpreter.prototype, "addEventListener", 1);
+  __decorateParam(3, ke(AreSyntax)),
+  __decorateParam(4, ke(AreDirectiveContext)),
+  __decorateParam(5, ke(A_Logger))
+], AreHTMLInterpreter.prototype, "addEventListener", 1);
 __decorateClass([
   c2.Method({
     description: "Remove an event listener from an HTML element based on the provided mutation instruction."
@@ -9724,7 +9961,7 @@ __decorateClass([
   AreInterpreter.Revert(AreHTMLInstructions.AddListener),
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext))
-], DOMInterpreter.prototype, "removeEventListener", 1);
+], AreHTMLInterpreter.prototype, "removeEventListener", 1);
 __decorateClass([
   c2.Method({
     description: "Add text content to an HTML element based on the provided declaration instruction."
@@ -9734,9 +9971,10 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext)),
   __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(AreDirectiveContext)),
-  __decorateParam(4, ke(A_Logger))
-], DOMInterpreter.prototype, "addText", 1);
+  __decorateParam(3, ke(AreSyntax)),
+  __decorateParam(4, ke(AreDirectiveContext)),
+  __decorateParam(5, ke(A_Logger))
+], AreHTMLInterpreter.prototype, "addText", 1);
 __decorateClass([
   c2.Method({
     description: "Remove text content from an HTML element based on the provided declaration instruction."
@@ -9744,7 +9982,7 @@ __decorateClass([
   AreInterpreter.Revert(AreHTMLInstructions.AddText),
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext))
-], DOMInterpreter.prototype, "removeText", 1);
+], AreHTMLInterpreter.prototype, "removeText", 1);
 __decorateClass([
   c2.Method({
     description: "Add a comment node to the DOM based on the provided declaration instruction."
@@ -9754,9 +9992,10 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext)),
   __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(AreDirectiveContext)),
-  __decorateParam(4, ke(A_Logger))
-], DOMInterpreter.prototype, "addComment", 1);
+  __decorateParam(3, ke(AreSyntax)),
+  __decorateParam(4, ke(AreDirectiveContext)),
+  __decorateParam(5, ke(A_Logger))
+], AreHTMLInterpreter.prototype, "addComment", 1);
 __decorateClass([
   c2.Method({
     description: "Remove a comment node from the DOM based on the provided declaration instruction."
@@ -9764,16 +10003,169 @@ __decorateClass([
   AreInterpreter.Revert(AreHTMLInstructions.AddComment),
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreHTMLEngineContext))
-], DOMInterpreter.prototype, "removeComment", 1);
-DOMInterpreter = __decorateClass([
+], AreHTMLInterpreter.prototype, "removeComment", 1);
+AreHTMLInterpreter = __decorateClass([
   c2.Component({
     namespace: "A-ARE",
-    name: "DOMInterpreter",
-    description: "DOMInterpreter is a component that serves as a host for rendering AreNodes into HTML. It provides the necessary context and environment for AreNodes to be rendered and interact with the DOM."
+    name: "AreHTMLInterpreter",
+    description: "AreHTMLInterpreter is a component that serves as a host for rendering AreNodes into HTML. It provides the necessary context and environment for AreNodes to be rendered and interact with the DOM."
   })
-], DOMInterpreter);
+], AreHTMLInterpreter);
 
-// src/engines/html/nodes/AreComment.node.ts
+// src/lib/AreHTMLAttribute/AreHTML.attribute.ts
+var _AreHTMLAttribute = class _AreHTMLAttribute extends AreAttribute {
+  get owner() {
+    return this.scope.issuer();
+  }
+};
+__name(_AreHTMLAttribute, "AreHTMLAttribute");
+var AreHTMLAttribute = _AreHTMLAttribute;
+
+// src/attributes/AreBinding.attribute.ts
+var _AreBindingAttribute = class _AreBindingAttribute extends AreHTMLAttribute {
+  // get value(): string {
+  //     const [firstPart, ...pathPart] = this.content.split('.');
+  //     const primaryObject = this.owner.store.get(firstPart);
+  //     return AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join('.')) as string;
+  // }
+};
+__name(_AreBindingAttribute, "AreBindingAttribute");
+var AreBindingAttribute = _AreBindingAttribute;
+
+// src/attributes/AreDirective.attribute.ts
+var _AreDirectiveAttribute = class _AreDirectiveAttribute extends AreHTMLAttribute {
+  /**
+   * Returns a custom directive component associated with this attribute, if available.
+   * 
+   * The method uses the attribute's name to resolve the corresponding directive component from the scope. It constructs the expected directive name by converting the attribute name to PascalCase and prefixing it with "AreDirective". If a matching directive component is found in the scope, it is returned; otherwise, the method returns undefined.
+   */
+  get component() {
+    const component = this.scope.resolve(`AreDirective${h.toPascalCase(this.name)}`);
+    return component;
+  }
+};
+__name(_AreDirectiveAttribute, "AreDirectiveAttribute");
+var AreDirectiveAttribute = _AreDirectiveAttribute;
+
+// src/attributes/AreEvent.attribute.ts
+var _AreEventAttribute = class _AreEventAttribute extends AreHTMLAttribute {
+};
+__name(_AreEventAttribute, "AreEventAttribute");
+var AreEventAttribute = _AreEventAttribute;
+
+// src/attributes/AreStatic.attribute.ts
+var _AreStaticAttribute = class _AreStaticAttribute extends AreHTMLAttribute {
+};
+__name(_AreStaticAttribute, "AreStaticAttribute");
+var AreStaticAttribute = _AreStaticAttribute;
+
+// src/lib/AreStyle/AreStyle.context.ts
+var _AreStyle = class _AreStyle extends L {
+  constructor(styles, aseid) {
+    super({
+      name: aseid ? aseid.toString() : "default-style"
+    });
+    this.styles = styles;
+  }
+};
+__name(_AreStyle, "AreStyle");
+var AreStyle = _AreStyle;
+
+// src/lib/AreHTMLNode/AreHTMLNode.ts
+var AreHTMLNode = class extends AreNode {
+  /**
+   * Actual node type. 
+   * By default it's a tag name
+   */
+  get tag() {
+    return this.aseid.entity;
+  }
+  /**
+    * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
+    * 
+    * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.
+    */
+  get staticAttributes() {
+    return this.scope.resolveFlatAll(AreStaticAttribute);
+  }
+  /**
+   * The binding attributes defined for the node, which are typically used to represent dynamic properties or characteristics of the node that can change based on the context or state. These attributes are usually defined in the template with a specific syntax (e.g., `:prop="value"` or `v-bind:prop="value"`) and are reactive, meaning that they will update automatically when the underlying data changes.
+   * 
+   * Example: For a node defined as `<div :class="dynamicClass">`, the binding attribute would be `:class="dynamicClass"`.
+   */
+  get bindings() {
+    return this.scope.resolveFlatAll(AreBindingAttribute);
+  }
+  /**
+   * The directive attributes defined for the node, which are typically used to represent special instructions or behaviors that should be applied to the node. These attributes are usually defined in the template with a specific syntax (e.g., `v-if="condition"` or `v-for="item in list"`) and are processed by the rendering engine to apply the corresponding logic or behavior to the node.
+   * 
+   * Example: For a node defined as `<div v-if="isVisible">`, the directive attribute would be `v-if="isVisible"`.
+   */
+  get directives() {
+    const directives = this.scope.resolveFlatAll(AreDirectiveAttribute);
+    return directives.filter((d2) => d2.component).sort((a2, b2) => {
+      const aMeta = c.meta(a2.component);
+      const bMeta = c.meta(b2.component);
+      const aPriority = aMeta.priority ?? 0;
+      const bPriority = bMeta.priority ?? 0;
+      return bPriority - aPriority;
+    });
+  }
+  /**
+   * The event attributes defined for the node, which are typically used to represent event listeners or handlers that should be attached to the node. These attributes are usually defined in the template with a specific syntax (e.g., `@click="handleClick"` or `v-on:click="handleClick"`) and are processed by the rendering engine to attach the corresponding event listeners to the node.
+   * 
+   * Example: For a node defined as `<button @click="handleClick">`, the event attribute would be `@click="handleClick"`.
+   */
+  get events() {
+    return this.scope.resolveFlatAll(AreEventAttribute);
+  }
+  /**
+   * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
+   */
+  get styles() {
+    return this.scope.resolveFlat(AreStyle);
+  }
+};
+__name(AreHTMLNode, "AreHTMLNode");
+AreHTMLNode = __decorateClass([
+  c2.Entity({
+    namespace: "A-ARE",
+    name: "AreHTMLNode",
+    description: "AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles."
+  })
+], AreHTMLNode);
+
+// src/nodes/AreInterpolation.ts
+var _AreInterpolation = class _AreInterpolation extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-interpolation"
+      }
+    });
+  }
+};
+__name(_AreInterpolation, "AreInterpolation");
+var AreInterpolation = _AreInterpolation;
+
+// src/nodes/AreText.ts
+var _AreText = class _AreText extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-text"
+      }
+    });
+  }
+};
+__name(_AreText, "AreText");
+var AreText = _AreText;
+
+// src/nodes/AreComment.ts
 var _AreComment = class _AreComment extends AreHTMLNode {
   fromNew(newEntity) {
     super.fromNew({
@@ -9788,7 +10180,7 @@ var _AreComment = class _AreComment extends AreHTMLNode {
 __name(_AreComment, "AreComment");
 var AreComment = _AreComment;
 
-// src/engines/html/nodes/AreComponent.node.ts
+// src/nodes/AreComponent.ts
 var AreComponentNode = class extends AreHTMLNode {
   /**
    * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
@@ -9810,7 +10202,7 @@ AreComponentNode = __decorateClass([
   })
 ], AreComponentNode);
 
-// src/engines/html/nodes/AreRoot.node.ts
+// src/nodes/AreRoot.ts
 var AreRootNode = class extends AreHTMLNode {
   /**
    * For the root node, we can default to a generic container element like <div> since it serves as the root of the component tree and does not correspond to a specific HTML tag defined in the markup. The actual content and structure of the root node will be determined by the child nodes and components that are rendered within it, allowing for flexibility in how the root node is used and what it contains.
@@ -9838,11 +10230,11 @@ AreRootNode = __decorateClass([
   })
 ], AreRootNode);
 
-// src/engines/html/AreHTML.tokenizer.ts
+// src/engine/AreHTML.tokenizer.ts
 var _AreHTMLTokenizer = class _AreHTMLTokenizer extends AreTokenizer {
   constructor() {
     super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
     super.tokenize(node, context, logger);
@@ -9872,6 +10264,7 @@ var _AreHTMLTokenizer = class _AreHTMLTokenizer extends AreTokenizer {
     for (const match of attrString.matchAll(this.ATTR_PATTERN)) {
       const raw = match[0];
       const full = match[1];
+      if (!full) continue;
       const value = match[2] ?? match[3] ?? match[4] ?? "true";
       const prefix = full[0];
       const isSpecial = prefix === ":" || prefix === "@" || prefix === "$";
@@ -9897,12 +10290,29 @@ __decorateClass([
 ], _AreHTMLTokenizer.prototype, "tokenize", 1);
 var AreHTMLTokenizer = _AreHTMLTokenizer;
 
-// src/engines/html/AreHTML.lifecycle.ts
+// src/lib/AreDirective/AreDirective.constants.ts
+var AreDirectiveFeatures = {
+  /**
+   * Feature that should transform the tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   */
+  Transform: "_AreDirective_Transform",
+  /**
+   * Feature that should convert a directiveAttribute definition into a set of SceneInstructions to be rendered correctly
+   */
+  Compile: "_AreDirective_Compile",
+  /**
+   * Feature that should update the directiveAttribute based on the changes in the store or other dependencies. 
+   */
+  Update: "_AreDirective_Update"
+};
+
+// src/engine/AreHTML.lifecycle.ts
 var _AreHTMLLifecycle = class _AreHTMLLifecycle extends AreLifecycle {
   initComponent(node, scope, context, logger, ...args) {
     super.init(node, scope, context, logger, ...args);
   }
-  initRoot(node, scope, context, logger, ...args) {
+  initRoot(node, scope, context, signalsContext, logger, ...args) {
+    signalsContext?.subscribe(node);
     super.init(node, scope, context, logger, ...args);
   }
   initText(node, scope, context, logger, ...args) {
@@ -9934,7 +10344,8 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(D)),
   __decorateParam(2, ke(AreHTMLEngineContext)),
-  __decorateParam(3, ke(A_Logger))
+  __decorateParam(3, ke(AreSignalsContext)),
+  __decorateParam(4, ke(A_Logger))
 ], _AreHTMLLifecycle.prototype, "initRoot", 1);
 __decorateClass([
   AreLifecycle.Init(AreText),
@@ -9962,7 +10373,7 @@ __decorateClass([
 ], _AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
 var AreHTMLLifecycle = _AreHTMLLifecycle;
 
-// src/engines/html/AreHTML.transformer.ts
+// src/engine/AreHTML.transformer.ts
 var _AreHTMLTransformer = class _AreHTMLTransformer extends AreTransformer {
   transformDirectiveAttribute(directive, store, feature, logger, ...args) {
     store.watch(directive);
@@ -9987,7 +10398,216 @@ __decorateClass([
 ], _AreHTMLTransformer.prototype, "transformDirectiveAttribute", 1);
 var AreHTMLTransformer = _AreHTMLTransformer;
 
-// src/engines/html/AreHTML.engine.ts
+// src/instructions/AddAttribute.instruction.ts
+var AddAttributeInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddAttribute, parent, props);
+    }
+  }
+};
+__name(AddAttributeInstruction, "AddAttributeInstruction");
+AddAttributeInstruction = __decorateClass([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AddAttributeInstruction",
+    description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
+  })
+], AddAttributeInstruction);
+
+// src/instructions/AddText.instruction.ts
+var AddTextInstruction = class extends AreDeclaration {
+  constructor(props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddText, props);
+    }
+  }
+};
+__name(AddTextInstruction, "AddTextInstruction");
+AddTextInstruction = __decorateClass([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AddTextInstruction",
+    description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
+  })
+], AddTextInstruction);
+
+// src/instructions/AddListener.instruction.ts
+var AddListenerInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddListener, parent, props);
+    }
+  }
+};
+__name(AddListenerInstruction, "AddListenerInstruction");
+AddListenerInstruction = __decorateClass([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AddListenerInstruction",
+    description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
+  })
+], AddListenerInstruction);
+
+// src/engine/AreHTML.compiler.ts
+var AreHTMLCompiler = class extends AreCompiler {
+  compileInterpolation(interpolation, scene, store, logger, ...args) {
+    scene.plan(new AddTextInstruction({ content: interpolation.content, evaluate: true }));
+  }
+  compileText(text, scene, logger, ...args) {
+    logger?.debug("cyan", `AreHTMLCompiler: compile text node <${text.aseid.toString()}> with content: "${text.content}"`);
+    if (scene.host)
+      scene.unPlan(scene.host);
+    scene.plan(new AddTextInstruction({ content: text.content }));
+  }
+  compileStaticAttribute(attribute, scene, ...args) {
+    if (!scene.host)
+      throw new AreCompilerError({
+        title: "Scene Host Not Found",
+        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
+      });
+    scene.plan(new AddAttributeInstruction(scene.host, {
+      name: attribute.name,
+      content: attribute.content
+    }));
+  }
+  compileDirectiveAttribute(directive, store, feature, logger, ...args) {
+    store.watch(directive);
+    if (directive.component) {
+      feature.chain(directive.component, AreDirectiveFeatures.Compile, directive.owner.scope);
+    } else {
+      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${h.toPascalCase(directive.name)}" to handle this directive.`);
+    }
+    store.unwatch(directive);
+  }
+  compileEventAttribute(attribute, scene, ...args) {
+    if (!scene.host)
+      throw new AreCompilerError({
+        title: "Scene Host Not Found",
+        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
+      });
+    scene.plan(new AddListenerInstruction(scene.host, {
+      name: attribute.name,
+      handler: attribute.content
+    }));
+  }
+  compileBindingAttribute(attribute, scene, parentStore, store, syntax, ...args) {
+    if (!scene.host)
+      throw new AreCompilerError({
+        title: "Scene Host Not Found",
+        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
+      });
+    const node = attribute.owner;
+    const props = node.component?.props;
+    let propName;
+    if (props) {
+      if (props[attribute.name]) {
+        propName = attribute.name;
+      } else {
+        const camel = h.toCamelCase(attribute.name);
+        if (props[camel]) propName = camel;
+      }
+    }
+    if (propName && props) {
+      const propDefinition = props[propName];
+      const coerce = /* @__PURE__ */ __name((raw) => {
+        let value = raw;
+        if (propDefinition.type) {
+          switch (propDefinition.type) {
+            case "string":
+              value = value === void 0 || value === null ? "" : String(value);
+              break;
+            case "number":
+              value = Number(value);
+              break;
+            case "boolean":
+              value = Boolean(value);
+              break;
+          }
+        }
+        return value;
+      }, "coerce");
+      const watcher = {
+        update: /* @__PURE__ */ __name(() => {
+          try {
+            parentStore.watch(watcher);
+            const next = coerce(syntax.evaluate(attribute.content, parentStore));
+            parentStore.unwatch(watcher);
+            store.set(propName, next);
+          } catch (e) {
+            parentStore.unwatch(watcher);
+          }
+        }, "update")
+      };
+      parentStore.watch(watcher);
+      const initial = coerce(syntax.evaluate(attribute.content, parentStore));
+      parentStore.unwatch(watcher);
+      store.set(propName, initial);
+      return;
+    }
+    const instruction = new AddAttributeInstruction(scene.host, {
+      name: attribute.name,
+      content: attribute.content,
+      evaluate: true
+    });
+    scene.plan(instruction);
+  }
+};
+__name(AreHTMLCompiler, "AreHTMLCompiler");
+__decorateClass([
+  AreCompiler.Compile(AreInterpolation),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreScene)),
+  __decorateParam(2, ke(AreStore)),
+  __decorateParam(3, ke(A_Logger))
+], AreHTMLCompiler.prototype, "compileInterpolation", 1);
+__decorateClass([
+  AreCompiler.Compile(AreText),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreScene)),
+  __decorateParam(2, ke(A_Logger))
+], AreHTMLCompiler.prototype, "compileText", 1);
+__decorateClass([
+  AreCompiler.Compile(AreStaticAttribute),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreScene))
+], AreHTMLCompiler.prototype, "compileStaticAttribute", 1);
+__decorateClass([
+  AreCompiler.Compile(AreDirectiveAttribute),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreStore)),
+  __decorateParam(2, ke(w)),
+  __decorateParam(3, ke(A_Logger))
+], AreHTMLCompiler.prototype, "compileDirectiveAttribute", 1);
+__decorateClass([
+  AreCompiler.Compile(AreEventAttribute),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreScene))
+], AreHTMLCompiler.prototype, "compileEventAttribute", 1);
+__decorateClass([
+  AreCompiler.Compile(AreBindingAttribute),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreScene)),
+  __decorateParam(2, F.Parent()),
+  __decorateParam(2, ke(AreStore)),
+  __decorateParam(3, ke(AreStore)),
+  __decorateParam(4, ke(AreSyntax))
+], AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
+AreHTMLCompiler = __decorateClass([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AreHTMLCompiler",
+    description: "HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments."
+  })
+], AreHTMLCompiler);
+
+// src/engine/AreHTML.engine.ts
 var AreHTMLEngine = class extends AreEngine {
   get DefaultSyntax() {
     return new AreSyntax({
@@ -10034,10 +10654,10 @@ var AreHTMLEngine = class extends AreEngine {
   }
   async init(scope) {
     this.package(scope, {
-      context: new AreHTMLEngineContext(),
+      context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
       compiler: AreHTMLCompiler,
-      interpreter: DOMInterpreter,
+      interpreter: AreHTMLInterpreter,
       tokenizer: AreHTMLTokenizer,
       lifecycle: AreHTMLLifecycle,
       transformer: AreHTMLTransformer
@@ -10097,8 +10717,12 @@ var AreHTMLEngine = class extends AreEngine {
         if (nextOpen !== -1 && nextOpen < nextClose) {
           const charAfter = source[nextOpen + tagName.length + 1];
           if (charAfter === " " || charAfter === ">" || charAfter === "/") {
-            level++;
-            searchIndex = nextOpen + tagName.length + 1;
+            const innerEnd = AreHTMLEngine.findTagClose(source, nextOpen);
+            const isSelfClose = innerEnd !== -1 && source[innerEnd - 1] === "/";
+            if (!isSelfClose) {
+              level++;
+            }
+            searchIndex = innerEnd === -1 ? nextOpen + tagName.length + 1 : innerEnd + 1;
             continue;
           }
         }
@@ -10150,188 +10774,6 @@ AreHTMLEngine = __decorateClass([
   })
 ], AreHTMLEngine);
 
-// src/engines/html/AreApp.container.ts
-var _a80;
-var _AreApp = class _AreApp extends A_Service {
-  async [_a80 = A_ServiceFeatures.onStart](engine, context, logger) {
-    try {
-      await engine.load();
-      await engine.build(context, logger);
-      await engine.execute(context, logger);
-    } catch (error) {
-      logger?.error(error);
-    }
-  }
-};
-__name(_AreApp, "AreApp");
-__decorateClass([
-  w.Extend(),
-  __decorateParam(0, F.Required()),
-  __decorateParam(0, ke(AreHTMLEngine)),
-  __decorateParam(1, F.Required()),
-  __decorateParam(1, ke(AreContext)),
-  __decorateParam(2, ke(A_Logger))
-], _AreApp.prototype, _a80, 1);
-var AreApp = _AreApp;
-
-// src/engines/html/components/AreRoot/AreRoot.component.ts
-var AreRoot = class extends Are {
-  constructor() {
-    super(...arguments);
-    this.props = {
-      default: {
-        type: "string",
-        default: ""
-      }
-    };
-  }
-  async onSignal(root, vector, store, logger) {
-  }
-};
-__name(AreRoot, "AreRoot");
-__decorateClass([
-  Are.Signal,
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(A_SignalVector)),
-  __decorateParam(2, ke(AreStore)),
-  __decorateParam(3, ke(A_Logger))
-], AreRoot.prototype, "onSignal", 1);
-AreRoot = __decorateClass([
-  c2.Component({
-    namespace: "A-ARE",
-    name: "AreRoot",
-    description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
-  })
-], AreRoot);
-
-// src/lib/AreSignals/AreSignal.entity.ts
-var _AreSignal = class _AreSignal extends A_Signal {
-};
-__name(_AreSignal, "AreSignal");
-var AreSignal = _AreSignal;
-
-// src/lib/AreSignals/entities/AreInit.signal.ts
-var _AreInit = class _AreInit extends AreSignal {
-  static default() {
-    return new _AreInit({ data: { ready: false } });
-  }
-};
-__name(_AreInit, "AreInit");
-var AreInit = _AreInit;
-
-// node_modules/@adaas/a-utils/dist/browser/a-route.mjs
-var _a81;
-var A_Route = (_a81 = class extends L {
-  constructor(url) {
-    super();
-    this.url = url instanceof RegExp ? url.source : url;
-  }
-  /**
-   * Returns path only without query and hash
-   */
-  get path() {
-    const p = this.url.split("?")[0].split("#")[0];
-    if (p.includes("://")) {
-      const pathStartIndex = p.indexOf("/", p.indexOf("://") + 3);
-      if (pathStartIndex === -1) {
-        return "/";
-      } else {
-        const path = p.slice(pathStartIndex);
-        return path.endsWith("/") ? path.slice(0, -1) : path;
-      }
-    }
-    return p.endsWith("/") ? p.slice(0, -1) : p;
-  }
-  /**
-   * Returns array of parameter names in the route path
-   */
-  get params() {
-    return this.path.match(/:([^\/]+)/g)?.map((param) => param.slice(1)) || [];
-  }
-  /**
-   * Returns protocol based on URL scheme
-   */
-  get protocol() {
-    switch (true) {
-      case this.url.startsWith("http://"):
-        return "http";
-      case this.url.startsWith("https://"):
-        return "https";
-      case this.url.startsWith("ws://"):
-        return "ws";
-      case this.url.startsWith("wss://"):
-        return "wss";
-      default:
-        return this.url.includes("://") ? this.url.split("://")[0] : "http";
-    }
-  }
-  extractParams(url) {
-    const cleanUrl = url.split("?")[0];
-    const urlSegments = cleanUrl.split("/").filter(Boolean);
-    const maskSegments = this.path.split("/").filter(Boolean);
-    const params = {};
-    for (let i = 0; i < maskSegments.length; i++) {
-      const maskSegment = maskSegments[i];
-      const urlSegment = urlSegments[i];
-      if (maskSegment.startsWith(":")) {
-        const paramName = maskSegment.slice(1);
-        params[paramName] = urlSegment;
-      } else if (maskSegment !== urlSegment) {
-        return {};
-      }
-    }
-    return params;
-  }
-  extractQuery(url) {
-    const query = {};
-    const queryString = url.split("?")[1];
-    if (!queryString) return query;
-    const cleanQuery = queryString.split("#")[0];
-    for (const pair of cleanQuery.split("&")) {
-      if (!pair) continue;
-      const [key, value = ""] = pair.split("=");
-      query[decodeURIComponent(key)] = decodeURIComponent(value);
-    }
-    return query;
-  }
-  toString() {
-    return `${this.path}`;
-  }
-  toRegExp() {
-    return new RegExp(`^${this.path.replace(/\/:([^\/]+)/g, "/([^/]+)")}$`);
-  }
-  toAFeatureExtension(extensionScope = []) {
-    return new RegExp(`^${extensionScope.length ? `(${extensionScope.join("|")})` : ".*"}\\.${this.path.replace(/\/:([^\/]+)/g, "/([^/]+)")}$`);
-  }
-}, __name(_a81, "A_Route"), _a81);
-A_Route = __decorateClass2([
-  c2.Fragment({
-    namespace: "A-Utils",
-    name: "A-Route",
-    description: "Route fragment that defines URL patterns for routing purposes. It supports dynamic parameters and query extraction, allowing for flexible route definitions. This fragment can be used in routing systems to match incoming URLs against defined routes and extract relevant parameters and query strings."
-  })
-], A_Route);
-
-// src/lib/AreSignals/entities/AreRoute.signal.ts
-var _AreRoute = class _AreRoute extends AreSignal {
-  constructor(path) {
-    super({
-      data: new A_Route(path)
-    });
-  }
-  get route() {
-    return this.data;
-  }
-  static default() {
-    return new _AreRoute(document.location.href);
-  }
-  compare(other) {
-    return this.route.toRegExp().test(other.data.toString());
-  }
-};
-__name(_AreRoute, "AreRoute");
-var AreRoute = _AreRoute;
-
 // examples/jumpstart/src/components/List.component.ts
 var _ListComponent = class _ListComponent extends Are {
   async template(node) {
@@ -10343,20 +10785,21 @@ var _ListComponent = class _ListComponent extends Are {
             <li @click="$handleClick('Products')" :class="active==='Products' ? 'menu-item-active' : ''" class="menu-item"><span class="menu-icon">\u22A0</span> <span class="menu-text">{{item3}}</span></li>
             <li @click="$handleClick('Orders')" :class="active==='Orders' ? 'menu-item-active' : ''" class="menu-item"><span class="menu-icon">\u229F</span> <span class="menu-text">{{item4}}</span></li>
         </ul>
-        <div class="menu-section">System</div>    
+        <div class="menu-section">System</div>
             <button @click="$add">Add +</button>
-            <ul class="menu">
-                <li 
-                $for="item in items" @click="$handleClick(item.name)"
-                $if="active=='Dashboard'" 
-                :class="active===item.name ? 'menu-item-active' : ''" 
-                class="menu-item">
-                <span class="menu-icon">\u2299</span> 
-                <span class="menu-text">{{item.name}}</span> 
-                <span $if="item.badge > 0" class="menu-badge">{{item.badge}}</span>
-                <button @click="$remove(item)">+</button>
-                </li>
-            </ul>
+            <div $if="active=='Dashboard'">
+                <ul class="menu">
+                    <li
+                    $for="item in items track item.name" @click="$handleClick(item.name)"
+                    :class="active===item.name ? 'menu-item-active' : ''"
+                    class="menu-item">
+                    <span class="menu-icon">\u2299</span>
+                    <span class="menu-text">{{item.name}}</span>
+                    <span $if="item.badge > 0" class="menu-badge">{{item.badge}}</span>
+                    <button @click.stop="$remove(item)">+</button>
+                    </li>
+                </ul>
+            </div>
         `);
   }
   async data(store) {
@@ -10442,7 +10885,7 @@ __decorateClass([
 ], _ListComponent.prototype, "handleClick", 1);
 var ListComponent = _ListComponent;
 
-// src/engines/html/components/AreDirective/AreDirective.meta.ts
+// src/lib/AreDirective/AreDirective.meta.ts
 var _AreDirectiveMeta = class _AreDirectiveMeta extends R {
   constructor() {
     super(...arguments);
@@ -10452,7 +10895,7 @@ var _AreDirectiveMeta = class _AreDirectiveMeta extends R {
 __name(_AreDirectiveMeta, "AreDirectiveMeta");
 var AreDirectiveMeta = _AreDirectiveMeta;
 
-// src/engines/html/components/AreDirective/AreDirective.component.ts
+// src/lib/AreDirective/AreDirective.component.ts
 var AreDirective = class extends v {
   //==================================================================================
   //======================== LIFECYCLE DECORATORS ====================================
@@ -10552,7 +10995,29 @@ AreDirective = __decorateClass([
   m.Define(AreDirectiveMeta)
 ], AreDirective);
 
-// src/engines/html/directives/AreDirectiveIf.directive.ts
+// src/instructions/AddComment.instruction.ts
+var AddCommentInstruction = class extends AreDeclaration {
+  get content() {
+    return this.payload.content;
+  }
+  constructor(props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddComment, props);
+    }
+  }
+};
+__name(AddCommentInstruction, "AddCommentInstruction");
+AddCommentInstruction = __decorateClass([
+  c2.Component({
+    namespace: "A-ARE",
+    name: "AddCommentInstruction",
+    description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
+  })
+], AddCommentInstruction);
+
+// src/directives/AreDirectiveIf.directive.ts
 var AreDirectiveIf = class extends AreDirective {
   transform(attribute, scope, store, scene, logger, ...args) {
     logger.debug(`[Transform] directive $IF for <${attribute.owner.aseid.toString()}>`);
@@ -10568,9 +11033,8 @@ var AreDirectiveIf = class extends AreDirective {
     ifTemplate.scene.deactivate();
     attribute.template = ifTemplate;
   }
-  compile(attribute, store, scene, directiveContext, ...args) {
-    console.log('Compiling directive "if" with attribute content:', attribute);
-    attribute.value = AreCommonHelper.evaluate(attribute.content, store, {
+  compile(attribute, store, scene, syntax, directiveContext, ...args) {
+    attribute.value = syntax.evaluate(attribute.content, store, {
       ...directiveContext?.scope || {}
     });
     const hostInstruction = scene.host;
@@ -10584,9 +11048,12 @@ var AreDirectiveIf = class extends AreDirective {
     else
       attribute.template.scene.deactivate();
   }
-  update(attribute, store, scope, scene, ...args) {
-    attribute.value = AreCommonHelper.evaluate(attribute.content, store);
-    if (attribute.value) {
+  update(attribute, store, scope, syntax, scene, ...args) {
+    const previous = !!attribute.value;
+    const next = !!syntax.evaluate(attribute.content, store);
+    attribute.value = next;
+    if (previous === next) return;
+    if (next) {
       attribute.template.scene.activate();
       attribute.template.mount();
     } else {
@@ -10609,20 +11076,22 @@ __decorateClass([
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreStore)),
   __decorateParam(2, ke(AreScene)),
-  __decorateParam(3, ke(AreDirectiveContext))
+  __decorateParam(3, ke(AreSyntax)),
+  __decorateParam(4, ke(AreDirectiveContext))
 ], AreDirectiveIf.prototype, "compile", 1);
 __decorateClass([
   AreDirective.Update,
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(AreStore)),
   __decorateParam(2, ke(D)),
-  __decorateParam(3, ke(AreScene))
+  __decorateParam(3, ke(AreSyntax)),
+  __decorateParam(4, ke(AreScene))
 ], AreDirectiveIf.prototype, "update", 1);
 AreDirectiveIf = __decorateClass([
   AreDirective.Priority(2)
 ], AreDirectiveIf);
 
-// src/engines/html/directives/AreDirectiveFor.directive.ts
+// src/directives/AreDirectiveFor.directive.ts
 var AreDirectiveFor = class extends AreDirective {
   transform(attribute, scope, store, scene, logger, ...args) {
     logger.debug(`[Transform] directive $FOR for <${attribute.owner.aseid.toString()}>`);
@@ -10638,11 +11107,9 @@ var AreDirectiveFor = class extends AreDirective {
     const { key, index, arrayExpr } = this.parseExpression(attribute.content);
     const array = this.resolveArray(store, arrayExpr, attribute.content);
     attribute.value = array;
-    console.log('Initial array for "for" directive:', scene);
     for (let i = 0; i < array.length; i++) {
       this.spawnItemNode(attribute.template, attribute.owner, key, index, array[i], i);
     }
-    console.log('Template for "for" directive:', forTemplate);
   }
   compile(attribute, store, scene, ...args) {
     const hostInstruction = scene.host;
@@ -10653,49 +11120,81 @@ var AreDirectiveFor = class extends AreDirective {
     scene.unPlan(hostInstruction);
   }
   update(attribute, store, scene, ...args) {
-    const { key, index, arrayExpr } = this.parseExpression(attribute.content);
+    const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
     const newArray = this.resolveArray(store, arrayExpr, attribute.content);
     const owner = attribute.owner;
     const currentChildren = [...owner.children];
     attribute.value = newArray;
-    const newLen = newArray.length;
-    const newItemSet = new Set(newArray);
-    const keptChildren = [];
-    const removedChildren = [];
-    for (const child of currentChildren) {
+    const computeKey = this.makeKeyFn(key, index, trackExpr);
+    const childByKey = /* @__PURE__ */ new Map();
+    const remaining = /* @__PURE__ */ new Set();
+    for (let i = 0; i < currentChildren.length; i++) {
+      const child = currentChildren[i];
       const ctx = child.scope.resolveFlat(AreDirectiveContext);
-      if (ctx && newItemSet.has(ctx.scope[key])) {
-        keptChildren.push(child);
+      const k2 = ctx ? computeKey(ctx.scope[key], ctx.scope[index || "index"]) : /* @__PURE__ */ Symbol("orphan");
+      childByKey.set(k2, child);
+      remaining.add(child);
+    }
+    const desired = [];
+    const newOnes = [];
+    for (let i = 0; i < newArray.length; i++) {
+      const item = newArray[i];
+      const k2 = computeKey(item, i);
+      const existing = childByKey.get(k2);
+      if (existing) {
+        remaining.delete(existing);
+        let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
+        if (!directiveContext) {
+          directiveContext = new AreDirectiveContext(existing.aseid);
+          existing.scope.register(directiveContext);
+        }
+        directiveContext.scope = {
+          ...directiveContext.scope,
+          [key]: item,
+          [index || "index"]: i
+        };
+        desired.push(existing);
       } else {
-        removedChildren.push(child);
+        const itemNode = this.spawnItemNode(attribute.template, owner, key, index, item, i);
+        desired.push(itemNode);
+        newOnes.push(itemNode);
       }
     }
-    for (const child of removedChildren) {
+    for (const child of remaining) {
       child.unmount();
       owner.removeChild(child);
     }
-    for (let i = 0; i < keptChildren.length; i++) {
-      let directiveContext = keptChildren[i].scope.resolveFlat(AreDirectiveContext);
-      if (!directiveContext) {
-        directiveContext = new AreDirectiveContext(keptChildren[i].aseid);
-        keptChildren[i].scope.register(directiveContext);
-      }
-      directiveContext.scope = {
-        ...directiveContext.scope,
-        [key]: newArray[i],
-        [index || "index"]: i
-      };
-    }
-    for (let i = keptChildren.length; i < newLen; i++) {
-      const itemNode = this.spawnItemNode(attribute.template, owner, key, index, newArray[i], i);
-      itemNode.transform();
-      itemNode.compile();
-      itemNode.mount();
+    for (const child of newOnes) {
+      child.transform();
+      child.compile();
+      child.mount();
     }
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────
   // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Build a key-function that derives a stable identity from each item.
+   * If the user provided a `track <expr>` clause, evaluate it as a path on
+   * the item; otherwise fall back to the item identity (reference equality).
+   */
+  makeKeyFn(key, index, trackExpr) {
+    if (!trackExpr) {
+      return (item, i) => item ?? i;
+    }
+    const path = trackExpr.startsWith(key + ".") ? trackExpr.slice(key.length + 1) : trackExpr;
+    return (item, i) => {
+      if (item == null) return i;
+      if (path === key || path === "$index") return path === "$index" ? i : item;
+      const parts = path.split(".");
+      let v2 = item;
+      for (const p of parts) {
+        if (v2 == null) return i;
+        v2 = v2[p];
+      }
+      return v2 ?? i;
+    };
+  }
   /**
    * Parses the $for expression string into its constituent parts.
    *
@@ -10705,16 +11204,29 @@ var AreDirectiveFor = class extends AreDirective {
    *   (item, index) in items
    *   item in filter(items)
    *   item, index in filter(items, 'active')
+   *   item in items track item.id
+   *   (item, i) in items track item.id
    */
   parseExpression(content) {
-    const inIndex = content.lastIndexOf(" in ");
-    const keyAndIndex = content.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
-    const arrayExpr = content.slice(inIndex + 4).trim();
+    let trackExpr;
+    const trackIdx = content.search(/\s+track\s+/);
+    let body = content;
+    if (trackIdx !== -1) {
+      const m2 = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
+      if (m2) {
+        trackExpr = m2[1].trim();
+        body = content.slice(0, trackIdx).trim();
+      }
+    }
+    const inIndex = body.lastIndexOf(" in ");
+    const keyAndIndex = body.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
+    const arrayExpr = body.slice(inIndex + 4).trim();
     const keyParts = keyAndIndex.split(",").map((p) => p.trim());
     return {
       key: keyParts[0],
       index: keyParts[1] || void 0,
-      arrayExpr
+      arrayExpr,
+      trackExpr
     };
   }
   /**
@@ -10812,7 +11324,7 @@ AreDirectiveFor = __decorateClass([
 // examples/jumpstart/src/concept.ts
 (async () => {
   try {
-    const container = new AreApp({
+    const container = new AreContainer({
       name: "ARE Jumpstart",
       components: [
         // ----------------------------------
@@ -10851,7 +11363,10 @@ AreDirectiveFor = __decorateClass([
         AreRoute
       ],
       fragments: [
-        new AreHTMLEngineContext(document.body.innerHTML),
+        new A_SignalState([AreRoute]),
+        new AreHTMLEngineContext({
+          container: document
+        }),
         new A_Config({
           defaults: {
             [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "info"

@@ -4,6 +4,7 @@ var aConcept = require('@adaas/a-concept');
 var aLogger = require('@adaas/a-utils/a-logger');
 var AreDirective_meta = require('./AreDirective.meta');
 var AreDirective_constants = require('./AreDirective.constants');
+var core = require('@adaas/a-frame/core');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -111,6 +112,10 @@ __decorateClass([
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller))
 ], exports.AreDirective.prototype, "update", 1);
 exports.AreDirective = __decorateClass([
+  core.A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
+  }),
   aConcept.A_Meta.Define(AreDirective_meta.AreDirectiveMeta)
 ], exports.AreDirective);
 //# sourceMappingURL=AreDirective.component.js.map

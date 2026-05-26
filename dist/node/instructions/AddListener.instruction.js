@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -22,9 +22,8 @@ exports.AddListenerInstruction = class AddListenerInstruction extends are.AreMut
   }
 };
 exports.AddListenerInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddListenerInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
   })
 ], exports.AddListenerInstruction);

@@ -1,7 +1,7 @@
 'use strict';
 
 var aConcept = require('@adaas/a-concept');
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var node = require('@adaas/are-html/node');
 
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -31,9 +31,8 @@ exports.AreRootNode = class AreRootNode extends node.AreHTMLNode {
   }
 };
 exports.AreRootNode = __decorateClass([
-  aFrame.A_Frame.Entity({
-    namespace: "A-ARE",
-    name: "AreRootNode",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "AreRootNode represents the root node in the scene graph. It extends the base AreHTMLNode and includes additional properties and methods specific to the root node, such as handling the root element and its associated component."
   })
 ], exports.AreRootNode);

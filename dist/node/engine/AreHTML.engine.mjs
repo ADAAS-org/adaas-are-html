@@ -1,6 +1,6 @@
 import { __decorateClass, __decorateParam } from '../chunk-EQQGB2QZ.mjs';
 import { A_Feature, A_Inject, A_Scope } from '@adaas/a-concept';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { A_ServiceFeatures } from '@adaas/a-utils/a-service';
 import { AreEngine, AreSyntax } from '@adaas/are';
 import { AreHTMLInterpreter } from '@adaas/are-html/interpreter';
@@ -124,8 +124,12 @@ let AreHTMLEngine = class extends AreEngine {
         if (nextOpen !== -1 && nextOpen < nextClose) {
           const charAfter = source[nextOpen + tagName.length + 1];
           if (charAfter === " " || charAfter === ">" || charAfter === "/") {
-            level++;
-            searchIndex = nextOpen + tagName.length + 1;
+            const innerEnd = AreHTMLEngine.findTagClose(source, nextOpen);
+            const isSelfClose = innerEnd !== -1 && source[innerEnd - 1] === "/";
+            if (!isSelfClose) {
+              level++;
+            }
+            searchIndex = innerEnd === -1 ? nextOpen + tagName.length + 1 : innerEnd + 1;
             continue;
           }
         }
@@ -169,10 +173,9 @@ __decorateClass([
   __decorateParam(0, A_Inject(A_Scope))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AreHTMLEngine",
-    description: "HTML Rendering Engine for A-Concept Rendering Engine (ARE), responsible for processing and rendering HTML templates within the ARE framework."
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Concrete HTML rendering engine that assembles the full ARE pipeline for web environments. Bootstraps and wires AreHTMLTokenizer, AreHTMLTransformer, AreHTMLCompiler, AreHTMLInterpreter, and AreHTMLLifecycle; mounts root nodes from inline or fetched templates; and drives reactive re-renders via the AreSignals bus."
   })
 ], AreHTMLEngine);
 

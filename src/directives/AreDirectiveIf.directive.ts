@@ -5,9 +5,32 @@ import {  AreScene, AreStore, AreSyntax } from "@adaas/are";
 import { AreDirective } from "@adaas/are-html/directive/AreDirective.component";
 import { AddCommentInstruction } from "@adaas/are-html/instructions/AddComment.instruction";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
 
+/**
+ * `$if` directive — conditionally renders a node based on an expression.
+ *
+ * ⚠️ Known limitation: do NOT use `$if` and `$for` on the SAME element.
+ *    Doing so produces duplicated DOM on toggle because the two directives
+ *    share an owner node and clone its scope independently. Wrap one in a
+ *    parent element instead, e.g.:
+ *
+ *        <div $if="visible">
+ *            <li $for="item in items">{{item.name}}</li>
+ *        </div>
+ *
+ *    or
+ *
+ *        <ul $for="item in items">
+ *            <li $if="item.visible">{{item.name}}</li>
+ *        </ul>
+ */
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'Built-in $if directive. Conditionally renders a subtree based on a store expression. Replaces the target element with a stable comment anchor when the condition is false and restores the fully rendered subtree when it becomes true, preventing any leaking of the host element between states.'
+})
 @AreDirective.Priority(2)
 export class AreDirectiveIf extends AreDirective {
 
@@ -69,11 +92,8 @@ export class AreDirectiveIf extends AreDirective {
         @A_Inject(AreDirectiveContext) directiveContext?: AreDirectiveContext,
         ...args: any[]
     ): void {
-
-        console.log('Compiling directive "if" with attribute content:', attribute);
-
         /**
-         * 1. Extract the value from the store based on the attribute content 
+         * 1. Extract the value from the store based on the attribute content
          *    (which is the path to the value in the store)
          */
         attribute.value = syntax.evaluate(attribute.content, store, {
@@ -110,19 +130,21 @@ export class AreDirectiveIf extends AreDirective {
         ...args: any[]
     ): void {
         /**
-         * 1. Extract the value from the store based on the attribute content 
+         * 1. Extract the value from the store based on the attribute content
          *    (which is the path to the value in the store)
          */
-        attribute.value = syntax.evaluate(attribute.content, store);
+        const previous = !!attribute.value;
+        const next = !!syntax.evaluate(attribute.content, store);
+        attribute.value = next;
 
-        if (attribute.value) {
+        // Skip when truthiness has not changed — avoids redundant mount/unmount.
+        if (previous === next) return;
+
+        if (next) {
             attribute.template!.scene.activate();
-
-            attribute.template!.mount()
-        }
-        else {
+            attribute.template!.mount();
+        } else {
             attribute.template!.unmount();
-
             attribute.template!.scene.deactivate();
         }
     }

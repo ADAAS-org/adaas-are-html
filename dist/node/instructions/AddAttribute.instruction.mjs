@@ -1,5 +1,5 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { AreMutation } from '@adaas/are';
 import { AreHTMLInstructions } from './AreHTML.instructions.constants';
 
@@ -13,9 +13,8 @@ let AddAttributeInstruction = class extends AreMutation {
   }
 };
 AddAttributeInstruction = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddAttributeInstruction",
+  A_Frame.Define({
+    namespace: "a-are-html",
     description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
   })
 ], AddAttributeInstruction);

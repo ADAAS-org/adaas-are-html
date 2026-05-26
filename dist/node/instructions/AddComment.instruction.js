@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -25,9 +25,8 @@ exports.AddCommentInstruction = class AddCommentInstruction extends are.AreDecla
   }
 };
 exports.AddCommentInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddCommentInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
   })
 ], exports.AddCommentInstruction);

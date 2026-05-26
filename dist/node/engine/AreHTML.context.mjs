@@ -1,7 +1,8 @@
-import '../chunk-EQQGB2QZ.mjs';
+import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
 import { AreContext } from '@adaas/are';
+import { A_Frame } from '@adaas/a-frame/core';
 
-class AreHTMLEngineContext extends AreContext {
+let AreHTMLEngineContext = class extends AreContext {
   constructor(props) {
     super(props.container?.body.innerHTML || props.source || "");
     /**
@@ -126,7 +127,11 @@ class AreHTMLEngineContext extends AreContext {
     if (!this.index.elementListeners.has(element)) {
       this.index.elementListeners.set(element, /* @__PURE__ */ new Map());
     }
-    this.index.elementListeners.get(element).set(eventName, listener);
+    const byEvent = this.index.elementListeners.get(element);
+    if (!byEvent.has(eventName)) {
+      byEvent.set(eventName, /* @__PURE__ */ new Set());
+    }
+    byEvent.get(eventName).add(listener);
   }
   /**
    * Retrieves the event listener associated with a specific DOM element and event name from the context's index. This method looks up the element in the elementListeners map and then retrieves the listener for the specified event name. If no listener is found for the given element and event, it returns undefined. This allows the engine to efficiently access and manage event listeners that have been attached to dynamically created elements, enabling proper cleanup when instructions are reverted or when nodes are removed from the DOM.
@@ -136,6 +141,14 @@ class AreHTMLEngineContext extends AreContext {
    * @returns 
    */
   getListener(element, eventName) {
+    const set = this.index.elementListeners.get(element)?.get(eventName);
+    if (!set || set.size === 0) return void 0;
+    return set.values().next().value;
+  }
+  /**
+   * Returns all listeners registered for a given element + event name.
+   */
+  getListeners(element, eventName) {
     return this.index.elementListeners.get(element)?.get(eventName);
   }
   /**
@@ -144,10 +157,26 @@ class AreHTMLEngineContext extends AreContext {
    * @param element 
    * @param eventName 
    */
-  removeListener(element, eventName) {
-    this.index.elementListeners.get(element)?.delete(eventName);
+  removeListener(element, eventName, listener) {
+    const byEvent = this.index.elementListeners.get(element);
+    if (!byEvent) return;
+    if (listener) {
+      const set = byEvent.get(eventName);
+      if (set) {
+        set.delete(listener);
+        if (set.size === 0) byEvent.delete(eventName);
+      }
+    } else {
+      byEvent.delete(eventName);
+    }
   }
-}
+};
+AreHTMLEngineContext = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Runtime index for the HTML rendering engine. Maps each AreNode and instruction ASEID to its corresponding DOM element so that apply and revert handlers on interpreter instructions can look up their DOM node in O(1). Tracks root-element mounts and maintains the group-level index used by structural directives."
+  })
+], AreHTMLEngineContext);
 
 export { AreHTMLEngineContext };
 //# sourceMappingURL=AreHTML.context.mjs.map

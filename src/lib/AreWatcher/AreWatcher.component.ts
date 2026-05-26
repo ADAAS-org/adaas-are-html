@@ -1,9 +1,8 @@
 import { A_Component } from "@adaas/a-concept";
-import { A_Frame } from "@adaas/a-frame";
+import { A_Frame } from "@adaas/a-frame/core";
 
-@A_Frame.Component({
-    namespace: 'A-ARE',
-    name: 'AreWatcher',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'AreWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework.'
 })
 export class AreWatcher extends A_Component {

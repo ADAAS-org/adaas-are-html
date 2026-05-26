@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -22,9 +22,8 @@ exports.AddElementInstruction = class AddElementInstruction extends are.AreDecla
   }
 };
 exports.AddElementInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddElementInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Creates a new HTML element in the DOM. Apply creates the element; revert removes it."
   })
 ], exports.AddElementInstruction);

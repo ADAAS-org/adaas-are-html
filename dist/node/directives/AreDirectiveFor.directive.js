@@ -6,6 +6,7 @@ var are = require('@adaas/are');
 var AreDirective_component = require('@adaas/are-html/directive/AreDirective.component');
 var AddComment_instruction = require('@adaas/are-html/instructions/AddComment.instruction');
 var AreDirective_context = require('@adaas/are-html/directive/AreDirective.context');
+var core = require('@adaas/a-frame/core');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -33,11 +34,9 @@ exports.AreDirectiveFor = class AreDirectiveFor extends AreDirective_component.A
     const { key, index, arrayExpr } = this.parseExpression(attribute.content);
     const array = this.resolveArray(store, arrayExpr, attribute.content);
     attribute.value = array;
-    console.log('Initial array for "for" directive:', scene);
     for (let i = 0; i < array.length; i++) {
       this.spawnItemNode(attribute.template, attribute.owner, key, index, array[i], i);
     }
-    console.log('Template for "for" directive:', forTemplate);
   }
   compile(attribute, store, scene, ...args) {
     const hostInstruction = scene.host;
@@ -48,49 +47,78 @@ exports.AreDirectiveFor = class AreDirectiveFor extends AreDirective_component.A
     scene.unPlan(hostInstruction);
   }
   update(attribute, store, scene, ...args) {
-    const { key, index, arrayExpr } = this.parseExpression(attribute.content);
+    const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
     const newArray = this.resolveArray(store, arrayExpr, attribute.content);
     const owner = attribute.owner;
     const currentChildren = [...owner.children];
     attribute.value = newArray;
-    const newLen = newArray.length;
-    const newItemSet = new Set(newArray);
-    const keptChildren = [];
-    const removedChildren = [];
-    for (const child of currentChildren) {
+    const computeKey = this.makeKeyFn(key, index, trackExpr);
+    const childByKey = /* @__PURE__ */ new Map();
+    const remaining = /* @__PURE__ */ new Set();
+    for (let i = 0; i < currentChildren.length; i++) {
+      const child = currentChildren[i];
       const ctx = child.scope.resolveFlat(AreDirective_context.AreDirectiveContext);
-      if (ctx && newItemSet.has(ctx.scope[key])) {
-        keptChildren.push(child);
+      const k = ctx ? computeKey(ctx.scope[key], ctx.scope[index || "index"]) : /* @__PURE__ */ Symbol("orphan");
+      childByKey.set(k, child);
+      remaining.add(child);
+    }
+    const newOnes = [];
+    for (let i = 0; i < newArray.length; i++) {
+      const item = newArray[i];
+      const k = computeKey(item, i);
+      const existing = childByKey.get(k);
+      if (existing) {
+        remaining.delete(existing);
+        let directiveContext = existing.scope.resolveFlat(AreDirective_context.AreDirectiveContext);
+        if (!directiveContext) {
+          directiveContext = new AreDirective_context.AreDirectiveContext(existing.aseid);
+          existing.scope.register(directiveContext);
+        }
+        directiveContext.scope = {
+          ...directiveContext.scope,
+          [key]: item,
+          [index || "index"]: i
+        };
       } else {
-        removedChildren.push(child);
+        const itemNode = this.spawnItemNode(attribute.template, owner, key, index, item, i);
+        newOnes.push(itemNode);
       }
     }
-    for (const child of removedChildren) {
+    for (const child of remaining) {
       child.unmount();
       owner.removeChild(child);
     }
-    for (let i = 0; i < keptChildren.length; i++) {
-      let directiveContext = keptChildren[i].scope.resolveFlat(AreDirective_context.AreDirectiveContext);
-      if (!directiveContext) {
-        directiveContext = new AreDirective_context.AreDirectiveContext(keptChildren[i].aseid);
-        keptChildren[i].scope.register(directiveContext);
-      }
-      directiveContext.scope = {
-        ...directiveContext.scope,
-        [key]: newArray[i],
-        [index || "index"]: i
-      };
-    }
-    for (let i = keptChildren.length; i < newLen; i++) {
-      const itemNode = this.spawnItemNode(attribute.template, owner, key, index, newArray[i], i);
-      itemNode.transform();
-      itemNode.compile();
-      itemNode.mount();
+    for (const child of newOnes) {
+      child.transform();
+      child.compile();
+      child.mount();
     }
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────
   // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Build a key-function that derives a stable identity from each item.
+   * If the user provided a `track <expr>` clause, evaluate it as a path on
+   * the item; otherwise fall back to the item identity (reference equality).
+   */
+  makeKeyFn(key, index, trackExpr) {
+    if (!trackExpr) {
+      return (item, i) => item ?? i;
+    }
+    const path = trackExpr.startsWith(key + ".") ? trackExpr.slice(key.length + 1) : trackExpr;
+    return (item, i) => {
+      if (item == null) return i;
+      if (path === key || path === "$index") return path === "$index" ? i : item;
+      const parts = path.split(".");
+      let v = item;
+      for (const p of parts) {
+        if (v == null) return i;
+        v = v[p];
+      }
+      return v ?? i;
+    };
+  }
   /**
    * Parses the $for expression string into its constituent parts.
    *
@@ -100,16 +128,29 @@ exports.AreDirectiveFor = class AreDirectiveFor extends AreDirective_component.A
    *   (item, index) in items
    *   item in filter(items)
    *   item, index in filter(items, 'active')
+   *   item in items track item.id
+   *   (item, i) in items track item.id
    */
   parseExpression(content) {
-    const inIndex = content.lastIndexOf(" in ");
-    const keyAndIndex = content.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
-    const arrayExpr = content.slice(inIndex + 4).trim();
+    let trackExpr;
+    const trackIdx = content.search(/\s+track\s+/);
+    let body = content;
+    if (trackIdx !== -1) {
+      const m = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
+      if (m) {
+        trackExpr = m[1].trim();
+        body = content.slice(0, trackIdx).trim();
+      }
+    }
+    const inIndex = body.lastIndexOf(" in ");
+    const keyAndIndex = body.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
+    const arrayExpr = body.slice(inIndex + 4).trim();
     const keyParts = keyAndIndex.split(",").map((p) => p.trim());
     return {
       key: keyParts[0],
       index: keyParts[1] || void 0,
-      arrayExpr
+      arrayExpr,
+      trackExpr
     };
   }
   /**
@@ -200,6 +241,10 @@ __decorateClass([
   __decorateParam(2, aConcept.A_Inject(are.AreScene))
 ], exports.AreDirectiveFor.prototype, "update", 1);
 exports.AreDirectiveFor = __decorateClass([
+  core.A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Built-in $for directive. Iterates over an array expression resolved from the store and renders a cloned template fragment per item, managing per-item subscopes and comment-node anchors. Supports keyed diffing via an optional track clause to minimise DOM mutations on collection updates."
+  }),
   AreDirective_component.AreDirective.Priority(1)
 ], exports.AreDirectiveFor);
 //# sourceMappingURL=AreDirectiveFor.directive.js.map

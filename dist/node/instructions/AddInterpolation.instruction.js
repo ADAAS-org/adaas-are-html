@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -22,9 +22,8 @@ exports.AddInterpolationInstruction = class AddInterpolationInstruction extends 
   }
 };
 exports.AddInterpolationInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddInterpolationInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Appends a reactive text node whose content is resolved dynamically from the store. Apply creates the text node with the getter; revert removes it."
   })
 ], exports.AddInterpolationInstruction);

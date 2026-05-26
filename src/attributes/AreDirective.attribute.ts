@@ -3,9 +3,14 @@ import type { AreDirective } from "@adaas/are-html/directive/AreDirective.compon
 import { AreHTMLAttribute } from "@adaas/are-html/attribute";
 import { AreStoreWatchingEntity } from "@adaas/are";
 import { AreHTMLNode } from "@adaas/are-html/node";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'Attribute type for directive invocations ($ prefix). Carries the resolved directive component class and a cloned template node. The associated directive uses these during its Compile phase to emit conditional or repeated instruction groups and to manage per-item or per-condition subscopes.'
+})
 export class AreDirectiveAttribute extends AreHTMLAttribute implements AreStoreWatchingEntity {
 
     cache?: any

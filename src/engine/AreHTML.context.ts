@@ -1,7 +1,12 @@
 import { AreContext, AreInstruction, AreNode } from "@adaas/are";
 import { AreHTMLContextConstructor } from "./AreHTML.types";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'Runtime index for the HTML rendering engine. Maps each AreNode and instruction ASEID to its corresponding DOM element so that apply and revert handlers on interpreter instructions can look up their DOM node in O(1). Tracks root-element mounts and maintains the group-level index used by structural directives.'
+})
 export class AreHTMLEngineContext extends AreContext {
 
     /**
@@ -41,7 +46,7 @@ export class AreHTMLEngineContext extends AreContext {
         /**
          * Event listeners attached to elements, used for proper cleanup when reverting instructions. Maps a DOM element to a map of event names and their corresponding listeners, allowing the engine to track which listeners are attached to which elements and remove them when necessary (e.g., when an instruction is reverted).
          */
-        elementListeners: new WeakMap<Node, Map<string, EventListenerOrEventListenerObject>>()
+        elementListeners: new WeakMap<Node, Map<string, Set<EventListenerOrEventListenerObject>>>()
     }
 
     /**
@@ -172,7 +177,11 @@ export class AreHTMLEngineContext extends AreContext {
         if (!this.index.elementListeners.has(element)) {
             this.index.elementListeners.set(element, new Map());
         }
-        this.index.elementListeners.get(element)!.set(eventName, listener);
+        const byEvent = this.index.elementListeners.get(element)!;
+        if (!byEvent.has(eventName)) {
+            byEvent.set(eventName, new Set());
+        }
+        byEvent.get(eventName)!.add(listener);
     }
     /**
      * Retrieves the event listener associated with a specific DOM element and event name from the context's index. This method looks up the element in the elementListeners map and then retrieves the listener for the specified event name. If no listener is found for the given element and event, it returns undefined. This allows the engine to efficiently access and manage event listeners that have been attached to dynamically created elements, enabling proper cleanup when instructions are reverted or when nodes are removed from the DOM.
@@ -182,6 +191,16 @@ export class AreHTMLEngineContext extends AreContext {
      * @returns 
      */
     getListener(element: Node, eventName: string): EventListenerOrEventListenerObject | undefined {
+        const set = this.index.elementListeners.get(element)?.get(eventName);
+        if (!set || set.size === 0) return undefined;
+        // Return the first listener for backwards compatibility.
+        return set.values().next().value;
+    }
+
+    /**
+     * Returns all listeners registered for a given element + event name.
+     */
+    getListeners(element: Node, eventName: string): Set<EventListenerOrEventListenerObject> | undefined {
         return this.index.elementListeners.get(element)?.get(eventName);
     }
     /**
@@ -190,7 +209,17 @@ export class AreHTMLEngineContext extends AreContext {
      * @param element 
      * @param eventName 
      */
-    removeListener(element: Node, eventName: string): void {
-        this.index.elementListeners.get(element)?.delete(eventName);
+    removeListener(element: Node, eventName: string, listener?: EventListenerOrEventListenerObject): void {
+        const byEvent = this.index.elementListeners.get(element);
+        if (!byEvent) return;
+        if (listener) {
+            const set = byEvent.get(eventName);
+            if (set) {
+                set.delete(listener);
+                if (set.size === 0) byEvent.delete(eventName);
+            }
+        } else {
+            byEvent.delete(eventName);
+        }
     }
 }

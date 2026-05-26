@@ -1,8 +1,9 @@
-import '../chunk-EQQGB2QZ.mjs';
+import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
 import { A_FormatterHelper } from '@adaas/a-concept';
 import { AreHTMLAttribute } from '@adaas/are-html/attribute';
+import { A_Frame } from '@adaas/a-frame/core';
 
-class AreDirectiveAttribute extends AreHTMLAttribute {
+let AreDirectiveAttribute = class extends AreHTMLAttribute {
   /**
    * Returns a custom directive component associated with this attribute, if available.
    * 
@@ -12,7 +13,13 @@ class AreDirectiveAttribute extends AreHTMLAttribute {
     const component = this.scope.resolve(`AreDirective${A_FormatterHelper.toPascalCase(this.name)}`);
     return component;
   }
-}
+};
+AreDirectiveAttribute = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for directive invocations ($ prefix). Carries the resolved directive component class and a cloned template node. The associated directive uses these during its Compile phase to emit conditional or repeated instruction groups and to manage per-item or per-condition subscopes."
+  })
+], AreDirectiveAttribute);
 
 export { AreDirectiveAttribute };
 //# sourceMappingURL=AreDirective.attribute.mjs.map

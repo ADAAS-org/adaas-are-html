@@ -1,12 +1,11 @@
 import { A_FormatterHelper, } from "@adaas/a-concept";
-import { A_Frame } from "@adaas/a-frame";
+import { A_Frame } from "@adaas/a-frame/core"
 import { Are } from "@adaas/are";
 import { AreHTMLNode } from "@adaas/are-html/node";
 
 
-@A_Frame.Entity({
-    namespace: 'A-ARE',
-    name: 'AreRootNode',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'AreRootNode represents the root node in the scene graph. It extends the base AreHTMLNode and includes additional properties and methods specific to the root node, such as handling the root element and its associated component.'
 })
 export class AreRootNode extends AreHTMLNode {

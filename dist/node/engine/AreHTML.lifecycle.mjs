@@ -9,8 +9,9 @@ import { AreText } from '@adaas/are-html/nodes/AreText';
 import { AreDirectiveAttribute } from '@adaas/are-html/attributes/AreDirective.attribute';
 import { AreDirectiveFeatures } from '@adaas/are-html/directive/AreDirective.constants';
 import { AreHTMLEngineContext } from './AreHTML.context';
+import { A_Frame } from '@adaas/a-frame/core';
 
-class AreHTMLLifecycle extends AreLifecycle {
+let AreHTMLLifecycle = class extends AreLifecycle {
   initComponent(node, scope, context, logger, ...args) {
     super.init(node, scope, context, logger, ...args);
   }
@@ -33,7 +34,7 @@ class AreHTMLLifecycle extends AreLifecycle {
       logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${A_FormatterHelper.toPascalCase(directive.name)}" to handle this directive.`);
     }
   }
-}
+};
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
   __decorateParam(0, A_Inject(A_Caller)),
@@ -73,6 +74,12 @@ __decorateClass([
   __decorateParam(2, A_Inject(A_Feature)),
   __decorateParam(3, A_Inject(A_Logger))
 ], AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
+AreHTMLLifecycle = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation."
+  })
+], AreHTMLLifecycle);
 
 export { AreHTMLLifecycle };
 //# sourceMappingURL=AreHTML.lifecycle.mjs.map

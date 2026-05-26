@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -22,9 +22,8 @@ exports.AddStyleInstruction = class AddStyleInstruction extends are.AreMutation 
   }
 };
 exports.AddStyleInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddStyleInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
   })
 ], exports.AddStyleInstruction);

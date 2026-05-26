@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -22,9 +22,8 @@ exports.AddTextInstruction = class AddTextInstruction extends are.AreDeclaration
   }
 };
 exports.AddTextInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddTextInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
   })
 ], exports.AddTextInstruction);

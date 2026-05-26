@@ -1,12 +1,11 @@
-import { A_Frame } from "@adaas/a-frame";
+import { A_Frame } from "@adaas/a-frame/core"
 import { AreDeclaration, AreMutation, AreInstructionSerialized } from "@adaas/are";
 import { AreHtmlAddInterpolationInstructionPayload } from "./AreHTML.instructions.types";
 import { AreHTMLInstructions } from "./AreHTML.instructions.constants";
 
 
-@A_Frame.Component({
-    namespace: 'A-ARE',
-    name: 'AddInterpolationInstruction',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'Appends a reactive text node whose content is resolved dynamically from the store. Apply creates the text node with the getter; revert removes it.'
 })
 export class AddInterpolationInstruction extends AreMutation<AreHtmlAddInterpolationInstructionPayload> {

@@ -1,13 +1,12 @@
 import { A_Caller, A_Context, A_FormatterHelper, A_Inject, } from "@adaas/a-concept";
-import { A_Frame } from "@adaas/a-frame";
+import { A_Frame } from "@adaas/a-frame/core";
 import { A_Logger } from "@adaas/a-utils/a-logger";
 import { A_SignalVector } from "@adaas/a-utils/a-signal";
 import { Are, ArePropDefinition, AreStore, AreNode, AreSignals, AreSignalsMeta, AreSignalsContext, AreRoute } from "@adaas/are";
 
 
-@A_Frame.Component({
-    namespace: 'A-ARE',
-    name: 'AreRoot',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions.'
 })
 export class AreRoot extends Are {

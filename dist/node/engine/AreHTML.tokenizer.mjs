@@ -8,11 +8,12 @@ import { AreDirectiveAttribute } from '@adaas/are-html/attributes/AreDirective.a
 import { AreEventAttribute } from '@adaas/are-html/attributes/AreEvent.attribute';
 import { AreBindingAttribute } from '@adaas/are-html/attributes/AreBinding.attribute';
 import { AreStaticAttribute } from '@adaas/are-html/attributes/AreStatic.attribute';
+import { A_Frame } from '@adaas/a-frame/core';
 
-class AreHTMLTokenizer extends AreTokenizer {
+let AreHTMLTokenizer = class extends AreTokenizer {
   constructor() {
     super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
     super.tokenize(node, context, logger);
@@ -55,7 +56,7 @@ class AreHTMLTokenizer extends AreTokenizer {
     }
     return results;
   }
-}
+};
 __decorateClass([
   A_Feature.Extend({
     name: AreNodeFeatures.onTokenize,
@@ -65,6 +66,12 @@ __decorateClass([
   __decorateParam(1, A_Inject(AreContext)),
   __decorateParam(2, A_Inject(A_Logger))
 ], AreHTMLTokenizer.prototype, "tokenize", 1);
+AreHTMLTokenizer = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific tokenizer extending AreTokenizer. Parses raw HTML template strings into AreHTMLNode trees by scanning element tags and resolving directive ($), event (@), binding (:), and static attributes to their typed attribute classes, constructing AreComponentNode and AreRootNode instances where required."
+  })
+], AreHTMLTokenizer);
 
 export { AreHTMLTokenizer };
 //# sourceMappingURL=AreHTML.tokenizer.mjs.map

@@ -6,6 +6,7 @@ var are = require('@adaas/are');
 var AreDirective_component = require('@adaas/are-html/directive/AreDirective.component');
 var AddComment_instruction = require('@adaas/are-html/instructions/AddComment.instruction');
 var AreDirective_context = require('@adaas/are-html/directive/AreDirective.context');
+var core = require('@adaas/a-frame/core');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -34,7 +35,6 @@ exports.AreDirectiveIf = class AreDirectiveIf extends AreDirective_component.Are
     attribute.template = ifTemplate;
   }
   compile(attribute, store, scene, syntax, directiveContext, ...args) {
-    console.log('Compiling directive "if" with attribute content:', attribute);
     attribute.value = syntax.evaluate(attribute.content, store, {
       ...directiveContext?.scope || {}
     });
@@ -50,8 +50,11 @@ exports.AreDirectiveIf = class AreDirectiveIf extends AreDirective_component.Are
       attribute.template.scene.deactivate();
   }
   update(attribute, store, scope, syntax, scene, ...args) {
-    attribute.value = syntax.evaluate(attribute.content, store);
-    if (attribute.value) {
+    const previous = !!attribute.value;
+    const next = !!syntax.evaluate(attribute.content, store);
+    attribute.value = next;
+    if (previous === next) return;
+    if (next) {
       attribute.template.scene.activate();
       attribute.template.mount();
     } else {
@@ -85,6 +88,10 @@ __decorateClass([
   __decorateParam(4, aConcept.A_Inject(are.AreScene))
 ], exports.AreDirectiveIf.prototype, "update", 1);
 exports.AreDirectiveIf = __decorateClass([
+  core.A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Built-in $if directive. Conditionally renders a subtree based on a store expression. Replaces the target element with a stable comment anchor when the condition is false and restores the fully rendered subtree when it becomes true, preventing any leaking of the host element between states."
+  }),
   AreDirective_component.AreDirective.Priority(2)
 ], exports.AreDirectiveIf);
 //# sourceMappingURL=AreDirectiveIf.directive.js.map

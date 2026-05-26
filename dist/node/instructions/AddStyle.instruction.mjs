@@ -1,5 +1,5 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { AreMutation } from '@adaas/are';
 import { AreHTMLInstructions } from './AreHTML.instructions.constants';
 
@@ -13,9 +13,8 @@ let AddStyleInstruction = class extends AreMutation {
   }
 };
 AddStyleInstruction = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddStyleInstruction",
+  A_Frame.Define({
+    namespace: "a-are-html",
     description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
   })
 ], AddStyleInstruction);

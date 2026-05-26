@@ -1,7 +1,7 @@
 'use strict';
 
 var aConcept = require('@adaas/a-concept');
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var aLogger = require('@adaas/a-utils/a-logger');
 var aSignal = require('@adaas/a-utils/a-signal');
 var are = require('@adaas/are');
@@ -107,9 +107,8 @@ __decorateClass([
   __decorateParam(4, aConcept.A_Inject(are.AreSignalsContext))
 ], exports.AreRoot.prototype, "onSignal", 1);
 exports.AreRoot = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AreRoot",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
   })
 ], exports.AreRoot);

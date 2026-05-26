@@ -1,12 +1,11 @@
-import { A_Frame } from "@adaas/a-frame";
+import { A_Frame } from "@adaas/a-frame/core"
 import { AreDeclaration, AreMutation, AreInstructionSerialized } from "@adaas/are";
 import { AreHtmlAddAttributeInstructionPayload } from "./AreHTML.instructions.types";
 import { AreHTMLInstructions } from "./AreHTML.instructions.constants";
 
 
-@A_Frame.Component({
-    namespace: 'A-ARE',
-    name: 'AddAttributeInstruction',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute.'
 })
 export class AddAttributeInstruction extends AreMutation<AreHtmlAddAttributeInstructionPayload> {

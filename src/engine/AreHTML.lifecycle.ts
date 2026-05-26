@@ -9,8 +9,13 @@ import { AreDirectiveAttribute } from "@adaas/are-html/attributes/AreDirective.a
 import { AreDirectiveFeatures } from "@adaas/are-html/directive/AreDirective.constants";
 import { AreHTMLEngineContext } from "./AreHTML.context";
 import { AreHTMLNode } from "../lib/AreHTMLNode/AreHTMLNode";
+import { A_Frame } from "@adaas/a-frame/core";
 
 
+@A_Frame.Define({
+    namespace: 'a-are-html',
+    description: 'HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation.'
+})
 export class AreHTMLLifecycle extends AreLifecycle {
 
     @AreLifecycle.Init(AreComponentNode)

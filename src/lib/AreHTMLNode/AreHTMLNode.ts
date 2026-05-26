@@ -1,5 +1,5 @@
 import { A_Context, } from "@adaas/a-concept";
-import { A_Frame } from "@adaas/a-frame";
+import { A_Frame } from "@adaas/a-frame/core";
 import { AreNode} from "@adaas/are";
 import { AreBindingAttribute } from "@adaas/are-html/attributes/AreBinding.attribute";
 import { AreDirectiveAttribute } from "@adaas/are-html/attributes/AreDirective.attribute";
@@ -11,9 +11,8 @@ import { AreDirectiveMeta } from "@adaas/are-html/directive/AreDirective.meta";
 
 
 
-@A_Frame.Entity({
-    namespace: 'A-ARE',
-    name: 'AreHTMLNode',
+@A_Frame.Define({
+    namespace: 'a-are-html',
     description: 'AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles.'
 })
 export class AreHTMLNode extends AreNode {

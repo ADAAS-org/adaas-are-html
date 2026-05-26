@@ -7,10 +7,9 @@ import { A_Config, ConfigReader } from "@adaas/a-utils/a-config";
 import { A_Logger, A_LOGGER_ENV_KEYS } from "@adaas/a-utils/a-logger";
 import { A_SignalBus, A_SignalState } from "@adaas/a-utils/a-signal";
 import { A_Polyfill } from "@adaas/a-utils/a-polyfill";
-import { AreApp } from "src/containers/AreWebApp.container";
 import { AreRoot } from "src/lib/AreRoot/AreRoot.component";
 import { AreHTMLEngine } from "src/engine/AreHTML.engine";
-import { AreInit } from "@adaas/are";
+import { AreContainer, AreInit } from "@adaas/are";
 import { AreRoute } from "@adaas/are";
 import { AreContext } from "@adaas/are";
 import { AreHTMLEngineContext } from "src/engine/AreHTML.context";
@@ -26,7 +25,7 @@ import { AreDirectiveFor } from "src/directives/AreDirectiveFor.directive";
 (async () => {
     try {
 
-        const container = new AreApp({
+        const container = new AreContainer({
             name: 'ARE Jumpstart',
             components: [
                 // ----------------------------------
@@ -66,7 +65,9 @@ import { AreDirectiveFor } from "src/directives/AreDirectiveFor.directive";
             ],
             fragments: [
                 new A_SignalState([AreRoute]),
-                new AreHTMLEngineContext(document.body.innerHTML),
+                new AreHTMLEngineContext({
+                    container:document
+                }),
 
                 new A_Config({
                     defaults: {

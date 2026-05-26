@@ -1,6 +1,6 @@
 'use strict';
 
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var are = require('@adaas/are');
 var AreHTML_instructions_constants = require('./AreHTML.instructions.constants');
 
@@ -22,9 +22,8 @@ exports.AddAttributeInstruction = class AddAttributeInstruction extends are.AreM
   }
 };
 exports.AddAttributeInstruction = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddAttributeInstruction",
+  core.A_Frame.Define({
+    namespace: "a-are-html",
     description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
   })
 ], exports.AddAttributeInstruction);

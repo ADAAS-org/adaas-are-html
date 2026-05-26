@@ -3,6 +3,7 @@ import { A_Inject, A_Caller, A_Feature, A_Meta, A_Component, A_Context } from '@
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreDirectiveMeta } from './AreDirective.meta';
 import { AreDirectiveFeatures } from './AreDirective.constants';
+import { A_Frame } from '@adaas/a-frame/core';
 
 let AreDirective = class extends A_Component {
   //==================================================================================
@@ -99,6 +100,10 @@ __decorateClass([
   __decorateParam(0, A_Inject(A_Caller))
 ], AreDirective.prototype, "update", 1);
 AreDirective = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
+  }),
   A_Meta.Define(AreDirectiveMeta)
 ], AreDirective);
 

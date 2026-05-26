@@ -1,7 +1,7 @@
 'use strict';
 
 var aConcept = require('@adaas/a-concept');
-var aFrame = require('@adaas/a-frame');
+var core = require('@adaas/a-frame/core');
 var aService = require('@adaas/a-utils/a-service');
 var are = require('@adaas/are');
 var interpreter = require('@adaas/are-html/interpreter');
@@ -136,8 +136,12 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
         if (nextOpen !== -1 && nextOpen < nextClose) {
           const charAfter = source[nextOpen + tagName.length + 1];
           if (charAfter === " " || charAfter === ">" || charAfter === "/") {
-            level++;
-            searchIndex = nextOpen + tagName.length + 1;
+            const innerEnd = exports.AreHTMLEngine.findTagClose(source, nextOpen);
+            const isSelfClose = innerEnd !== -1 && source[innerEnd - 1] === "/";
+            if (!isSelfClose) {
+              level++;
+            }
+            searchIndex = innerEnd === -1 ? nextOpen + tagName.length + 1 : innerEnd + 1;
             continue;
           }
         }
@@ -181,10 +185,9 @@ __decorateClass([
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Scope))
 ], exports.AreHTMLEngine.prototype, "init", 1);
 exports.AreHTMLEngine = __decorateClass([
-  aFrame.A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AreHTMLEngine",
-    description: "HTML Rendering Engine for A-Concept Rendering Engine (ARE), responsible for processing and rendering HTML templates within the ARE framework."
+  core.A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Concrete HTML rendering engine that assembles the full ARE pipeline for web environments. Bootstraps and wires AreHTMLTokenizer, AreHTMLTransformer, AreHTMLCompiler, AreHTMLInterpreter, and AreHTMLLifecycle; mounts root nodes from inline or fetched templates; and drives reactive re-renders via the AreSignals bus."
   })
 ], exports.AreHTMLEngine);
 //# sourceMappingURL=AreHTML.engine.js.map

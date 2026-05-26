@@ -23,20 +23,21 @@ export class ListComponent extends Are {
             <li @click="$handleClick('Products')" :class="active==='Products' ? 'menu-item-active' : ''" class="menu-item"><span class="menu-icon">⊠</span> <span class="menu-text">{{item3}}</span></li>
             <li @click="$handleClick('Orders')" :class="active==='Orders' ? 'menu-item-active' : ''" class="menu-item"><span class="menu-icon">⊟</span> <span class="menu-text">{{item4}}</span></li>
         </ul>
-        <div class="menu-section">System</div>    
+        <div class="menu-section">System</div>
             <button @click="$add">Add +</button>
-            <ul class="menu">
-                <li 
-                $for="item in items" @click="$handleClick(item.name)"
-                $if="active=='Dashboard'" 
-                :class="active===item.name ? 'menu-item-active' : ''" 
-                class="menu-item">
-                <span class="menu-icon">⊙</span> 
-                <span class="menu-text">{{item.name}}</span> 
-                <span $if="item.badge > 0" class="menu-badge">{{item.badge}}</span>
-                <button @click="$remove(item)">+</button>
-                </li>
-            </ul>
+            <div $if="active=='Dashboard'">
+                <ul class="menu">
+                    <li
+                    $for="item in items track item.name" @click="$handleClick(item.name)"
+                    :class="active===item.name ? 'menu-item-active' : ''"
+                    class="menu-item">
+                    <span class="menu-icon">⊙</span>
+                    <span class="menu-text">{{item.name}}</span>
+                    <span $if="item.badge > 0" class="menu-badge">{{item.badge}}</span>
+                    <button @click.stop="$remove(item)">+</button>
+                    </li>
+                </ul>
+            </div>
         `);
     }
 

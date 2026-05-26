@@ -1,6 +1,6 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
 import { A_FormatterHelper } from '@adaas/a-concept';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { AreHTMLNode } from '@adaas/are-html/node';
 
 let AreComponentNode = class extends AreHTMLNode {
@@ -16,9 +16,8 @@ let AreComponentNode = class extends AreHTMLNode {
   }
 };
 AreComponentNode = __decorateClass([
-  A_Frame.Entity({
-    namespace: "A-ARE",
-    name: "AreComponentNode",
+  A_Frame.Define({
+    namespace: "a-are-html",
     description: "AreComponentNode represents a node in the scene graph that corresponds to a component. It extends the base AreNode and includes additional properties and methods specific to component nodes, such as handling attributes, bindings, directives, events, styles, and interpolations associated with the component."
   })
 ], AreComponentNode);

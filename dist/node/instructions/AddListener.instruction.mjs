@@ -1,5 +1,5 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
-import { A_Frame } from '@adaas/a-frame';
+import { A_Frame } from '@adaas/a-frame/core';
 import { AreMutation } from '@adaas/are';
 import { AreHTMLInstructions } from './AreHTML.instructions.constants';
 
@@ -13,9 +13,8 @@ let AddListenerInstruction = class extends AreMutation {
   }
 };
 AddListenerInstruction = __decorateClass([
-  A_Frame.Component({
-    namespace: "A-ARE",
-    name: "AddListenerInstruction",
+  A_Frame.Define({
+    namespace: "a-are-html",
     description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
   })
 ], AddListenerInstruction);
