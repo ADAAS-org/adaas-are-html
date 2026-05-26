@@ -34,8 +34,8 @@ let AreRoot = class extends Are {
       }
     }
     if (!componentName) {
-      const defaultAttr = root.attributes.find((attr) => attr.name === "default");
-      componentName = defaultAttr?.content;
+      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+      componentName = defaultMatch?.[1];
     }
     if (!componentName) {
       logger.warning('AreRoot: No component found for initial render. Please ensure a route condition or "default" attribute is set.');
@@ -44,7 +44,6 @@ let AreRoot = class extends Are {
     root.setContent(`<${componentName}></${componentName}>`);
   }
   async onSignal(root, vector, store, logger, signalsContext) {
-    console.log("Received signal vector in AreRoot:", root, vector);
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;

@@ -101,8 +101,26 @@ export class AreHTMLCompiler extends AreCompiler {
                 title: 'Scene Host Not Found',
                 description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
             });
+
+        const content = attribute.content;
+
         /**
-         * Default case when attribute was not able to be identified as a binding, directive, or event, we just want to add it as a regular attribute to the node. This is the most basic case for attributes that don't have any special behavior or processing logic, and it ensures that they are still rendered on the node even if they don't have any dynamic functionality.
+         * If the attribute value contains {{ }} interpolations, transform them into
+         * a JS string-concatenation expression so the interpreter can evaluate them.
+         * e.g. "color:{{expr}}" → '"color:"+(expr)+""'
+         */
+        if (content.includes('{{')) {
+            const transformed = '"' + content.replace(/\{\{([^}]+)\}\}/g, '"+($1)+"') + '"';
+            scene.plan(new AddAttributeInstruction(scene.host, {
+                name: attribute.name,
+                content: transformed,
+                evaluate: true,
+            }));
+            return;
+        }
+
+        /**
+         * Default case: regular static attribute rendered as-is.
          */
         scene.plan(new AddAttributeInstruction(scene.host, {
             name: attribute.name,

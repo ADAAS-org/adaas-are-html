@@ -15,7 +15,7 @@ export { AreInterpolation } from './nodes/AreInterpolation.js';
 export { AreRootNode } from './nodes/AreRoot.js';
 export { AreText } from './nodes/AreText.js';
 export { AreRoute } from './signals/AreRoute.signal.js';
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, ParsedEventName, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString } from './engine/AreHTML.constants.js';
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, ParsedEventName, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString } from './engine/AreHTML.constants.js';
 export { AreHTMLEngineContext } from './engine/AreHTML.context.js';
 export { AreHTMLContextConstructor } from './engine/AreHTML.types.js';
 export { AreHTMLCompiler } from './engine/AreHTML.compiler.js';

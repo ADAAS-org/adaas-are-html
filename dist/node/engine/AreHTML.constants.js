@@ -1,5 +1,24 @@
 'use strict';
 
+const VOID_ELEMENTS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+function isVoidElement(tagName) {
+  return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
 const BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
   "allowfullscreen",
   "async",
@@ -94,8 +113,10 @@ function toDOMString(value) {
 exports.BOOLEAN_ATTRIBUTES = BOOLEAN_ATTRIBUTES;
 exports.IDL_FORM_PROPERTIES = IDL_FORM_PROPERTIES;
 exports.LISTENER_OPTION_MODIFIERS = LISTENER_OPTION_MODIFIERS;
+exports.VOID_ELEMENTS = VOID_ELEMENTS;
 exports.isBooleanAttribute = isBooleanAttribute;
 exports.isIDLFormProperty = isIDLFormProperty;
+exports.isVoidElement = isVoidElement;
 exports.normalizeClassValue = normalizeClassValue;
 exports.normalizeStyleValue = normalizeStyleValue;
 exports.parseEventName = parseEventName;

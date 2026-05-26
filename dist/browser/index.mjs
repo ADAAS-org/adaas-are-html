@@ -821,6 +821,25 @@ AreRoute = __decorateClass([
 ], AreRoute);
 
 // src/engine/AreHTML.constants.ts
+var VOID_ELEMENTS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+function isVoidElement(tagName) {
+  return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
 var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
   "allowfullscreen",
   "async",
@@ -1102,6 +1121,16 @@ var AreHTMLCompiler = class extends AreCompiler {
         title: "Scene Host Not Found",
         description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
       });
+    const content = attribute.content;
+    if (content.includes("{{")) {
+      const transformed = '"' + content.replace(/\{\{([^}]+)\}\}/g, '"+($1)+"') + '"';
+      scene.plan(new AddAttributeInstruction(scene.host, {
+        name: attribute.name,
+        content: transformed,
+        evaluate: true
+      }));
+      return;
+    }
     scene.plan(new AddAttributeInstruction(scene.host, {
       name: attribute.name,
       content: attribute.content
@@ -1409,6 +1438,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
         event.set("args", effectiveArgs);
         event.set("element", element);
         event.set("instruction", mutation);
+        if (liveEvent) event.set("native", liveEvent);
         mutation.owner.emit(event);
       };
       handlerScope[`$${handler}`] = handlerFn;
@@ -1725,10 +1755,7 @@ AreHTMLTokenizer = __decorateClass([
   })
 ], AreHTMLTokenizer);
 var AreHTMLLifecycle = class extends AreLifecycle {
-  initComponent(node, scope, context, logger, ...args) {
-    super.init(node, scope, context, logger, ...args);
-  }
-  initRoot(node, scope, context, signalsContext, logger, ...args) {
+  initComponent(node, scope, context, signalsContext, logger, ...args) {
     signalsContext?.subscribe(node);
     super.init(node, scope, context, logger, ...args);
   }
@@ -1750,19 +1777,13 @@ var AreHTMLLifecycle = class extends AreLifecycle {
 };
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
-  __decorateParam(0, A_Inject(A_Caller)),
-  __decorateParam(1, A_Inject(A_Scope)),
-  __decorateParam(2, A_Inject(AreHTMLEngineContext)),
-  __decorateParam(3, A_Inject(A_Logger))
-], AreHTMLLifecycle.prototype, "initComponent", 1);
-__decorateClass([
   AreLifecycle.Init(AreRootNode),
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(A_Scope)),
   __decorateParam(2, A_Inject(AreHTMLEngineContext)),
   __decorateParam(3, A_Inject(AreSignalsContext)),
   __decorateParam(4, A_Inject(A_Logger))
-], AreHTMLLifecycle.prototype, "initRoot", 1);
+], AreHTMLLifecycle.prototype, "initComponent", 1);
 __decorateClass([
   AreLifecycle.Init(AreText),
   __decorateParam(0, A_Inject(A_Caller)),
@@ -1920,6 +1941,13 @@ var AreHTMLEngine = class extends AreEngine {
         match2.payload = { entity: tagName, selfClose: true, id };
         return match2;
       }
+      if (isVoidElement(tagName)) {
+        const raw = source.slice(tagStart, openingTagEnd + 1);
+        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
+        const match2 = build(raw, content2, tagStart, ">");
+        match2.payload = { entity: tagName, selfClose: true, id };
+        return match2;
+      }
       const closingTag = `</${tagName}>`;
       let level = 0;
       let searchIndex = openingTagEnd + 1;
@@ -2014,8 +2042,8 @@ var AreRoot = class extends Are {
       }
     }
     if (!componentName) {
-      const defaultAttr = root.attributes.find((attr) => attr.name === "default");
-      componentName = defaultAttr?.content;
+      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+      componentName = defaultMatch?.[1];
     }
     if (!componentName) {
       logger.warning('AreRoot: No component found for initial render. Please ensure a route condition or "default" attribute is set.');
@@ -2024,7 +2052,6 @@ var AreRoot = class extends Are {
     root.setContent(`<${componentName}></${componentName}>`);
   }
   async onSignal(root, vector, store, logger, signalsContext) {
-    console.log("Received signal vector in AreRoot:", root, vector);
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;
@@ -2143,6 +2170,6 @@ AreRouteWatcher = __decorateClass([
   })
 ], AreRouteWatcher);
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

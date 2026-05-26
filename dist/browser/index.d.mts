@@ -312,6 +312,15 @@ declare class AreRoute extends AreSignal<A_Route> {
 }
 
 /**
+ * Void HTML elements that cannot have children and must not have a closing tag.
+ * Per the HTML5 spec these are treated as self-closing even when written as
+ * `<input>` (without the trailing slash `/>`).
+ *
+ * Reference: https://html.spec.whatwg.org/multipage/syntax.html#void-elements
+ */
+declare const VOID_ELEMENTS: Set<string>;
+declare function isVoidElement(tagName: string): boolean;
+/**
  * Boolean HTML attributes whose presence (regardless of value) implies "true",
  * and whose absence implies "false". Setting these via `setAttribute(name, value)`
  * always renders the attribute, which is wrong for reactive bindings.
@@ -531,8 +540,7 @@ declare class AreHTMLInterpreter extends AreInterpreter {
 }
 
 declare class AreHTMLLifecycle extends AreLifecycle {
-    initComponent(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
-    initRoot(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
+    initComponent(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initText(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
     initInterpolation(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
     updateDirectiveAttribute(directive: AreDirectiveAttribute, scope: A_Scope, feature: A_Feature, logger?: A_Logger, ...args: any[]): void;
@@ -601,4 +609,4 @@ declare class AreRouteWatcher extends A_Component {
     private notify;
 }
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

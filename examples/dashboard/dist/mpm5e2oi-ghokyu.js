@@ -10846,7 +10846,7 @@ AreEngine = __decorateClass3([
   })
 ], AreEngine);
 var _a144;
-var AreRouteWatcher = (_a144 = class extends v {
+var AreWatcher = (_a144 = class extends v {
   /**
    * Initialize the watcher. This method is called once when the watcher is first created. Use this to set up any necessary state or start observing changes.
    */
@@ -10859,16 +10859,16 @@ var AreRouteWatcher = (_a144 = class extends v {
   }
   destroy() {
   }
-}, __name(_a144, "AreRouteWatcher"), _a144);
+}, __name(_a144, "AreWatcher"), _a144);
 __decorateClass3([
   Ce.Stop()
-], AreRouteWatcher.prototype, "destroy", 1);
-AreRouteWatcher = __decorateClass3([
+], AreWatcher.prototype, "destroy", 1);
+AreWatcher = __decorateClass3([
   A3.Define({
     namespace: "A-ARE",
     description: "Abstract base component that observes external changes and emits A_Signals to drive reactive updates within the ARE pipeline. Subclasses override init() to set up initial state and watch() to begin observing \u2014 for example, polling a data source, listening to DOM events, or subscribing to a store \u2014 and call the appropriate signal methods to notify the engine when a re-render is needed."
   })
-], AreRouteWatcher);
+], AreWatcher);
 var _a145;
 var _a146;
 var AreContainer = (_a146 = class extends A_Service {
@@ -10907,7 +10907,7 @@ __decorateClass3([
   __decorateParam3(1, ke(AreContext)),
   __decorateParam3(2, F.All()),
   __decorateParam3(2, F.Flat()),
-  __decorateParam3(2, ke(AreRouteWatcher)),
+  __decorateParam3(2, ke(AreWatcher)),
   __decorateParam3(3, ke(A_Logger))
 ], AreContainer.prototype, _a145, 1);
 var _a147;
@@ -13537,8 +13537,8 @@ var AreRoot = class extends Are {
       }
     }
     if (!componentName) {
-      const defaultAttr = root.attributes.find((attr) => attr.name === "default");
-      componentName = defaultAttr?.content;
+      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+      componentName = defaultMatch?.[1];
     }
     if (!componentName) {
       logger.warning('AreRoot: No component found for initial render. Please ensure a route condition or "default" attribute is set.');

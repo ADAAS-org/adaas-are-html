@@ -195,6 +195,7 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
         event.set("args", effectiveArgs);
         event.set("element", element);
         event.set("instruction", mutation);
+        if (liveEvent) event.set("native", liveEvent);
         mutation.owner.emit(event);
       };
       handlerScope[`$${handler}`] = handlerFn;

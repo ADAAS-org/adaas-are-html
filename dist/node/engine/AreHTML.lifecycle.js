@@ -24,10 +24,7 @@ var __decorateClass = (decorators, target, key, kind) => {
 };
 var __decorateParam = (index, decorator) => (target, key) => decorator(target, key, index);
 exports.AreHTMLLifecycle = class AreHTMLLifecycle extends are.AreLifecycle {
-  initComponent(node, scope, context, logger, ...args) {
-    super.init(node, scope, context, logger, ...args);
-  }
-  initRoot(node, scope, context, signalsContext, logger, ...args) {
+  initComponent(node, scope, context, signalsContext, logger, ...args) {
     signalsContext?.subscribe(node);
     super.init(node, scope, context, logger, ...args);
   }
@@ -49,19 +46,13 @@ exports.AreHTMLLifecycle = class AreHTMLLifecycle extends are.AreLifecycle {
 };
 __decorateClass([
   are.AreLifecycle.Init(AreComponent.AreComponentNode),
-  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
-  __decorateParam(1, aConcept.A_Inject(aConcept.A_Scope)),
-  __decorateParam(2, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext)),
-  __decorateParam(3, aConcept.A_Inject(aLogger.A_Logger))
-], exports.AreHTMLLifecycle.prototype, "initComponent", 1);
-__decorateClass([
   are.AreLifecycle.Init(AreRoot.AreRootNode),
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
   __decorateParam(1, aConcept.A_Inject(aConcept.A_Scope)),
   __decorateParam(2, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext)),
   __decorateParam(3, aConcept.A_Inject(are.AreSignalsContext)),
   __decorateParam(4, aConcept.A_Inject(aLogger.A_Logger))
-], exports.AreHTMLLifecycle.prototype, "initRoot", 1);
+], exports.AreHTMLLifecycle.prototype, "initComponent", 1);
 __decorateClass([
   are.AreLifecycle.Init(AreText.AreText),
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),

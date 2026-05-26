@@ -15,6 +15,7 @@ var AreRoot = require('@adaas/are-html/nodes/AreRoot');
 var lifecycle = require('@adaas/are-html/lifecycle');
 var transformer = require('@adaas/are-html/transformer');
 var AreHTML_compiler = require('./AreHTML.compiler');
+var AreHTML_constants = require('./AreHTML.constants');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -122,6 +123,13 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
         const raw = source.slice(tagStart, openingTagEnd + 1);
         const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1);
         const match2 = build(raw, content2, tagStart, "/>");
+        match2.payload = { entity: tagName, selfClose: true, id };
+        return match2;
+      }
+      if (AreHTML_constants.isVoidElement(tagName)) {
+        const raw = source.slice(tagStart, openingTagEnd + 1);
+        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
+        const match2 = build(raw, content2, tagStart, ">");
         match2.payload = { entity: tagName, selfClose: true, id };
         return match2;
       }

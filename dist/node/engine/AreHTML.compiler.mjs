@@ -30,6 +30,16 @@ let AreHTMLCompiler = class extends AreCompiler {
         title: "Scene Host Not Found",
         description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
       });
+    const content = attribute.content;
+    if (content.includes("{{")) {
+      const transformed = '"' + content.replace(/\{\{([^}]+)\}\}/g, '"+($1)+"') + '"';
+      scene.plan(new AddAttributeInstruction(scene.host, {
+        name: attribute.name,
+        content: transformed,
+        evaluate: true
+      }));
+      return;
+    }
     scene.plan(new AddAttributeInstruction(scene.host, {
       name: attribute.name,
       content: attribute.content

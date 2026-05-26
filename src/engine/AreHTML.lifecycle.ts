@@ -19,19 +19,8 @@ import { A_Frame } from "@adaas/a-frame/core";
 export class AreHTMLLifecycle extends AreLifecycle {
 
     @AreLifecycle.Init(AreComponentNode)
-    initComponent(
-        @A_Inject(A_Caller) node: AreHTMLNode,
-        @A_Inject(A_Scope) scope: A_Scope,
-        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
-        @A_Inject(A_Logger) logger?: A_Logger,
-        ...args: any[]
-    ): void {
-        super.init(node, scope, context, logger, ...args);
-    }
-
-
     @AreLifecycle.Init(AreRootNode)
-    initRoot(
+    initComponent(
         @A_Inject(A_Caller) node: AreHTMLNode,
         @A_Inject(A_Scope) scope: A_Scope,
         @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
@@ -42,6 +31,18 @@ export class AreHTMLLifecycle extends AreLifecycle {
         signalsContext?.subscribe(node);
         super.init(node, scope, context, logger, ...args);
     }
+
+
+    // initRoot(
+    //     @A_Inject(A_Caller) node: AreHTMLNode,
+    //     @A_Inject(A_Scope) scope: A_Scope,
+    //     @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+    //     @A_Inject(AreSignalsContext) signalsContext?: AreSignalsContext,
+    //     @A_Inject(A_Logger) logger?: A_Logger,
+    //     ...args: any[]
+    // ): void {
+    //     super.init(node, scope, context, logger, ...args);
+    // }
 
 
     @AreLifecycle.Init(AreText)

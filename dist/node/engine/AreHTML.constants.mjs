@@ -1,5 +1,24 @@
 import '../chunk-EQQGB2QZ.mjs';
 
+const VOID_ELEMENTS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+function isVoidElement(tagName) {
+  return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
 const BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
   "allowfullscreen",
   "async",
@@ -91,6 +110,6 @@ function toDOMString(value) {
   }
 }
 
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=AreHTML.constants.mjs.map
 //# sourceMappingURL=AreHTML.constants.mjs.map

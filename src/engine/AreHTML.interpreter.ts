@@ -337,6 +337,9 @@ export class AreHTMLInterpreter extends AreInterpreter {
                 event.set('args', effectiveArgs);
                 event.set('element', element);
                 event.set('instruction', mutation);
+                // Expose the raw DOM event under the conventional 'native' key so that
+                // event handlers can do: event.get('native')?.target as HTMLInputElement
+                if (liveEvent) event.set('native', liveEvent as any);
                 mutation.owner.emit(event);
             };
             handlerScope[`$${handler}`] = handlerFn;

@@ -1,4 +1,20 @@
 /**
+ * Void HTML elements that cannot have children and must not have a closing tag.
+ * Per the HTML5 spec these are treated as self-closing even when written as
+ * `<input>` (without the trailing slash `/>`).
+ *
+ * Reference: https://html.spec.whatwg.org/multipage/syntax.html#void-elements
+ */
+export const VOID_ELEMENTS = new Set<string>([
+    'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
+    'link', 'meta', 'param', 'source', 'track', 'wbr',
+]);
+
+export function isVoidElement(tagName: string): boolean {
+    return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
+
+/**
  * Boolean HTML attributes whose presence (regardless of value) implies "true",
  * and whose absence implies "false". Setting these via `setAttribute(name, value)`
  * always renders the attribute, which is wrong for reactive bindings.

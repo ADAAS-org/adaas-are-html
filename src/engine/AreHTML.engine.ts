@@ -13,6 +13,7 @@ import { AreRootNode } from "@adaas/are-html/nodes/AreRoot";
 import { AreHTMLLifecycle } from "@adaas/are-html/lifecycle";
 import { AreHTMLTransformer } from "@adaas/are-html/transformer";
 import { AreHTMLCompiler } from "./AreHTML.compiler";
+import { isVoidElement } from "./AreHTML.constants";
 
 
 
@@ -148,6 +149,15 @@ export class AreHTMLEngine extends AreEngine {
                 const raw = source.slice(tagStart, openingTagEnd + 1)
                 const content = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1)
                 const match = build(raw, content, tagStart, '/>')
+                match.payload = { entity: tagName, selfClose: true, id }
+                return match
+            }
+
+            // HTML5 void elements: <input>, <br>, <img>, etc. — treat as self-closing
+            if (isVoidElement(tagName)) {
+                const raw = source.slice(tagStart, openingTagEnd + 1)
+                const content = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd)
+                const match = build(raw, content, tagStart, '>')
                 match.payload = { entity: tagName, selfClose: true, id }
                 return match
             }

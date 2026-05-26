@@ -1,4 +1,13 @@
 /**
+ * Void HTML elements that cannot have children and must not have a closing tag.
+ * Per the HTML5 spec these are treated as self-closing even when written as
+ * `<input>` (without the trailing slash `/>`).
+ *
+ * Reference: https://html.spec.whatwg.org/multipage/syntax.html#void-elements
+ */
+declare const VOID_ELEMENTS: Set<string>;
+declare function isVoidElement(tagName: string): boolean;
+/**
  * Boolean HTML attributes whose presence (regardless of value) implies "true",
  * and whose absence implies "false". Setting these via `setAttribute(name, value)`
  * always renders the attribute, which is wrong for reactive bindings.
@@ -51,4 +60,4 @@ declare const LISTENER_OPTION_MODIFIERS: Set<string>;
  */
 declare function toDOMString(value: any): string;
 
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

@@ -14,6 +14,7 @@ import { AreRootNode } from '@adaas/are-html/nodes/AreRoot';
 import { AreHTMLLifecycle } from '@adaas/are-html/lifecycle';
 import { AreHTMLTransformer } from '@adaas/are-html/transformer';
 import { AreHTMLCompiler } from './AreHTML.compiler';
+import { isVoidElement } from './AreHTML.constants';
 
 let AreHTMLEngine = class extends AreEngine {
   get DefaultSyntax() {
@@ -110,6 +111,13 @@ let AreHTMLEngine = class extends AreEngine {
         const raw = source.slice(tagStart, openingTagEnd + 1);
         const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1);
         const match2 = build(raw, content2, tagStart, "/>");
+        match2.payload = { entity: tagName, selfClose: true, id };
+        return match2;
+      }
+      if (isVoidElement(tagName)) {
+        const raw = source.slice(tagStart, openingTagEnd + 1);
+        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
+        const match2 = build(raw, content2, tagStart, ">");
         match2.payload = { entity: tagName, selfClose: true, id };
         return match2;
       }

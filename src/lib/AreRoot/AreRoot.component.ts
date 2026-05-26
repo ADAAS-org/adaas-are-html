@@ -54,11 +54,12 @@ export class AreRoot extends Are {
             }
         }
 
-        // 3. Fall back to the 'default' attribute on the node directly
-        //    (store props are not yet compiled at template phase)
+        // 3. Fall back to the 'default' attribute on the node directly.
+        //    Note: root.attributes is NOT populated at this stage because tokenize()
+        //    runs after template() in the lifecycle. Read from raw markup instead.
         if (!componentName) {
-            const defaultAttr = root.attributes.find(attr => attr.name === 'default');
-            componentName = defaultAttr?.content;
+            const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+            componentName = defaultMatch?.[1];
         }
 
         if (!componentName) {
@@ -78,8 +79,6 @@ export class AreRoot extends Are {
         @A_Inject(A_Logger) logger: A_Logger,
         @A_Inject(AreSignalsContext) signalsContext?: AreSignalsContext,
     ) {
-        console.log('Received signal vector in AreRoot:', root, vector);
-
         const rootId = root.id;
         // No routing config for this root — signals do not affect its content
         if (signalsContext && !signalsContext.hasRoot(rootId)) {
