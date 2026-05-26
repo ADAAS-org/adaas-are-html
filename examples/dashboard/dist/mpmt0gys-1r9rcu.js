@@ -11032,6 +11032,9 @@ var _DashboardLogo = class _DashboardLogo extends Are {
       brandName: "ARE Platform"
     });
   }
+  async onMount(node, store) {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!DashboardLogo mounted");
+  }
 };
 __name(_DashboardLogo, "DashboardLogo");
 __decorateClass([
@@ -11042,6 +11045,11 @@ __decorateClass([
   Are.Data,
   __decorateParam(0, ke(AreStore))
 ], _DashboardLogo.prototype, "data", 1);
+__decorateClass([
+  Are.onAfterMount,
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreStore))
+], _DashboardLogo.prototype, "onMount", 1);
 var DashboardLogo = _DashboardLogo;
 
 // examples/dashboard/src/components/DashboardNav.component.ts
@@ -12318,6 +12326,26 @@ AreText = __decorateClass([
 ], AreText);
 
 // src/engine/AreHTML.constants.ts
+var VOID_ELEMENTS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+function isVoidElement(tagName) {
+  return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
+__name(isVoidElement, "isVoidElement");
 var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
   "allowfullscreen",
   "async",
@@ -12609,6 +12637,16 @@ var AreHTMLCompiler = class extends AreCompiler {
         title: "Scene Host Not Found",
         description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
       });
+    const content = attribute.content;
+    if (content.includes("{{")) {
+      const transformed = '"' + content.replace(/\{\{([^}]+)\}\}/g, '"+($1)+"') + '"';
+      scene.plan(new AddAttributeInstruction(scene.host, {
+        name: attribute.name,
+        content: transformed,
+        evaluate: true
+      }));
+      return;
+    }
     scene.plan(new AddAttributeInstruction(scene.host, {
       name: attribute.name,
       content: attribute.content
@@ -12919,6 +12957,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
         event.set("args", effectiveArgs);
         event.set("element", element);
         event.set("instruction", mutation);
+        if (liveEvent) event.set("native", liveEvent);
         mutation.owner.emit(event);
       }, "handlerFn");
       handlerScope[`$${handler}`] = handlerFn;
@@ -13241,10 +13280,7 @@ AreHTMLTokenizer = __decorateClass([
 
 // src/engine/AreHTML.lifecycle.ts
 var AreHTMLLifecycle = class extends AreLifecycle {
-  initComponent(node, scope, context, logger, ...args) {
-    super.init(node, scope, context, logger, ...args);
-  }
-  initRoot(node, scope, context, signalsContext, logger, ...args) {
+  initComponent(node, scope, context, signalsContext, logger, ...args) {
     signalsContext?.subscribe(node);
     super.init(node, scope, context, logger, ...args);
   }
@@ -13255,6 +13291,14 @@ var AreHTMLLifecycle = class extends AreLifecycle {
   initInterpolation(node, scope, context, logger, ...args) {
     const scene = new AreScene(node.aseid);
     scope.register(scene);
+  }
+  mount(node, scene, logger, ...args) {
+    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    node.interpret();
+    for (let i4 = 0; i4 < node.children.length; i4++) {
+      const child = node.children[i4];
+      child.mount();
+    }
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -13267,19 +13311,13 @@ var AreHTMLLifecycle = class extends AreLifecycle {
 __name(AreHTMLLifecycle, "AreHTMLLifecycle");
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
-  __decorateParam(0, ke(G)),
-  __decorateParam(1, ke(D)),
-  __decorateParam(2, ke(AreHTMLEngineContext)),
-  __decorateParam(3, ke(A_Logger))
-], AreHTMLLifecycle.prototype, "initComponent", 1);
-__decorateClass([
   AreLifecycle.Init(AreRootNode),
   __decorateParam(0, ke(G)),
   __decorateParam(1, ke(D)),
   __decorateParam(2, ke(AreHTMLEngineContext)),
   __decorateParam(3, ke(AreSignalsContext)),
   __decorateParam(4, ke(A_Logger))
-], AreHTMLLifecycle.prototype, "initRoot", 1);
+], AreHTMLLifecycle.prototype, "initComponent", 1);
 __decorateClass([
   AreLifecycle.Init(AreText),
   __decorateParam(0, ke(G)),
@@ -13294,6 +13332,15 @@ __decorateClass([
   __decorateParam(2, ke(AreHTMLEngineContext)),
   __decorateParam(3, ke(A_Logger))
 ], AreHTMLLifecycle.prototype, "initInterpolation", 1);
+__decorateClass([
+  w.Extend({
+    name: AreNodeFeatures.onMount,
+    scope: [AreHTMLNode]
+  }),
+  __decorateParam(0, ke(G)),
+  __decorateParam(1, ke(AreScene)),
+  __decorateParam(2, ke(A_Logger))
+], AreHTMLLifecycle.prototype, "mount", 1);
 __decorateClass([
   w.Extend({
     name: AreAttributeFeatures.Update,
@@ -13386,7 +13433,7 @@ var AreHTMLEngine = class extends AreEngine {
       ]
     });
   }
-  async init(scope) {
+  async init(scope, signalContext) {
     this.package(scope, {
       context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -13396,6 +13443,10 @@ var AreHTMLEngine = class extends AreEngine {
       lifecycle: AreHTMLLifecycle,
       transformer: AreHTMLTransformer
     });
+    if (!signalContext) {
+      signalContext = new AreSignalsContext();
+      scope.register(signalContext);
+    }
   }
   rootElementMatcher(source, from, to, build) {
     const rootTag = "are-root";
@@ -13437,6 +13488,13 @@ var AreHTMLEngine = class extends AreEngine {
         const raw = source.slice(tagStart, openingTagEnd + 1);
         const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1);
         const match2 = build(raw, content2, tagStart, "/>");
+        match2.payload = { entity: tagName, selfClose: true, id };
+        return match2;
+      }
+      if (isVoidElement(tagName)) {
+        const raw = source.slice(tagStart, openingTagEnd + 1);
+        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
+        const match2 = build(raw, content2, tagStart, ">");
         match2.payload = { entity: tagName, selfClose: true, id };
         return match2;
       }
@@ -13498,7 +13556,8 @@ __decorateClass([
     name: A_ServiceFeatures.onBeforeLoad,
     before: /.*/
   }),
-  __decorateParam(0, ke(D))
+  __decorateParam(0, ke(D)),
+  __decorateParam(1, ke(AreSignalsContext))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
   A3.Define({
@@ -13547,7 +13606,6 @@ var AreRoot = class extends Are {
     root.setContent(`<${componentName}></${componentName}>`);
   }
   async onSignal(root, vector, store, logger, signalsContext) {
-    console.log("Received signal vector in AreRoot:", root, vector);
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;

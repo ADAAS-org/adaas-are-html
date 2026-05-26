@@ -1767,6 +1767,14 @@ var AreHTMLLifecycle = class extends AreLifecycle {
     const scene = new AreScene(node.aseid);
     scope.register(scene);
   }
+  mount(node, scene, logger, ...args) {
+    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    node.interpret();
+    for (let i = 0; i < node.children.length; i++) {
+      const child = node.children[i];
+      child.mount();
+    }
+  }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
       feature.chain(directive.component, AreDirectiveFeatures.Update, directive.owner.scope);
@@ -1798,6 +1806,15 @@ __decorateClass([
   __decorateParam(2, A_Inject(AreHTMLEngineContext)),
   __decorateParam(3, A_Inject(A_Logger))
 ], AreHTMLLifecycle.prototype, "initInterpolation", 1);
+__decorateClass([
+  A_Feature.Extend({
+    name: AreNodeFeatures.onMount,
+    scope: [AreHTMLNode]
+  }),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreScene)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLLifecycle.prototype, "mount", 1);
 __decorateClass([
   A_Feature.Extend({
     name: AreAttributeFeatures.Update,
@@ -1887,7 +1904,7 @@ var AreHTMLEngine = class extends AreEngine {
       ]
     });
   }
-  async init(scope) {
+  async init(scope, signalContext) {
     this.package(scope, {
       context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -1897,6 +1914,10 @@ var AreHTMLEngine = class extends AreEngine {
       lifecycle: AreHTMLLifecycle,
       transformer: AreHTMLTransformer
     });
+    if (!signalContext) {
+      signalContext = new AreSignalsContext();
+      scope.register(signalContext);
+    }
   }
   rootElementMatcher(source, from, to, build) {
     const rootTag = "are-root";
@@ -2005,7 +2026,8 @@ __decorateClass([
     name: A_ServiceFeatures.onBeforeLoad,
     before: /.*/
   }),
-  __decorateParam(0, A_Inject(A_Scope))
+  __decorateParam(0, A_Inject(A_Scope)),
+  __decorateParam(1, A_Inject(AreSignalsContext))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
   A_Frame.Define({

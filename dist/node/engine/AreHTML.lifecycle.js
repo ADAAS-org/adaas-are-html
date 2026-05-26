@@ -10,6 +10,7 @@ var AreText = require('@adaas/are-html/nodes/AreText');
 var AreDirective_attribute = require('@adaas/are-html/attributes/AreDirective.attribute');
 var AreDirective_constants = require('@adaas/are-html/directive/AreDirective.constants');
 var AreHTML_context = require('./AreHTML.context');
+var AreHTMLNode = require('../lib/AreHTMLNode/AreHTMLNode');
 var core = require('@adaas/a-frame/core');
 
 var __defProp = Object.defineProperty;
@@ -35,6 +36,14 @@ exports.AreHTMLLifecycle = class AreHTMLLifecycle extends are.AreLifecycle {
   initInterpolation(node, scope, context, logger, ...args) {
     const scene = new are.AreScene(node.aseid);
     scope.register(scene);
+  }
+  mount(node, scene, logger, ...args) {
+    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    node.interpret();
+    for (let i = 0; i < node.children.length; i++) {
+      const child = node.children[i];
+      child.mount();
+    }
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -67,6 +76,15 @@ __decorateClass([
   __decorateParam(2, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext)),
   __decorateParam(3, aConcept.A_Inject(aLogger.A_Logger))
 ], exports.AreHTMLLifecycle.prototype, "initInterpolation", 1);
+__decorateClass([
+  aConcept.A_Feature.Extend({
+    name: are.AreNodeFeatures.onMount,
+    scope: [AreHTMLNode.AreHTMLNode]
+  }),
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
+  __decorateParam(1, aConcept.A_Inject(are.AreScene)),
+  __decorateParam(2, aConcept.A_Inject(aLogger.A_Logger))
+], exports.AreHTMLLifecycle.prototype, "mount", 1);
 __decorateClass([
   aConcept.A_Feature.Extend({
     name: are.AreAttributeFeatures.Update,

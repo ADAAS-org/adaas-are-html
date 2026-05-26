@@ -2,7 +2,7 @@ import { __decorateClass, __decorateParam } from '../chunk-EQQGB2QZ.mjs';
 import { A_Feature, A_Inject, A_Scope } from '@adaas/a-concept';
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_ServiceFeatures } from '@adaas/a-utils/a-service';
-import { AreEngine, AreSyntax } from '@adaas/are';
+import { AreSignalsContext, AreEngine, AreSyntax } from '@adaas/are';
 import { AreHTMLInterpreter } from '@adaas/are-html/interpreter';
 import { AreHTMLEngineContext } from './AreHTML.context';
 import { AreInterpolation } from '@adaas/are-html/nodes/AreInterpolation';
@@ -60,7 +60,7 @@ let AreHTMLEngine = class extends AreEngine {
       ]
     });
   }
-  async init(scope) {
+  async init(scope, signalContext) {
     this.package(scope, {
       context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -70,6 +70,10 @@ let AreHTMLEngine = class extends AreEngine {
       lifecycle: AreHTMLLifecycle,
       transformer: AreHTMLTransformer
     });
+    if (!signalContext) {
+      signalContext = new AreSignalsContext();
+      scope.register(signalContext);
+    }
   }
   rootElementMatcher(source, from, to, build) {
     const rootTag = "are-root";
@@ -178,7 +182,8 @@ __decorateClass([
     name: A_ServiceFeatures.onBeforeLoad,
     before: /.*/
   }),
-  __decorateParam(0, A_Inject(A_Scope))
+  __decorateParam(0, A_Inject(A_Scope)),
+  __decorateParam(1, A_Inject(AreSignalsContext))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
   A_Frame.Define({

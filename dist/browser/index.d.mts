@@ -1,4 +1,4 @@
-import { AreStoreWatchingEntity, AreNode, AreAttribute, AreStore, AreScene, AreSyntax, AreMutation, AreDeclaration, AreInstructionSerialized, AreNodeNewProps, Are, AreSignal, AreContext, AreInstruction, AreCompiler, AreEngine, AreSyntaxTokenMatch, AreInterpreter, AreLifecycle, AreSignalsContext, AreTokenizer, AreTransformer, ArePropDefinition } from '@adaas/are';
+import { AreStoreWatchingEntity, AreNode, AreAttribute, AreStore, AreScene, AreSyntax, AreMutation, AreDeclaration, AreInstructionSerialized, AreNodeNewProps, Are, AreSignal, AreContext, AreInstruction, AreCompiler, AreEngine, AreSignalsContext, AreSyntaxTokenMatch, AreInterpreter, AreLifecycle, AreTokenizer, AreTransformer, ArePropDefinition } from '@adaas/are';
 import { A_Component, A_TYPES__Ctor, A_Fragment, ASEID, A_Scope, A_Feature, A_ComponentMeta } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_ExecutionContext } from '@adaas/a-utils/a-execution';
@@ -511,7 +511,7 @@ declare class AreHTMLEngine extends AreEngine {
      *
      * @param container
      */
-    init(scope: A_Scope): Promise<void>;
+    init(scope: A_Scope, signalContext?: AreSignalsContext): Promise<void>;
     protected rootElementMatcher(source: string, from: number, to: number, build: (raw: string, content: string, position: number, closing: string) => AreSyntaxTokenMatch): AreSyntaxTokenMatch | null;
     protected htmlElementMatcher(source: string, from: number, to: number, build: (raw: string, content: string, position: number, closing: string) => AreSyntaxTokenMatch): AreSyntaxTokenMatch | null;
     /**
@@ -543,6 +543,15 @@ declare class AreHTMLLifecycle extends AreLifecycle {
     initComponent(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initText(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
     initInterpolation(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
+    mount(
+    /**
+     * Node to be mounted
+     */
+    node: AreHTMLNode, 
+    /**
+     * Node Content
+     */
+    scene: AreScene, logger?: A_Logger, ...args: any[]): void;
     updateDirectiveAttribute(directive: AreDirectiveAttribute, scope: A_Scope, feature: A_Feature, logger?: A_Logger, ...args: any[]): void;
 }
 

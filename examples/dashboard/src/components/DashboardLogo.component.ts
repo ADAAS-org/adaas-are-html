@@ -26,4 +26,13 @@ export class DashboardLogo extends Are {
             brandName: 'ARE Platform',
         });
     }
+
+
+    @Are.onAfterMount
+    async onMount(
+        @A_Inject(A_Caller) node: AreNode,
+        @A_Inject(AreStore) store: AreStore,
+    ) {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!DashboardLogo mounted');
+    }
 }

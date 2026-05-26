@@ -72,7 +72,7 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
       ]
     });
   }
-  async init(scope) {
+  async init(scope, signalContext) {
     this.package(scope, {
       context: new AreHTML_context.AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -82,6 +82,10 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
       lifecycle: lifecycle.AreHTMLLifecycle,
       transformer: transformer.AreHTMLTransformer
     });
+    if (!signalContext) {
+      signalContext = new are.AreSignalsContext();
+      scope.register(signalContext);
+    }
   }
   rootElementMatcher(source, from, to, build) {
     const rootTag = "are-root";
@@ -190,7 +194,8 @@ __decorateClass([
     name: aService.A_ServiceFeatures.onBeforeLoad,
     before: /.*/
   }),
-  __decorateParam(0, aConcept.A_Inject(aConcept.A_Scope))
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Scope)),
+  __decorateParam(1, aConcept.A_Inject(are.AreSignalsContext))
 ], exports.AreHTMLEngine.prototype, "init", 1);
 exports.AreHTMLEngine = __decorateClass([
   core.A_Frame.Define({

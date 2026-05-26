@@ -1,6 +1,6 @@
 import { __decorateClass, __decorateParam } from '../chunk-EQQGB2QZ.mjs';
 import { A_Inject, A_Caller, A_Scope, A_Feature, A_FormatterHelper } from '@adaas/a-concept';
-import { AreLifecycle, AreSignalsContext, AreAttributeFeatures, AreScene } from '@adaas/are';
+import { AreLifecycle, AreSignalsContext, AreNodeFeatures, AreScene, AreAttributeFeatures } from '@adaas/are';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreComponentNode } from '@adaas/are-html/nodes/AreComponent';
 import { AreRootNode } from '@adaas/are-html/nodes/AreRoot';
@@ -9,6 +9,7 @@ import { AreText } from '@adaas/are-html/nodes/AreText';
 import { AreDirectiveAttribute } from '@adaas/are-html/attributes/AreDirective.attribute';
 import { AreDirectiveFeatures } from '@adaas/are-html/directive/AreDirective.constants';
 import { AreHTMLEngineContext } from './AreHTML.context';
+import { AreHTMLNode } from '../lib/AreHTMLNode/AreHTMLNode';
 import { A_Frame } from '@adaas/a-frame/core';
 
 let AreHTMLLifecycle = class extends AreLifecycle {
@@ -23,6 +24,14 @@ let AreHTMLLifecycle = class extends AreLifecycle {
   initInterpolation(node, scope, context, logger, ...args) {
     const scene = new AreScene(node.aseid);
     scope.register(scene);
+  }
+  mount(node, scene, logger, ...args) {
+    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    node.interpret();
+    for (let i = 0; i < node.children.length; i++) {
+      const child = node.children[i];
+      child.mount();
+    }
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -55,6 +64,15 @@ __decorateClass([
   __decorateParam(2, A_Inject(AreHTMLEngineContext)),
   __decorateParam(3, A_Inject(A_Logger))
 ], AreHTMLLifecycle.prototype, "initInterpolation", 1);
+__decorateClass([
+  A_Feature.Extend({
+    name: AreNodeFeatures.onMount,
+    scope: [AreHTMLNode]
+  }),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreScene)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLLifecycle.prototype, "mount", 1);
 __decorateClass([
   A_Feature.Extend({
     name: AreAttributeFeatures.Update,

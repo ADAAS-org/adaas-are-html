@@ -1,5 +1,5 @@
 import { A_Caller, A_Feature, A_FormatterHelper, A_Inject, A_Scope } from "@adaas/a-concept";
-import { AreLifecycle, AreScene, AreAttributeFeatures, AreSignalsContext } from "@adaas/are";
+import { AreLifecycle, AreScene, AreAttributeFeatures, AreSignalsContext, AreNodeFeatures, AreFeatures } from "@adaas/are";
 import { A_Logger } from "@adaas/a-utils/a-logger";
 import { AreComponentNode } from "@adaas/are-html/nodes/AreComponent";
 import { AreRootNode } from "@adaas/are-html/nodes/AreRoot";
@@ -72,8 +72,38 @@ export class AreHTMLLifecycle extends AreLifecycle {
         scope.register(scene);
     }
 
+    @A_Feature.Extend({
+        name: AreNodeFeatures.onMount,
+        scope: [AreHTMLNode]
+    })
+    mount(
+        /**
+         * Node to be mounted
+         */
+        @A_Inject(A_Caller) node: AreHTMLNode,
+        /**
+         * Node Content
+         */
+        @A_Inject(AreScene) scene: AreScene,
 
+        @A_Inject(A_Logger) logger?: A_Logger,
+        ...args: any[]
+    ) {
 
+        logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+
+        /**
+         * 1. We should simply run and render node itself.
+         */
+        node.interpret();
+        /**
+         * 2. Then go through all children of the node and mount the.
+         */
+        for (let i = 0; i < node.children.length; i++) {
+            const child = node.children[i];
+            child.mount();
+        }
+    }
 
     @A_Feature.Extend({
         name: AreAttributeFeatures.Update,

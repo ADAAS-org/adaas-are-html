@@ -1,5 +1,5 @@
 import { A_Scope } from '@adaas/a-concept';
-import { AreEngine, AreSyntax, AreSyntaxTokenMatch } from '@adaas/are';
+import { AreEngine, AreSyntax, AreSignalsContext, AreSyntaxTokenMatch } from '@adaas/are';
 
 declare class AreHTMLEngine extends AreEngine {
     get DefaultSyntax(): AreSyntax;
@@ -8,7 +8,7 @@ declare class AreHTMLEngine extends AreEngine {
      *
      * @param container
      */
-    init(scope: A_Scope): Promise<void>;
+    init(scope: A_Scope, signalContext?: AreSignalsContext): Promise<void>;
     protected rootElementMatcher(source: string, from: number, to: number, build: (raw: string, content: string, position: number, closing: string) => AreSyntaxTokenMatch): AreSyntaxTokenMatch | null;
     protected htmlElementMatcher(source: string, from: number, to: number, build: (raw: string, content: string, position: number, closing: string) => AreSyntaxTokenMatch): AreSyntaxTokenMatch | null;
     /**

@@ -1,7 +1,7 @@
 import { A_Feature, A_Inject, A_Scope } from "@adaas/a-concept";
 import { A_Frame } from "@adaas/a-frame/core"
 import { A_ServiceFeatures } from "@adaas/a-utils/a-service";
-import { AreEngine, AreSyntaxTokenMatch, AreSyntax } from "@adaas/are";
+import { AreEngine, AreSyntaxTokenMatch, AreSyntax, AreSignalsContext } from "@adaas/are";
 import { AreHTMLInterpreter } from "@adaas/are-html/interpreter";
 import { AreHTMLEngineContext } from "./AreHTML.context";
 import { AreInterpolation } from "@adaas/are-html/nodes/AreInterpolation";
@@ -81,6 +81,7 @@ export class AreHTMLEngine extends AreEngine {
     })
     async init(
         @A_Inject(A_Scope) scope: A_Scope,
+        @A_Inject(AreSignalsContext) signalContext?: AreSignalsContext
     ) {
         this.package(scope, {
             context: new AreHTMLEngineContext({}),
@@ -91,6 +92,11 @@ export class AreHTMLEngine extends AreEngine {
             lifecycle: AreHTMLLifecycle,
             transformer: AreHTMLTransformer,
         });
+
+        if(!signalContext) {
+            signalContext = new AreSignalsContext();
+            scope.register(signalContext);
+        }
     }
 
 
