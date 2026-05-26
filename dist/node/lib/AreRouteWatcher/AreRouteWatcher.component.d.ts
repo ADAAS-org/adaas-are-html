@@ -1,6 +1,6 @@
 import { A_Component } from '@adaas/a-concept';
 
-declare class AreWatcher extends A_Component {
+declare class AreRouteWatcher extends A_Component {
     private readonly handlers;
     private current;
     constructor();
@@ -15,4 +15,4 @@ declare class AreWatcher extends A_Component {
     private notify;
 }
 
-export { AreWatcher };
+export { AreRouteWatcher };

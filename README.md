@@ -615,12 +615,12 @@ Route-driven rendering uses `AreSignalsContext` / `AreSignalsMeta` to select the
 
 ## Watcher
 
-`AreWatcher` observes browser navigation events (`pushState`, `replaceState`, `popstate`, `hashchange`) and notifies handlers on URL change:
+`AreRouteWatcher` observes browser navigation events (`pushState`, `replaceState`, `popstate`, `hashchange`) and notifies handlers on URL change:
 
 ```typescript
-import { AreWatcher } from '@adaas/are-html';
+import { AreRouteWatcher } from '@adaas/are-html';
 
-const watcher = new AreWatcher();
+const watcher = new AreRouteWatcher();
 const unsubscribe = watcher.onChange((url: URL) => {
     console.log('Navigated to:', url.pathname);
 });
@@ -659,7 +659,7 @@ watcher.destroy();
 | `AreDirective` | Base class for custom directives |
 | `AreDirectiveContext` | Per-item scope context for directives |
 | `AreRoot` | `<are-root>` component |
-| `AreWatcher` | Browser navigation observer |
+| `AreRouteWatcher` | Browser navigation observer |
 | `AreRoute` | Client-side routing signal |
 | `AddElementInstruction` | DOM element creation instruction |
 | `AddTextInstruction` | Text node instruction |

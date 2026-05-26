@@ -22,7 +22,7 @@ let AreRoute = class extends AreSignal {
 AreRoute = __decorateClass([
   A_Frame.Define({
     namespace: "a-are-html",
-    description: "ARE signal that carries an A_Route value. Dispatched by AreWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
+    description: "ARE signal that carries an A_Route value. Dispatched by AreRouteWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
   })
 ], AreRoute);
 

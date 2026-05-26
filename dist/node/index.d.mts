@@ -30,7 +30,7 @@ export { AreDirectiveMeta } from './lib/AreDirective/AreDirective.meta.mjs';
 export { AreDirectiveOrderDecoratorParameters } from './lib/AreDirective/AreDirective.types.mjs';
 export { AreRoot } from './lib/AreRoot/AreRoot.component.mjs';
 export { AreStyle } from './lib/AreStyle/AreStyle.context.mjs';
-export { AreWatcher } from './lib/AreWatcher/AreWatcher.component.mjs';
+export { AreRouteWatcher } from './lib/AreRouteWatcher/AreRouteWatcher.component.mjs';
 import '@adaas/are';
 import '@adaas/a-concept';
 import '@adaas/a-utils/a-logger';

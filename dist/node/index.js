@@ -40,7 +40,7 @@ var AreDirective_types = require('./lib/AreDirective/AreDirective.types');
 var AreRoot_component = require('./lib/AreRoot/AreRoot.component');
 var AreStyle_context = require('./lib/AreStyle/AreStyle.context');
 var AreStyle_types = require('./lib/AreStyle/AreStyle.types');
-var AreWatcher_component = require('./lib/AreWatcher/AreWatcher.component');
+var AreRouteWatcher_component = require('./lib/AreRouteWatcher/AreRouteWatcher.component');
 
 
 
@@ -284,10 +284,10 @@ Object.keys(AreStyle_types).forEach(function (k) {
 		get: function () { return AreStyle_types[k]; }
 	});
 });
-Object.keys(AreWatcher_component).forEach(function (k) {
+Object.keys(AreRouteWatcher_component).forEach(function (k) {
 	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
 		enumerable: true,
-		get: function () { return AreWatcher_component[k]; }
+		get: function () { return AreRouteWatcher_component[k]; }
 	});
 });
 //# sourceMappingURL=index.js.map

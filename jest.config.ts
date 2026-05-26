@@ -29,7 +29,7 @@ const config: Config.InitialOptions = {
         "^@adaas/are/syntax/(.*)":                            "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreSyntax/$1.js",
         "^@adaas/are/tokenizer/(.*)":                         "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreTokenizer/$1.js",
         "^@adaas/are/transformer/(.*)":                       "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreTransformer/$1.js",
-        "^@adaas/are/watcher/(.*)":                           "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreWatcher/$1.js",
+        "^@adaas/are/watcher/(.*)":                           "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreRouteWatcher/$1.js",
 
         // ── @adaas/are-html internal path aliases (mirrors tsconfig.json paths) ──
         // Base ARE-HTML entities

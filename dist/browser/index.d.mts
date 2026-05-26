@@ -586,7 +586,7 @@ declare class AreRoot extends Are {
     }>, logger: A_Logger, signalsContext?: AreSignalsContext): Promise<void>;
 }
 
-declare class AreWatcher extends A_Component {
+declare class AreRouteWatcher extends A_Component {
     private readonly handlers;
     private current;
     constructor();
@@ -601,4 +601,4 @@ declare class AreWatcher extends A_Component {
     private notify;
 }
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreStaticAttribute, AreStyle, AreText, AreWatcher, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

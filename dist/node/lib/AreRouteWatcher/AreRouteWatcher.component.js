@@ -1,8 +1,17 @@
-import { __decorateClass } from '../../chunk-EQQGB2QZ.mjs';
-import { A_Component } from '@adaas/a-concept';
-import { A_Frame } from '@adaas/a-frame/core';
+'use strict';
 
-let AreWatcher = class extends A_Component {
+var aConcept = require('@adaas/a-concept');
+var core = require('@adaas/a-frame/core');
+
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (decorator(result)) || result;
+  return result;
+};
+exports.AreRouteWatcher = class AreRouteWatcher extends aConcept.A_Component {
   constructor() {
     super();
     this.handlers = /* @__PURE__ */ new Set();
@@ -58,13 +67,11 @@ let AreWatcher = class extends A_Component {
     }
   }
 };
-AreWatcher = __decorateClass([
-  A_Frame.Define({
+exports.AreRouteWatcher = __decorateClass([
+  core.A_Frame.Define({
     namespace: "a-are-html",
-    description: "AreWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework."
+    description: "AreRouteWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework."
   })
-], AreWatcher);
-
-export { AreWatcher };
-//# sourceMappingURL=AreWatcher.component.mjs.map
-//# sourceMappingURL=AreWatcher.component.mjs.map
+], exports.AreRouteWatcher);
+//# sourceMappingURL=AreRouteWatcher.component.js.map
+//# sourceMappingURL=AreRouteWatcher.component.js.map

@@ -75,6 +75,6 @@ export * from './lib/AreStyle/AreStyle.context';
 export * from './lib/AreStyle/AreStyle.types';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ── Lib / AreWatcher ─────────────────────────────────────────────────────────
+// ── Lib / AreRouteWatcher ─────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────
-export * from './lib/AreWatcher/AreWatcher.component';
+export * from './lib/AreRouteWatcher/AreRouteWatcher.component';

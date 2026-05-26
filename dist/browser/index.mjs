@@ -816,7 +816,7 @@ var AreRoute = class extends AreSignal {
 AreRoute = __decorateClass([
   A_Frame.Define({
     namespace: "a-are-html",
-    description: "ARE signal that carries an A_Route value. Dispatched by AreWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
+    description: "ARE signal that carries an A_Route value. Dispatched by AreRouteWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
   })
 ], AreRoute);
 
@@ -2080,7 +2080,7 @@ AreRoot = __decorateClass([
     description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
   })
 ], AreRoot);
-var AreWatcher = class extends A_Component {
+var AreRouteWatcher = class extends A_Component {
   constructor() {
     super();
     this.handlers = /* @__PURE__ */ new Set();
@@ -2136,13 +2136,13 @@ var AreWatcher = class extends A_Component {
     }
   }
 };
-AreWatcher = __decorateClass([
+AreRouteWatcher = __decorateClass([
   A_Frame.Define({
     namespace: "a-are-html",
-    description: "AreWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework."
+    description: "AreRouteWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework."
   })
-], AreWatcher);
+], AreRouteWatcher);
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreStaticAttribute, AreStyle, AreText, AreWatcher, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, isBooleanAttribute, isIDLFormProperty, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

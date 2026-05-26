@@ -8998,7 +8998,7 @@ AreEngine = __decorateClass3([
   })
 ], AreEngine);
 var _a109;
-var AreWatcher = (_a109 = class extends v {
+var AreRouteWatcher = (_a109 = class extends v {
   /**
    * Initialize the watcher. This method is called once when the watcher is first created. Use this to set up any necessary state or start observing changes.
    */
@@ -9011,17 +9011,17 @@ var AreWatcher = (_a109 = class extends v {
   }
   destroy() {
   }
-}, __name(_a109, "AreWatcher"), _a109);
+}, __name(_a109, "AreRouteWatcher"), _a109);
 __decorateClass3([
   Ce.Stop()
-], AreWatcher.prototype, "destroy", 1);
-AreWatcher = __decorateClass3([
+], AreRouteWatcher.prototype, "destroy", 1);
+AreRouteWatcher = __decorateClass3([
   c2.Component({
     namespace: "A-ARE",
-    name: "AreWatcher",
-    description: "AreWatcher is a component that observes changes and produces A_Signals Depending on the actual handlers"
+    name: "AreRouteWatcher",
+    description: "AreRouteWatcher is a component that observes changes and produces A_Signals Depending on the actual handlers"
   })
-], AreWatcher);
+], AreRouteWatcher);
 var _a110;
 var _a111;
 var AreContainer = (_a111 = class extends A_Service {
@@ -9060,7 +9060,7 @@ __decorateClass3([
   __decorateParam3(1, ke(AreContext)),
   __decorateParam3(2, F.All()),
   __decorateParam3(2, F.Flat()),
-  __decorateParam3(2, ke(AreWatcher)),
+  __decorateParam3(2, ke(AreRouteWatcher)),
   __decorateParam3(3, ke(A_Logger))
 ], AreContainer.prototype, _a110, 1);
 var _a112;

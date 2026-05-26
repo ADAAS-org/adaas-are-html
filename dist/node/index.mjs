@@ -38,6 +38,6 @@ export * from './lib/AreDirective/AreDirective.types';
 export * from './lib/AreRoot/AreRoot.component';
 export * from './lib/AreStyle/AreStyle.context';
 export * from './lib/AreStyle/AreStyle.types';
-export * from './lib/AreWatcher/AreWatcher.component';
+export * from './lib/AreRouteWatcher/AreRouteWatcher.component';
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map
