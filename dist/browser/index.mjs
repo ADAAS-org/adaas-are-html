@@ -828,6 +828,12 @@ AreRoute = __decorateClass([
 ], AreRoute);
 
 // src/engine/AreHTML.constants.ts
+var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+var SVG_ATTRIBUTE_NS = {
+  xlink: "http://www.w3.org/1999/xlink",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  xmlns: "http://www.w3.org/2000/xmlns/"
+};
 var VOID_ELEMENTS = /* @__PURE__ */ new Set([
   "area",
   "base",
@@ -1284,6 +1290,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
         parent = parent.parent;
       }
       const tag = node.tag;
+      const isSVG = tag === "svg" || this.isInSVGContext(node);
       if (parent) {
         const mountPoint = context.getNodeElement(parent);
         if (!mountPoint) {
@@ -1292,7 +1299,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
             description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
           });
         }
-        const element = context.container.createElement(tag);
+        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -1307,7 +1314,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
             description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
           });
         }
-        const element = context.container.createElement(tag);
+        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
         mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
       }
@@ -1338,6 +1345,15 @@ var AreHTMLInterpreter = class extends AreInterpreter {
     }) : content;
     const el = element;
     const lowerName = name.toLowerCase();
+    const colonIdx = name.indexOf(":");
+    if (colonIdx > 0) {
+      const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+      if (ns) {
+        el.setAttributeNS(ns, name, toDOMString(rawValue));
+        mutation.cache = toDOMString(rawValue);
+        return;
+      }
+    }
     if (isBooleanAttribute(lowerName)) {
       if (rawValue) {
         el.setAttribute(lowerName, "");
@@ -1414,7 +1430,17 @@ var AreHTMLInterpreter = class extends AreInterpreter {
       if (!element) return;
       const { name } = mutation.payload;
       if (name && element.nodeType === Node.ELEMENT_NODE) {
-        element?.removeAttribute(name);
+        const colonIdx = name.indexOf(":");
+        if (colonIdx > 0) {
+          const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+          if (ns) {
+            element.removeAttributeNS(ns, name.slice(colonIdx + 1));
+          } else {
+            element.removeAttribute(name);
+          }
+        } else {
+          element.removeAttribute(name);
+        }
       }
     } catch (error) {
       console.log("Error removing attribute:", error);
@@ -1588,6 +1614,23 @@ var AreHTMLInterpreter = class extends AreInterpreter {
     element.parentNode?.removeChild(element);
     context.removeInstructionElement(declaration);
   }
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ── SVG helpers ───────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Returns true when any ancestor of the given node has the tag `svg`,
+   * meaning the node lives inside an SVG subtree and its DOM element must be
+   * created via createElementNS(SVG_NAMESPACE, tag).
+   */
+  isInSVGContext(node) {
+    let current = node.parent;
+    while (current) {
+      if (current.tag === "svg") return true;
+      if (current.tag === "foreignobject") return false;
+      current = current.parent;
+    }
+    return false;
+  }
 };
 __decorateClass([
   A_Frame.Define({
@@ -1700,7 +1743,7 @@ AreHTMLInterpreter = __decorateClass([
 var AreHTMLTokenizer = class extends AreTokenizer {
   constructor() {
     super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
     super.tokenize(node, context, logger);
@@ -1774,6 +1817,7 @@ var AreHTMLLifecycle = class extends AreLifecycle {
   }
   mount(node, scene, logger, ...args) {
     logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    if (scene.isInactive) return;
     node.interpret();
     for (let i = 0; i < node.children.length; i++) {
       const child = node.children[i];
@@ -2197,6 +2241,6 @@ AreRouteWatcher = __decorateClass([
   })
 ], AreRouteWatcher);
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

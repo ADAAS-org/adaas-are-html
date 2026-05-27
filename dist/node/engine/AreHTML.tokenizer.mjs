@@ -13,7 +13,7 @@ import { A_Frame } from '@adaas/a-frame/core';
 let AreHTMLTokenizer = class extends AreTokenizer {
   constructor() {
     super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
     super.tokenize(node, context, logger);

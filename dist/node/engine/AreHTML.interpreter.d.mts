@@ -23,6 +23,12 @@ declare class AreHTMLInterpreter extends AreInterpreter {
     removeText(declaration: AddTextInstruction, context: AreHTMLEngineContext): void;
     addComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext): void;
+    /**
+     * Returns true when any ancestor of the given node has the tag `svg`,
+     * meaning the node lives inside an SVG subtree and its DOM element must be
+     * created via createElementNS(SVG_NAMESPACE, tag).
+     */
+    private isInSVGContext;
 }
 
 export { AreHTMLInterpreter };

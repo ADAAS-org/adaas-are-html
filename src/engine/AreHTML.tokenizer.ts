@@ -17,7 +17,7 @@ import { A_Frame } from "@adaas/a-frame/core";
 })
 export class AreHTMLTokenizer extends AreTokenizer {
 
-    ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g
+    ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g
 
 
     @A_Feature.Extend({

@@ -1,5 +1,11 @@
 import '../chunk-EQQGB2QZ.mjs';
 
+const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+const SVG_ATTRIBUTE_NS = {
+  xlink: "http://www.w3.org/1999/xlink",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  xmlns: "http://www.w3.org/2000/xmlns/"
+};
 const VOID_ELEMENTS = /* @__PURE__ */ new Set([
   "area",
   "base",
@@ -110,6 +116,6 @@ function toDOMString(value) {
   }
 }
 
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=AreHTML.constants.mjs.map
 //# sourceMappingURL=AreHTML.constants.mjs.map

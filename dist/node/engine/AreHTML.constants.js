@@ -1,5 +1,11 @@
 'use strict';
 
+const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+const SVG_ATTRIBUTE_NS = {
+  xlink: "http://www.w3.org/1999/xlink",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  xmlns: "http://www.w3.org/2000/xmlns/"
+};
 const VOID_ELEMENTS = /* @__PURE__ */ new Set([
   "area",
   "base",
@@ -113,6 +119,8 @@ function toDOMString(value) {
 exports.BOOLEAN_ATTRIBUTES = BOOLEAN_ATTRIBUTES;
 exports.IDL_FORM_PROPERTIES = IDL_FORM_PROPERTIES;
 exports.LISTENER_OPTION_MODIFIERS = LISTENER_OPTION_MODIFIERS;
+exports.SVG_ATTRIBUTE_NS = SVG_ATTRIBUTE_NS;
+exports.SVG_NAMESPACE = SVG_NAMESPACE;
 exports.VOID_ELEMENTS = VOID_ELEMENTS;
 exports.isBooleanAttribute = isBooleanAttribute;
 exports.isIDLFormProperty = isIDLFormProperty;

@@ -1,3 +1,24 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// ── SVG ──────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** XML namespace URI for SVG elements. */
+export const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+
+/**
+ * Maps namespace prefixes used in SVG/XML attributes to their canonical URIs.
+ * Used by the interpreter when calling setAttributeNS / removeAttributeNS.
+ */
+export const SVG_ATTRIBUTE_NS: Record<string, string> = {
+    xlink: 'http://www.w3.org/1999/xlink',
+    xml: 'http://www.w3.org/XML/1998/namespace',
+    xmlns: 'http://www.w3.org/2000/xmlns/',
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ── HTML void elements ────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+
 /**
  * Void HTML elements that cannot have children and must not have a closing tag.
  * Per the HTML5 spec these are treated as self-closing even when written as

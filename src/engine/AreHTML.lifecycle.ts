@@ -93,6 +93,12 @@ export class AreHTMLLifecycle extends AreLifecycle {
         logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
 
         /**
+         * Skip mounting nodes whose scene has been deactivated (e.g. $if template nodes
+         * when the condition is false). Mirrors the guard in AreLifecycle.mount.
+         */
+        if (scene.isInactive) return;
+
+        /**
          * 1. We should simply run and render node itself.
          */
         node.interpret();

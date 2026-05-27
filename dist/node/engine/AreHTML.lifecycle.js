@@ -39,6 +39,7 @@ exports.AreHTMLLifecycle = class AreHTMLLifecycle extends are.AreLifecycle {
   }
   mount(node, scene, logger, ...args) {
     logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    if (scene.isInactive) return;
     node.interpret();
     for (let i = 0; i < node.children.length; i++) {
       const child = node.children[i];

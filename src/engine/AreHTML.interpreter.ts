@@ -24,6 +24,8 @@ import {
     normalizeStyleValue,
     parseEventName,
     toDOMString,
+    SVG_NAMESPACE,
+    SVG_ATTRIBUTE_NS,
 } from "./AreHTML.constants";
 
 
@@ -63,6 +65,8 @@ export class AreHTMLInterpreter extends AreInterpreter {
             // Determine the element tag — components render as a wrapper div
             const tag = node.tag;
 
+            const isSVG = tag === 'svg' || this.isInSVGContext(node);
+
             if (parent) {
 
                 const mountPoint = context.getNodeElement(parent)
@@ -74,8 +78,9 @@ export class AreHTMLInterpreter extends AreInterpreter {
                     });
                 }
 
-                const element = context.container.createElement(tag);
-                // element.setAttribute('data-aseid', node.aseid.toString());
+                const element = isSVG
+                    ? context.container.createElementNS(SVG_NAMESPACE, tag)
+                    : context.container.createElement(tag);
 
                 if (mountPoint.nodeType === Node.ELEMENT_NODE) {
                     // parent is a real element — just append
@@ -97,9 +102,9 @@ export class AreHTMLInterpreter extends AreInterpreter {
                     });
                 }
 
-                const element = context.container.createElement(tag);
-
-                // element.setAttribute('data-aseid', node.aseid.toString());
+                const element = isSVG
+                    ? context.container.createElementNS(SVG_NAMESPACE, tag)
+                    : context.container.createElement(tag);
 
                 mountPoint.parentNode?.replaceChild(element, mountPoint);
 
@@ -170,6 +175,17 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
         const el = element as HTMLElement;
         const lowerName = name.toLowerCase();
+
+        // ── 0. Namespace-prefixed attributes (xlink:href, xml:space, xmlns:*) ──
+        const colonIdx = name.indexOf(':');
+        if (colonIdx > 0) {
+            const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+            if (ns) {
+                (el as Element).setAttributeNS(ns, name, toDOMString(rawValue));
+                mutation.cache = toDOMString(rawValue);
+                return;
+            }
+        }
 
         // ── 1. Boolean attributes ────────────────────────────────────────────
         if (isBooleanAttribute(lowerName)) {
@@ -266,7 +282,17 @@ export class AreHTMLInterpreter extends AreInterpreter {
             const { name } = mutation.payload;
 
             if (name && element.nodeType === Node.ELEMENT_NODE) {
-                (element as HTMLElement)?.removeAttribute(name);
+                const colonIdx = name.indexOf(':');
+                if (colonIdx > 0) {
+                    const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+                    if (ns) {
+                        (element as Element).removeAttributeNS(ns, name.slice(colonIdx + 1));
+                    } else {
+                        (element as HTMLElement).removeAttribute(name);
+                    }
+                } else {
+                    (element as HTMLElement).removeAttribute(name);
+                }
             }
         } catch (error) {
             console.log('Error removing attribute:', error);
@@ -592,5 +618,25 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
         element.parentNode?.removeChild(element);
         context.removeInstructionElement(declaration);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ── SVG helpers ───────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Returns true when any ancestor of the given node has the tag `svg`,
+     * meaning the node lives inside an SVG subtree and its DOM element must be
+     * created via createElementNS(SVG_NAMESPACE, tag).
+     */
+    private isInSVGContext(node: AreHTMLNode): boolean {
+        let current: AreHTMLNode | undefined = node.parent as AreHTMLNode | undefined;
+        while (current) {
+            if (current.tag === 'svg') return true;
+            // <foreignObject> resets the namespace back to HTML
+            if (current.tag === 'foreignobject') return false;
+            current = current.parent as AreHTMLNode | undefined;
+        }
+        return false;
     }
 }

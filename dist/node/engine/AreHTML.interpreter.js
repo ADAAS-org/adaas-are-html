@@ -34,6 +34,7 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
         parent = parent.parent;
       }
       const tag = node.tag;
+      const isSVG = tag === "svg" || this.isInSVGContext(node);
       if (parent) {
         const mountPoint = context.getNodeElement(parent);
         if (!mountPoint) {
@@ -42,7 +43,7 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
             description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
           });
         }
-        const element = context.container.createElement(tag);
+        const element = isSVG ? context.container.createElementNS(AreHTML_constants.SVG_NAMESPACE, tag) : context.container.createElement(tag);
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -57,7 +58,7 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
             description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
           });
         }
-        const element = context.container.createElement(tag);
+        const element = isSVG ? context.container.createElementNS(AreHTML_constants.SVG_NAMESPACE, tag) : context.container.createElement(tag);
         mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
       }
@@ -88,6 +89,15 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
     }) : content;
     const el = element;
     const lowerName = name.toLowerCase();
+    const colonIdx = name.indexOf(":");
+    if (colonIdx > 0) {
+      const ns = AreHTML_constants.SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+      if (ns) {
+        el.setAttributeNS(ns, name, AreHTML_constants.toDOMString(rawValue));
+        mutation.cache = AreHTML_constants.toDOMString(rawValue);
+        return;
+      }
+    }
     if (AreHTML_constants.isBooleanAttribute(lowerName)) {
       if (rawValue) {
         el.setAttribute(lowerName, "");
@@ -164,7 +174,17 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
       if (!element) return;
       const { name } = mutation.payload;
       if (name && element.nodeType === Node.ELEMENT_NODE) {
-        element?.removeAttribute(name);
+        const colonIdx = name.indexOf(":");
+        if (colonIdx > 0) {
+          const ns = AreHTML_constants.SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+          if (ns) {
+            element.removeAttributeNS(ns, name.slice(colonIdx + 1));
+          } else {
+            element.removeAttribute(name);
+          }
+        } else {
+          element.removeAttribute(name);
+        }
       }
     } catch (error) {
       console.log("Error removing attribute:", error);
@@ -337,6 +357,23 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
     if (!element) return;
     element.parentNode?.removeChild(element);
     context.removeInstructionElement(declaration);
+  }
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ── SVG helpers ───────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Returns true when any ancestor of the given node has the tag `svg`,
+   * meaning the node lives inside an SVG subtree and its DOM element must be
+   * created via createElementNS(SVG_NAMESPACE, tag).
+   */
+  isInSVGContext(node) {
+    let current = node.parent;
+    while (current) {
+      if (current.tag === "svg") return true;
+      if (current.tag === "foreignobject") return false;
+      current = current.parent;
+    }
+    return false;
   }
 };
 __decorateClass([

@@ -25,7 +25,7 @@ var __decorateParam = (index, decorator) => (target, key) => decorator(target, k
 exports.AreHTMLTokenizer = class AreHTMLTokenizer extends are.AreTokenizer {
   constructor() {
     super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w.-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
     super.tokenize(node, context, logger);

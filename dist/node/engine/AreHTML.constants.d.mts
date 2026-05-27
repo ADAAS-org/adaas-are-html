@@ -1,3 +1,10 @@
+/** XML namespace URI for SVG elements. */
+declare const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+/**
+ * Maps namespace prefixes used in SVG/XML attributes to their canonical URIs.
+ * Used by the interpreter when calling setAttributeNS / removeAttributeNS.
+ */
+declare const SVG_ATTRIBUTE_NS: Record<string, string>;
 /**
  * Void HTML elements that cannot have children and must not have a closing tag.
  * Per the HTML5 spec these are treated as self-closing even when written as
@@ -60,4 +67,4 @@ declare const LISTENER_OPTION_MODIFIERS: Set<string>;
  */
 declare function toDOMString(value: any): string;
 
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
