@@ -167,14 +167,14 @@ let AreDirectiveFor = class extends AreDirective {
       });
       result = fn(...resolvedArgs);
     } else if (arrayExpr.includes(".")) {
-      const parts = arrayExpr.split(".");
+      const parts = arrayExpr.split(".").map((p) => p.replace(/\?$/, ""));
       result = store.get(parts[0]);
       for (let i = 1; i < parts.length; i++) {
         if (result == null) break;
         result = result[parts[i]];
       }
     } else {
-      result = store.get(arrayExpr);
+      result = store.get(arrayExpr.replace(/\?$/, ""));
     }
     if (result == null) return [];
     if (!Array.isArray(result))
