@@ -404,6 +404,7 @@ var AreDirectiveFor = class extends AreDirective {
     } else {
       result = store.get(arrayExpr);
     }
+    if (result == null) return [];
     if (!Array.isArray(result))
       throw new AreCompilerError({
         title: 'Invalid "for" Directive Value',

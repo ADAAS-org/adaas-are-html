@@ -188,6 +188,7 @@ exports.AreDirectiveFor = class AreDirectiveFor extends AreDirective_component.A
     } else {
       result = store.get(arrayExpr);
     }
+    if (result == null) return [];
     if (!Array.isArray(result))
       throw new are.AreCompilerError({
         title: 'Invalid "for" Directive Value',

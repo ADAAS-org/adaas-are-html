@@ -304,6 +304,11 @@ export class AreDirectiveFor extends AreDirective {
             result = store.get(arrayExpr as any);
         }
 
+        // null / undefined from optional-chaining expressions (e.g. `record?.keywords`)
+        // means the source object is not yet loaded — treat as empty array so the
+        // directive initialises gracefully and fills in when the store updates.
+        if (result == null) return [];
+
         if (!Array.isArray(result))
             throw new AreCompilerError({
                 title: 'Invalid "for" Directive Value',
