@@ -178,6 +178,13 @@ exports.AreDirectiveFor = class AreDirectiveFor extends AreDirective_component.A
         return store.get(arg);
       });
       result = fn(...resolvedArgs);
+    } else if (arrayExpr.includes(".")) {
+      const parts = arrayExpr.split(".");
+      result = store.get(parts[0]);
+      for (let i = 1; i < parts.length; i++) {
+        if (result == null) break;
+        result = result[parts[i]];
+      }
     } else {
       result = store.get(arrayExpr);
     }

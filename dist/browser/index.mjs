@@ -394,6 +394,13 @@ var AreDirectiveFor = class extends AreDirective {
         return store.get(arg);
       });
       result = fn(...resolvedArgs);
+    } else if (arrayExpr.includes(".")) {
+      const parts = arrayExpr.split(".");
+      result = store.get(parts[0]);
+      for (let i = 1; i < parts.length; i++) {
+        if (result == null) break;
+        result = result[parts[i]];
+      }
     } else {
       result = store.get(arrayExpr);
     }
@@ -1286,7 +1293,6 @@ var AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = context.container.createElement(tag);
-        element.setAttribute("data-aseid", node.aseid.toString());
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -1302,7 +1308,6 @@ var AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = context.container.createElement(tag);
-        element.setAttribute("data-aseid", node.aseid.toString());
         mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
       }

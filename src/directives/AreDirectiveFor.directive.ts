@@ -292,6 +292,14 @@ export class AreDirectiveFor extends AreDirective {
             });
 
             result = (fn as Function)(...resolvedArgs);
+        } else if (arrayExpr.includes('.')) {
+            // dotted-path lookup: e.g. "list.items" → store.get('list').items
+            const parts = arrayExpr.split('.');
+            result = store.get(parts[0] as any);
+            for (let i = 1; i < parts.length; i++) {
+                if (result == null) break;
+                result = result[parts[i]];
+            }
         } else {
             result = store.get(arrayExpr as any);
         }

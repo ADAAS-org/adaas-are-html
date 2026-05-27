@@ -43,7 +43,6 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
           });
         }
         const element = context.container.createElement(tag);
-        element.setAttribute("data-aseid", node.aseid.toString());
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -59,7 +58,6 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
           });
         }
         const element = context.container.createElement(tag);
-        element.setAttribute("data-aseid", node.aseid.toString());
         mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
       }

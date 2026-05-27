@@ -31,7 +31,6 @@ let AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = context.container.createElement(tag);
-        element.setAttribute("data-aseid", node.aseid.toString());
         if (mountPoint.nodeType === Node.ELEMENT_NODE) {
           mountPoint.appendChild(element);
         } else {
@@ -47,7 +46,6 @@ let AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = context.container.createElement(tag);
-        element.setAttribute("data-aseid", node.aseid.toString());
         mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
       }

@@ -75,7 +75,7 @@ export class AreHTMLInterpreter extends AreInterpreter {
                 }
 
                 const element = context.container.createElement(tag);
-                element.setAttribute('data-aseid', node.aseid.toString());
+                // element.setAttribute('data-aseid', node.aseid.toString());
 
                 if (mountPoint.nodeType === Node.ELEMENT_NODE) {
                     // parent is a real element — just append
@@ -99,7 +99,7 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
                 const element = context.container.createElement(tag);
 
-                element.setAttribute('data-aseid', node.aseid.toString());
+                // element.setAttribute('data-aseid', node.aseid.toString());
 
                 mountPoint.parentNode?.replaceChild(element, mountPoint);
 
