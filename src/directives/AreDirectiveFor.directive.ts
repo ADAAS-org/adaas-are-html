@@ -288,7 +288,18 @@ export class AreDirectiveFor extends AreDirective {
                 if (arg.startsWith("'") && arg.endsWith("'")) return arg.slice(1, -1);
                 if (arg.startsWith('"') && arg.endsWith('"')) return arg.slice(1, -1);
                 if (!isNaN(Number(arg))) return Number(arg);
-                return store.get(arg as any);
+                // Dotted-path / optional-chain: e.g. `record?.embedding` or `record.data`
+                const stripped = arg.replace(/\?$/, '');
+                if (stripped.includes('.')) {
+                    const parts = stripped.split('.').map(p => p.replace(/\?$/, ''));
+                    let val: any = store.get(parts[0] as any);
+                    for (let j = 1; j < parts.length; j++) {
+                        if (val == null) return undefined;
+                        val = val[parts[j]];
+                    }
+                    return val ?? undefined;
+                }
+                return store.get(stripped as any);
             });
 
             result = (fn as Function)(...resolvedArgs);

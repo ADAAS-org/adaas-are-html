@@ -163,7 +163,17 @@ let AreDirectiveFor = class extends AreDirective {
         if (arg.startsWith("'") && arg.endsWith("'")) return arg.slice(1, -1);
         if (arg.startsWith('"') && arg.endsWith('"')) return arg.slice(1, -1);
         if (!isNaN(Number(arg))) return Number(arg);
-        return store.get(arg);
+        const stripped = arg.replace(/\?$/, "");
+        if (stripped.includes(".")) {
+          const parts = stripped.split(".").map((p) => p.replace(/\?$/, ""));
+          let val = store.get(parts[0]);
+          for (let j = 1; j < parts.length; j++) {
+            if (val == null) return void 0;
+            val = val[parts[j]];
+          }
+          return val ?? void 0;
+        }
+        return store.get(stripped);
       });
       result = fn(...resolvedArgs);
     } else if (arrayExpr.includes(".")) {
