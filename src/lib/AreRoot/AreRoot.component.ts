@@ -73,7 +73,13 @@ export class AreRoot extends Are {
                 return;
             }
         }
-
+        // 3.5. Fall back to AreSignalsContext default component for this root.
+        if (!componentName) {
+            const defaultComp = signalsContext?.getDefault(rootId);
+            if (defaultComp?.name) {
+                componentName = A_FormatterHelper.toKebabCase(defaultComp.name);
+            }
+        }
         // 4. Last resort: legacy default= attribute on the markup.
         if (!componentName) {
             const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
@@ -120,6 +126,16 @@ export class AreRoot extends Are {
         // No matching condition for this signal vector (e.g. AreInit before any route).
         // Keep the current outlet content and do nothing.
         if (!componentName) {
+            return;
+        }
+
+        // Guard: if the outlet already shows the same component, do nothing.
+        // Prevents infinite remount loops when a non-routing signal carries a
+        // stale routing signal in the accumulated A_SignalState vector.
+        // node.type is the kebab-case tag name — the most direct and reliable
+        // identifier (no constructor-name resolution, no proxy wrapping issues).
+        const currentChild = root.children[0] as AreNode | undefined;
+        if (currentChild?.type === componentName) {
             return;
         }
 

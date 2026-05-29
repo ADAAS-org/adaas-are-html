@@ -59,6 +59,12 @@ exports.AreRoot = class AreRoot extends are.Are {
       }
     }
     if (!componentName) {
+      const defaultComp = signalsContext?.getDefault(rootId);
+      if (defaultComp?.name) {
+        componentName = aConcept.A_FormatterHelper.toKebabCase(defaultComp.name);
+      }
+    }
+    if (!componentName) {
       const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
       componentName = defaultMatch?.[1];
     }
@@ -80,6 +86,10 @@ exports.AreRoot = class AreRoot extends are.Are {
     }
     const componentName = renderTarget?.name ? aConcept.A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
     if (!componentName) {
+      return;
+    }
+    const currentChild = root.children[0];
+    if (currentChild?.type === componentName) {
       return;
     }
     root.setContent(`<${componentName}></${componentName}>`);

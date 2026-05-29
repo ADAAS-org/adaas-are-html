@@ -47,6 +47,12 @@ let AreRoot = class extends Are {
       }
     }
     if (!componentName) {
+      const defaultComp = signalsContext?.getDefault(rootId);
+      if (defaultComp?.name) {
+        componentName = A_FormatterHelper.toKebabCase(defaultComp.name);
+      }
+    }
+    if (!componentName) {
       const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
       componentName = defaultMatch?.[1];
     }
@@ -68,6 +74,10 @@ let AreRoot = class extends Are {
     }
     const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
     if (!componentName) {
+      return;
+    }
+    const currentChild = root.children[0];
+    if (currentChild?.type === componentName) {
       return;
     }
     root.setContent(`<${componentName}></${componentName}>`);
