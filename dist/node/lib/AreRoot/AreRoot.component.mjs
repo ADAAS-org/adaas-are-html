@@ -3,19 +3,10 @@ import { A_Inject, A_Caller, A_Context, A_FormatterHelper } from '@adaas/a-conce
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_SignalVector } from '@adaas/a-utils/a-signal';
-import { Are, AreSignalsContext, AreStore, AreSignals } from '@adaas/are';
+import { Are, AreSignalsContext, AreSignals } from '@adaas/are';
 import { AreRoute } from '@adaas/are-html/signals/AreRoute.signal';
 
 let AreRoot = class extends Are {
-  constructor() {
-    super(...arguments);
-    this.props = {
-      default: {
-        type: "string",
-        default: ""
-      }
-    };
-  }
   async template(root, logger, signalsContext) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
@@ -68,7 +59,7 @@ let AreRoot = class extends Are {
     }
     root.setContent(`<${componentName}></${componentName}>`);
   }
-  async onSignal(root, vector, store, logger, signalsContext) {
+  async onSignal(root, vector, logger, signalsContext) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;
@@ -84,8 +75,17 @@ let AreRoot = class extends Are {
         }
       }
     }
-    const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
+    const def = signalsContext?.getDefault(rootId);
+    const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : def?.name ? A_FormatterHelper.toKebabCase(def.name) : void 0;
     if (!componentName) {
+      for (let i = 0; i < root.children.length; i++) {
+        const child = root.children[i];
+        signalsContext?.unsubscribe(child);
+        child.unmount();
+        child.destroy();
+        root.removeChild(child);
+      }
+      root.setContent("");
       return;
     }
     const currentChild = root.children[0];
@@ -124,9 +124,8 @@ __decorateClass([
   Are.Signal,
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(A_SignalVector)),
-  __decorateParam(2, A_Inject(AreStore)),
-  __decorateParam(3, A_Inject(A_Logger)),
-  __decorateParam(4, A_Inject(AreSignalsContext))
+  __decorateParam(2, A_Inject(A_Logger)),
+  __decorateParam(3, A_Inject(AreSignalsContext))
 ], AreRoot.prototype, "onSignal", 1);
 AreRoot = __decorateClass([
   A_Frame.Define({

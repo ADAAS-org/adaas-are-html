@@ -2,7 +2,7 @@ import { A_Caller, A_Context, A_FormatterHelper, A_Inject, } from "@adaas/a-conc
 import { A_Frame } from "@adaas/a-frame/core";
 import { A_Logger } from "@adaas/a-utils/a-logger";
 import { A_SignalVector } from "@adaas/a-utils/a-signal";
-import { Are, ArePropDefinition, AreStore, AreNode, AreSignals, AreSignalsMeta, AreSignalsContext } from "@adaas/are";
+import { Are, AreNode, AreSignals, AreSignalsMeta, AreSignalsContext } from "@adaas/are";
 import { AreRoute } from "@adaas/are-html/signals/AreRoute.signal";
 
 
@@ -11,14 +11,6 @@ import { AreRoute } from "@adaas/are-html/signals/AreRoute.signal";
     description: 'The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions.'
 })
 export class AreRoot extends Are {
-
-    props: Record<string, ArePropDefinition> = {
-        default: {
-            type: 'string',
-            default: '',
-        }
-    }
-
 
     @Are.Template
     async template(
@@ -105,7 +97,6 @@ export class AreRoot extends Are {
     async onSignal(
         @A_Inject(A_Caller) root: AreNode,
         @A_Inject(A_SignalVector) vector: A_SignalVector,
-        @A_Inject(AreStore) store: AreStore<{ default: string }>,
         @A_Inject(A_Logger) logger: A_Logger,
         @A_Inject(AreSignalsContext) signalsContext?: AreSignalsContext,
     ) {
@@ -134,13 +125,23 @@ export class AreRoot extends Are {
             }
         }
 
+        const def = signalsContext?.getDefault(rootId);
         const componentName = renderTarget?.name
             ? A_FormatterHelper.toKebabCase(renderTarget.name)
-            : store.get('default');
+            : def?.name
+                ? A_FormatterHelper.toKebabCase(def.name)
+                : undefined;
 
-        // No matching condition for this signal vector (e.g. AreInit before any route).
-        // Keep the current outlet content and do nothing.
+        // No matching condition for this signal vector and no default — clear the outlet.
         if (!componentName) {
+            for (let i = 0; i < root.children.length; i++) {
+                const child = root.children[i];
+                signalsContext?.unsubscribe(child);
+                child.unmount();
+                child.destroy();
+                root.removeChild(child);
+            }
+            root.setContent('');
             return;
         }
 

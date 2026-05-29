@@ -1,4 +1,4 @@
-import { AreStoreWatchingEntity, AreNode, AreAttribute, AreStore, AreScene, AreSyntax, AreMutation, AreDeclaration, AreInstructionSerialized, AreNodeNewProps, Are, AreSignal, AreContext, AreInstruction, AreCompiler, AreEngine, AreSignalsContext, AreSyntaxTokenMatch, AreInterpreter, AreLifecycle, AreTokenizer, AreTransformer, ArePropDefinition } from '@adaas/are';
+import { AreStoreWatchingEntity, AreNode, AreAttribute, AreStore, AreScene, AreSyntax, AreMutation, AreDeclaration, AreInstructionSerialized, AreNodeNewProps, Are, AreSignal, AreContext, AreInstruction, AreCompiler, AreEngine, AreSignalsContext, AreSyntaxTokenMatch, AreInterpreter, AreLifecycle, AreTokenizer, AreTransformer } from '@adaas/are';
 import { A_Component, A_TYPES__Ctor, A_Fragment, ASEID, A_Scope, A_Feature, A_ComponentMeta } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_ExecutionContext } from '@adaas/a-utils/a-execution';
@@ -624,11 +624,8 @@ type AreDirectiveOrderDecoratorParameters = {
 };
 
 declare class AreRoot extends Are {
-    props: Record<string, ArePropDefinition>;
     template(root: AreNode, logger: A_Logger, signalsContext?: AreSignalsContext): Promise<void>;
-    onSignal(root: AreNode, vector: A_SignalVector, store: AreStore<{
-        default: string;
-    }>, logger: A_Logger, signalsContext?: AreSignalsContext): Promise<void>;
+    onSignal(root: AreNode, vector: A_SignalVector, logger: A_Logger, signalsContext?: AreSignalsContext): Promise<void>;
 }
 
 declare class AreRouteWatcher extends A_Component {

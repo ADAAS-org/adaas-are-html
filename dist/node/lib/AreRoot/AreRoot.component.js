@@ -19,15 +19,6 @@ var __decorateClass = (decorators, target, key, kind) => {
 };
 var __decorateParam = (index, decorator) => (target, key) => decorator(target, key, index);
 exports.AreRoot = class AreRoot extends are.Are {
-  constructor() {
-    super(...arguments);
-    this.props = {
-      default: {
-        type: "string",
-        default: ""
-      }
-    };
-  }
   async template(root, logger, signalsContext) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
@@ -80,7 +71,7 @@ exports.AreRoot = class AreRoot extends are.Are {
     }
     root.setContent(`<${componentName}></${componentName}>`);
   }
-  async onSignal(root, vector, store, logger, signalsContext) {
+  async onSignal(root, vector, logger, signalsContext) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;
@@ -96,8 +87,17 @@ exports.AreRoot = class AreRoot extends are.Are {
         }
       }
     }
-    const componentName = renderTarget?.name ? aConcept.A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
+    const def = signalsContext?.getDefault(rootId);
+    const componentName = renderTarget?.name ? aConcept.A_FormatterHelper.toKebabCase(renderTarget.name) : def?.name ? aConcept.A_FormatterHelper.toKebabCase(def.name) : void 0;
     if (!componentName) {
+      for (let i = 0; i < root.children.length; i++) {
+        const child = root.children[i];
+        signalsContext?.unsubscribe(child);
+        child.unmount();
+        child.destroy();
+        root.removeChild(child);
+      }
+      root.setContent("");
       return;
     }
     const currentChild = root.children[0];
@@ -136,9 +136,8 @@ __decorateClass([
   are.Are.Signal,
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
   __decorateParam(1, aConcept.A_Inject(aSignal.A_SignalVector)),
-  __decorateParam(2, aConcept.A_Inject(are.AreStore)),
-  __decorateParam(3, aConcept.A_Inject(aLogger.A_Logger)),
-  __decorateParam(4, aConcept.A_Inject(are.AreSignalsContext))
+  __decorateParam(2, aConcept.A_Inject(aLogger.A_Logger)),
+  __decorateParam(3, aConcept.A_Inject(are.AreSignalsContext))
 ], exports.AreRoot.prototype, "onSignal", 1);
 exports.AreRoot = __decorateClass([
   core.A_Frame.Define({
