@@ -47,7 +47,13 @@ exports.AreRoot = class AreRoot extends are.Are {
       let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
       if (!renderTarget) {
         const signalsMeta = aConcept.A_Context.meta(are.AreSignals);
-        renderTarget = signalsMeta?.findComponentByVector(initialVector);
+        const metaTarget = signalsMeta?.findComponentByVector(initialVector);
+        if (metaTarget) {
+          const pool = signalsContext?.getComponentById(rootId);
+          if (!pool?.length || pool.includes(metaTarget)) {
+            renderTarget = metaTarget;
+          }
+        }
       }
       if (renderTarget?.name) {
         componentName = aConcept.A_FormatterHelper.toKebabCase(renderTarget.name);
@@ -82,7 +88,13 @@ exports.AreRoot = class AreRoot extends are.Are {
     let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
     if (!renderTarget) {
       const signalsMeta = aConcept.A_Context.meta(are.AreSignals);
-      renderTarget = signalsMeta?.findComponentByVector(vector);
+      const metaTarget = signalsMeta?.findComponentByVector(vector);
+      if (metaTarget) {
+        const pool = signalsContext?.getComponentById(rootId);
+        if (!pool?.length || pool.includes(metaTarget)) {
+          renderTarget = metaTarget;
+        }
+      }
     }
     const componentName = renderTarget?.name ? aConcept.A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
     if (!componentName) {

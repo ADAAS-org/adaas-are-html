@@ -54,10 +54,16 @@ export class AreRoot extends Are {
             // 1. Lookup via AreSignalsContext (per root-id conditions)
             let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
 
-            // 2. Fall back to global AreSignalsMeta
+            // 2. Fall back to global AreSignalsMeta, pool-filtered
             if (!renderTarget) {
                 const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
-                renderTarget = signalsMeta?.findComponentByVector(initialVector);
+                const metaTarget = signalsMeta?.findComponentByVector(initialVector);
+                if (metaTarget) {
+                    const pool = signalsContext?.getComponentById(rootId);
+                    if (!pool?.length || pool.includes(metaTarget)) {
+                        renderTarget = metaTarget;
+                    }
+                }
             }
 
             if (renderTarget?.name) {
@@ -113,10 +119,19 @@ export class AreRoot extends Are {
         // 1. Try root-specific lookup via AreSignalsContext (keyed by the are-root's id attribute)
         let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
 
-        // 2. Fall back to global AreSignalsMeta lookup
+        // 2. Fall back to global AreSignalsMeta lookup, but only accept the
+        //    result if it belongs to this outlet's pool (when a pool is defined).
+        //    This prevents a meta-registered component for one outlet from being
+        //    accidentally rendered in a different outlet sharing the same signal.
         if (!renderTarget) {
             const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
-            renderTarget = signalsMeta?.findComponentByVector(vector);
+            const metaTarget = signalsMeta?.findComponentByVector(vector);
+            if (metaTarget) {
+                const pool = signalsContext?.getComponentById(rootId);
+                if (!pool?.length || pool.includes(metaTarget)) {
+                    renderTarget = metaTarget;
+                }
+            }
         }
 
         const componentName = renderTarget?.name
