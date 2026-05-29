@@ -12,6 +12,8 @@ import { AreText } from "@adaas/are-html/nodes/AreText";
 import { AddAttributeInstruction} from "@adaas/are-html/instructions/AddAttribute.instruction";
 import { AddTextInstruction} from "@adaas/are-html/instructions/AddText.instruction";
 import { AddListenerInstruction} from "@adaas/are-html/instructions/AddListener.instruction";
+import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
+import { AreHTMLNode } from "@adaas/are-html/node";
 
 
 
@@ -22,13 +24,28 @@ import { AddListenerInstruction} from "@adaas/are-html/instructions/AddListener.
 })
 export class AreHTMLCompiler extends AreCompiler {
 
-    // compile(
-    //     @A_Inject(A_Caller) node: AreHTMLNode,
-    //     @A_Inject(AreScene) scene: AreScene,
-    //     ...args: any[]
-    // ): void {
-    //     super.compile(node, scene, ...args);
-    // }
+    /**
+     * Extends the base compile for all AreHTMLNode instances (elements, components, root nodes).
+     * After the standard element/attribute/children instructions are emitted, checks whether
+     * the node has a registered AreStyle and plans an AddStyleInstruction so the interpreter
+     * can inject the CSS into the document head during mount.
+     */
+    @AreCompiler.Compile(AreHTMLNode)
+    compileHTMLNode(
+        @A_Inject(A_Caller) node: AreHTMLNode,
+        @A_Inject(AreScene) scene: AreScene,
+        @A_Inject(A_Logger) logger?: A_Logger,
+        ...args: any[]
+    ): void {
+        super.compile(node, scene, logger, ...args);
+
+        if (node.styles?.styles) {
+            const host = scene.host;
+            if (host) {
+                scene.plan(new AddStyleInstruction(host, { styles: node.styles.styles }));
+            }
+        }
+    }
 
     // -----------------------------------------------------------------------------------------
     // -------------------------Are-Interpolation Compile Section-----------------------------------

@@ -1,4 +1,4 @@
 import '@adaas/a-concept';
-export { a as AreDirective } from '../../AreBinding.attribute-C6qrxN8K.mjs';
+export { a as AreDirective } from '../../AreBinding.attribute-doUvtOjc.mjs';
 import '@adaas/are';
 import '../AreStyle/AreStyle.context.mjs';

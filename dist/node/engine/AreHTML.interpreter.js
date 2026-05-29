@@ -358,6 +358,32 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
     element.parentNode?.removeChild(element);
     context.removeInstructionElement(declaration);
   }
+  addStyle(mutation, context, logger) {
+    try {
+      const { styles } = mutation.payload;
+      const styleId = `are-style-${String(mutation.aseid)}`;
+      const existing = context.getElementByInstruction(mutation);
+      if (existing) {
+        existing.textContent = styles;
+      } else {
+        const styleEl = context.container.createElement("style");
+        styleEl.setAttribute("data-are-id", styleId);
+        styleEl.textContent = styles;
+        (context.container.head ?? context.container.body).appendChild(styleEl);
+        context.setInstructionElement(mutation, styleEl);
+        logger?.debug("green", `Style injected for ${String(mutation.aseid)}`);
+      }
+    } catch (error) {
+      logger?.error(error);
+    }
+  }
+  removeStyle(mutation, context) {
+    const styleEl = context.getElementByInstruction(mutation);
+    if (styleEl?.parentNode) {
+      styleEl.parentNode.removeChild(styleEl);
+    }
+    context.removeInstructionElement(mutation);
+  }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── SVG helpers ───────────────────────────────────────────────────────────────
   // ─────────────────────────────────────────────────────────────────────────────
@@ -478,6 +504,24 @@ __decorateClass([
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
   __decorateParam(1, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext))
 ], exports.AreHTMLInterpreter.prototype, "removeComment", 1);
+__decorateClass([
+  core.A_Frame.Define({
+    description: "Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place."
+  }),
+  are.AreInterpreter.Apply(AreHTML_instructions_constants.AreHTMLInstructions.AddStyle),
+  are.AreInterpreter.Update(AreHTML_instructions_constants.AreHTMLInstructions.AddStyle),
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
+  __decorateParam(1, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext)),
+  __decorateParam(2, aConcept.A_Inject(aLogger.A_Logger))
+], exports.AreHTMLInterpreter.prototype, "addStyle", 1);
+__decorateClass([
+  core.A_Frame.Define({
+    description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
+  }),
+  are.AreInterpreter.Revert(AreHTML_instructions_constants.AreHTMLInstructions.AddStyle),
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
+  __decorateParam(1, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext))
+], exports.AreHTMLInterpreter.prototype, "removeStyle", 1);
 exports.AreHTMLInterpreter = __decorateClass([
   core.A_Frame.Define({
     namespace: "a-are-html",

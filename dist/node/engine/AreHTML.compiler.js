@@ -14,6 +14,8 @@ var AreText = require('@adaas/are-html/nodes/AreText');
 var AddAttribute_instruction = require('@adaas/are-html/instructions/AddAttribute.instruction');
 var AddText_instruction = require('@adaas/are-html/instructions/AddText.instruction');
 var AddListener_instruction = require('@adaas/are-html/instructions/AddListener.instruction');
+var AddStyle_instruction = require('@adaas/are-html/instructions/AddStyle.instruction');
+var node = require('@adaas/are-html/node');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -27,6 +29,15 @@ var __decorateClass = (decorators, target, key, kind) => {
 };
 var __decorateParam = (index, decorator) => (target, key) => decorator(target, key, index);
 exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
+  compileHTMLNode(node, scene, logger, ...args) {
+    super.compile(node, scene, logger, ...args);
+    if (node.styles?.styles) {
+      const host = scene.host;
+      if (host) {
+        scene.plan(new AddStyle_instruction.AddStyleInstruction(host, { styles: node.styles.styles }));
+      }
+    }
+  }
   compileInterpolation(interpolation, scene, store, logger, ...args) {
     scene.plan(new AddText_instruction.AddTextInstruction({ content: interpolation.content, evaluate: true }));
   }
@@ -139,6 +150,12 @@ exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
     scene.plan(instruction);
   }
 };
+__decorateClass([
+  are.AreCompiler.Compile(node.AreHTMLNode),
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
+  __decorateParam(1, aConcept.A_Inject(are.AreScene)),
+  __decorateParam(2, aConcept.A_Inject(aLogger.A_Logger))
+], exports.AreHTMLCompiler.prototype, "compileHTMLNode", 1);
 __decorateClass([
   are.AreCompiler.Compile(AreInterpolation.AreInterpolation),
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),

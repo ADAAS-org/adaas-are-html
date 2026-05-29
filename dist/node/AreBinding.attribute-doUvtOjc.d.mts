@@ -98,6 +98,13 @@ declare class AreHTMLNode extends AreNode {
      * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
      */
     get styles(): AreStyle;
+    /**
+     * Registers or updates the component-scoped CSS string for this node.
+     * Called by the @Are.Styles-decorated method on the associated component.
+     * A new AreStyle fragment is registered in scope on first call; subsequent
+     * calls update the existing fragment in-place.
+     */
+    setStyles(css: string): void;
 }
 
 declare class AreHTMLAttribute extends AreAttribute {

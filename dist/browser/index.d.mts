@@ -106,6 +106,13 @@ declare class AreHTMLNode extends AreNode {
      * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
      */
     get styles(): AreStyle;
+    /**
+     * Registers or updates the component-scoped CSS string for this node.
+     * Called by the @Are.Styles-decorated method on the associated component.
+     * A new AreStyle fragment is registered in scope on first call; subsequent
+     * calls update the existing fragment in-place.
+     */
+    setStyles(css: string): void;
 }
 
 declare class AreHTMLAttribute extends AreAttribute {
@@ -213,10 +220,8 @@ type AreHtmlAddCommentInstructionPayload = {
     evaluate?: boolean;
 };
 type AreHtmlAddStyleInstructionPayload = {
-    /** CSS property name in camelCase (e.g. "backgroundColor") or kebab-case (e.g. "background-color") */
-    property: string;
-    /** CSS property value */
-    value: string;
+    /** Full CSS string to inject as a <style> block scoped to the component. Applied to the document head and reverted on unmount. */
+    styles: string;
 };
 type AreHtmlAddListenerInstructionPayload = {
     /** DOM event name (e.g. "click", "input", "submit") */
@@ -495,6 +500,13 @@ declare class AreHTMLEngineContext extends AreContext {
 
 declare class AreHTMLCompiler extends AreCompiler {
     /**
+     * Extends the base compile for all AreHTMLNode instances (elements, components, root nodes).
+     * After the standard element/attribute/children instructions are emitted, checks whether
+     * the node has a registered AreStyle and plans an AddStyleInstruction so the interpreter
+     * can inject the CSS into the document head during mount.
+     */
+    compileHTMLNode(node: AreHTMLNode, scene: AreScene, logger?: A_Logger, ...args: any[]): void;
+    /**
      * Default compile method for interpolations, which can be overridden by specific implementations if needed.
      *
      * @param interpolation
@@ -544,6 +556,8 @@ declare class AreHTMLInterpreter extends AreInterpreter {
     removeText(declaration: AddTextInstruction, context: AreHTMLEngineContext): void;
     addComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext): void;
+    addStyle(mutation: AddStyleInstruction, context: AreHTMLEngineContext, logger?: A_Logger): void;
+    removeStyle(mutation: AddStyleInstruction, context: AreHTMLEngineContext): void;
     /**
      * Returns true when any ancestor of the given node has the tag `svg`,
      * meaning the node lives inside an SVG subtree and its DOM element must be
@@ -554,6 +568,7 @@ declare class AreHTMLInterpreter extends AreInterpreter {
 
 declare class AreHTMLLifecycle extends AreLifecycle {
     initComponent(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
+    initRoot(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initText(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
     initInterpolation(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
     mount(

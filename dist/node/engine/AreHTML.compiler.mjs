@@ -13,8 +13,19 @@ import { AreText } from '@adaas/are-html/nodes/AreText';
 import { AddAttributeInstruction } from '@adaas/are-html/instructions/AddAttribute.instruction';
 import { AddTextInstruction } from '@adaas/are-html/instructions/AddText.instruction';
 import { AddListenerInstruction } from '@adaas/are-html/instructions/AddListener.instruction';
+import { AddStyleInstruction } from '@adaas/are-html/instructions/AddStyle.instruction';
+import { AreHTMLNode } from '@adaas/are-html/node';
 
 let AreHTMLCompiler = class extends AreCompiler {
+  compileHTMLNode(node, scene, logger, ...args) {
+    super.compile(node, scene, logger, ...args);
+    if (node.styles?.styles) {
+      const host = scene.host;
+      if (host) {
+        scene.plan(new AddStyleInstruction(host, { styles: node.styles.styles }));
+      }
+    }
+  }
   compileInterpolation(interpolation, scene, store, logger, ...args) {
     scene.plan(new AddTextInstruction({ content: interpolation.content, evaluate: true }));
   }
@@ -127,6 +138,12 @@ let AreHTMLCompiler = class extends AreCompiler {
     scene.plan(instruction);
   }
 };
+__decorateClass([
+  AreCompiler.Compile(AreHTMLNode),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreScene)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLCompiler.prototype, "compileHTMLNode", 1);
 __decorateClass([
   AreCompiler.Compile(AreInterpolation),
   __decorateParam(0, A_Inject(A_Caller)),

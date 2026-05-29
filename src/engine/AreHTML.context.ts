@@ -1,4 +1,4 @@
-import { AreContext, AreInstruction, AreNode } from "@adaas/are";
+import { AreContext, AreDeclaration, AreInstruction, AreNode } from "@adaas/are";
 import { AreHTMLContextConstructor } from "./AreHTML.types";
 import { A_Frame } from "@adaas/a-frame/core";
 
@@ -92,7 +92,10 @@ export class AreHTMLEngineContext extends AreContext {
         this.index.instructionToElement.set(instruction.aseid.toString(), element);
         this.index.elementToInstruction.set(element, instruction.aseid.toString());
 
-        if (node) {
+        // Only update the host-element pointer for declaration instructions.
+        // Mutations (attributes, styles, event listeners, …) produce auxiliary DOM
+        // that must never overwrite the owning node's primary element in the index.
+        if (node && instruction instanceof AreDeclaration) {
             this.index.nodeToHostElements.set(node.aseid.toString(), element);
         }
 
@@ -104,7 +107,6 @@ export class AreHTMLEngineContext extends AreContext {
             this.index.groupToElements.get(groupId)!.add(element);
         }
     }
-
 
     /**
      * Retrieves the DOM element associated with a given instruction. This method looks up the instruction's ASEID in the instructionToElement map to find the corresponding DOM element. If the instruction is not found, it returns undefined. This allows the engine to efficiently access and manipulate the DOM elements that correspond to specific instructions, enabling dynamic updates and interactions based on the application state.
@@ -134,7 +136,7 @@ export class AreHTMLEngineContext extends AreContext {
             this.index.elementToInstruction.delete(element);
 
             const node = instruction.owner;
-            if (node) {
+            if (node && instruction instanceof AreDeclaration) {
                 this.index.nodeToHostElements.delete(node.aseid.toString());
             }
 

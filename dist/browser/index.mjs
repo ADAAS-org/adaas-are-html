@@ -1,4 +1,4 @@
-import { AreStore, AreScene, AreSyntax, AreCompiler, AreInterpreter, AreInstructionDefaultNames, AreNodeFeatures, AreContext, AreLifecycle, AreSignalsContext, AreAttributeFeatures, Are, AreNode, AreAttribute, AreCompilerError, AreMutation, AreDeclaration, AreSignal, AreInterpreterError, AreTokenizer, AreTransformer, AreEngine, AreRoute as AreRoute$1, AreSignals, AreEvent } from '@adaas/are';
+import { AreStore, AreScene, AreSyntax, AreCompiler, AreInterpreter, AreInstructionDefaultNames, AreNodeFeatures, AreContext, AreLifecycle, AreSignalsContext, AreAttributeFeatures, Are, AreNode, AreDeclaration, AreAttribute, AreCompilerError, AreMutation, AreSignal, AreInterpreterError, AreTokenizer, AreTransformer, AreEngine, AreSignals, AreEvent } from '@adaas/are';
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_Inject, A_Caller, A_Feature, A_Meta, A_Scope, A_Dependency, A_Component, A_Context, A_ComponentMeta, A_FormatterHelper, A_Fragment } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
@@ -715,6 +715,20 @@ var AreHTMLNode = class extends AreNode {
   get styles() {
     return this.scope.resolveFlat(AreStyle);
   }
+  /**
+   * Registers or updates the component-scoped CSS string for this node.
+   * Called by the @Are.Styles-decorated method on the associated component.
+   * A new AreStyle fragment is registered in scope on first call; subsequent
+   * calls update the existing fragment in-place.
+   */
+  setStyles(css) {
+    const existing = this.scope.resolveFlat(AreStyle);
+    if (existing) {
+      existing.styles = css;
+    } else {
+      this.scope.register(new AreStyle(css, this.aseid.toString()));
+    }
+  }
 };
 AreHTMLNode = __decorateClass([
   A_Frame.Define({
@@ -1017,7 +1031,7 @@ var AreHTMLEngineContext = class extends AreContext {
     const node = instruction.owner;
     this.index.instructionToElement.set(instruction.aseid.toString(), element);
     this.index.elementToInstruction.set(element, instruction.aseid.toString());
-    if (node) {
+    if (node && instruction instanceof AreDeclaration) {
       this.index.nodeToHostElements.set(node.aseid.toString(), element);
     }
     if (instruction.group) {
@@ -1046,7 +1060,7 @@ var AreHTMLEngineContext = class extends AreContext {
       this.index.instructionToElement.delete(instruction.aseid.toString());
       this.index.elementToInstruction.delete(element);
       const node = instruction.owner;
-      if (node) {
+      if (node && instruction instanceof AreDeclaration) {
         this.index.nodeToHostElements.delete(node.aseid.toString());
       }
       if (instruction.group) {
@@ -1130,6 +1144,15 @@ AreHTMLEngineContext = __decorateClass([
   })
 ], AreHTMLEngineContext);
 var AreHTMLCompiler = class extends AreCompiler {
+  compileHTMLNode(node, scene, logger, ...args) {
+    super.compile(node, scene, logger, ...args);
+    if (node.styles?.styles) {
+      const host = scene.host;
+      if (host) {
+        scene.plan(new AddStyleInstruction(host, { styles: node.styles.styles }));
+      }
+    }
+  }
   compileInterpolation(interpolation, scene, store, logger, ...args) {
     scene.plan(new AddTextInstruction({ content: interpolation.content, evaluate: true }));
   }
@@ -1242,6 +1265,12 @@ var AreHTMLCompiler = class extends AreCompiler {
     scene.plan(instruction);
   }
 };
+__decorateClass([
+  AreCompiler.Compile(AreHTMLNode),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreScene)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLCompiler.prototype, "compileHTMLNode", 1);
 __decorateClass([
   AreCompiler.Compile(AreInterpolation),
   __decorateParam(0, A_Inject(A_Caller)),
@@ -1625,6 +1654,32 @@ var AreHTMLInterpreter = class extends AreInterpreter {
     element.parentNode?.removeChild(element);
     context.removeInstructionElement(declaration);
   }
+  addStyle(mutation, context, logger) {
+    try {
+      const { styles } = mutation.payload;
+      const styleId = `are-style-${String(mutation.aseid)}`;
+      const existing = context.getElementByInstruction(mutation);
+      if (existing) {
+        existing.textContent = styles;
+      } else {
+        const styleEl = context.container.createElement("style");
+        styleEl.setAttribute("data-are-id", styleId);
+        styleEl.textContent = styles;
+        (context.container.head ?? context.container.body).appendChild(styleEl);
+        context.setInstructionElement(mutation, styleEl);
+        logger?.debug("green", `Style injected for ${String(mutation.aseid)}`);
+      }
+    } catch (error) {
+      logger?.error(error);
+    }
+  }
+  removeStyle(mutation, context) {
+    const styleEl = context.getElementByInstruction(mutation);
+    if (styleEl?.parentNode) {
+      styleEl.parentNode.removeChild(styleEl);
+    }
+    context.removeInstructionElement(mutation);
+  }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── SVG helpers ───────────────────────────────────────────────────────────────
   // ─────────────────────────────────────────────────────────────────────────────
@@ -1745,6 +1800,24 @@ __decorateClass([
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeComment", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStyle),
+  AreInterpreter.Update(AreHTMLInstructions.AddStyle),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLInterpreter.prototype, "addStyle", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStyle),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStyle", 1);
 AreHTMLInterpreter = __decorateClass([
   A_Frame.Define({
     namespace: "a-are-html",
@@ -1815,6 +1888,11 @@ AreHTMLTokenizer = __decorateClass([
 ], AreHTMLTokenizer);
 var AreHTMLLifecycle = class extends AreLifecycle {
   initComponent(node, scope, context, signalsContext, logger, ...args) {
+    if (node.component)
+      signalsContext?.subscribe(node);
+    super.init(node, scope, context, logger, ...args);
+  }
+  initRoot(node, scope, context, signalsContext, logger, ...args) {
     signalsContext?.subscribe(node);
     super.init(node, scope, context, logger, ...args);
   }
@@ -1845,13 +1923,20 @@ var AreHTMLLifecycle = class extends AreLifecycle {
 };
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
-  AreLifecycle.Init(AreRootNode),
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(A_Scope)),
   __decorateParam(2, A_Inject(AreHTMLEngineContext)),
   __decorateParam(3, A_Inject(AreSignalsContext)),
   __decorateParam(4, A_Inject(A_Logger))
 ], AreHTMLLifecycle.prototype, "initComponent", 1);
+__decorateClass([
+  AreLifecycle.Init(AreRootNode),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(A_Scope)),
+  __decorateParam(2, A_Inject(AreHTMLEngineContext)),
+  __decorateParam(3, A_Inject(AreSignalsContext)),
+  __decorateParam(4, A_Inject(A_Logger))
+], AreHTMLLifecycle.prototype, "initRoot", 1);
 __decorateClass([
   AreLifecycle.Init(AreText),
   __decorateParam(0, A_Inject(A_Caller)),
@@ -2108,9 +2193,16 @@ var AreRoot = class extends Are {
   async template(root, logger, signalsContext) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      if (!root.content?.trim()) {
+        const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+        const defaultComponent = defaultMatch?.[1];
+        if (defaultComponent) {
+          root.setContent(`<${defaultComponent}></${defaultComponent}>`);
+        }
+      }
       return;
     }
-    const currentRoute = AreRoute$1.default();
+    const currentRoute = AreRoute.default();
     let componentName;
     if (currentRoute) {
       const initialVector = new A_SignalVector([currentRoute]);
@@ -2124,11 +2216,16 @@ var AreRoot = class extends Are {
       }
     }
     if (!componentName) {
+      if (root.content?.trim()) {
+        return;
+      }
+    }
+    if (!componentName) {
       const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
       componentName = defaultMatch?.[1];
     }
     if (!componentName) {
-      logger.warning('AreRoot: No component found for initial render. Please ensure a route condition or "default" attribute is set.');
+      logger.warning('AreRoot: No component found for initial render. Provide body content, a route condition, or a "default" attribute.');
       return;
     }
     root.setContent(`<${componentName}></${componentName}>`);
@@ -2145,12 +2242,12 @@ var AreRoot = class extends Are {
     }
     const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
     if (!componentName) {
-      logger.warning("No component found for rendering in AreRoot. Please ensure that the signal vector matches at least one component or that a default component name is provided in the store.");
       return;
     }
     root.setContent(`<${componentName}></${componentName}>`);
     for (let i = 0; i < root.children.length; i++) {
       const child = root.children[i];
+      signalsContext?.unsubscribe(child);
       child.unmount();
       child.destroy();
       root.removeChild(child);

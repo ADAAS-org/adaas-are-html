@@ -30,10 +30,8 @@ export type AreHtmlAddCommentInstructionPayload = {
 }
 
 export type AreHtmlAddStyleInstructionPayload = {
-    /** CSS property name in camelCase (e.g. "backgroundColor") or kebab-case (e.g. "background-color") */
-    property: string;
-    /** CSS property value */
-    value: string;
+    /** Full CSS string to inject as a <style> block scoped to the component. Applied to the document head and reverted on unmount. */
+    styles: string;
 }
 
 export type AreHtmlAddListenerInstructionPayload = {

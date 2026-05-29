@@ -74,7 +74,7 @@ exports.AreHTMLEngineContext = class AreHTMLEngineContext extends are.AreContext
     const node = instruction.owner;
     this.index.instructionToElement.set(instruction.aseid.toString(), element);
     this.index.elementToInstruction.set(element, instruction.aseid.toString());
-    if (node) {
+    if (node && instruction instanceof are.AreDeclaration) {
       this.index.nodeToHostElements.set(node.aseid.toString(), element);
     }
     if (instruction.group) {
@@ -103,7 +103,7 @@ exports.AreHTMLEngineContext = class AreHTMLEngineContext extends are.AreContext
       this.index.instructionToElement.delete(instruction.aseid.toString());
       this.index.elementToInstruction.delete(element);
       const node = instruction.owner;
-      if (node) {
+      if (node && instruction instanceof are.AreDeclaration) {
         this.index.nodeToHostElements.delete(node.aseid.toString());
       }
       if (instruction.group) {

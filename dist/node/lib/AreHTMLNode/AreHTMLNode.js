@@ -70,6 +70,20 @@ exports.AreHTMLNode = class AreHTMLNode extends are.AreNode {
   get styles() {
     return this.scope.resolveFlat(AreStyle_context.AreStyle);
   }
+  /**
+   * Registers or updates the component-scoped CSS string for this node.
+   * Called by the @Are.Styles-decorated method on the associated component.
+   * A new AreStyle fragment is registered in scope on first call; subsequent
+   * calls update the existing fragment in-place.
+   */
+  setStyles(css) {
+    const existing = this.scope.resolveFlat(AreStyle_context.AreStyle);
+    if (existing) {
+      existing.styles = css;
+    } else {
+      this.scope.register(new AreStyle_context.AreStyle(css, this.aseid.toString()));
+    }
+  }
 };
 exports.AreHTMLNode = __decorateClass([
   core.A_Frame.Define({

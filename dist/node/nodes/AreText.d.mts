@@ -1,5 +1,5 @@
 import { AreNodeNewProps } from '@adaas/are';
-import { e as AreHTMLNode } from '../AreBinding.attribute-C6qrxN8K.mjs';
+import { e as AreHTMLNode } from '../AreBinding.attribute-doUvtOjc.mjs';
 import '@adaas/a-concept';
 import '../lib/AreStyle/AreStyle.context.mjs';
 

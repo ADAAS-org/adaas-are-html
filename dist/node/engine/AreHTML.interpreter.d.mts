@@ -5,6 +5,7 @@ import { AddCommentInstruction } from '../instructions/AddComment.instruction.mj
 import { AddElementInstruction } from '../instructions/AddElement.instruction.mjs';
 import { AddListenerInstruction } from '../instructions/AddListener.instruction.mjs';
 import { AddTextInstruction } from '../instructions/AddText.instruction.mjs';
+import { AddStyleInstruction } from '../instructions/AddStyle.instruction.mjs';
 import { AreDirectiveContext } from '../lib/AreDirective/AreDirective.context.mjs';
 import { AreHTMLEngineContext } from './AreHTML.context.mjs';
 import '../instructions/AreHTML.instructions.types.mjs';
@@ -23,6 +24,8 @@ declare class AreHTMLInterpreter extends AreInterpreter {
     removeText(declaration: AddTextInstruction, context: AreHTMLEngineContext): void;
     addComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext): void;
+    addStyle(mutation: AddStyleInstruction, context: AreHTMLEngineContext, logger?: A_Logger): void;
+    removeStyle(mutation: AddStyleInstruction, context: AreHTMLEngineContext): void;
     /**
      * Returns true when any ancestor of the given node has the tag `svg`,
      * meaning the node lives inside an SVG subtree and its DOM element must be

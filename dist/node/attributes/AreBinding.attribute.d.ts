@@ -1,4 +1,4 @@
-export { A as AreBindingAttribute } from '../AreBinding.attribute-C6JasbJL.js';
+export { A as AreBindingAttribute } from '../AreBinding.attribute-Bm5LlOyE.js';
 import '@adaas/are';
 import '@adaas/a-concept';
 import '../lib/AreStyle/AreStyle.context.js';

@@ -80,4 +80,19 @@ export class AreHTMLNode extends AreNode {
         return this.scope.resolveFlat<AreStyle>(AreStyle)!;
     }
 
+    /**
+     * Registers or updates the component-scoped CSS string for this node.
+     * Called by the @Are.Styles-decorated method on the associated component.
+     * A new AreStyle fragment is registered in scope on first call; subsequent
+     * calls update the existing fragment in-place.
+     */
+    setStyles(css: string): void {
+        const existing = this.scope.resolveFlat<AreStyle>(AreStyle);
+        if (existing) {
+            existing.styles = css;
+        } else {
+            this.scope.register(new AreStyle(css, this.aseid.toString()));
+        }
+    }
+
 }

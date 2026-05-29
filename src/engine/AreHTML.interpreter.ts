@@ -14,6 +14,7 @@ import { AddCommentInstruction } from "@adaas/are-html/instructions/AddComment.i
 import { AddElementInstruction } from "@adaas/are-html/instructions/AddElement.instruction";
 import { AddListenerInstruction } from "@adaas/are-html/instructions/AddListener.instruction";
 import { AddTextInstruction } from "@adaas/are-html/instructions/AddText.instruction";
+import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 import { AreHTMLNode } from "../lib/AreHTMLNode/AreHTMLNode";
 import { AreHTMLEngineContext } from "./AreHTML.context";
@@ -618,6 +619,59 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
         element.parentNode?.removeChild(element);
         context.removeInstructionElement(declaration);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ── AddStyle — Apply / Update / Revert ───────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────
+
+    @A_Frame.Define({
+        description: 'Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place.'
+    })
+    @AreInterpreter.Apply(AreHTMLInstructions.AddStyle)
+    @AreInterpreter.Update(AreHTMLInstructions.AddStyle)
+    addStyle(
+        @A_Inject(A_Caller) mutation: AddStyleInstruction,
+        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+        @A_Inject(A_Logger) logger?: A_Logger,
+    ): void {
+        try {
+
+
+            const { styles } = mutation.payload;
+            const styleId = `are-style-${String(mutation.aseid)}`;
+
+            const existing = context.getElementByInstruction(mutation) as HTMLStyleElement | undefined;
+            if (existing) {
+                existing.textContent = styles;
+            } else {
+                const styleEl = context.container.createElement('style') as HTMLStyleElement;
+                styleEl.setAttribute('data-are-id', styleId);
+                styleEl.textContent = styles;
+                (context.container.head ?? context.container.body).appendChild(styleEl);
+
+                context.setInstructionElement(mutation, styleEl);
+                logger?.debug('green', `Style injected for ${String(mutation.aseid)}`);
+            }
+        } catch (error) {
+            logger?.error(error);
+        }
+
+    }
+
+    @A_Frame.Define({
+        description: 'Remove the <style> element that was injected by addStyle, cleaning up the document head.'
+    })
+    @AreInterpreter.Revert(AreHTMLInstructions.AddStyle)
+    removeStyle(
+        @A_Inject(A_Caller) mutation: AddStyleInstruction,
+        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+    ): void {
+        const styleEl = context.getElementByInstruction(mutation);
+        if (styleEl?.parentNode) {
+            styleEl.parentNode.removeChild(styleEl);
+        }
+        context.removeInstructionElement(mutation);
     }
 
     // ─────────────────────────────────────────────────────────────────────────────

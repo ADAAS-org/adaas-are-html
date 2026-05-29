@@ -14,6 +14,11 @@ import { A_Frame } from '@adaas/a-frame/core';
 
 let AreHTMLLifecycle = class extends AreLifecycle {
   initComponent(node, scope, context, signalsContext, logger, ...args) {
+    if (node.component)
+      signalsContext?.subscribe(node);
+    super.init(node, scope, context, logger, ...args);
+  }
+  initRoot(node, scope, context, signalsContext, logger, ...args) {
     signalsContext?.subscribe(node);
     super.init(node, scope, context, logger, ...args);
   }
@@ -44,13 +49,20 @@ let AreHTMLLifecycle = class extends AreLifecycle {
 };
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
-  AreLifecycle.Init(AreRootNode),
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(A_Scope)),
   __decorateParam(2, A_Inject(AreHTMLEngineContext)),
   __decorateParam(3, A_Inject(AreSignalsContext)),
   __decorateParam(4, A_Inject(A_Logger))
 ], AreHTMLLifecycle.prototype, "initComponent", 1);
+__decorateClass([
+  AreLifecycle.Init(AreRootNode),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(A_Scope)),
+  __decorateParam(2, A_Inject(AreHTMLEngineContext)),
+  __decorateParam(3, A_Inject(AreSignalsContext)),
+  __decorateParam(4, A_Inject(A_Logger))
+], AreHTMLLifecycle.prototype, "initRoot", 1);
 __decorateClass([
   AreLifecycle.Init(AreText),
   __decorateParam(0, A_Inject(A_Caller)),

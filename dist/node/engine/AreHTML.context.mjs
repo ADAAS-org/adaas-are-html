@@ -1,5 +1,5 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
-import { AreContext } from '@adaas/are';
+import { AreContext, AreDeclaration } from '@adaas/are';
 import { A_Frame } from '@adaas/a-frame/core';
 
 let AreHTMLEngineContext = class extends AreContext {
@@ -65,7 +65,7 @@ let AreHTMLEngineContext = class extends AreContext {
     const node = instruction.owner;
     this.index.instructionToElement.set(instruction.aseid.toString(), element);
     this.index.elementToInstruction.set(element, instruction.aseid.toString());
-    if (node) {
+    if (node && instruction instanceof AreDeclaration) {
       this.index.nodeToHostElements.set(node.aseid.toString(), element);
     }
     if (instruction.group) {
@@ -94,7 +94,7 @@ let AreHTMLEngineContext = class extends AreContext {
       this.index.instructionToElement.delete(instruction.aseid.toString());
       this.index.elementToInstruction.delete(element);
       const node = instruction.owner;
-      if (node) {
+      if (node && instruction instanceof AreDeclaration) {
         this.index.nodeToHostElements.delete(node.aseid.toString());
       }
       if (instruction.group) {

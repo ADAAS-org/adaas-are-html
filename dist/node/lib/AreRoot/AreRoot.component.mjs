@@ -3,7 +3,8 @@ import { A_Inject, A_Caller, A_Context, A_FormatterHelper } from '@adaas/a-conce
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_SignalVector } from '@adaas/a-utils/a-signal';
-import { Are, AreSignalsContext, AreStore, AreRoute, AreSignals } from '@adaas/are';
+import { Are, AreSignalsContext, AreStore, AreSignals } from '@adaas/are';
+import { AreRoute } from '@adaas/are-html/signals/AreRoute.signal';
 
 let AreRoot = class extends Are {
   constructor() {
@@ -18,6 +19,13 @@ let AreRoot = class extends Are {
   async template(root, logger, signalsContext) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      if (!root.content?.trim()) {
+        const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+        const defaultComponent = defaultMatch?.[1];
+        if (defaultComponent) {
+          root.setContent(`<${defaultComponent}></${defaultComponent}>`);
+        }
+      }
       return;
     }
     const currentRoute = AreRoute.default();
@@ -34,11 +42,16 @@ let AreRoot = class extends Are {
       }
     }
     if (!componentName) {
+      if (root.content?.trim()) {
+        return;
+      }
+    }
+    if (!componentName) {
       const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
       componentName = defaultMatch?.[1];
     }
     if (!componentName) {
-      logger.warning('AreRoot: No component found for initial render. Please ensure a route condition or "default" attribute is set.');
+      logger.warning('AreRoot: No component found for initial render. Provide body content, a route condition, or a "default" attribute.');
       return;
     }
     root.setContent(`<${componentName}></${componentName}>`);
@@ -55,12 +68,12 @@ let AreRoot = class extends Are {
     }
     const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : store.get("default");
     if (!componentName) {
-      logger.warning("No component found for rendering in AreRoot. Please ensure that the signal vector matches at least one component or that a default component name is provided in the store.");
       return;
     }
     root.setContent(`<${componentName}></${componentName}>`);
     for (let i = 0; i < root.children.length; i++) {
       const child = root.children[i];
+      signalsContext?.unsubscribe(child);
       child.unmount();
       child.destroy();
       root.removeChild(child);
