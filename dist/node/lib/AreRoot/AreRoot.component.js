@@ -38,12 +38,13 @@ exports.AreRoot = class AreRoot extends are.Are {
       let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
       if (!renderTarget) {
         const signalsMeta = aConcept.A_Context.meta(are.AreSignals);
-        const metaTarget = signalsMeta?.findComponentByVector(initialVector);
-        if (metaTarget) {
-          const pool = signalsContext?.getComponentById(rootId);
-          if (!pool?.length || pool.includes(metaTarget)) {
-            renderTarget = metaTarget;
-          }
+        const pool = signalsContext?.getComponentById(rootId);
+        const metaTarget = signalsMeta?.findComponentByVector(
+          initialVector,
+          pool?.length ? pool : void 0
+        );
+        if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+          renderTarget = metaTarget;
         }
       }
       if (renderTarget?.name) {
@@ -79,12 +80,13 @@ exports.AreRoot = class AreRoot extends are.Are {
     let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
     if (!renderTarget) {
       const signalsMeta = aConcept.A_Context.meta(are.AreSignals);
-      const metaTarget = signalsMeta?.findComponentByVector(vector);
-      if (metaTarget) {
-        const pool = signalsContext?.getComponentById(rootId);
-        if (!pool?.length || pool.includes(metaTarget)) {
-          renderTarget = metaTarget;
-        }
+      const pool = signalsContext?.getComponentById(rootId);
+      const metaTarget = signalsMeta?.findComponentByVector(
+        vector,
+        pool?.length ? pool : void 0
+      );
+      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+        renderTarget = metaTarget;
       }
     }
     const def = signalsContext?.getDefault(rootId);

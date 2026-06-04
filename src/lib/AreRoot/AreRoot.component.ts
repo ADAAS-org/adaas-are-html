@@ -46,15 +46,22 @@ export class AreRoot extends Are {
             // 1. Lookup via AreSignalsContext (per root-id conditions)
             let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
 
-            // 2. Fall back to global AreSignalsMeta, pool-filtered
+            // 2. Fall back to global AreSignalsMeta, pool-filtered.
+            // IMPORTANT: pass the pool *into* the lookup so it can skip over
+            // out-of-pool matches (e.g. a meta-outlet component whose condition
+            // also matches the same vector) and find the highest-priority match
+            // that this outlet can actually render. Filtering only after the
+            // fact would mask valid in-pool matches and surface the outlet's
+            // default instead.
             if (!renderTarget) {
                 const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
-                const metaTarget = signalsMeta?.findComponentByVector(initialVector);
-                if (metaTarget) {
-                    const pool = signalsContext?.getComponentById(rootId);
-                    if (!pool?.length || pool.includes(metaTarget)) {
-                        renderTarget = metaTarget;
-                    }
+                const pool = signalsContext?.getComponentById(rootId);
+                const metaTarget = signalsMeta?.findComponentByVector(
+                    initialVector,
+                    pool?.length ? pool : undefined,
+                );
+                if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+                    renderTarget = metaTarget;
                 }
             }
 
@@ -110,18 +117,22 @@ export class AreRoot extends Are {
         // 1. Try root-specific lookup via AreSignalsContext (keyed by the are-root's id attribute)
         let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
 
-        // 2. Fall back to global AreSignalsMeta lookup, but only accept the
-        //    result if it belongs to this outlet's pool (when a pool is defined).
-        //    This prevents a meta-registered component for one outlet from being
-        //    accidentally rendered in a different outlet sharing the same signal.
+        // 2. Fall back to global AreSignalsMeta lookup, restricted to this
+        //    outlet's pool. Passing the pool *into* the lookup is critical:
+        //    without it, the first globally matching component wins and may
+        //    belong to a different outlet (e.g. AisRequirementsPanel for the
+        //    meta-outlet matching AisEditorCursorScope) — the pool check then
+        //    rejects it and the outlet falls back to default, hiding a valid
+        //    in-pool match (e.g. AisDiagramTab matching AisSetPrimaryDisplay).
         if (!renderTarget) {
             const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
-            const metaTarget = signalsMeta?.findComponentByVector(vector);
-            if (metaTarget) {
-                const pool = signalsContext?.getComponentById(rootId);
-                if (!pool?.length || pool.includes(metaTarget)) {
-                    renderTarget = metaTarget;
-                }
+            const pool = signalsContext?.getComponentById(rootId);
+            const metaTarget = signalsMeta?.findComponentByVector(
+                vector,
+                pool?.length ? pool : undefined,
+            );
+            if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+                renderTarget = metaTarget;
             }
         }
 
