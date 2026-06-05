@@ -1,6 +1,6 @@
 import { A_Concept, A_CONSTANTS__DEFAULT_ENV_VARIABLES_ARRAY, A_Context } from "@adaas/a-concept"
 import { UIContainer } from "./containers/UI.container"
-import { A_Logger } from "@adaas/a-utils/a-logger";
+import { A_Logger, A_LoggerEnvVariables } from "@adaas/a-utils/a-logger";
 import { A_Polyfill } from "@adaas/a-utils/a-polyfill";
 import { A_Config, ENVConfigReader } from "@adaas/a-utils/a-config";
 
@@ -35,7 +35,8 @@ import { A_Config, ENVConfigReader } from "@adaas/a-utils/a-config";
                     defaults: {
                         PORT: 8080,
                         CONFIG_VERBOSE: true,
-                        DEV_MODE: true
+                        DEV_MODE: true,
+                        [A_LoggerEnvVariables.A_LOGGER_LEVEL]: 'debug',
                     }
                 }),
             ]

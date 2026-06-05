@@ -9,28 +9,6 @@ const config: Config.InitialOptions = {
     testMatch: ['<rootDir>/tests/**/*.test.ts'],
     setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.ts'],
     moduleNameMapper: {
-        // ── @adaas/are — main entry and all sub-path imports used internally by the dist ──
-        "^@adaas/are$":                                       "<rootDir>/node_modules/@adaas/are/dist/node/index.js",
-        "^@adaas/are/attribute/(.*)":                         "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreAttribute/$1.js",
-        "^@adaas/are/compiler/(.*)":                          "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreCompiler/$1.js",
-        "^@adaas/are/component/(.*)":                         "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreComponent/$1.js",
-        "^@adaas/are/engine/(.*)":                            "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreEngine/$1.js",
-        "^@adaas/are/event/(.*)":                             "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreEvent/$1.js",
-        "^@adaas/are/instruction/types/(.*)":                 "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreInstruction/types/$1.js",
-        "^@adaas/are/instruction/(.*)":                       "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreInstruction/$1.js",
-        "^@adaas/are/interpreter/(.*)":                       "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreInterpreter/$1.js",
-        "^@adaas/are/lifecycle/(.*)":                         "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreLifecycle/$1.js",
-        "^@adaas/are/loader/(.*)":                            "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreLoader/$1.js",
-        "^@adaas/are/node/(.*)":                              "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreNode/$1.js",
-        "^@adaas/are/scene/(.*)":                             "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreScene/$1.js",
-        "^@adaas/are/signals/entities/(.*)":                  "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreSignals/entities/$1.js",
-        "^@adaas/are/signals/(.*)":                           "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreSignals/$1.js",
-        "^@adaas/are/store/(.*)":                             "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreStore/$1.js",
-        "^@adaas/are/syntax/(.*)":                            "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreSyntax/$1.js",
-        "^@adaas/are/tokenizer/(.*)":                         "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreTokenizer/$1.js",
-        "^@adaas/are/transformer/(.*)":                       "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreTransformer/$1.js",
-        "^@adaas/are/watcher/(.*)":                           "<rootDir>/node_modules/@adaas/are/dist/node/lib/AreRouteWatcher/$1.js",
-
         // ── @adaas/are-html internal path aliases (mirrors tsconfig.json paths) ──
         // Base ARE-HTML entities
         "@adaas/are-html/nodes/(.*)":        "<rootDir>/src/nodes/$1",

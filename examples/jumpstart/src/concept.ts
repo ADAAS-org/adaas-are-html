@@ -71,7 +71,7 @@ import { AreDirectiveFor } from "src/directives/AreDirectiveFor.directive";
 
                 new A_Config({
                     defaults: {
-                        [A_LOGGER_ENV_KEYS.LOG_LEVEL]: 'info',
+                        [A_LOGGER_ENV_KEYS.LOG_LEVEL]: 'debug',
                     }
                 }),
             ]
