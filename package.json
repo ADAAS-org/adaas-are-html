@@ -1,6 +1,6 @@
 {
   "name": "@adaas/are-html",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "A-Concept Rendering Engine (ARE) is a powerful rendering engine designed to work seamlessly with the A-Concept framework. This library provides an HTML engine implementation of ARE, enabling developers to create dynamic and interactive user interfaces for web applications using standard HTML syntax.",
   "keywords": [
     "a-concept",
@@ -82,7 +82,7 @@
     "build": "tsup --config tsup.config.ts"
   },
   "peerDependencies": {
-     "@adaas/a-concept": "^0.3.25",
+    "@adaas/a-concept": "^0.3.25",
     "@adaas/a-frame": "^0.1.8",
     "@adaas/a-utils": "^0.3.29",
     "@adaas/are": "^0.0.19"
