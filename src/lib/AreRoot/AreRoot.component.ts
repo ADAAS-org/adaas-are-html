@@ -1,9 +1,10 @@
-import { A_Caller, A_Context, A_FormatterHelper, A_Inject, } from "@adaas/a-concept";
+import { A_Caller, A_Context, A_FormatterHelper, A_Inject, A_TYPES__Ctor } from "@adaas/a-concept";
 import { A_Frame } from "@adaas/a-frame/core";
 import { A_Logger } from "@adaas/a-utils/a-logger";
-import { A_SignalVector } from "@adaas/a-utils/a-signal";
+import { A_Signal, A_SignalState, A_SignalVector } from "@adaas/a-utils/a-signal";
 import { Are, AreNode, AreSignals, AreSignalsMeta, AreSignalsContext } from "@adaas/are";
 import { AreRoute } from "@adaas/are-html/signals/AreRoute.signal";
+import { AreRootCache, AreRootCacheEntry } from "./AreRootCache.context";
 
 
 @A_Frame.Define({
@@ -17,6 +18,7 @@ export class AreRoot extends Are {
         @A_Inject(A_Caller) root: AreNode,
         @A_Inject(A_Logger) logger: A_Logger,
         @A_Inject(AreSignalsContext) signalsContext?: AreSignalsContext,
+        @A_Inject(A_SignalState) signalState?: A_SignalState,
     ) {
 
         const rootId = root.id;
@@ -36,39 +38,19 @@ export class AreRoot extends Are {
             return;
         }
 
-        const currentRoute = AreRoute.default();
+        // Select from the ACCUMULATED signal state (every signal dispatched so
+        // far), not just the current URL route. Outlets keyed on domain signals
+        // (e.g. a primary-display selector) must reflect the live vector the
+        // moment they mount — even when they mount AFTER the routing signal was
+        // dispatched (a nested outlet inside a just-rendered parent). Using the
+        // same vector + lookup as onSignal keeps initial render and subsequent
+        // updates consistent.
+        const initialVector = this.buildInitialVector(signalState);
+        const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
 
-        let componentName: string | undefined;
-
-        if (currentRoute) {
-            const initialVector = new A_SignalVector([currentRoute]);
-
-            // 1. Lookup via AreSignalsContext (per root-id conditions)
-            let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
-
-            // 2. Fall back to global AreSignalsMeta, pool-filtered.
-            // IMPORTANT: pass the pool *into* the lookup so it can skip over
-            // out-of-pool matches (e.g. a meta-outlet component whose condition
-            // also matches the same vector) and find the highest-priority match
-            // that this outlet can actually render. Filtering only after the
-            // fact would mask valid in-pool matches and surface the outlet's
-            // default instead.
-            if (!renderTarget) {
-                const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
-                const pool = signalsContext?.getComponentById(rootId);
-                const metaTarget = signalsMeta?.findComponentByVector(
-                    initialVector,
-                    pool?.length ? pool : undefined,
-                );
-                if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-                    renderTarget = metaTarget;
-                }
-            }
-
-            if (renderTarget?.name) {
-                componentName = A_FormatterHelper.toKebabCase(renderTarget.name);
-            }
-        }
+        let componentName: string | undefined = renderTarget?.name
+            ? A_FormatterHelper.toKebabCase(renderTarget.name)
+            : undefined;
 
         // 3. Fall back to body content (the nodes already placed inside the
         //    <are-root> tag act as the default).  No setContent() call needed —
@@ -106,6 +88,7 @@ export class AreRoot extends Are {
         @A_Inject(A_SignalVector) vector: A_SignalVector,
         @A_Inject(A_Logger) logger: A_Logger,
         @A_Inject(AreSignalsContext) signalsContext?: AreSignalsContext,
+        @A_Inject(AreRootCache) cache?: AreRootCache,
     ) {
         const rootId = root.id;
 
@@ -114,27 +97,10 @@ export class AreRoot extends Are {
             return;
         }
 
-        // 1. Try root-specific lookup via AreSignalsContext (keyed by the are-root's id attribute)
-        let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
-
-        // 2. Fall back to global AreSignalsMeta lookup, restricted to this
-        //    outlet's pool. Passing the pool *into* the lookup is critical:
-        //    without it, the first globally matching component wins and may
-        //    belong to a different outlet (e.g. AisRequirementsPanel for the
-        //    meta-outlet matching AisEditorCursorScope) — the pool check then
-        //    rejects it and the outlet falls back to default, hiding a valid
-        //    in-pool match (e.g. AisDiagramTab matching AisSetPrimaryDisplay).
-        if (!renderTarget) {
-            const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
-            const pool = signalsContext?.getComponentById(rootId);
-            const metaTarget = signalsMeta?.findComponentByVector(
-                vector,
-                pool?.length ? pool : undefined,
-            );
-            if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-                renderTarget = metaTarget;
-            }
-        }
+        // Resolve the target component for the incoming vector using the SAME
+        // lookup the initial template render uses (root-id conditions first,
+        // then the global pool-filtered meta map).
+        const renderTarget = this.matchComponent(rootId, vector, signalsContext);
 
         const def = signalsContext?.getDefault(rootId);
         const componentName = renderTarget?.name
@@ -145,12 +111,8 @@ export class AreRoot extends Are {
 
         // No matching condition for this signal vector and no default — clear the outlet.
         if (!componentName) {
-            for (let i = 0; i < root.children.length; i++) {
-                const child = root.children[i];
-                signalsContext?.unsubscribe(child);
-                child.unmount();
-                child.destroy();
-                root.removeChild(child);
+            for (const child of [...root.children]) {
+                this.stashChild(root, child, signalsContext, cache);
             }
             root.setContent('');
             return;
@@ -166,20 +128,25 @@ export class AreRoot extends Are {
             return;
         }
 
-        root.setContent(`<${componentName}></${componentName}>`);
-
-        // Unsubscribe old children BEFORE destroying them.
-        // Without this, AreSignals.handleSignalVector keeps iterating stale
-        // (scope-less) nodes on every subsequent signal and throws an error.
-        for (let i = 0; i < root.children.length; i++) {
-            const child = root.children[i];
-            signalsContext?.unsubscribe(child);
-            child.unmount();
-            child.destroy();
-            root.removeChild(child);
+        // Stash the currently displayed children so routing back to them can be
+        // re-injected instantly from the cache (they are unmounted + detached but
+        // NOT destroyed). Falls back to full teardown when no cache is available.
+        for (const child of [...root.children]) {
+            this.stashChild(root, child, signalsContext, cache);
         }
 
+        root.setContent(`<${componentName}></${componentName}>`);
 
+        // Fast path: a previously rendered subtree for this component is cached —
+        // re-attach it and re-mount from the preserved scene plan, skipping the
+        // expensive tokenize/init/load/transform/compile pipeline.
+        const cached = cache?.take(root.id, componentName);
+        if (cached) {
+            this.restoreChild(root, cached, signalsContext);
+            return;
+        }
+
+        // Slow path: build the component subtree from scratch.
         root.tokenize();
 
         for (let i = 0; i < root.children.length; i++) {
@@ -195,5 +162,168 @@ export class AreRoot extends Are {
             child.compile();
             child.mount();
         }
+    }
+
+    /**
+     * Resolves the component a vector should render for the given root, mirroring
+     * the priority used everywhere in the routing system:
+     *   1. Root-specific conditions registered on AreSignalsContext.
+     *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
+     *
+     * Passing the pool *into* the meta lookup is critical: without it, the first
+     * globally matching component wins and may belong to a different outlet
+     * (e.g. AisRequirementsPanel for the meta-outlet matching
+     * AisEditorCursorScope) — the pool check would then reject it and the outlet
+     * would fall back to its default, hiding a valid in-pool match (e.g.
+     * AisDiagramTab matching AisSetPrimaryDisplay).
+     *
+     * Returns `undefined` when nothing matches — callers decide whether to use a
+     * configured default, body content, or clear the outlet.
+     */
+    protected matchComponent(
+        rootId: string,
+        vector: A_SignalVector | undefined,
+        signalsContext?: AreSignalsContext,
+    ): A_TYPES__Ctor<Are> | undefined {
+        if (!vector) return undefined;
+
+        // 1. Root-specific conditions.
+        let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
+
+        // 2. Global pool-filtered meta map.
+        if (!renderTarget) {
+            const signalsMeta = A_Context.meta<AreSignalsMeta>(AreSignals);
+            const pool = signalsContext?.getComponentById(rootId);
+            const metaTarget = signalsMeta?.findComponentByVector(
+                vector,
+                pool?.length ? pool : undefined,
+                rootId,
+            );
+            if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+                renderTarget = metaTarget;
+            }
+        }
+
+        return renderTarget as A_TYPES__Ctor<Are> | undefined;
+    }
+
+    /**
+     * Builds the vector used for the INITIAL render. It is seeded from the
+     * accumulated signal state (every signal dispatched on the bus so far) so a
+     * freshly-mounted outlet reflects the live application state immediately,
+     * not just on the next signal tick. The current URL route is appended when
+     * no AreRoute is already present in the state, so route-driven outlets still
+     * resolve on the very first paint (before AreRouteWatcher has dispatched).
+     */
+    protected buildInitialVector(signalState?: A_SignalState): A_SignalVector {
+        const signals: A_Signal[] = [];
+
+        if (signalState) {
+            for (const signal of signalState.toVector()) {
+                if (signal) signals.push(signal);
+            }
+        }
+
+        if (!signals.some(signal => signal instanceof AreRoute)) {
+            try {
+                const currentRoute = AreRoute.default();
+                if (currentRoute) signals.push(currentRoute);
+            } catch {
+                // Non-browser environment (no document) — route is simply absent.
+            }
+        }
+
+        return new A_SignalVector(signals);
+    }
+
+    /**
+     * Detach a displayed child subtree from the outlet and stash it in the cache
+     * for fast re-injection later. The subtree is unmounted (its scene plan is
+     * preserved) and deregistered from the root scope, but NOT destroyed. The
+     * nodes that were subscribed to the signal bus are unsubscribed while cached
+     * so the detached DOM never reacts to signals, and recorded so they can be
+     * re-subscribed verbatim on restore.
+     *
+     * When no cache is available, or the LRU evicts an entry, the affected
+     * subtree is fully destroyed.
+     */
+    protected stashChild(
+        root: AreNode,
+        child: AreNode,
+        signalsContext: AreSignalsContext | undefined,
+        cache: AreRootCache | undefined,
+    ): void {
+        const tag = child.type;
+
+        child.unmount();
+
+        // Collect exactly the nodes that are currently subscribed within this
+        // subtree, then unsubscribe them. Without this, AreSignals keeps
+        // delivering vectors to a detached subtree that would update reverted
+        // DOM (unmount does not deactivate the scene).
+        const subscribers = signalsContext
+            ? this.collectSubscribers(child, signalsContext)
+            : [];
+        for (const node of subscribers) {
+            signalsContext?.unsubscribe(node);
+        }
+
+        // Deregister from the root scope (the "deregister node from parent").
+        root.removeChild(child);
+
+        if (!cache) {
+            void child.destroy();
+            return;
+        }
+
+        const evicted = cache.put(root.id, tag, { node: child, subscribers });
+        for (const entry of evicted) {
+            // Evicted entries are already unmounted + unsubscribed + detached.
+            void entry.node.destroy();
+        }
+    }
+
+    /**
+     * Re-attach a cached subtree to the outlet and re-mount it from its preserved
+     * scene plan, re-subscribing exactly the nodes that were subscribed before it
+     * was cached.
+     */
+    protected restoreChild(
+        root: AreNode,
+        entry: AreRootCacheEntry,
+        signalsContext: AreSignalsContext | undefined,
+    ): void {
+        const child = entry.node;
+
+        root.addChild(child);
+
+        for (const node of entry.subscribers) {
+            signalsContext?.subscribe(node);
+        }
+
+        child.mount();
+    }
+
+    /**
+     * Walk a subtree and collect the nodes currently registered as signal
+     * subscribers. Mirrors the subscription performed at init time in
+     * AreHTMLLifecycle (component nodes and root nodes) without depending on the
+     * concrete node classes — it simply intersects the subtree with the live
+     * subscriber registry.
+     */
+    protected collectSubscribers(
+        node: AreNode,
+        signalsContext: AreSignalsContext,
+    ): AreNode[] {
+        const result: AreNode[] = [];
+        const queue: AreNode[] = [node];
+        while (queue.length > 0) {
+            const current = queue.shift()!;
+            if (signalsContext.subscribers.has(current)) {
+                result.push(current);
+            }
+            queue.push(...current.children);
+        }
+        return result;
     }
 }

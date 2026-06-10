@@ -3,7 +3,7 @@ import { A_Component, A_TYPES__Ctor, A_Fragment, ASEID, A_Scope, A_Feature, A_Co
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_ExecutionContext } from '@adaas/a-utils/a-execution';
 import { A_Route } from '@adaas/a-utils/a-route';
-import { A_Signal, A_SignalVector } from '@adaas/a-utils/a-signal';
+import { A_Signal, A_SignalState, A_SignalVector } from '@adaas/a-utils/a-signal';
 
 declare class AreDirective extends A_Component {
     /**
@@ -127,6 +127,13 @@ declare class AreDirectiveFor extends AreDirective {
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     /**
+     * Walks the node's ancestor chain (inclusive) and reports whether the
+     * whole path is currently active — i.e. the subtree is actually rendered
+     * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+     * condition is false) means the subtree is detached.
+     */
+    private isAttached;
+    /**
      * Build a key-function that derives a stable identity from each item.
      * If the user provided a `track <expr>` clause, evaluate it as a path on
      * the item; otherwise fall back to the item identity (reference equality).
@@ -193,6 +200,29 @@ declare class AreDirectiveIf extends AreDirective {
     update(attribute: AreDirectiveAttribute, store: AreStore, scope: A_Scope, syntax: AreSyntax, scene: AreScene, ...args: any[]): void;
 }
 
+/**
+ * `$show` directive — conditionally toggles an element's visibility.
+ *
+ * Unlike `$if`, `$show` keeps the element fully mounted at all times and only
+ * flips its inline `display` (Vue `v-show` semantics). The element's subtree,
+ * event listeners and scene state are preserved across toggles, which makes it
+ * far cheaper than `$if` for things that flip on/off frequently. Use `$if` when
+ * the hidden branch is expensive and rarely shown; use `$show` when it toggles
+ * often.
+ *
+ * ⚠️ Known limitations:
+ *  - Do NOT combine `$show` with `$if`/`$for` on the SAME element — they share
+ *    an owner node and would fight over its host instruction. Wrap one in a
+ *    parent element instead.
+ *  - `$show` forces inline `display:none`, which beats stylesheet rules but will
+ *    NOT override the element's own inline `:style="display:..."` binding.
+ */
+declare class AreDirectiveShow extends AreDirective {
+    transform(attribute: AreDirectiveAttribute, logger: A_Logger, ...args: any[]): void;
+    compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, syntax: AreSyntax, directiveContext?: AreDirectiveContext, ...args: any[]): void;
+    update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, syntax: AreSyntax, directiveContext?: AreDirectiveContext, ...args: any[]): void;
+}
+
 type AreHtmlAddAttributeInstructionPayload = {
     name: string;
     content: string;
@@ -222,6 +252,14 @@ type AreHtmlAddCommentInstructionPayload = {
 type AreHtmlAddStyleInstructionPayload = {
     /** Full CSS string to inject as a <style> block scoped to the component. Applied to the document head and reverted on unmount. */
     styles: string;
+};
+type AreHtmlHideInstructionPayload = {
+    /**
+     * Optional explicit display value to restore when the element becomes
+     * visible again. When omitted, the interpreter caches and restores the
+     * element's own prior inline `display` value (Vue `v-show` semantics).
+     */
+    display?: string;
 };
 type AreHtmlAddListenerInstructionPayload = {
     /** DOM event name (e.g. "click", "input", "submit") */
@@ -261,6 +299,15 @@ declare class AddTextInstruction extends AreDeclaration<AreHtmlAddTextInstructio
     constructor(props: AreHtmlAddTextInstructionPayload | AreInstructionSerialized<AreHtmlAddTextInstructionPayload>);
 }
 
+declare class HideElementInstruction extends AreMutation<AreHtmlHideInstructionPayload> {
+    /**
+     * Caches the element's inline `display` value captured at apply time so it
+     * can be restored verbatim on revert (mirrors Vue `v-show`).
+     */
+    cache?: string;
+    constructor(parent: AreDeclaration, props: AreHtmlHideInstructionPayload | AreInstructionSerialized<AreHtmlHideInstructionPayload>);
+}
+
 declare const AreHTMLInstructions: {
     readonly AddElement: "_AreHTML_AddElement";
     readonly AddText: "_AreHTML_AddText";
@@ -269,6 +316,7 @@ declare const AreHTMLInstructions: {
     readonly AddListener: "_AreHTML_AddListener";
     readonly AddInterpolation: "_AreHTML_AddInterpolation";
     readonly AddComment: "_AreHTML_AddComment";
+    readonly HideElement: "_AreHTML_HideElement";
 };
 
 declare class AreComment extends AreHTMLNode {
@@ -523,6 +571,60 @@ declare class AreHTMLCompiler extends AreCompiler {
     compileBindingAttribute(attribute: AreBindingAttribute, scene: AreScene, parentStore: AreStore, store: AreStore, syntax: AreSyntax, ...args: any[]): void;
 }
 
+/**
+ * A single cached, detached component subtree for an are-root outlet.
+ *
+ * `node` is fully compiled and its scene plan is intact (it was `unmount()`ed,
+ * not destroyed), so it can be re-mounted instantly without re-tokenizing,
+ * re-loading, transforming or compiling. `subscribers` records the exact set of
+ * nodes inside the subtree that were subscribed to the signal bus at the moment
+ * of stashing — they are unsubscribed while cached (so the detached DOM never
+ * reacts to signals) and re-subscribed verbatim on restore.
+ */
+type AreRootCacheEntry = {
+    node: AreNode;
+    subscribers: AreNode[];
+};
+declare class AreRootCache extends A_Fragment {
+    /**
+     * rootId -> (component tag -> cache entry). The inner Map preserves
+     * insertion order which is used as the LRU recency order: the first key is
+     * the least-recently-used entry, the last key the most-recently-used.
+     */
+    protected _cache: Map<string, Map<string, AreRootCacheEntry>>;
+    /**
+     * Maximum number of cached subtrees kept per root. Older entries beyond this
+     * limit are evicted (and returned to the caller so it can destroy them).
+     */
+    protected _limit: number;
+    constructor(limit?: number);
+    /**
+     * Maximum number of cached subtrees kept per root.
+     */
+    get limit(): number;
+    protected bucket(rootId: string): Map<string, AreRootCacheEntry>;
+    /**
+     * Whether a subtree for the given component tag is currently cached.
+     */
+    has(rootId: string, tag: string): boolean;
+    /**
+     * Retrieve AND remove a cached subtree so it can become live again. Returns
+     * `undefined` on a cache miss.
+     */
+    take(rootId: string, tag: string): AreRootCacheEntry | undefined;
+    /**
+     * Stash a detached subtree under the given component tag. Returns any entries
+     * that were evicted to honour the LRU limit (or replaced for the same tag) so
+     * the caller can `destroy()` them.
+     */
+    put(rootId: string, tag: string, entry: AreRootCacheEntry): AreRootCacheEntry[];
+    /**
+     * Remove and return every cached entry for a root (e.g. on teardown) so the
+     * caller can destroy them.
+     */
+    clear(rootId: string): AreRootCacheEntry[];
+}
+
 declare class AreHTMLEngine extends AreEngine {
     get DefaultSyntax(): AreSyntax;
     /**
@@ -530,7 +632,7 @@ declare class AreHTMLEngine extends AreEngine {
      *
      * @param container
      */
-    init(scope: A_Scope, signalContext?: AreSignalsContext): Promise<void>;
+    init(scope: A_Scope, signalContext?: AreSignalsContext, rootCache?: AreRootCache): Promise<void>;
     protected rootElementMatcher(source: string, from: number, to: number, build: (raw: string, content: string, position: number, closing: string) => AreSyntaxTokenMatch): AreSyntaxTokenMatch | null;
     protected htmlElementMatcher(source: string, from: number, to: number, build: (raw: string, content: string, position: number, closing: string) => AreSyntaxTokenMatch): AreSyntaxTokenMatch | null;
     /**
@@ -550,6 +652,8 @@ declare class AreHTMLInterpreter extends AreInterpreter {
     removeElement(declaration: AddElementInstruction, context: AreHTMLEngineContext): void;
     addAttribute(mutation: AddAttributeInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeAttribute(mutation: AddAttributeInstruction, context: AreHTMLEngineContext): void;
+    hideElement(mutation: HideElementInstruction, context: AreHTMLEngineContext): void;
+    showElement(mutation: HideElementInstruction, context: AreHTMLEngineContext): void;
     addEventListener(mutation: AddListenerInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeEventListener(mutation: AddListenerInstruction, context: AreHTMLEngineContext): void;
     addText(declaration: AddTextInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
@@ -624,8 +728,60 @@ type AreDirectiveOrderDecoratorParameters = {
 };
 
 declare class AreRoot extends Are {
-    template(root: AreNode, logger: A_Logger, signalsContext?: AreSignalsContext): Promise<void>;
-    onSignal(root: AreNode, vector: A_SignalVector, logger: A_Logger, signalsContext?: AreSignalsContext): Promise<void>;
+    template(root: AreNode, logger: A_Logger, signalsContext?: AreSignalsContext, signalState?: A_SignalState): Promise<void>;
+    onSignal(root: AreNode, vector: A_SignalVector, logger: A_Logger, signalsContext?: AreSignalsContext, cache?: AreRootCache): Promise<void>;
+    /**
+     * Resolves the component a vector should render for the given root, mirroring
+     * the priority used everywhere in the routing system:
+     *   1. Root-specific conditions registered on AreSignalsContext.
+     *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
+     *
+     * Passing the pool *into* the meta lookup is critical: without it, the first
+     * globally matching component wins and may belong to a different outlet
+     * (e.g. AisRequirementsPanel for the meta-outlet matching
+     * AisEditorCursorScope) — the pool check would then reject it and the outlet
+     * would fall back to its default, hiding a valid in-pool match (e.g.
+     * AisDiagramTab matching AisSetPrimaryDisplay).
+     *
+     * Returns `undefined` when nothing matches — callers decide whether to use a
+     * configured default, body content, or clear the outlet.
+     */
+    protected matchComponent(rootId: string, vector: A_SignalVector | undefined, signalsContext?: AreSignalsContext): A_TYPES__Ctor<Are> | undefined;
+    /**
+     * Builds the vector used for the INITIAL render. It is seeded from the
+     * accumulated signal state (every signal dispatched on the bus so far) so a
+     * freshly-mounted outlet reflects the live application state immediately,
+     * not just on the next signal tick. The current URL route is appended when
+     * no AreRoute is already present in the state, so route-driven outlets still
+     * resolve on the very first paint (before AreRouteWatcher has dispatched).
+     */
+    protected buildInitialVector(signalState?: A_SignalState): A_SignalVector;
+    /**
+     * Detach a displayed child subtree from the outlet and stash it in the cache
+     * for fast re-injection later. The subtree is unmounted (its scene plan is
+     * preserved) and deregistered from the root scope, but NOT destroyed. The
+     * nodes that were subscribed to the signal bus are unsubscribed while cached
+     * so the detached DOM never reacts to signals, and recorded so they can be
+     * re-subscribed verbatim on restore.
+     *
+     * When no cache is available, or the LRU evicts an entry, the affected
+     * subtree is fully destroyed.
+     */
+    protected stashChild(root: AreNode, child: AreNode, signalsContext: AreSignalsContext | undefined, cache: AreRootCache | undefined): void;
+    /**
+     * Re-attach a cached subtree to the outlet and re-mount it from its preserved
+     * scene plan, re-subscribing exactly the nodes that were subscribed before it
+     * was cached.
+     */
+    protected restoreChild(root: AreNode, entry: AreRootCacheEntry, signalsContext: AreSignalsContext | undefined): void;
+    /**
+     * Walk a subtree and collect the nodes currently registered as signal
+     * subscribers. Mirrors the subscription performed at init time in
+     * AreHTMLLifecycle (component nodes and root nodes) without depending on the
+     * concrete node classes — it simply intersects the subtree with the live
+     * subscriber registry.
+     */
+    protected collectSubscribers(node: AreNode, signalsContext: AreSignalsContext): AreNode[];
 }
 
 declare class AreRouteWatcher extends A_Component {
@@ -643,4 +799,4 @@ declare class AreRouteWatcher extends A_Component {
     private notify;
 }
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, type AreHtmlHideInstructionPayload, AreInterpolation, AreRoot, AreRootCache, type AreRootCacheEntry, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

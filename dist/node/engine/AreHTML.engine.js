@@ -16,6 +16,7 @@ var lifecycle = require('@adaas/are-html/lifecycle');
 var transformer = require('@adaas/are-html/transformer');
 var AreHTML_compiler = require('./AreHTML.compiler');
 var AreHTML_constants = require('./AreHTML.constants');
+var AreRootCache_context = require('../lib/AreRoot/AreRootCache.context');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -72,7 +73,7 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
       ]
     });
   }
-  async init(scope, signalContext) {
+  async init(scope, signalContext, rootCache) {
     this.package(scope, {
       context: new AreHTML_context.AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -85,6 +86,10 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
     if (!signalContext) {
       signalContext = new are.AreSignalsContext();
       scope.register(signalContext);
+    }
+    if (!rootCache) {
+      rootCache = new AreRootCache_context.AreRootCache();
+      scope.register(rootCache);
     }
   }
   rootElementMatcher(source, from, to, build) {
@@ -195,7 +200,8 @@ __decorateClass([
     before: /.*/
   }),
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Scope)),
-  __decorateParam(1, aConcept.A_Inject(are.AreSignalsContext))
+  __decorateParam(1, aConcept.A_Inject(are.AreSignalsContext)),
+  __decorateParam(2, aConcept.A_Inject(AreRootCache_context.AreRootCache))
 ], exports.AreHTMLEngine.prototype, "init", 1);
 exports.AreHTMLEngine = __decorateClass([
   core.A_Frame.Define({

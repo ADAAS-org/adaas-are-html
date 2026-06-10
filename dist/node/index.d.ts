@@ -1,14 +1,16 @@
 export { A as AreBindingAttribute, a as AreDirective, b as AreDirectiveAttribute, c as AreEventAttribute, d as AreHTMLAttribute, e as AreHTMLNode, f as AreStaticAttribute } from './AreBinding.attribute-Bm5LlOyE.js';
 export { AreDirectiveFor } from './directives/AreDirectiveFor.directive.js';
 export { AreDirectiveIf } from './directives/AreDirectiveIf.directive.js';
+export { AreDirectiveShow } from './directives/AreDirectiveShow.directive.js';
 export { AddAttributeInstruction } from './instructions/AddAttribute.instruction.js';
 export { AddElementInstruction } from './instructions/AddElement.instruction.js';
 export { AddInterpolationInstruction } from './instructions/AddInterpolation.instruction.js';
 export { AddListenerInstruction } from './instructions/AddListener.instruction.js';
 export { AddStyleInstruction } from './instructions/AddStyle.instruction.js';
 export { AddTextInstruction } from './instructions/AddText.instruction.js';
+export { HideElementInstruction } from './instructions/HideElement.instruction.js';
 export { AreHTMLInstructions } from './instructions/AreHTML.instructions.constants.js';
-export { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload } from './instructions/AreHTML.instructions.types.js';
+export { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload } from './instructions/AreHTML.instructions.types.js';
 export { AreComment } from './nodes/AreComment.js';
 export { AreComponentNode } from './nodes/AreComponent.js';
 export { AreInterpolation } from './nodes/AreInterpolation.js';
@@ -29,6 +31,7 @@ export { AreDirectiveContext } from './lib/AreDirective/AreDirective.context.js'
 export { AreDirectiveMeta } from './lib/AreDirective/AreDirective.meta.js';
 export { AreDirectiveOrderDecoratorParameters } from './lib/AreDirective/AreDirective.types.js';
 export { AreRoot } from './lib/AreRoot/AreRoot.component.js';
+export { AreRootCache, AreRootCacheEntry } from './lib/AreRoot/AreRootCache.context.js';
 export { AreStyle } from './lib/AreStyle/AreStyle.context.js';
 export { AreRouteWatcher } from './lib/AreRouteWatcher/AreRouteWatcher.component.js';
 import '@adaas/are';

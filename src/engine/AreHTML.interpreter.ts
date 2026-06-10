@@ -15,6 +15,7 @@ import { AddElementInstruction } from "@adaas/are-html/instructions/AddElement.i
 import { AddListenerInstruction } from "@adaas/are-html/instructions/AddListener.instruction";
 import { AddTextInstruction } from "@adaas/are-html/instructions/AddText.instruction";
 import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
+import { HideElementInstruction } from "@adaas/are-html/instructions/HideElement.instruction";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 import { AreHTMLNode } from "../lib/AreHTMLNode/AreHTMLNode";
 import { AreHTMLEngineContext } from "./AreHTML.context";
@@ -299,6 +300,55 @@ export class AreHTMLInterpreter extends AreInterpreter {
             console.log('Error removing attribute:', error);
         }
 
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ── HideElement — Apply / Revert ─────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Drives the `$show` directive. Apply hides the element by forcing its inline
+    // `display:none` (which beats stylesheet rules and, unlike rewriting the whole
+    // `style` attribute, does NOT clobber other inline styles or `:style`
+    // bindings). The element stays mounted — its subtree, listeners and scene
+    // state are preserved — so toggling visibility is far cheaper than $if's
+    // mount/unmount cycle. Revert restores the element's previous inline display.
+    @A_Frame.Define({
+        description: 'Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert.'
+    })
+    @AreInterpreter.Apply(AreHTMLInstructions.HideElement)
+    hideElement(
+        @A_Inject(A_Caller) mutation: HideElementInstruction,
+        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+    ): void {
+        const element = context.getElementByInstruction(mutation.parent!);
+
+        if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+
+        const el = element as HTMLElement;
+
+        // Remember the element's own inline display so it can be restored exactly.
+        mutation.cache = el.style.display;
+        el.style.display = 'none';
+    }
+
+    @A_Frame.Define({
+        description: 'Restore an element hidden by a HideElement instruction back to its previous inline display value.'
+    })
+    @AreInterpreter.Revert(AreHTMLInstructions.HideElement)
+    showElement(
+        @A_Inject(A_Caller) mutation: HideElementInstruction,
+        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+    ): void {
+        const element = context.getElementByInstruction(mutation.parent!);
+
+        if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+
+        const el = element as HTMLElement;
+
+        // Restore the cached inline display. An explicit payload display, when
+        // provided, takes precedence; otherwise fall back to the cached value
+        // (empty string clears the inline rule and reverts to the CSS default).
+        el.style.display = mutation.payload?.display ?? mutation.cache ?? '';
     }
 
 

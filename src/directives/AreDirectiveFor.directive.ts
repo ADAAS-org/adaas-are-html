@@ -134,6 +134,25 @@ export class AreDirectiveFor extends AreDirective {
 
         attribute.value = newArray;
 
+        /**
+         * Is this `$for`'s subtree currently rendered into the DOM?
+         *
+         * A `$for` can update while its subtree is detached — e.g. it lives
+         * inside a `$if` whose condition is currently false (the documented
+         * `<div $if><x $for></div>` nesting). The directive still receives the
+         * store change and re-diffs, but it must NOT mount/unmount item nodes
+         * directly while detached: the `$for` anchor (and its ancestors) are
+         * not in the DOM, so the interpreter's mount-point walk would fall
+         * through to the nearest *mounted* ancestor (the `$if` comment in the
+         * grandparent) and HOIST the items out of their intended container.
+         * When the ancestor `$if` later activates, its mount cascade applies
+         * the already-compiled item instructions in the correct place.
+         *
+         * Detached === any ancestor scene is inactive (regular nodes default
+         * to an active scene; only structural directives deactivate one).
+         */
+        const attached = this.isAttached(owner);
+
         const computeKey = this.makeKeyFn(key, index, trackExpr);
 
         // ── 1. Index existing children by stable key ────────────────────────
@@ -180,7 +199,10 @@ export class AreDirectiveFor extends AreDirective {
 
         // ── 3. Unmount + detach removed children ─────────────────────────────
         for (const child of remaining) {
-            child.unmount();
+            // Only revert DOM if the subtree is live; a detached subtree's item
+            // nodes were never mounted (see `attached` rationale above), so
+            // unmounting them is a no-op at best and risks reverting stale state.
+            if (attached) child.unmount();
             owner.removeChild(child);
         }
 
@@ -188,8 +210,28 @@ export class AreDirectiveFor extends AreDirective {
         for (const child of newOnes) {
             child.transform();
             child.compile();
-            child.mount();
+            // While detached, stop after compile: the item's instructions are
+            // planned and the ancestor `$if`'s mount cascade will apply them in
+            // the correct container once the condition becomes truthy. Mounting
+            // here would hoist the item to the nearest mounted ancestor.
+            if (attached) child.mount();
         }
+    }
+
+
+    /**
+     * Walks the node's ancestor chain (inclusive) and reports whether the
+     * whole path is currently active — i.e. the subtree is actually rendered
+     * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+     * condition is false) means the subtree is detached.
+     */
+    private isAttached(node: AreHTMLNode): boolean {
+        let current: AreHTMLNode | undefined = node;
+        while (current) {
+            if (current.scene?.isInactive) return false;
+            current = current.parent as AreHTMLNode | undefined;
+        }
+        return true;
     }
 
 

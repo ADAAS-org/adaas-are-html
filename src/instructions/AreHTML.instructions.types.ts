@@ -34,6 +34,15 @@ export type AreHtmlAddStyleInstructionPayload = {
     styles: string;
 }
 
+export type AreHtmlHideInstructionPayload = {
+    /**
+     * Optional explicit display value to restore when the element becomes
+     * visible again. When omitted, the interpreter caches and restores the
+     * element's own prior inline `display` value (Vue `v-show` semantics).
+     */
+    display?: string;
+}
+
 export type AreHtmlAddListenerInstructionPayload = {
     /** DOM event name (e.g. "click", "input", "submit") */
     name: string;

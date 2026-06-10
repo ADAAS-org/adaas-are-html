@@ -85,13 +85,13 @@
     "@adaas/a-concept": "^0.3.27",
     "@adaas/a-frame": "^0.1.14",
     "@adaas/a-utils": "^0.3.32",
-    "@adaas/are": "^0.0.20"
+    "@adaas/are": "^0.0.21"
   },
   "devDependencies": {
     "@adaas/a-concept": "^0.3.27",
     "@adaas/a-frame": "^0.1.14",
     "@adaas/a-utils": "^0.3.32",
-    "@adaas/are": "^0.0.20",
+    "@adaas/are": "^0.0.21",
     "@types/chai": "^4.3.14",
     "@types/jest": "^29.5.12",
     "@types/mocha": "^10.0.6",

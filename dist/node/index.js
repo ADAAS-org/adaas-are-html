@@ -7,12 +7,14 @@ var AreStatic_attribute = require('./attributes/AreStatic.attribute');
 var AreComponent_directive = require('./directives/AreComponent.directive');
 var AreDirectiveFor_directive = require('./directives/AreDirectiveFor.directive');
 var AreDirectiveIf_directive = require('./directives/AreDirectiveIf.directive');
+var AreDirectiveShow_directive = require('./directives/AreDirectiveShow.directive');
 var AddAttribute_instruction = require('./instructions/AddAttribute.instruction');
 var AddElement_instruction = require('./instructions/AddElement.instruction');
 var AddInterpolation_instruction = require('./instructions/AddInterpolation.instruction');
 var AddListener_instruction = require('./instructions/AddListener.instruction');
 var AddStyle_instruction = require('./instructions/AddStyle.instruction');
 var AddText_instruction = require('./instructions/AddText.instruction');
+var HideElement_instruction = require('./instructions/HideElement.instruction');
 var AreHTML_instructions_constants = require('./instructions/AreHTML.instructions.constants');
 var AreHTML_instructions_types = require('./instructions/AreHTML.instructions.types');
 var AreComment = require('./nodes/AreComment');
@@ -38,6 +40,7 @@ var AreDirective_context = require('./lib/AreDirective/AreDirective.context');
 var AreDirective_meta = require('./lib/AreDirective/AreDirective.meta');
 var AreDirective_types = require('./lib/AreDirective/AreDirective.types');
 var AreRoot_component = require('./lib/AreRoot/AreRoot.component');
+var AreRootCache_context = require('./lib/AreRoot/AreRootCache.context');
 var AreStyle_context = require('./lib/AreStyle/AreStyle.context');
 var AreStyle_types = require('./lib/AreStyle/AreStyle.types');
 var AreRouteWatcher_component = require('./lib/AreRouteWatcher/AreRouteWatcher.component');
@@ -86,6 +89,12 @@ Object.keys(AreDirectiveIf_directive).forEach(function (k) {
 		get: function () { return AreDirectiveIf_directive[k]; }
 	});
 });
+Object.keys(AreDirectiveShow_directive).forEach(function (k) {
+	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
+		enumerable: true,
+		get: function () { return AreDirectiveShow_directive[k]; }
+	});
+});
 Object.keys(AddAttribute_instruction).forEach(function (k) {
 	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
 		enumerable: true,
@@ -120,6 +129,12 @@ Object.keys(AddText_instruction).forEach(function (k) {
 	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
 		enumerable: true,
 		get: function () { return AddText_instruction[k]; }
+	});
+});
+Object.keys(HideElement_instruction).forEach(function (k) {
+	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
+		enumerable: true,
+		get: function () { return HideElement_instruction[k]; }
 	});
 });
 Object.keys(AreHTML_instructions_constants).forEach(function (k) {
@@ -270,6 +285,12 @@ Object.keys(AreRoot_component).forEach(function (k) {
 	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
 		enumerable: true,
 		get: function () { return AreRoot_component[k]; }
+	});
+});
+Object.keys(AreRootCache_context).forEach(function (k) {
+	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
+		enumerable: true,
+		get: function () { return AreRootCache_context[k]; }
 	});
 });
 Object.keys(AreStyle_context).forEach(function (k) {

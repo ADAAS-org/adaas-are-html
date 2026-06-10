@@ -8,4 +8,5 @@ export const AreHTMLInstructions = {
     AddListener: '_AreHTML_AddListener',
     AddInterpolation: '_AreHTML_AddInterpolation',
     AddComment: '_AreHTML_AddComment',
+    HideElement: '_AreHTML_HideElement',
 } as const

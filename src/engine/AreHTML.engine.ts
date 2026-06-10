@@ -14,6 +14,7 @@ import { AreHTMLLifecycle } from "@adaas/are-html/lifecycle";
 import { AreHTMLTransformer } from "@adaas/are-html/transformer";
 import { AreHTMLCompiler } from "./AreHTML.compiler";
 import { isVoidElement } from "./AreHTML.constants";
+import { AreRootCache } from "../lib/AreRoot/AreRootCache.context";
 
 
 
@@ -81,7 +82,8 @@ export class AreHTMLEngine extends AreEngine {
     })
     async init(
         @A_Inject(A_Scope) scope: A_Scope,
-        @A_Inject(AreSignalsContext) signalContext?: AreSignalsContext
+        @A_Inject(AreSignalsContext) signalContext?: AreSignalsContext,
+        @A_Inject(AreRootCache) rootCache?: AreRootCache
     ) {
         this.package(scope, {
             context: new AreHTMLEngineContext({}),
@@ -96,6 +98,14 @@ export class AreHTMLEngine extends AreEngine {
         if(!signalContext) {
             signalContext = new AreSignalsContext();
             scope.register(signalContext);
+        }
+
+        // Default per-root subtree cache used by AreRoot for fast route-back
+        // re-injection. Apps may register their own (e.g. with a custom limit)
+        // before load to override this.
+        if (!rootCache) {
+            rootCache = new AreRootCache();
+            scope.register(rootCache);
         }
     }
 

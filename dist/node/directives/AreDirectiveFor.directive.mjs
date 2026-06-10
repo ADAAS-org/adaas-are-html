@@ -40,6 +40,7 @@ let AreDirectiveFor = class extends AreDirective {
     const owner = attribute.owner;
     const currentChildren = [...owner.children];
     attribute.value = newArray;
+    const attached = this.isAttached(owner);
     const computeKey = this.makeKeyFn(key, index, trackExpr);
     const childByKey = /* @__PURE__ */ new Map();
     const remaining = /* @__PURE__ */ new Set();
@@ -73,14 +74,28 @@ let AreDirectiveFor = class extends AreDirective {
       }
     }
     for (const child of remaining) {
-      child.unmount();
+      if (attached) child.unmount();
       owner.removeChild(child);
     }
     for (const child of newOnes) {
       child.transform();
       child.compile();
-      child.mount();
+      if (attached) child.mount();
     }
+  }
+  /**
+   * Walks the node's ancestor chain (inclusive) and reports whether the
+   * whole path is currently active — i.e. the subtree is actually rendered
+   * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+   * condition is false) means the subtree is detached.
+   */
+  isAttached(node) {
+    let current = node;
+    while (current) {
+      if (current.scene?.isInactive) return false;
+      current = current.parent;
+    }
+    return true;
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────

@@ -15,6 +15,7 @@ import { AreHTMLLifecycle } from '@adaas/are-html/lifecycle';
 import { AreHTMLTransformer } from '@adaas/are-html/transformer';
 import { AreHTMLCompiler } from './AreHTML.compiler';
 import { isVoidElement } from './AreHTML.constants';
+import { AreRootCache } from '../lib/AreRoot/AreRootCache.context';
 
 let AreHTMLEngine = class extends AreEngine {
   get DefaultSyntax() {
@@ -60,7 +61,7 @@ let AreHTMLEngine = class extends AreEngine {
       ]
     });
   }
-  async init(scope, signalContext) {
+  async init(scope, signalContext, rootCache) {
     this.package(scope, {
       context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -73,6 +74,10 @@ let AreHTMLEngine = class extends AreEngine {
     if (!signalContext) {
       signalContext = new AreSignalsContext();
       scope.register(signalContext);
+    }
+    if (!rootCache) {
+      rootCache = new AreRootCache();
+      scope.register(rootCache);
     }
   }
   rootElementMatcher(source, from, to, build) {
@@ -183,7 +188,8 @@ __decorateClass([
     before: /.*/
   }),
   __decorateParam(0, A_Inject(A_Scope)),
-  __decorateParam(1, A_Inject(AreSignalsContext))
+  __decorateParam(1, A_Inject(AreSignalsContext)),
+  __decorateParam(2, A_Inject(AreRootCache))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
   A_Frame.Define({

@@ -28,6 +28,14 @@ type AreHtmlAddStyleInstructionPayload = {
     /** Full CSS string to inject as a <style> block scoped to the component. Applied to the document head and reverted on unmount. */
     styles: string;
 };
+type AreHtmlHideInstructionPayload = {
+    /**
+     * Optional explicit display value to restore when the element becomes
+     * visible again. When omitted, the interpreter caches and restores the
+     * element's own prior inline `display` value (Vue `v-show` semantics).
+     */
+    display?: string;
+};
 type AreHtmlAddListenerInstructionPayload = {
     /** DOM event name (e.g. "click", "input", "submit") */
     name: string;
@@ -41,4 +49,4 @@ type AreHtmlAddInterpolationInstructionPayload = {
     content: (...args: any[]) => string;
 };
 
-export type { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload };
+export type { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload };

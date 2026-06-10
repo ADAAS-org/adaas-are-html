@@ -1,14 +1,16 @@
 export { A as AreBindingAttribute, a as AreDirective, b as AreDirectiveAttribute, c as AreEventAttribute, d as AreHTMLAttribute, e as AreHTMLNode, f as AreStaticAttribute } from './AreBinding.attribute-doUvtOjc.mjs';
 export { AreDirectiveFor } from './directives/AreDirectiveFor.directive.mjs';
 export { AreDirectiveIf } from './directives/AreDirectiveIf.directive.mjs';
+export { AreDirectiveShow } from './directives/AreDirectiveShow.directive.mjs';
 export { AddAttributeInstruction } from './instructions/AddAttribute.instruction.mjs';
 export { AddElementInstruction } from './instructions/AddElement.instruction.mjs';
 export { AddInterpolationInstruction } from './instructions/AddInterpolation.instruction.mjs';
 export { AddListenerInstruction } from './instructions/AddListener.instruction.mjs';
 export { AddStyleInstruction } from './instructions/AddStyle.instruction.mjs';
 export { AddTextInstruction } from './instructions/AddText.instruction.mjs';
+export { HideElementInstruction } from './instructions/HideElement.instruction.mjs';
 export { AreHTMLInstructions } from './instructions/AreHTML.instructions.constants.mjs';
-export { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload } from './instructions/AreHTML.instructions.types.mjs';
+export { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload } from './instructions/AreHTML.instructions.types.mjs';
 export { AreComment } from './nodes/AreComment.mjs';
 export { AreComponentNode } from './nodes/AreComponent.mjs';
 export { AreInterpolation } from './nodes/AreInterpolation.mjs';
@@ -29,6 +31,7 @@ export { AreDirectiveContext } from './lib/AreDirective/AreDirective.context.mjs
 export { AreDirectiveMeta } from './lib/AreDirective/AreDirective.meta.mjs';
 export { AreDirectiveOrderDecoratorParameters } from './lib/AreDirective/AreDirective.types.mjs';
 export { AreRoot } from './lib/AreRoot/AreRoot.component.mjs';
+export { AreRootCache, AreRootCacheEntry } from './lib/AreRoot/AreRootCache.context.mjs';
 export { AreStyle } from './lib/AreStyle/AreStyle.context.mjs';
 export { AreRouteWatcher } from './lib/AreRouteWatcher/AreRouteWatcher.component.mjs';
 import '@adaas/are';

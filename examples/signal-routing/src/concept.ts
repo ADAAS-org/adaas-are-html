@@ -14,6 +14,7 @@ import {
     AreHTMLEngineContext,
     AreDirectiveIf,
     AreDirectiveFor,
+    AreDirectiveShow,
     AreRouteWatcher,
 } from "src";
 
@@ -64,6 +65,7 @@ import { AreRoute as AreRouteSignal } from "src/signals/AreRoute.signal";
                 // ── Directives ───────────────────────────────────────────
                 AreDirectiveIf,
                 AreDirectiveFor,
+                AreDirectiveShow,
                 // ── Engine ───────────────────────────────────────────────
                 A_SignalBus,
                 AreRoot,

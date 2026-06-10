@@ -5,7 +5,7 @@ import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_ExecutionContext } from '@adaas/a-utils/a-execution';
 import { A_Route } from '@adaas/a-utils/a-route';
 import { A_ServiceFeatures } from '@adaas/a-utils/a-service';
-import { A_SignalVector } from '@adaas/a-utils/a-signal';
+import { A_SignalState, A_SignalVector } from '@adaas/a-utils/a-signal';
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -207,7 +207,8 @@ var AreHTMLInstructions = {
   AddStyle: "_AreHTML_AddStyle",
   AddListener: "_AreHTML_AddListener",
   AddInterpolation: "_AreHTML_AddInterpolation",
-  AddComment: "_AreHTML_AddComment"
+  AddComment: "_AreHTML_AddComment",
+  HideElement: "_AreHTML_HideElement"
 };
 
 // src/instructions/AddComment.instruction.ts
@@ -268,6 +269,7 @@ var AreDirectiveFor = class extends AreDirective {
     const owner = attribute.owner;
     const currentChildren = [...owner.children];
     attribute.value = newArray;
+    const attached = this.isAttached(owner);
     const computeKey = this.makeKeyFn(key, index, trackExpr);
     const childByKey = /* @__PURE__ */ new Map();
     const remaining = /* @__PURE__ */ new Set();
@@ -301,14 +303,28 @@ var AreDirectiveFor = class extends AreDirective {
       }
     }
     for (const child of remaining) {
-      child.unmount();
+      if (attached) child.unmount();
       owner.removeChild(child);
     }
     for (const child of newOnes) {
       child.transform();
       child.compile();
-      child.mount();
+      if (attached) child.mount();
     }
+  }
+  /**
+   * Walks the node's ancestor chain (inclusive) and reports whether the
+   * whole path is currently active — i.e. the subtree is actually rendered
+   * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+   * condition is false) means the subtree is detached.
+   */
+  isAttached(node) {
+    let current = node;
+    while (current) {
+      if (current.scene?.isInactive) return false;
+      current = current.parent;
+    }
+    return true;
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -556,6 +572,79 @@ AreDirectiveIf = __decorateClass([
   }),
   AreDirective.Priority(2)
 ], AreDirectiveIf);
+var HideElementInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.HideElement, parent, props);
+    }
+  }
+};
+HideElementInstruction = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: 'Toggles the visibility of an existing element by setting its inline display to "none" on apply and restoring the previous inline display on revert. Used by the $show directive to hide/show an element without unmounting it, preserving its subtree, listeners and scene state.'
+  })
+], HideElementInstruction);
+var AreDirectiveShow = class extends AreDirective {
+  transform(attribute, logger, ...args) {
+    logger.debug(`[Transform] directive $SHOW for <${attribute.owner.aseid.toString()}> (no structural change)`);
+  }
+  compile(attribute, store, scene, syntax, directiveContext, ...args) {
+    const visible = !!syntax.evaluate(attribute.content, store, {
+      ...directiveContext?.scope || {}
+    });
+    attribute.value = visible;
+    const hide = new HideElementInstruction(scene.host, {});
+    attribute.cache = hide;
+    if (!visible)
+      scene.plan(hide);
+  }
+  update(attribute, store, scene, syntax, directiveContext, ...args) {
+    const previous = !!attribute.value;
+    const next = !!syntax.evaluate(attribute.content, store, {
+      ...directiveContext?.scope || {}
+    });
+    attribute.value = next;
+    if (previous === next) return;
+    const hide = attribute.cache;
+    if (!hide) return;
+    if (next)
+      scene.unPlan(hide);
+    else
+      scene.plan(hide);
+    attribute.owner.interpret();
+  }
+};
+__decorateClass([
+  AreDirective.Transform,
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(A_Logger))
+], AreDirectiveShow.prototype, "transform", 1);
+__decorateClass([
+  AreDirective.Compile,
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreStore)),
+  __decorateParam(2, A_Inject(AreScene)),
+  __decorateParam(3, A_Inject(AreSyntax)),
+  __decorateParam(4, A_Inject(AreDirectiveContext))
+], AreDirectiveShow.prototype, "compile", 1);
+__decorateClass([
+  AreDirective.Update,
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreStore)),
+  __decorateParam(2, A_Inject(AreScene)),
+  __decorateParam(3, A_Inject(AreSyntax)),
+  __decorateParam(4, A_Inject(AreDirectiveContext))
+], AreDirectiveShow.prototype, "update", 1);
+AreDirectiveShow = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Built-in $show directive. Toggles an element's visibility by flipping its inline display value based on a store expression, keeping the element mounted (subtree, listeners and scene state preserved) instead of unmounting it like $if."
+  }),
+  AreDirective.Priority(3)
+], AreDirectiveShow);
 var AddAttributeInstruction = class extends AreMutation {
   constructor(parent, props) {
     if ("aseid" in props) {
@@ -1486,6 +1575,19 @@ var AreHTMLInterpreter = class extends AreInterpreter {
       console.log("Error removing attribute:", error);
     }
   }
+  hideElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    mutation.cache = el.style.display;
+    el.style.display = "none";
+  }
+  showElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
+  }
   addEventListener(mutation, context, store, syntax, directiveContext, logger) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) {
@@ -1738,6 +1840,22 @@ __decorateClass([
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeAttribute", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.HideElement),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "hideElement", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.HideElement),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "showElement", 1);
 __decorateClass([
   A_Frame.Define({
     description: "Add an event listener to an HTML element based on the provided mutation instruction."
@@ -2003,6 +2121,97 @@ AreHTMLTransformer = __decorateClass([
     description: "HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation \u2014 sorting directives by declared priority and expanding compound directive expressions \u2014 so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission."
   })
 ], AreHTMLTransformer);
+var AreRootCache = class extends A_Fragment {
+  constructor(limit = 10) {
+    super({ name: "AreRootCache" });
+    /**
+     * rootId -> (component tag -> cache entry). The inner Map preserves
+     * insertion order which is used as the LRU recency order: the first key is
+     * the least-recently-used entry, the last key the most-recently-used.
+     */
+    this._cache = /* @__PURE__ */ new Map();
+    this._limit = Math.max(0, Math.floor(limit));
+  }
+  /**
+   * Maximum number of cached subtrees kept per root.
+   */
+  get limit() {
+    return this._limit;
+  }
+  bucket(rootId) {
+    let bucket = this._cache.get(rootId);
+    if (!bucket) {
+      bucket = /* @__PURE__ */ new Map();
+      this._cache.set(rootId, bucket);
+    }
+    return bucket;
+  }
+  /**
+   * Whether a subtree for the given component tag is currently cached.
+   */
+  has(rootId, tag) {
+    return this.bucket(rootId).has(tag);
+  }
+  /**
+   * Retrieve AND remove a cached subtree so it can become live again. Returns
+   * `undefined` on a cache miss.
+   */
+  take(rootId, tag) {
+    const bucket = this.bucket(rootId);
+    const entry = bucket.get(tag);
+    if (entry) {
+      bucket.delete(tag);
+    }
+    return entry;
+  }
+  /**
+   * Stash a detached subtree under the given component tag. Returns any entries
+   * that were evicted to honour the LRU limit (or replaced for the same tag) so
+   * the caller can `destroy()` them.
+   */
+  put(rootId, tag, entry) {
+    const bucket = this.bucket(rootId);
+    const evicted = [];
+    const existing = bucket.get(tag);
+    if (existing) {
+      bucket.delete(tag);
+      if (existing.node !== entry.node) {
+        evicted.push(existing);
+      }
+    }
+    bucket.set(tag, entry);
+    while (bucket.size > this._limit) {
+      const oldestKey = bucket.keys().next().value;
+      if (oldestKey === void 0) {
+        break;
+      }
+      const oldest = bucket.get(oldestKey);
+      bucket.delete(oldestKey);
+      evicted.push(oldest);
+    }
+    return evicted;
+  }
+  /**
+   * Remove and return every cached entry for a root (e.g. on teardown) so the
+   * caller can destroy them.
+   */
+  clear(rootId) {
+    const bucket = this._cache.get(rootId);
+    if (!bucket) {
+      return [];
+    }
+    const entries = [...bucket.values()];
+    bucket.clear();
+    this._cache.delete(rootId);
+    return entries;
+  }
+};
+AreRootCache = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "AreRootCache is a fragment that keeps a small per-root LRU of previously rendered are-root subtrees. When an are-root swaps the component it displays, the outgoing subtree is stashed here (unmounted + detached, but not destroyed) so that routing back to it can re-inject the preserved scene instantly instead of rebuilding from scratch."
+  })
+], AreRootCache);
 
 // src/engine/AreHTML.engine.ts
 var AreHTMLEngine = class extends AreEngine {
@@ -2049,7 +2258,7 @@ var AreHTMLEngine = class extends AreEngine {
       ]
     });
   }
-  async init(scope, signalContext) {
+  async init(scope, signalContext, rootCache) {
     this.package(scope, {
       context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -2062,6 +2271,10 @@ var AreHTMLEngine = class extends AreEngine {
     if (!signalContext) {
       signalContext = new AreSignalsContext();
       scope.register(signalContext);
+    }
+    if (!rootCache) {
+      rootCache = new AreRootCache();
+      scope.register(rootCache);
     }
   }
   rootElementMatcher(source, from, to, build) {
@@ -2172,7 +2385,8 @@ __decorateClass([
     before: /.*/
   }),
   __decorateParam(0, A_Inject(A_Scope)),
-  __decorateParam(1, A_Inject(AreSignalsContext))
+  __decorateParam(1, A_Inject(AreSignalsContext)),
+  __decorateParam(2, A_Inject(AreRootCache))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
   A_Frame.Define({
@@ -2181,7 +2395,7 @@ AreHTMLEngine = __decorateClass([
   })
 ], AreHTMLEngine);
 var AreRoot = class extends Are {
-  async template(root, logger, signalsContext) {
+  async template(root, logger, signalsContext, signalState) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       if (!root.content?.trim()) {
@@ -2193,26 +2407,9 @@ var AreRoot = class extends Are {
       }
       return;
     }
-    const currentRoute = AreRoute.default();
-    let componentName;
-    if (currentRoute) {
-      const initialVector = new A_SignalVector([currentRoute]);
-      let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
-      if (!renderTarget) {
-        const signalsMeta = A_Context.meta(AreSignals);
-        const pool = signalsContext?.getComponentById(rootId);
-        const metaTarget = signalsMeta?.findComponentByVector(
-          initialVector,
-          pool?.length ? pool : void 0
-        );
-        if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-          renderTarget = metaTarget;
-        }
-      }
-      if (renderTarget?.name) {
-        componentName = A_FormatterHelper.toKebabCase(renderTarget.name);
-      }
-    }
+    const initialVector = this.buildInitialVector(signalState);
+    const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
+    let componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : void 0;
     if (!componentName) {
       if (root.content?.trim()) {
         return;
@@ -2234,32 +2431,17 @@ var AreRoot = class extends Are {
     }
     root.setContent(`<${componentName}></${componentName}>`);
   }
-  async onSignal(root, vector, logger, signalsContext) {
+  async onSignal(root, vector, logger, signalsContext, cache) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;
     }
-    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
-    if (!renderTarget) {
-      const signalsMeta = A_Context.meta(AreSignals);
-      const pool = signalsContext?.getComponentById(rootId);
-      const metaTarget = signalsMeta?.findComponentByVector(
-        vector,
-        pool?.length ? pool : void 0
-      );
-      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-        renderTarget = metaTarget;
-      }
-    }
+    const renderTarget = this.matchComponent(rootId, vector, signalsContext);
     const def = signalsContext?.getDefault(rootId);
     const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : def?.name ? A_FormatterHelper.toKebabCase(def.name) : void 0;
     if (!componentName) {
-      for (let i = 0; i < root.children.length; i++) {
-        const child = root.children[i];
-        signalsContext?.unsubscribe(child);
-        child.unmount();
-        child.destroy();
-        root.removeChild(child);
+      for (const child of [...root.children]) {
+        this.stashChild(root, child, signalsContext, cache);
       }
       root.setContent("");
       return;
@@ -2268,13 +2450,14 @@ var AreRoot = class extends Are {
     if (currentChild?.type === componentName) {
       return;
     }
+    for (const child of [...root.children]) {
+      this.stashChild(root, child, signalsContext, cache);
+    }
     root.setContent(`<${componentName}></${componentName}>`);
-    for (let i = 0; i < root.children.length; i++) {
-      const child = root.children[i];
-      signalsContext?.unsubscribe(child);
-      child.unmount();
-      child.destroy();
-      root.removeChild(child);
+    const cached = cache?.take(root.id, componentName);
+    if (cached) {
+      this.restoreChild(root, cached, signalsContext);
+      return;
     }
     root.tokenize();
     for (let i = 0; i < root.children.length; i++) {
@@ -2289,19 +2472,138 @@ var AreRoot = class extends Are {
       child.mount();
     }
   }
+  /**
+   * Resolves the component a vector should render for the given root, mirroring
+   * the priority used everywhere in the routing system:
+   *   1. Root-specific conditions registered on AreSignalsContext.
+   *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
+   *
+   * Passing the pool *into* the meta lookup is critical: without it, the first
+   * globally matching component wins and may belong to a different outlet
+   * (e.g. AisRequirementsPanel for the meta-outlet matching
+   * AisEditorCursorScope) — the pool check would then reject it and the outlet
+   * would fall back to its default, hiding a valid in-pool match (e.g.
+   * AisDiagramTab matching AisSetPrimaryDisplay).
+   *
+   * Returns `undefined` when nothing matches — callers decide whether to use a
+   * configured default, body content, or clear the outlet.
+   */
+  matchComponent(rootId, vector, signalsContext) {
+    if (!vector) return void 0;
+    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
+    if (!renderTarget) {
+      const signalsMeta = A_Context.meta(AreSignals);
+      const pool = signalsContext?.getComponentById(rootId);
+      const metaTarget = signalsMeta?.findComponentByVector(
+        vector,
+        pool?.length ? pool : void 0,
+        rootId
+      );
+      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+        renderTarget = metaTarget;
+      }
+    }
+    return renderTarget;
+  }
+  /**
+   * Builds the vector used for the INITIAL render. It is seeded from the
+   * accumulated signal state (every signal dispatched on the bus so far) so a
+   * freshly-mounted outlet reflects the live application state immediately,
+   * not just on the next signal tick. The current URL route is appended when
+   * no AreRoute is already present in the state, so route-driven outlets still
+   * resolve on the very first paint (before AreRouteWatcher has dispatched).
+   */
+  buildInitialVector(signalState) {
+    const signals = [];
+    if (signalState) {
+      for (const signal of signalState.toVector()) {
+        if (signal) signals.push(signal);
+      }
+    }
+    if (!signals.some((signal) => signal instanceof AreRoute)) {
+      try {
+        const currentRoute = AreRoute.default();
+        if (currentRoute) signals.push(currentRoute);
+      } catch {
+      }
+    }
+    return new A_SignalVector(signals);
+  }
+  /**
+   * Detach a displayed child subtree from the outlet and stash it in the cache
+   * for fast re-injection later. The subtree is unmounted (its scene plan is
+   * preserved) and deregistered from the root scope, but NOT destroyed. The
+   * nodes that were subscribed to the signal bus are unsubscribed while cached
+   * so the detached DOM never reacts to signals, and recorded so they can be
+   * re-subscribed verbatim on restore.
+   *
+   * When no cache is available, or the LRU evicts an entry, the affected
+   * subtree is fully destroyed.
+   */
+  stashChild(root, child, signalsContext, cache) {
+    const tag = child.type;
+    child.unmount();
+    const subscribers = signalsContext ? this.collectSubscribers(child, signalsContext) : [];
+    for (const node of subscribers) {
+      signalsContext?.unsubscribe(node);
+    }
+    root.removeChild(child);
+    if (!cache) {
+      void child.destroy();
+      return;
+    }
+    const evicted = cache.put(root.id, tag, { node: child, subscribers });
+    for (const entry of evicted) {
+      void entry.node.destroy();
+    }
+  }
+  /**
+   * Re-attach a cached subtree to the outlet and re-mount it from its preserved
+   * scene plan, re-subscribing exactly the nodes that were subscribed before it
+   * was cached.
+   */
+  restoreChild(root, entry, signalsContext) {
+    const child = entry.node;
+    root.addChild(child);
+    for (const node of entry.subscribers) {
+      signalsContext?.subscribe(node);
+    }
+    child.mount();
+  }
+  /**
+   * Walk a subtree and collect the nodes currently registered as signal
+   * subscribers. Mirrors the subscription performed at init time in
+   * AreHTMLLifecycle (component nodes and root nodes) without depending on the
+   * concrete node classes — it simply intersects the subtree with the live
+   * subscriber registry.
+   */
+  collectSubscribers(node, signalsContext) {
+    const result = [];
+    const queue = [node];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (signalsContext.subscribers.has(current)) {
+        result.push(current);
+      }
+      queue.push(...current.children);
+    }
+    return result;
+  }
 };
 __decorateClass([
   Are.Template,
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(A_Logger)),
-  __decorateParam(2, A_Inject(AreSignalsContext))
+  __decorateParam(2, A_Inject(AreSignalsContext)),
+  __decorateParam(3, A_Inject(A_SignalState))
 ], AreRoot.prototype, "template", 1);
 __decorateClass([
   Are.Signal,
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(A_SignalVector)),
   __decorateParam(2, A_Inject(A_Logger)),
-  __decorateParam(3, A_Inject(AreSignalsContext))
+  __decorateParam(3, A_Inject(AreSignalsContext)),
+  __decorateParam(4, A_Inject(AreRootCache))
 ], AreRoot.prototype, "onSignal", 1);
 AreRoot = __decorateClass([
   A_Frame.Define({
@@ -2372,6 +2674,6 @@ AreRouteWatcher = __decorateClass([
   })
 ], AreRouteWatcher);
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootCache, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

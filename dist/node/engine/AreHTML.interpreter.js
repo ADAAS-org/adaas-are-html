@@ -190,6 +190,19 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
       console.log("Error removing attribute:", error);
     }
   }
+  hideElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    mutation.cache = el.style.display;
+    el.style.display = "none";
+  }
+  showElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
+  }
   addEventListener(mutation, context, store, syntax, directiveContext, logger) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) {
@@ -442,6 +455,22 @@ __decorateClass([
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
   __decorateParam(1, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext))
 ], exports.AreHTMLInterpreter.prototype, "removeAttribute", 1);
+__decorateClass([
+  core.A_Frame.Define({
+    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
+  }),
+  are.AreInterpreter.Apply(AreHTML_instructions_constants.AreHTMLInstructions.HideElement),
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
+  __decorateParam(1, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext))
+], exports.AreHTMLInterpreter.prototype, "hideElement", 1);
+__decorateClass([
+  core.A_Frame.Define({
+    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
+  }),
+  are.AreInterpreter.Revert(AreHTML_instructions_constants.AreHTMLInstructions.HideElement),
+  __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),
+  __decorateParam(1, aConcept.A_Inject(AreHTML_context.AreHTMLEngineContext))
+], exports.AreHTMLInterpreter.prototype, "showElement", 1);
 __decorateClass([
   core.A_Frame.Define({
     description: "Add an event listener to an HTML element based on the provided mutation instruction."

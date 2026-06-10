@@ -9,6 +9,13 @@ declare class AreDirectiveFor extends AreDirective {
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
     /**
+     * Walks the node's ancestor chain (inclusive) and reports whether the
+     * whole path is currently active — i.e. the subtree is actually rendered
+     * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+     * condition is false) means the subtree is detached.
+     */
+    private isAttached;
+    /**
      * Build a key-function that derives a stable identity from each item.
      * If the user provided a `track <expr>` clause, evaluate it as a path on
      * the item; otherwise fall back to the item identity (reference equality).

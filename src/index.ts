@@ -12,6 +12,7 @@ export * from './attributes/AreStatic.attribute';
 export * from './directives/AreComponent.directive';
 export * from './directives/AreDirectiveFor.directive';
 export * from './directives/AreDirectiveIf.directive';
+export * from './directives/AreDirectiveShow.directive';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ── Instructions ─────────────────────────────────────────────────────────────
@@ -22,6 +23,7 @@ export * from './instructions/AddInterpolation.instruction';
 export * from './instructions/AddListener.instruction';
 export * from './instructions/AddStyle.instruction';
 export * from './instructions/AddText.instruction';
+export * from './instructions/HideElement.instruction';
 export * from './instructions/AreHTML.instructions.constants';
 export * from './instructions/AreHTML.instructions.types';
 
@@ -67,6 +69,7 @@ export * from './lib/AreDirective/AreDirective.types';
 // ── Lib / AreRoot ────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────
 export * from './lib/AreRoot/AreRoot.component';
+export * from './lib/AreRoot/AreRootCache.context';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ── Lib / AreStyle ───────────────────────────────────────────────────────────

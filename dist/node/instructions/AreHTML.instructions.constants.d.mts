@@ -6,6 +6,7 @@ declare const AreHTMLInstructions: {
     readonly AddListener: "_AreHTML_AddListener";
     readonly AddInterpolation: "_AreHTML_AddInterpolation";
     readonly AddComment: "_AreHTML_AddComment";
+    readonly HideElement: "_AreHTML_HideElement";
 };
 
 export { AreHTMLInstructions };
