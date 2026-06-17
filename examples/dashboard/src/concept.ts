@@ -64,7 +64,7 @@ import { AreDirectiveIf, AreDirectiveFor, AreHTMLEngineContext, AreHTMLEngine, A
 
                 new A_Config({
                     defaults: {
-                        [A_LOGGER_ENV_KEYS.LOG_LEVEL]: 'info',
+                        [A_LOGGER_ENV_KEYS.LOG_LEVEL]: 'debug',
                     }
                 }),
             ]
@@ -73,8 +73,9 @@ import { AreDirectiveIf, AreDirectiveFor, AreHTMLEngineContext, AreHTMLEngine, A
         const concept = new A_Concept({
             name: 'adaas-are-example-dashboard',
             fragments: [new A_Config({
-                variables: ['CONFIG_VERBOSE', 'DEV_MODE'] as const,
+                variables: ['CONFIG_VERBOSE', 'DEV_MODE', A_LOGGER_ENV_KEYS.LOG_LEVEL] as const,
                 defaults: {
+                    [A_LOGGER_ENV_KEYS.LOG_LEVEL]: 'debug',
                     CONFIG_VERBOSE: true,
                     DEV_MODE: true
                 }

@@ -94,7 +94,7 @@ exports.AreRoot = class AreRoot extends are.Are {
       }
       child.transform();
       child.compile();
-      child.mount();
+      await child.mount();
     }
   }
   /**

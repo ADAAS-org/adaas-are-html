@@ -17,6 +17,7 @@ const config: Config.InitialOptions = {
         "@adaas/are-html/instructions/(.*)": "<rootDir>/src/instructions/$1",
         "@adaas/are-html/watchers/(.*)":     "<rootDir>/src/watchers/$1",
         "@adaas/are-html/signals/(.*)":      "<rootDir>/src/signals/$1",
+        "@adaas/are-html/helpers/(.*)":      "<rootDir>/src/helpers/$1",
         // Custom lib exports
         "@adaas/are-html/style/(.*)":        "<rootDir>/src/lib/AreStyle/$1",
         "@adaas/are-html/directive/(.*)":    "<rootDir>/src/lib/AreDirective/$1",

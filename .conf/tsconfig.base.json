@@ -69,6 +69,7 @@
          "@adaas/are-html/root/*":         ["../src/lib/AreRoot/*"],
          "@adaas/are-html/directives/*":   ["../src/directives/*"],
          "@adaas/are-html/style/*":        ["../src/lib/AreStyle/*"],
+         "@adaas/are-html/helpers/*":      ["../src/helpers/*"],
          "@adaas/are-html/lib/*":          ["../src/lib/*"],
       },
       /* ===============================

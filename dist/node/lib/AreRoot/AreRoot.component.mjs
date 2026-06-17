@@ -82,7 +82,7 @@ let AreRoot = class extends Are {
       }
       child.transform();
       child.compile();
-      child.mount();
+      await child.mount();
     }
   }
   /**

@@ -12,10 +12,10 @@ var __decorateClass = (decorators, target, key, kind) => {
 var __decorateParam = (index, decorator) => (target, key) => decorator(target, key, index);
 
 // node_modules/@adaas/a-concept/dist/browser/index.mjs
-var St = Object.defineProperty;
-var p = /* @__PURE__ */ __name((u2, e) => St(u2, "name", { value: e, configurable: true }), "p");
+var gt = Object.defineProperty;
+var p = /* @__PURE__ */ __name((u2, e) => gt(u2, "name", { value: e, configurable: true }), "p");
 var _a;
-var ve = (_a = class {
+var De = (_a = class {
   constructor(e = {}) {
     this._name = e.name || this.constructor.name;
   }
@@ -25,12 +25,12 @@ var ve = (_a = class {
   toJSON() {
     return { name: this.name };
   }
-}, __name(_a, "ve"), _a);
-p(ve, "A_Fragment");
-var B = ve;
-var ht = ((o3) => (o3.INITIALIZED = "INITIALIZED", o3.PROCESSING = "PROCESSING", o3.COMPLETED = "COMPLETED", o3.INTERRUPTED = "INTERRUPTED", o3.FAILED = "FAILED", o3))(ht || {});
+}, __name(_a, "De"), _a);
+p(De, "A_Fragment");
+var H = De;
+var yt = ((o3) => (o3.INITIALIZED = "INITIALIZED", o3.PROCESSING = "PROCESSING", o3.COMPLETED = "COMPLETED", o3.INTERRUPTED = "INTERRUPTED", o3.FAILED = "FAILED", o3))(yt || {});
 var _a2;
-var De = (_a2 = class {
+var Ne = (_a2 = class {
   static toUpperSnakeCase(e) {
     return e.trim().replace(/([a-z])([A-Z])/g, "$1_$2").replace(/[^a-zA-Z0-9]+/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "").toUpperCase();
   }
@@ -43,11 +43,11 @@ var De = (_a2 = class {
   static toKebabCase(e) {
     return e.replace(/[^a-zA-Z0-9]+/g, " ").replace(/([a-z0-9])([A-Z])/g, "$1 $2").trim().replace(/\s+/g, "-").toLowerCase();
   }
-}, __name(_a2, "De"), _a2);
-p(De, "A_FormatterHelper");
-var P = De;
+}, __name(_a2, "Ne"), _a2);
+p(Ne, "A_FormatterHelper");
+var P = Ne;
 var _a3;
-var Ne = (_a3 = class {
+var Me = (_a3 = class {
   static generateTimeId(e = { timestamp: /* @__PURE__ */ new Date(), random: Math.random().toString(36).slice(2, 8) }) {
     let t4 = e.timestamp.getTime().toString(36), r8 = e.random;
     return `${t4}-${r8}`;
@@ -68,11 +68,11 @@ var Ne = (_a3 = class {
     for (r8 = 0; r8 < e.length; r8++) n6 = e.charCodeAt(r8), t4 = (t4 << 5) - t4 + n6, t4 |= 0;
     return t4.toString();
   }
-}, __name(_a3, "Ne"), _a3);
-p(Ne, "A_IdentityHelper");
-var W = Ne;
+}, __name(_a3, "Me"), _a3);
+p(Me, "A_IdentityHelper");
+var G = Me;
 var _a4;
-var ce = (_a4 = class {
+var ue = (_a4 = class {
   static isString(e) {
     return typeof e == "string" || e instanceof String;
   }
@@ -97,9 +97,9 @@ var ce = (_a4 = class {
   static isScopeInstance(e) {
     return !!e && typeof e == "object" && "name" in e && "aseid" in e;
   }
-}, __name(_a4, "ce"), _a4);
-p(ce, "A_BasicTypeGuards");
-var I = ce;
+}, __name(_a4, "ue"), _a4);
+p(ue, "A_BasicTypeGuards");
+var I = ue;
 var _a5;
 var k = (_a5 = class {
   static isASEID(e) {
@@ -134,7 +134,7 @@ var k = (_a5 = class {
     return this._shard;
   }
   get hash() {
-    return W.hashString(this.toString());
+    return G.hashString(this.toString());
   }
   getInitializer(e) {
     switch (true) {
@@ -147,11 +147,11 @@ var k = (_a5 = class {
     }
   }
   fromString(e) {
-    let [t4, r8, n6] = e.split("@"), [o3, s4, a4] = r8.split(":"), c3 = a4.includes(".") ? a4.split(".")[0] : void 0, d4 = a4.includes(".") ? a4.split(".")[1] : a4;
-    this._concept = t4 || _.root.name, this._scope = o3 || _.root.name, this._entity = s4, this._id = d4, this._version = n6, this._shard = c3;
+    let [t4, r8, n6] = e.split("@"), [o3, s4, a4] = r8.split(":"), c3 = a4.includes(".") ? a4.split(".")[0] : void 0, l5 = a4.includes(".") ? a4.split(".")[1] : a4;
+    this._concept = t4 || _.root.name, this._scope = o3 || _.root.name, this._entity = s4, this._id = l5, this._version = n6, this._shard = c3;
   }
   fromObject(e) {
-    this._concept = e.concept ? _a5.isASEID(e.concept) ? new _a5(e.concept).id : e.concept : _.concept, this._scope = e.scope ? I.isNumber(e.scope) ? W.formatWithLeadingZeros(e.scope) : _a5.isASEID(e.scope) ? new _a5(e.scope).id : e.scope : _.root.name, this._entity = e.entity, this._id = I.isNumber(e.id) ? W.formatWithLeadingZeros(e.id) : e.id, this._version = e.version, this._shard = e.shard;
+    this._concept = e.concept ? _a5.isASEID(e.concept) ? new _a5(e.concept).id : e.concept : _.concept, this._scope = e.scope ? I.isNumber(e.scope) ? G.formatWithLeadingZeros(e.scope) : _a5.isASEID(e.scope) ? new _a5(e.scope).id : e.scope : _.root.name, this._entity = e.entity, this._id = I.isNumber(e.id) ? G.formatWithLeadingZeros(e.id) : e.id, this._version = e.version, this._shard = e.shard;
   }
   toString() {
     return `${this.concept}@${this.scope}:${this.entity}:${this.shard ? this.shard + "." + this.id : this.id}${this.version ? "@" + this.version : ""}`;
@@ -172,10 +172,10 @@ var k = (_a5 = class {
 }, __name(_a5, "k"), _a5);
 p(k, "ASEID"), k.regexp = new RegExp("^[a-z|A-Z|0-9|-]+@[a-z|A-Z|0-9|-]+:[a-z|A-Z|0-9|-]+:[a-z|A-Z|0-9|\\.|-]+(@v[0-9|\\.]+|@lts)?$");
 var w = k;
-var pe = { UNEXPECTED_ERROR: "A-Error Unexpected Error", VALIDATION_ERROR: "A-Error Validation Error" };
-var dt = "If you see this error please let us know.";
+var de = { UNEXPECTED_ERROR: "A-Error Unexpected Error", VALIDATION_ERROR: "A-Error Validation Error" };
+var mt = "If you see this error please let us know.";
 var _a6;
-var Me = (_a6 = class {
+var Oe = (_a6 = class {
   static get A_CONCEPT_NAME() {
     return "a-concept";
   }
@@ -206,13 +206,13 @@ var Me = (_a6 = class {
   static getAllKeys() {
     return [];
   }
-}, __name(_a6, "Me"), _a6);
-p(Me, "A_CONCEPT_BASE_ENV");
-var ye = Me;
-var ue = { A_CONCEPT_NAME: "A_CONCEPT_NAME", A_CONCEPT_ROOT_SCOPE: "A_CONCEPT_ROOT_SCOPE", A_CONCEPT_ENVIRONMENT: "A_CONCEPT_ENVIRONMENT", A_CONCEPT_RUNTIME_ENVIRONMENT: "A_CONCEPT_RUNTIME_ENVIRONMENT", A_CONCEPT_ROOT_FOLDER: "A_CONCEPT_ROOT_FOLDER", A_ERROR_DEFAULT_DESCRIPTION: "A_ERROR_DEFAULT_DESCRIPTION" };
-var Oe = [ue.A_CONCEPT_NAME, ue.A_CONCEPT_ROOT_SCOPE, ue.A_CONCEPT_ENVIRONMENT, ue.A_CONCEPT_RUNTIME_ENVIRONMENT, ue.A_CONCEPT_ROOT_FOLDER, ue.A_ERROR_DEFAULT_DESCRIPTION];
+}, __name(_a6, "Oe"), _a6);
+p(Oe, "A_CONCEPT_BASE_ENV");
+var Pe = Oe;
+var le = { A_CONCEPT_NAME: "A_CONCEPT_NAME", A_CONCEPT_ROOT_SCOPE: "A_CONCEPT_ROOT_SCOPE", A_CONCEPT_ENVIRONMENT: "A_CONCEPT_ENVIRONMENT", A_CONCEPT_RUNTIME_ENVIRONMENT: "A_CONCEPT_RUNTIME_ENVIRONMENT", A_CONCEPT_ROOT_FOLDER: "A_CONCEPT_ROOT_FOLDER", A_ERROR_DEFAULT_DESCRIPTION: "A_ERROR_DEFAULT_DESCRIPTION" };
+var Re = [le.A_CONCEPT_NAME, le.A_CONCEPT_ROOT_SCOPE, le.A_CONCEPT_ENVIRONMENT, le.A_CONCEPT_RUNTIME_ENVIRONMENT, le.A_CONCEPT_ROOT_FOLDER, le.A_ERROR_DEFAULT_DESCRIPTION];
 var _a7;
-var Re = (_a7 = class extends ye {
+var ke = (_a7 = class extends Pe {
   static get A_CONCEPT_ENVIRONMENT() {
     return window.__A_CONCEPT_ENVIRONMENT_ENV__?.A_CONCEPT_ENVIRONMENT || super.A_CONCEPT_ENVIRONMENT;
   }
@@ -241,7 +241,7 @@ var Re = (_a7 = class extends ye {
     let e = {};
     return window.__A_CONCEPT_ENVIRONMENT_ENV__ && Object.keys(window.__A_CONCEPT_ENVIRONMENT_ENV__).forEach((t4) => {
       e[t4] = window.__A_CONCEPT_ENVIRONMENT_ENV__[t4];
-    }), Oe.forEach((t4) => {
+    }), Re.forEach((t4) => {
       e[t4] = this.get(t4);
     }), e;
   }
@@ -249,13 +249,13 @@ var Re = (_a7 = class extends ye {
     let e = /* @__PURE__ */ new Set();
     return window.__A_CONCEPT_ENVIRONMENT_ENV__ && Object.keys(window.__A_CONCEPT_ENVIRONMENT_ENV__).forEach((t4) => {
       e.add(t4);
-    }), Oe.forEach((t4) => {
+    }), Re.forEach((t4) => {
       e.add(t4);
     }), Array.from(e);
   }
-}, __name(_a7, "Re"), _a7);
-p(Re, "A_CONCEPT_ENV");
-var V = Re;
+}, __name(_a7, "ke"), _a7);
+p(ke, "A_CONCEPT_ENV");
+var J = ke;
 var _a8;
 var j = (_a8 = class extends Error {
   static get entity() {
@@ -316,7 +316,7 @@ var j = (_a8 = class extends Error {
     return this._aseid.scope;
   }
   get description() {
-    return this._description || String(V.A_ERROR_DEFAULT_DESCRIPTION) || dt;
+    return this._description || String(J.A_ERROR_DEFAULT_DESCRIPTION) || mt;
   }
   get originalError() {
     return this._originalError;
@@ -346,14 +346,14 @@ var j = (_a8 = class extends Error {
       case I.isErrorConstructorType(e):
         return this.fromConstructor;
       default:
-        throw new _a8(pe.VALIDATION_ERROR, "Invalid parameters provided to A_Error constructor");
+        throw new _a8(de.VALIDATION_ERROR, "Invalid parameters provided to A_Error constructor");
     }
   }
   fromError(e) {
-    this._title = pe.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._originalError = e, this.appendCausedByStack();
+    this._title = de.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._originalError = e, this.appendCausedByStack();
   }
   fromMessage(e) {
-    this._title = pe.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._link = void 0, this._originalError = void 0;
+    this._title = de.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._link = void 0, this._originalError = void 0;
   }
   fromJSON(e) {
     this._aseid = new w(e.aseid), super.message = e.message, this._title = e.title, this._code = e.code, this._scope = e.scope, this._description = e.description;
@@ -397,21 +397,21 @@ Caused by: ${t4}`));
     }
   }
   validateTitle(e) {
-    if (e.length > 60) throw new _a8(pe.VALIDATION_ERROR, "A-Error title exceeds 60 characters limit.");
-    if (e.length === 0) throw new _a8(pe.VALIDATION_ERROR, "A-Error title cannot be empty.");
+    if (e.length > 60) throw new _a8(de.VALIDATION_ERROR, "A-Error title exceeds 60 characters limit.");
+    if (e.length === 0) throw new _a8(de.VALIDATION_ERROR, "A-Error title cannot be empty.");
   }
 }, __name(_a8, "j"), _a8);
 p(j, "A_Error");
 var b = j;
 var _a9;
-var Ce = (_a9 = class extends b {
-}, __name(_a9, "Ce"), _a9);
-p(Ce, "A_EntityError"), Ce.ValidationError = "A-Entity Validation Error";
-var de = Ce;
-var lt = ((n6) => (n6.EXTENSIONS = "a-component-extensions", n6.FEATURES = "a-component-features", n6.ABSTRACTIONS = "a-component-abstractions", n6.INJECTIONS = "a-component-injections", n6))(lt || {});
-var Pe = { SAVE: "_A_Entity__Save", DESTROY: "_A_Entity__Destroy", LOAD: "_A_Entity__Load" };
+var Ie = (_a9 = class extends b {
+}, __name(_a9, "Ie"), _a9);
+p(Ie, "A_EntityError"), Ie.ValidationError = "A-Entity Validation Error";
+var Ae = Ie;
+var ft = ((n6) => (n6.EXTENSIONS = "a-component-extensions", n6.FEATURES = "a-component-features", n6.ABSTRACTIONS = "a-component-abstractions", n6.INJECTIONS = "a-component-injections", n6))(ft || {});
+var be = { SAVE: "_A_Entity__Save", DESTROY: "_A_Entity__Destroy", LOAD: "_A_Entity__Load" };
 var _a10;
-var ke = (_a10 = class {
+var je = (_a10 = class {
   static get entity() {
     return P.toKebabCase(this.name);
   }
@@ -445,22 +445,22 @@ var ke = (_a10 = class {
     if (this.isASEIDInstance(e)) return this.fromASEID;
     if (this.isSerializedObject(e)) return this.fromJSON;
     if (this.isConstructorProps(e)) return this.fromNew;
-    throw new de(de.ValidationError, "Unable to determine A-Entity constructor initialization method. Please check the provided parameters.");
+    throw new Ae(Ae.ValidationError, "Unable to determine A-Entity constructor initialization method. Please check the provided parameters.");
   }
   generateASEID(e) {
-    return new w({ concept: e?.concept || this.constructor.concept, scope: e?.scope || this.constructor.scope, entity: e?.entity || this.constructor.entity, id: e?.id || W.generateTimeId() });
+    return new w({ concept: e?.concept || this.constructor.concept, scope: e?.scope || this.constructor.scope, entity: e?.entity || this.constructor.entity, id: e?.id || G.generateTimeId() });
   }
   call(e, t4) {
     return new N({ name: e, component: this, scope: t4 }).process(t4);
   }
   load(e) {
-    return this.call(Pe.LOAD, e);
+    return this.call(be.LOAD, e);
   }
   destroy(e) {
-    return this.call(Pe.DESTROY, e);
+    return this.call(be.DESTROY, e);
   }
   save(e) {
-    return this.call(Pe.SAVE, e);
+    return this.call(be.SAVE, e);
   }
   fromASEID(e) {
     e instanceof w ? this.aseid = e : this.aseid = new w(e);
@@ -480,23 +480,23 @@ var ke = (_a10 = class {
   toString() {
     return this.aseid ? this.aseid.toString() : this.constructor.name;
   }
-}, __name(_a10, "ke"), _a10);
-p(ke, "A_Entity");
-var D = ke;
-function je(u2) {
+}, __name(_a10, "je"), _a10);
+p(je, "A_Entity");
+var D = je;
+function $e(u2) {
   return function(e) {
     return _.setMeta(e, new u2()), e;
   };
 }
-__name(je, "je");
-p(je, "A_MetaDecorator");
+__name($e, "$e");
+p($e, "A_MetaDecorator");
 var _a11;
-var Ie = (_a11 = class {
+var Ye = (_a11 = class {
   constructor() {
     this.meta = /* @__PURE__ */ new Map();
   }
   static Define(e) {
-    return je(e);
+    return $e(e);
   }
   [Symbol.iterator]() {
     let e = this.meta.entries();
@@ -574,22 +574,22 @@ var Ie = (_a11 = class {
     for (let [t4, r8] of this.meta.entries()) e[String(t4)] = this.recursiveToJSON(r8);
     return e;
   }
-}, __name(_a11, "Ie"), _a11);
-p(Ie, "A_Meta");
-var f = Ie;
+}, __name(_a11, "Ye"), _a11);
+p(Ye, "A_Meta");
+var m = Ye;
 var _a12;
-var $e = (_a12 = class extends f {
+var Le = (_a12 = class extends m {
   features() {
     return this.get("a-component-features")?.toArray().map(([, t4]) => t4) || [];
   }
   injections(e) {
     return this.get("a-component-injections")?.get(e) || [];
   }
-}, __name(_a12, "$e"), _a12);
-p($e, "A_EntityMeta");
-var X = $e;
+}, __name(_a12, "Le"), _a12);
+p(Le, "A_EntityMeta");
+var X = Le;
 var _a13;
-var Le = (_a13 = class {
+var ze = (_a13 = class {
   get name() {
     return this.config?.name || this.constructor.name;
   }
@@ -602,12 +602,12 @@ var Le = (_a13 = class {
   async call(e, t4) {
     return await new N({ name: e, component: this }).process(t4);
   }
-}, __name(_a13, "Le"), _a13);
-p(Le, "A_Container");
-var U = Le;
-var At = ((n6) => (n6.FEATURES = "a-container-features", n6.INJECTIONS = "a-container-injections", n6.ABSTRACTIONS = "a-container-abstractions", n6.EXTENSIONS = "a-container-extensions", n6))(At || {});
+}, __name(_a13, "ze"), _a13);
+p(ze, "A_Container");
+var K = ze;
+var Et = ((n6) => (n6.FEATURES = "a-container-features", n6.INJECTIONS = "a-container-injections", n6.ABSTRACTIONS = "a-container-abstractions", n6.EXTENSIONS = "a-container-extensions", n6))(Et || {});
 var _a14;
-var ze = (_a14 = class extends f {
+var Ve = (_a14 = class extends m {
   injections(e) {
     return this.get("a-container-injections")?.get(e) || [];
   }
@@ -631,9 +631,9 @@ var ze = (_a14 = class extends f {
       });
     }), t4;
   }
-}, __name(_a14, "ze"), _a14);
-p(ze, "A_ContainerMeta");
-var Q = ze;
+}, __name(_a14, "Ve"), _a14);
+p(Ve, "A_ContainerMeta");
+var Q = Ve;
 var _a15;
 var ee = (_a15 = class extends b {
   fromConstructor(e) {
@@ -646,15 +646,15 @@ var ee = (_a15 = class extends b {
   }
 }, __name(_a15, "ee"), _a15);
 p(ee, "A_FeatureError"), ee.Interruption = "Feature Interrupted", ee.FeatureInitializationError = "Unable to initialize A-Feature", ee.FeatureProcessingError = "Error occurred during A-Feature processing", ee.FeatureDefinitionError = "Unable to define A-Feature", ee.FeatureExtensionError = "Unable to extend A-Feature";
-var T = ee;
+var S = ee;
 var _a16;
-var Ve = (_a16 = class extends T {
-}, __name(_a16, "Ve"), _a16);
-p(Ve, "A_FeatureInterruption");
-var ie = Ve;
-var mt = /* @__PURE__ */ new WeakMap();
+var Ue = (_a16 = class extends S {
+}, __name(_a16, "Ue"), _a16);
+p(Ue, "A_FeatureInterruption");
+var _e = Ue;
+var Tt = /* @__PURE__ */ new WeakMap();
 var _a17;
-var Te = (_a17 = class {
+var Se = (_a17 = class {
   static resolve() {
     return new Promise((e) => e());
   }
@@ -727,10 +727,10 @@ var Te = (_a17 = class {
   }
   static getComponentName(e) {
     if (e != null && !Array.isArray(e) && (typeof e == "object" || typeof e == "function")) {
-      let t4 = mt.get(e);
+      let t4 = Tt.get(e);
       if (t4 !== void 0) return t4;
       let r8 = _a17._computeComponentName(e);
-      return mt.set(e, r8), r8;
+      return Tt.set(e, r8), r8;
     }
     return _a17._computeComponentName(e);
   }
@@ -775,16 +775,16 @@ var Te = (_a17 = class {
       return t4;
     }
   }
-}, __name(_a17, "Te"), _a17);
-p(Te, "A_CommonHelper");
-var A = Te;
+}, __name(_a17, "Se"), _a17);
+p(Se, "A_CommonHelper");
+var A = Se;
 var _a18;
-var be = (_a18 = class extends Error {
-}, __name(_a18, "be"), _a18);
-p(be, "A_CallerError"), be.CallerInitializationError = "Unable to initialize A-Caller";
-var le = be;
+var we = (_a18 = class extends Error {
+}, __name(_a18, "we"), _a18);
+p(we, "A_CallerError"), we.CallerInitializationError = "Unable to initialize A-Caller";
+var me = we;
 var _a19;
-var Ue = (_a19 = class {
+var Je = (_a19 = class {
   constructor(e) {
     this.validateParams(e), this._component = e;
   }
@@ -792,20 +792,20 @@ var Ue = (_a19 = class {
     return this._component;
   }
   validateParams(e) {
-    if (!i.isAllowedForFeatureCall(e)) throw new le(`[${le.CallerInitializationError}]: Invalid A-Caller component provided of type: ${typeof e} with value: ${JSON.stringify(e).slice(0, 100)}...`);
+    if (!i.isAllowedForFeatureCall(e)) throw new me(`[${me.CallerInitializationError}]: Invalid A-Caller component provided of type: ${typeof e} with value: ${JSON.stringify(e).slice(0, 100)}...`);
   }
-}, __name(_a19, "Ue"), _a19);
-p(Ue, "A_Caller");
-var te = Ue;
+}, __name(_a19, "Je"), _a19);
+p(Je, "A_Caller");
+var te = Je;
 var _a20;
 var re = (_a20 = class extends b {
 }, __name(_a20, "re"), _a20);
 p(re, "A_DependencyError"), re.InvalidDependencyTarget = "Invalid Dependency Target", re.InvalidLoadTarget = "Invalid Load Target", re.InvalidLoadPath = "Invalid Load Path", re.InvalidDefaultTarget = "Invalid Default Target", re.ResolutionParametersError = "Dependency Resolution Parameters Error";
-var y = re;
-function Je(...u2) {
+var C = re;
+function Ke(...u2) {
   return function(e, t4, r8) {
     let n6 = A.getComponentName(e);
-    if (!i.isTargetAvailableForInjection(e)) throw new y(y.InvalidDefaultTarget, `A-Default cannot be used on the target of type ${typeof e} (${n6})`);
+    if (!i.isTargetAvailableForInjection(e)) throw new C(C.InvalidDefaultTarget, `A-Default cannot be used on the target of type ${typeof e} (${n6})`);
     let o3 = t4 ? String(t4) : "constructor", s4;
     switch (true) {
       case (i.isComponentConstructor(e) || i.isComponentInstance(e)):
@@ -818,38 +818,16 @@ function Je(...u2) {
         s4 = "a-component-injections";
         break;
     }
-    let a4 = _.meta(e).get(s4), c3 = a4 ? a4.clone() : new f(), d4 = c3.get(o3) ? [...c3.get(o3)] : [];
-    d4[r8].resolutionStrategy = { create: true, args: u2 }, c3.set(o3, d4), _.meta(e).set(s4, c3);
-  };
-}
-__name(Je, "Je");
-p(Je, "A_Dependency_Default");
-function Ke() {
-  return function(u2, e, t4) {
-    let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new y(y.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u2} (${r8})`);
-    let n6 = e ? String(e) : "constructor", o3;
-    switch (true) {
-      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
-        o3 = "a-component-injections";
-        break;
-      case i.isContainerInstance(u2):
-        o3 = "a-container-injections";
-        break;
-      case i.isEntityInstance(u2):
-        o3 = "a-component-injections";
-        break;
-    }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new f(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { flat: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let a4 = _.meta(e).get(s4), c3 = a4 ? a4.clone() : new m(), l5 = c3.get(o3) ? [...c3.get(o3)] : [];
+    l5[r8].resolutionStrategy = { create: true, args: u2 }, c3.set(o3, l5), _.meta(e).set(s4, c3);
   };
 }
 __name(Ke, "Ke");
-p(Ke, "A_Dependency_Flat");
+p(Ke, "A_Dependency_Default");
 function qe() {
   return function(u2, e, t4) {
     let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new y(y.InvalidLoadTarget, `A-Load cannot be used on the target of type ${typeof u2} (${r8})`);
+    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u2} (${r8})`);
     let n6 = e ? String(e) : "constructor", o3;
     switch (true) {
       case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
@@ -862,16 +840,38 @@ function qe() {
         o3 = "a-component-injections";
         break;
     }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new f(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { load: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
+    c3[t4].resolutionStrategy = { flat: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
   };
 }
 __name(qe, "qe");
-p(qe, "A_Dependency_Load");
-function Be(u2 = -1) {
+p(qe, "A_Dependency_Flat");
+function Be() {
+  return function(u2, e, t4) {
+    let r8 = A.getComponentName(u2);
+    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidLoadTarget, `A-Load cannot be used on the target of type ${typeof u2} (${r8})`);
+    let n6 = e ? String(e) : "constructor", o3;
+    switch (true) {
+      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
+        o3 = "a-component-injections";
+        break;
+      case i.isContainerInstance(u2):
+        o3 = "a-container-injections";
+        break;
+      case i.isEntityInstance(u2):
+        o3 = "a-component-injections";
+        break;
+    }
+    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
+    c3[t4].resolutionStrategy = { load: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+  };
+}
+__name(Be, "Be");
+p(Be, "A_Dependency_Load");
+function We(u2 = -1) {
   return function(e, t4, r8) {
     let n6 = A.getComponentName(e);
-    if (!i.isTargetAvailableForInjection(e)) throw new y(y.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof e} (${n6})`);
+    if (!i.isTargetAvailableForInjection(e)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof e} (${n6})`);
     let o3 = t4 ? String(t4) : "constructor", s4;
     switch (true) {
       case (i.isComponentConstructor(e) || i.isComponentInstance(e)):
@@ -884,38 +884,16 @@ function Be(u2 = -1) {
         s4 = "a-component-injections";
         break;
     }
-    let a4 = _.meta(e).get(s4), c3 = a4 ? a4.clone() : new f(), d4 = c3.get(o3) ? [...c3.get(o3)] : [];
-    d4[r8].resolutionStrategy = { parent: u2 }, c3.set(o3, d4), _.meta(e).set(s4, c3);
-  };
-}
-__name(Be, "Be");
-p(Be, "A_Dependency_Parent");
-function We() {
-  return function(u2, e, t4) {
-    let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new y(y.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u2} (${r8})`);
-    let n6 = e ? String(e) : "constructor", o3;
-    switch (true) {
-      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
-        o3 = "a-component-injections";
-        break;
-      case i.isContainerInstance(u2):
-        o3 = "a-container-injections";
-        break;
-      case i.isEntityInstance(u2):
-        o3 = "a-component-injections";
-        break;
-    }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new f(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { require: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let a4 = _.meta(e).get(s4), c3 = a4 ? a4.clone() : new m(), l5 = c3.get(o3) ? [...c3.get(o3)] : [];
+    l5[r8].resolutionStrategy = { parent: u2 }, c3.set(o3, l5), _.meta(e).set(s4, c3);
   };
 }
 __name(We, "We");
-p(We, "A_Dependency_Require");
+p(We, "A_Dependency_Parent");
 function He() {
   return function(u2, e, t4) {
     let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new y(y.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof u2} (${r8})`);
+    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u2} (${r8})`);
     let n6 = e ? String(e) : "constructor", o3;
     switch (true) {
       case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
@@ -928,16 +906,38 @@ function He() {
         o3 = "a-component-injections";
         break;
     }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new f(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { pagination: { ...c3[t4].resolutionStrategy.pagination, count: -1 } }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
+    c3[t4].resolutionStrategy = { require: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
   };
 }
 __name(He, "He");
-p(He, "A_Dependency_All");
-function Ge(u2, e) {
+p(He, "A_Dependency_Require");
+function Ge() {
+  return function(u2, e, t4) {
+    let r8 = A.getComponentName(u2);
+    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof u2} (${r8})`);
+    let n6 = e ? String(e) : "constructor", o3;
+    switch (true) {
+      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
+        o3 = "a-component-injections";
+        break;
+      case i.isContainerInstance(u2):
+        o3 = "a-container-injections";
+        break;
+      case i.isEntityInstance(u2):
+        o3 = "a-component-injections";
+        break;
+    }
+    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
+    c3[t4].resolutionStrategy = { pagination: { ...c3[t4].resolutionStrategy.pagination, count: -1 } }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+  };
+}
+__name(Ge, "Ge");
+p(Ge, "A_Dependency_All");
+function Ze(u2, e) {
   return function(t4, r8, n6) {
     let o3 = A.getComponentName(t4);
-    if (!i.isTargetAvailableForInjection(t4)) throw new y(y.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof t4} (${o3})`);
+    if (!i.isTargetAvailableForInjection(t4)) throw new C(C.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof t4} (${o3})`);
     let s4 = r8 ? String(r8) : "constructor", a4;
     switch (true) {
       case (i.isComponentConstructor(t4) || i.isComponentInstance(t4)):
@@ -950,39 +950,39 @@ function Ge(u2, e) {
         a4 = "a-component-injections";
         break;
     }
-    let c3 = _.meta(t4).get(a4), d4 = c3 ? c3.clone() : new f(), m6 = d4.get(s4) ? [...d4.get(s4)] : [];
-    m6[n6].resolutionStrategy = { query: { ...m6[n6].resolutionStrategy.query, ...u2 }, pagination: { ...m6[n6].resolutionStrategy.pagination, ...e } }, d4.set(s4, m6), _.meta(t4).set(a4, d4);
+    let c3 = _.meta(t4).get(a4), l5 = c3 ? c3.clone() : new m(), f4 = l5.get(s4) ? [...l5.get(s4)] : [];
+    f4[n6].resolutionStrategy = { query: { ...f4[n6].resolutionStrategy.query, ...u2 }, pagination: { ...f4[n6].resolutionStrategy.pagination, ...e } }, l5.set(s4, f4), _.meta(t4).set(a4, l5);
   };
 }
-__name(Ge, "Ge");
-p(Ge, "A_Dependency_Query");
+__name(Ze, "Ze");
+p(Ze, "A_Dependency_Query");
 var _a21;
-var Ze = (_a21 = class {
+var Xe = (_a21 = class {
   constructor(e, t4) {
     this._defaultPagination = { count: 1, from: "start" };
     this._defaultResolutionStrategy = { require: false, load: false, parent: 0, flat: false, create: false, args: [], query: {}, pagination: this._defaultPagination };
     this._name = typeof e == "string" ? e : A.getComponentName(e), this._target = typeof e == "string" ? void 0 : e, this.resolutionStrategy = t4 || {}, this.initCheck();
   }
   static get Required() {
-    return We;
-  }
-  static get Loaded() {
-    return qe;
-  }
-  static get Default() {
-    return Je;
-  }
-  static get Parent() {
-    return Be;
-  }
-  static get Flat() {
-    return Ke;
-  }
-  static get All() {
     return He;
   }
-  static get Query() {
+  static get Loaded() {
+    return Be;
+  }
+  static get Default() {
+    return Ke;
+  }
+  static get Parent() {
+    return We;
+  }
+  static get Flat() {
+    return qe;
+  }
+  static get All() {
     return Ge;
+  }
+  static get Query() {
+    return Ze;
   }
   get flat() {
     return this._resolutionStrategy.flat;
@@ -1024,15 +1024,15 @@ var Ze = (_a21 = class {
     this._resolutionStrategy = { ...this._defaultResolutionStrategy, ...this._resolutionStrategy, ...e, pagination: { ...this._defaultPagination, ...(this._resolutionStrategy || {}).pagination, ...e.pagination || {} } };
   }
   initCheck() {
-    if (!this._resolutionStrategy) throw new y(y.ResolutionParametersError, `Resolution strategy parameters are not provided for dependency: ${this._name}`);
+    if (!this._resolutionStrategy) throw new C(C.ResolutionParametersError, `Resolution strategy parameters are not provided for dependency: ${this._name}`);
     return this;
   }
   toJSON() {
     return { name: this._name, all: this.all, require: this.require, load: this.load, parent: this.parent, flat: this.flat, create: this.create, args: this.args, query: this.query, pagination: this.pagination };
   }
-}, __name(_a21, "Ze"), _a21);
-p(Ze, "A_Dependency");
-var M = Ze;
+}, __name(_a21, "Xe"), _a21);
+p(Xe, "A_Dependency");
+var M = Xe;
 var _a22;
 var h = (_a22 = class {
   static isString(e) {
@@ -1060,13 +1060,13 @@ var h = (_a22 = class {
     return e instanceof RegExp;
   }
   static isContainerConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, U);
+    return typeof e == "function" && A.isInheritedFrom(e, K);
   }
   static isComponentConstructor(e) {
     return typeof e == "function" && A.isInheritedFrom(e, O);
   }
   static isFragmentConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, B);
+    return typeof e == "function" && A.isInheritedFrom(e, H);
   }
   static isEntityConstructor(e) {
     return typeof e == "function" && A.isInheritedFrom(e, D);
@@ -1090,7 +1090,7 @@ var h = (_a22 = class {
     return e instanceof M;
   }
   static isContainerInstance(e) {
-    return e instanceof U;
+    return e instanceof K;
   }
   static isComponentInstance(e) {
     return e instanceof O;
@@ -1099,7 +1099,7 @@ var h = (_a22 = class {
     return e instanceof N;
   }
   static isFragmentInstance(e) {
-    return e instanceof B;
+    return e instanceof H;
   }
   static isEntityInstance(e) {
     return e instanceof D;
@@ -1147,7 +1147,7 @@ var h = (_a22 = class {
     return _a22.isContainerInstance(e) || _a22.isComponentInstance(e);
   }
   static isAllowedForDependencyDefaultCreation(e) {
-    return _a22.isFragmentConstructor(e) || A.isInheritedFrom(e, B) || _a22.isEntityConstructor(e) || A.isInheritedFrom(e, D);
+    return _a22.isFragmentConstructor(e) || A.isInheritedFrom(e, H) || _a22.isEntityConstructor(e) || A.isInheritedFrom(e, D);
   }
   static isErrorConstructorType(e) {
     return !!e && _a22.isObject(e) && !(e instanceof Error) && "title" in e;
@@ -1161,10 +1161,10 @@ var h = (_a22 = class {
 }, __name(_a22, "h"), _a22);
 p(h, "A_TypeGuards");
 var i = h;
-function Xe(u2 = {}) {
+function Qe(u2 = {}) {
   return function(e, t4, r8) {
     let n6 = A.getComponentName(e);
-    if (!i.isAllowedForFeatureDefinition(e)) throw new T(T.FeatureDefinitionError, `A-Feature cannot be defined on the ${n6} level`);
+    if (!i.isAllowedForFeatureDefinition(e)) throw new S(S.FeatureDefinitionError, `A-Feature cannot be defined on the ${n6} level`);
     let o3 = _.meta(e.constructor), s4;
     switch (true) {
       case i.isEntityInstance(e):
@@ -1177,23 +1177,23 @@ function Xe(u2 = {}) {
         s4 = "a-component-features";
         break;
     }
-    let a4 = o3.get(s4) || new f(), c3 = u2.name || t4, d4 = u2.invoke || false;
-    a4.set(t4, { name: `${e.constructor.name}.${c3}`, handler: t4, invoke: d4, template: u2.template && u2.template.length ? u2.template.map((g4) => ({ ...g4, before: g4.before || "", after: g4.after || "", behavior: g4.behavior || "sync", throwOnError: true, override: g4.override || "" })) : [] }), _.meta(e.constructor).set(s4, a4);
-    let m6 = r8.value;
-    return r8.value = function(...g4) {
-      if (d4) m6.apply(this, g4);
-      else return m6.apply(this, g4);
-      if (typeof this.call == "function" && d4) return this.call(c3);
+    let a4 = o3.get(s4) || new m(), c3 = u2.name || t4, l5 = u2.invoke || false;
+    a4.set(t4, { name: `${e.constructor.name}.${c3}`, handler: t4, invoke: l5, template: u2.template && u2.template.length ? u2.template.map((g5) => ({ ...g5, before: g5.before || "", after: g5.after || "", behavior: g5.behavior || "sync", throwOnError: true, override: g5.override || "" })) : [] }), _.meta(e.constructor).set(s4, a4);
+    let f4 = r8.value;
+    return r8.value = function(...g5) {
+      if (l5) f4.apply(this, g5);
+      else return f4.apply(this, g5);
+      if (typeof this.call == "function" && l5) return this.call(c3);
     }, r8;
   };
 }
-__name(Xe, "Xe");
-p(Xe, "A_Feature_Define");
-function Qe(u2) {
+__name(Qe, "Qe");
+p(Qe, "A_Feature_Define");
+function et(u2) {
   return function(e, t4, r8) {
     let n6 = A.getComponentName(e);
-    if (!i.isAllowedForFeatureExtension(e)) throw new T(T.FeatureExtensionError, `A-Feature-Extend cannot be applied on the ${n6} level`);
-    let o3, s4 = "sync", a4 = "", c3 = "", d4 = "", m6 = [], g4 = [], F3 = true, L2;
+    if (!i.isAllowedForFeatureExtension(e)) throw new S(S.FeatureExtensionError, `A-Feature-Extend cannot be applied on the ${n6} level`);
+    let o3, s4 = "sync", a4 = "", c3 = "", l5 = "", f4 = [], g5 = [], v6 = true, L2;
     switch (true) {
       case i.isEntityInstance(e):
         L2 = "a-component-extensions";
@@ -1210,45 +1210,45 @@ function Qe(u2) {
         o3 = u2;
         break;
       case (!!u2 && typeof u2 == "object"):
-        Array.isArray(u2.scope) ? m6 = u2.scope : u2.scope && typeof u2.scope == "object" && (Array.isArray(u2.scope.include) && (m6 = u2.scope.include), Array.isArray(u2.scope.exclude) && (g4 = u2.scope.exclude)), o3 = gt(u2, m6, g4, t4), s4 = u2.behavior || s4, F3 = u2.throwOnError !== void 0 ? u2.throwOnError : F3, a4 = i.isArray(u2.before) ? new RegExp(`^${u2.before.join("|").replace(/\./g, "\\.")}$`).source : u2.before instanceof RegExp ? u2.before.source : "", c3 = i.isArray(u2.after) ? new RegExp(`^${u2.after.join("|").replace(/\./g, "\\.")}$`).source : u2.after instanceof RegExp ? u2.after.source : "", d4 = i.isArray(u2.override) ? new RegExp(`^${u2.override.join("|").replace(/\./g, "\\.")}$`).source : u2.override instanceof RegExp ? u2.override.source : "";
+        Array.isArray(u2.scope) ? f4 = u2.scope : u2.scope && typeof u2.scope == "object" && (Array.isArray(u2.scope.include) && (f4 = u2.scope.include), Array.isArray(u2.scope.exclude) && (g5 = u2.scope.exclude)), o3 = Ct(u2, f4, g5, t4), s4 = u2.behavior || s4, v6 = u2.throwOnError !== void 0 ? u2.throwOnError : v6, a4 = i.isArray(u2.before) ? new RegExp(`^${u2.before.join("|").replace(/\./g, "\\.")}$`).source : u2.before instanceof RegExp ? u2.before.source : "", c3 = i.isArray(u2.after) ? new RegExp(`^${u2.after.join("|").replace(/\./g, "\\.")}$`).source : u2.after instanceof RegExp ? u2.after.source : "", l5 = i.isArray(u2.override) ? new RegExp(`^${u2.override.join("|").replace(/\./g, "\\.")}$`).source : u2.override instanceof RegExp ? u2.override.source : "";
         break;
       default:
         o3 = new RegExp(`^.*${t4.replace(/\./g, "\\.")}$`);
         break;
     }
-    let ae = _.meta(e).get(L2), ge = _.meta(e), K2 = ge.get(L2) ? new f().from(ge.get(L2)) : new f();
-    if (ae && ae.size() && ae.has(t4) && ae.get(t4).invoke) throw new T(T.FeatureExtensionError, `A-Feature-Extend cannot be used on the method "${t4}" because it is already defined as a Feature with "invoke" set to true. Please remove the A-Feature-Extend decorator or set "invoke" to false in the A-Feature decorator.`);
-    let fe = [...K2.get(o3.source) || []], E3 = u2 && typeof u2 == "object" && !i.isRegExp(u2) && u2.name || t4;
-    for (let [q2, H] of K2.entries()) {
-      let G2 = H.findIndex((Ee) => Ee.handler === t4);
-      if (q2 !== o3.source && G2 !== -1) {
-        let Z = String(q2).match(/\\\.\s*([^\\.$]+)\$$/);
-        (Z ? Z[1] : null) === E3 && (H.splice(G2, 1), H.length === 0 ? K2.delete(q2) : K2.set(q2, H));
+    let ce = _.meta(e).get(L2), ye = _.meta(e), B3 = ye.get(L2) ? new m().from(ye.get(L2)) : new m();
+    if (ce && ce.size() && ce.has(t4) && ce.get(t4).invoke) throw new S(S.FeatureExtensionError, `A-Feature-Extend cannot be used on the method "${t4}" because it is already defined as a Feature with "invoke" set to true. Please remove the A-Feature-Extend decorator or set "invoke" to false in the A-Feature decorator.`);
+    let Z2 = [...B3.get(o3.source) || []], lt = u2 && typeof u2 == "object" && !i.isRegExp(u2) && u2.name || t4;
+    for (let [V2, ie] of B3.entries()) {
+      let Te = ie.findIndex((pe) => pe.handler === t4);
+      if (V2 !== o3.source && Te !== -1) {
+        let U = String(V2).match(/\\\.\s*([^\\.$]+)\$$/);
+        (U ? U[1] : null) === lt && (ie.splice(Te, 1), ie.length === 0 ? B3.delete(V2) : B3.set(V2, ie));
       }
     }
-    let C3 = fe.findIndex((q2) => q2.handler === t4), _e2 = { name: o3.source, handler: t4, behavior: s4, before: a4, after: c3, throwOnError: F3, override: d4 };
-    C3 !== -1 ? fe[C3] = _e2 : fe.push(_e2), K2.set(o3.source, fe), _.meta(e).set(L2, K2);
+    let E3 = Z2.findIndex((V2) => V2.handler === t4), y2 = { name: o3.source, handler: t4, behavior: s4, before: a4, after: c3, throwOnError: v6, override: l5 };
+    E3 !== -1 ? Z2[E3] = y2 : Z2.push(y2), B3.set(o3.source, Z2), _.meta(e).set(L2, B3);
   };
 }
-__name(Qe, "Qe");
-p(Qe, "A_Feature_Extend");
-function gt(u2, e, t4, r8) {
+__name(et, "et");
+p(et, "A_Feature_Extend");
+function Ct(u2, e, t4, r8) {
   let n6 = e.length ? `(${e.map((a4) => a4.name).join("|")})` : ".*", o3 = t4.length ? `(?!${t4.map((a4) => a4.name).join("|")})` : "", s4 = u2.scope ? `^${o3}${n6}\\.${u2.name || r8}$` : `.*\\.${u2.name || r8}$`;
   return new RegExp(s4);
 }
-__name(gt, "gt");
-p(gt, "buildTargetRegexp");
-var yt = ((s4) => (s4.PROCESSING = "PROCESSING", s4.COMPLETED = "COMPLETED", s4.FAILED = "FAILED", s4.SKIPPED = "SKIPPED", s4.INITIALIZED = "INITIALIZED", s4.ABORTED = "ABORTED", s4))(yt || {});
+__name(Ct, "Ct");
+p(Ct, "buildTargetRegexp");
+var Pt = ((s4) => (s4.PROCESSING = "PROCESSING", s4.COMPLETED = "COMPLETED", s4.FAILED = "FAILED", s4.SKIPPED = "SKIPPED", s4.INITIALIZED = "INITIALIZED", s4.ABORTED = "ABORTED", s4))(Pt || {});
 var _a23;
-var Ye = (_a23 = class extends b {
+var xe = (_a23 = class extends b {
   static get CompileError() {
     return "Unable to compile A-Stage";
   }
-}, __name(_a23, "Ye"), _a23);
-p(Ye, "A_StageError"), Ye.ArgumentsResolutionError = "A-Stage Arguments Resolution Error";
-var $ = Ye;
+}, __name(_a23, "xe"), _a23);
+p(xe, "A_StageError"), xe.ArgumentsResolutionError = "A-Stage Arguments Resolution Error";
+var $ = xe;
 var _a24;
-var et = (_a24 = class {
+var tt = (_a24 = class {
   constructor(e, t4) {
     this._status = "INITIALIZED";
     this._feature = e, this._definition = t4;
@@ -1319,7 +1319,7 @@ var et = (_a24 = class {
     let r8 = this.getStepComponent(t4, e);
     if (!r8) return;
     let n6 = this.getStepArgs(t4, e);
-    return { handler: r8[e.handler].bind(r8), params: n6 };
+    return { component: r8, method: e.handler, params: n6 };
   }
   skip() {
     this._status = "SKIPPED";
@@ -1333,12 +1333,12 @@ var et = (_a24 = class {
         this.skip();
         return;
       }
-      let { handler: n6, params: o3 } = r8, s4 = n6(...o3);
-      if (i.isPromiseInstance(s4)) return new Promise(async (a4, c3) => {
+      let { component: n6, method: o3, params: s4 } = r8, a4 = n6[o3](...s4);
+      if (i.isPromiseInstance(a4)) return new Promise(async (c3, l5) => {
         try {
-          return await s4, this.completed(), a4();
-        } catch (d4) {
-          return this.failed(d4), this._definition.throwOnError ? a4() : c3(d4);
+          return await a4, this.completed(), c3();
+        } catch (f4) {
+          return this.failed(f4), this._definition.throwOnError ? c3() : l5(f4);
         }
       });
       this.completed();
@@ -1356,15 +1356,15 @@ var et = (_a24 = class {
   toString() {
     return `A-Stage(${this._feature.name}::${this._definition.behavior}@${this._definition.handler})`;
   }
-}, __name(_a24, "et"), _a24);
-p(et, "A_Stage");
-var ne = et;
+}, __name(_a24, "tt"), _a24);
+p(tt, "A_Stage");
+var ne = tt;
 var _a25;
-var we = (_a25 = class extends b {
-}, __name(_a25, "we"), _a25);
-p(we, "A_StepManagerError"), we.CircularDependencyError = "A-StepManager Circular Dependency Error";
+var Fe = (_a25 = class extends b {
+}, __name(_a25, "Fe"), _a25);
+p(Fe, "A_StepManagerError"), Fe.CircularDependencyError = "A-StepManager Circular Dependency Error";
 var _a26;
-var tt = (_a26 = class {
+var rt = (_a26 = class {
   constructor(e) {
     this._uniqueIdMap = /* @__PURE__ */ new Map();
     this._isBuilt = false;
@@ -1429,11 +1429,11 @@ var tt = (_a26 = class {
       return new ne(e, n6);
     });
   }
-}, __name(_a26, "tt"), _a26);
-p(tt, "A_StepsManager");
-var me = tt;
+}, __name(_a26, "rt"), _a26);
+p(rt, "A_StepsManager");
+var Ee = rt;
 var _a27;
-var Se = (_a27 = class {
+var he = (_a27 = class {
   constructor(e) {
     this._stages = [];
     this._index = 0;
@@ -1442,10 +1442,10 @@ var Se = (_a27 = class {
     this.validateParams(e), this.getInitializer(e).call(this, e);
   }
   static get Define() {
-    return Xe;
+    return Qe;
   }
   static get Extend() {
-    return Qe;
+    return et;
   }
   get name() {
     return this._name;
@@ -1481,7 +1481,7 @@ var Se = (_a27 = class {
     return { next: p(() => this.isDone ? (this._current = void 0, { value: void 0, done: true }) : (this._current = this._stages[this._index], this._index++, { value: this._current, done: false }), "next") };
   }
   validateParams(e) {
-    if (!e || typeof e != "object") throw new T(T.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e} with value: ${JSON.stringify(e)?.slice(0, 100)}...`);
+    if (!e || typeof e != "object") throw new S(S.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e} with value: ${JSON.stringify(e)?.slice(0, 100)}...`);
   }
   getInitializer(e) {
     switch (true) {
@@ -1490,12 +1490,12 @@ var Se = (_a27 = class {
       case "template" in e:
         return this.fromTemplate;
       default:
-        throw new T(T.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e} with value: ${JSON.stringify(e)?.slice(0, 100)}...`);
+        throw new S(S.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e} with value: ${JSON.stringify(e)?.slice(0, 100)}...`);
     }
   }
   fromTemplate(e) {
-    if (!e.template || !Array.isArray(e.template)) throw new T(T.FeatureInitializationError, `Invalid A-Feature template provided of type: ${typeof e.template} with value: ${JSON.stringify(e.template)?.slice(0, 100)}...`);
-    if (!e.component && (!e.scope || !(e.scope instanceof R))) throw new T(T.FeatureInitializationError, `Invalid A-Feature scope provided of type: ${typeof e.scope} with value: ${JSON.stringify(e.scope)?.slice(0, 100)}...`);
+    if (!e.template || !Array.isArray(e.template)) throw new S(S.FeatureInitializationError, `Invalid A-Feature template provided of type: ${typeof e.template} with value: ${JSON.stringify(e.template)?.slice(0, 100)}...`);
+    if (!e.component && (!e.scope || !(e.scope instanceof R))) throw new S(S.FeatureInitializationError, `Invalid A-Feature scope provided of type: ${typeof e.scope} with value: ${JSON.stringify(e.scope)?.slice(0, 100)}...`);
     this._name = e.name;
     let t4, r8 = e.scope;
     try {
@@ -1505,10 +1505,10 @@ var Se = (_a27 = class {
     }
     t4 && r8 && !r8.isInheritedFrom(t4) && r8.inherit(t4), this._caller = new te(e.component || new O()), this._effectiveScope = t4 || r8;
     let n6 = _.getSortedStepsFor(e.template);
-    n6 || (this._SM = new me(e.template), n6 = this._SM.toSortedSteps(), _.setSortedStepsFor(e.template, n6)), this._stages = n6.map((o3) => new ne(this, o3)), this._current = this._stages[0];
+    n6 || (this._SM = new Ee(e.template), n6 = this._SM.toSortedSteps(), _.setSortedStepsFor(e.template, n6)), this._stages = n6.map((o3) => new ne(this, o3)), this._current = this._stages[0];
   }
   fromComponent(e) {
-    if (!e.component || !i.isAllowedForFeatureDefinition(e.component)) throw new T(T.FeatureInitializationError, `Invalid A-Feature component provided of type: ${typeof e.component} with value: ${JSON.stringify(e.component)?.slice(0, 100)}...`);
+    if (!e.component || !i.isAllowedForFeatureDefinition(e.component)) throw new S(S.FeatureInitializationError, `Invalid A-Feature component provided of type: ${typeof e.component} with value: ${JSON.stringify(e.component)?.slice(0, 100)}...`);
     this._name = e.name;
     let t4, r8 = e.scope;
     try {
@@ -1518,7 +1518,7 @@ var Se = (_a27 = class {
     }
     t4 && r8 && !r8.isInheritedFrom(t4) && r8.inherit(t4), this._caller = new te(e.component);
     let n6 = t4 || r8, o3 = _.featureTemplate(this._name, this._caller.component, n6), s4 = _.getSortedStepsFor(o3);
-    s4 || (this._SM = new me(o3), s4 = this._SM.toSortedSteps(), _.setSortedStepsFor(o3, s4)), this._effectiveScope = n6, this._stages = s4.map((a4) => new ne(this, a4)), this._current = this._stages[0];
+    s4 || (this._SM = new Ee(o3), s4 = this._SM.toSortedSteps(), _.setSortedStepsFor(o3, s4)), this._effectiveScope = n6, this._stages = s4.map((a4) => new ne(this, a4)), this._current = this._stages[0];
   }
   process(e) {
     try {
@@ -1540,7 +1540,7 @@ var Se = (_a27 = class {
       }
       this.state !== "INTERRUPTED" && this.completed();
     } catch (t4) {
-      let r8 = t4 instanceof T ? t4 : new T({ title: T.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${this.stage?.name || "N/A"}.`, stage: this.stage, originalError: t4 });
+      let r8 = t4 instanceof S ? t4 : new S({ title: S.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${this.stage?.name || "N/A"}.`, stage: this.stage, originalError: t4 });
       throw this.failed(r8);
     }
   }
@@ -1557,7 +1557,7 @@ var Se = (_a27 = class {
     this.state !== "INTERRUPTED" && this.completed();
   }
   createStageError(e, t4) {
-    let r8 = e instanceof T ? e : new T({ title: T.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${t4.name}.`, stage: t4, originalError: e });
+    let r8 = e instanceof S ? e : new S({ title: S.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${t4.name}.`, stage: t4, originalError: e });
     return this.failed(r8), r8;
   }
   next(e) {
@@ -1574,13 +1574,13 @@ var Se = (_a27 = class {
     if (this.isProcessed) return this._error;
     switch (this._state = "INTERRUPTED", true) {
       case i.isString(e):
-        this._error = new ie({ title: T.Interruption, description: e, stage: this.stage });
+        this._error = new _e({ title: S.Interruption, description: e, stage: this.stage });
         break;
       case i.isErrorInstance(e):
-        this._error = new ie({ code: T.Interruption, title: e.title || "Feature Interrupted", description: e.description || e.message, stage: this.stage, originalError: e });
+        this._error = new _e({ code: S.Interruption, title: e.title || "Feature Interrupted", description: e.description || e.message, stage: this.stage, originalError: e });
         break;
       default:
-        this._error = new ie(T.Interruption, "Feature was interrupted");
+        this._error = new _e(S.Interruption, "Feature was interrupted");
         break;
     }
     return this._scopeAllocated && this.scope.destroy(), this._error;
@@ -1598,20 +1598,21 @@ var Se = (_a27 = class {
   toString() {
     return `A-Feature(${this.caller.component?.constructor?.name || "Unknown"}::${this.name})`;
   }
-}, __name(_a27, "Se"), _a27);
-p(Se, "A_Feature");
-var N = Se;
+}, __name(_a27, "he"), _a27);
+p(he, "A_Feature");
+var N = he;
 var _a28;
-var rt = (_a28 = class {
+var nt = (_a28 = class {
   call(e, t4) {
-    return new N({ name: e, component: this }).process(t4);
+    let r8 = new N({ name: e, component: this });
+    if (r8.size !== 0) return r8.process(t4);
   }
-}, __name(_a28, "rt"), _a28);
-p(rt, "A_Component");
-var O = rt;
-var nt = ((n6) => (n6.EXTENSIONS = "a-component-extensions", n6.FEATURES = "a-component-features", n6.INJECTIONS = "a-component-injections", n6.ABSTRACTIONS = "a-component-abstractions", n6))(nt || {});
+}, __name(_a28, "nt"), _a28);
+p(nt, "A_Component");
+var O = nt;
+var ot = ((n6) => (n6.EXTENSIONS = "a-component-extensions", n6.FEATURES = "a-component-features", n6.INJECTIONS = "a-component-injections", n6.ABSTRACTIONS = "a-component-abstractions", n6))(ot || {});
 var _a29;
-var ot = (_a29 = class extends f {
+var st = (_a29 = class extends m {
   injections(e) {
     return this.get("a-component-injections")?.get(e) || [];
   }
@@ -1635,15 +1636,15 @@ var ot = (_a29 = class extends f {
       });
     }), t4;
   }
-}, __name(_a29, "ot"), _a29);
-p(ot, "A_ComponentMeta");
-var z = ot;
-var ft = /* @__PURE__ */ new Set();
-var Et = /* @__PURE__ */ new Set();
+}, __name(_a29, "st"), _a29);
+p(st, "A_ComponentMeta");
+var z = st;
+var St = /* @__PURE__ */ new Set();
+var ht = /* @__PURE__ */ new Set();
 var _a30;
-var st = (_a30 = class {
+var it = (_a30 = class {
   constructor(e, t4) {
-    this._meta = new f();
+    this._meta = new m();
     this._version = 0;
     this._resolveConstructorCache = /* @__PURE__ */ new Map();
     this._resolveCache = /* @__PURE__ */ new Map();
@@ -1684,9 +1685,8 @@ var st = (_a30 = class {
     return this._version;
   }
   get fingerprint() {
-    ft.clear();
-    let e = this.aggregateVersion(ft);
-    return this._cachedFingerprint !== void 0 && this._cachedFingerprintVersion === e ? this._cachedFingerprint : (Et.clear(), this._cachedFingerprint = this.computeFingerprint(Et), this._cachedFingerprintVersion = e, this._cachedFingerprint);
+    let e = this._cachedAggVersion;
+    return e === void 0 && (St.clear(), e = this.aggregateVersion(St), this._cachedAggVersion = e), this._cachedFingerprint !== void 0 && this._cachedFingerprintVersion === e ? this._cachedFingerprint : (ht.clear(), this._cachedFingerprint = this.computeFingerprint(ht), this._cachedFingerprintVersion = e, this._cachedFingerprint);
   }
   get entities() {
     return Array.from(this._entities.values());
@@ -1707,7 +1707,7 @@ var st = (_a30 = class {
     return this._parent;
   }
   bumpVersion() {
-    if (this._version++, this._resolveConstructorCache.clear(), this._resolveCache.clear(), this._resolveFlatAllCache.clear(), this._resolveAllCache.clear(), this._cachedFingerprint = void 0, this._subscribers.size !== 0) for (let e of this._subscribers) {
+    if (this._version++, this._resolveConstructorCache.clear(), this._resolveCache.clear(), this._resolveFlatAllCache.clear(), this._resolveAllCache.clear(), this._cachedFingerprint = void 0, this._cachedAggVersion = void 0, this._subscribers.size !== 0) for (let e of this._subscribers) {
       let t4 = e.deref();
       if (!t4) {
         this._subscribers.delete(e);
@@ -1739,20 +1739,29 @@ var st = (_a30 = class {
     if (e.has(this)) return "~circular~";
     e.add(this);
     let t4 = [];
-    t4.push("P:" + (this._parent ? this._parent.computeFingerprint(e) : "-"));
-    let r8 = Array.from(this._allowedComponents).map((m6) => A.getComponentName(m6.name)).sort();
-    t4.push("AC:" + r8.join(","));
-    let n6 = Array.from(this._allowedEntities).map((m6) => A.getComponentName(m6.name)).sort();
-    t4.push("AE:" + n6.join(","));
-    let o3 = Array.from(this._allowedFragments).map((m6) => A.getComponentName(m6.name)).sort();
-    t4.push("AF:" + o3.join(","));
-    let s4 = Array.from(this._allowedErrors).map((m6) => A.getComponentName(m6.name)).sort();
-    t4.push("AR:" + s4.join(","));
-    let a4 = Array.from(this._imports).map((m6) => m6.computeFingerprint(e)).sort();
-    t4.push("I:" + a4.join(","));
-    let c3 = t4.join("|"), d4 = 5381;
-    for (let m6 = 0; m6 < c3.length; m6++) d4 = (d4 << 5) + d4 + c3.charCodeAt(m6) | 0;
-    return (d4 >>> 0).toString(16);
+    if (t4.push("P:" + (this._parent ? this._parent.computeFingerprint(e) : "-")), this._allowedComponents.size) {
+      let o3 = Array.from(this._allowedComponents).map((s4) => s4.name).sort();
+      t4.push("AC:" + o3.join(","));
+    } else t4.push("AC:");
+    if (this._allowedEntities.size) {
+      let o3 = Array.from(this._allowedEntities).map((s4) => s4.name).sort();
+      t4.push("AE:" + o3.join(","));
+    } else t4.push("AE:");
+    if (this._allowedFragments.size) {
+      let o3 = Array.from(this._allowedFragments).map((s4) => s4.name).sort();
+      t4.push("AF:" + o3.join(","));
+    } else t4.push("AF:");
+    if (this._allowedErrors.size) {
+      let o3 = Array.from(this._allowedErrors).map((s4) => s4.name).sort();
+      t4.push("AR:" + o3.join(","));
+    } else t4.push("AR:");
+    if (this._imports.size) {
+      let o3 = Array.from(this._imports).map((s4) => s4.computeFingerprint(e)).sort();
+      t4.push("I:" + o3.join(","));
+    } else t4.push("I:");
+    let r8 = t4.join("|"), n6 = 5381;
+    for (let o3 = 0; o3 < r8.length; o3++) n6 = (n6 << 5) + n6 + r8.charCodeAt(o3) | 0;
+    return (n6 >>> 0).toString(16);
   }
   *parents() {
     let e = this._parent;
@@ -1770,7 +1779,7 @@ var st = (_a30 = class {
       case !!e:
         return this.defaultInitialized;
       default:
-        throw new S(S.ConstructorError, "Invalid parameters provided to A_Scope constructor");
+        throw new T(T.ConstructorError, "Invalid parameters provided to A_Scope constructor");
     }
   }
   defaultInitialized(e = {}, t4 = {}) {
@@ -1815,16 +1824,16 @@ var st = (_a30 = class {
     return _.issuer(this);
   }
   inherit(e) {
-    if (!e) throw new S(S.InitializationError, "Invalid parent scope provided");
-    if (e === this) throw new S(S.CircularInheritanceError, `Unable to inherit scope ${this.name} from itself`);
+    if (!e) throw new T(T.InitializationError, "Invalid parent scope provided");
+    if (e === this) throw new T(T.CircularInheritanceError, `Unable to inherit scope ${this.name} from itself`);
     if (e === this._parent) return this;
     let t4 = this.checkCircularInheritance(e);
-    if (t4) throw new S(S.CircularInheritanceError, `Circular inheritance detected: ${[...t4, e.name].join(" -> ")}`);
+    if (t4) throw new T(T.CircularInheritanceError, `Circular inheritance detected: ${[...t4, e.name].join(" -> ")}`);
     return this._parent && this._parent._removeSubscriber(this), this._parent = e, e._addSubscriber(this), this.bumpVersion(), this;
   }
   import(...e) {
     return e.forEach((t4) => {
-      if (t4 === this) throw new S(S.CircularImportError, `Unable to import scope ${this.name} into itself`);
+      if (t4 === this) throw new T(T.CircularImportError, `Unable to import scope ${this.name} into itself`);
       this._imports.has(t4) || (this._imports.add(t4), t4._addSubscriber(this), this.bumpVersion());
     }), this;
   }
@@ -1878,8 +1887,8 @@ var st = (_a30 = class {
     let t4 = [], r8 = this.parentOffset(e.parent) || this;
     switch (true) {
       case (e.flat && !e.all): {
-        let d4 = r8.resolveFlatOnce(e.target || e.name);
-        d4 && (t4 = [d4]);
+        let l5 = r8.resolveFlatOnce(e.target || e.name);
+        l5 && (t4 = [l5]);
         break;
       }
       case (e.flat && e.all): {
@@ -1887,8 +1896,8 @@ var st = (_a30 = class {
         break;
       }
       case (!e.flat && !e.all): {
-        let d4 = r8.resolveOnce(e.target || e.name);
-        d4 && (t4 = [d4]);
+        let l5 = r8.resolveOnce(e.target || e.name);
+        l5 && (t4 = [l5]);
         break;
       }
       case (!e.flat && e.all): {
@@ -1899,13 +1908,13 @@ var st = (_a30 = class {
         t4 = [];
     }
     if (e.create && !t4.length && i.isAllowedForDependencyDefaultCreation(e.target)) {
-      let d4 = new e.target(...e.args);
-      r8.register(d4), t4.push(d4);
+      let l5 = new e.target(...e.args);
+      r8.register(l5), t4.push(l5);
     }
-    if (e.require && !t4.length) throw new S(S.ResolutionError, `Dependency ${e.name} is required but could not be resolved in scope ${r8.name}`);
-    e.query.aseid ? t4 = t4.filter((d4) => i.hasASEID(d4) && w.compare(d4.aseid, e.query.aseid)) : Object.keys(e.query).length > 0 && (t4 = t4.filter((d4) => {
-      let m6 = e.query;
-      return m6 ? Object.entries(m6).every(([g4, F3]) => d4[g4] === F3) : true;
+    if (e.require && !t4.length) throw new T(T.ResolutionError, `Dependency ${e.name} is required but could not be resolved in scope ${r8.name}`);
+    e.query.aseid ? t4 = t4.filter((l5) => i.hasASEID(l5) && w.compare(l5.aseid, e.query.aseid)) : Object.keys(e.query).length > 0 && (t4 = t4.filter((l5) => {
+      let f4 = e.query;
+      return f4 ? Object.entries(f4).every(([g5, v6]) => l5[g5] === v6) : true;
     }));
     let n6 = e.pagination.count, o3 = e.pagination.from, s4 = o3 === "end" ? n6 === -1 ? 0 : Math.max(t4.length - n6, 0) : 0, a4 = o3 === "end" || n6 === -1 ? t4.length : Math.min(n6, t4.length), c3 = t4.slice(s4, a4);
     return n6 === -1 ? c3 : c3.length === 1 ? c3[0] : c3.length ? c3 : void 0;
@@ -1921,7 +1930,7 @@ var st = (_a30 = class {
       case i.isErrorConstructor(e):
         return _.findDescendantIn(e, this.allowedErrors);
     }
-    if (!i.isString(e)) throw new S(S.ResolutionError, `Invalid constructor name provided: ${e}`);
+    if (!i.isString(e)) throw new T(T.ResolutionError, `Invalid constructor name provided: ${e}`);
     let t4 = e;
     if (this._resolveConstructorCache.has(t4)) {
       let n6 = this._resolveConstructorCache.get(t4);
@@ -1937,7 +1946,7 @@ var st = (_a30 = class {
       let o3 = P.toPascalCase(e), s4 = Array.from(this.allowedComponents).find((a4) => {
         let c3 = _.getAncestors(a4);
         if (!c3) return false;
-        for (let d4 of c3) if (d4.name === e || d4.name === o3) return true;
+        for (let l5 of c3) if (l5.name === e || l5.name === o3) return true;
         return false;
       });
       if (s4) return s4;
@@ -1948,7 +1957,7 @@ var st = (_a30 = class {
       let o3 = P.toPascalCase(e), s4 = Array.from(this.allowedEntities).find((a4) => {
         let c3 = _.getAncestors(a4);
         if (!c3) return false;
-        for (let d4 of c3) if (d4.name === e || d4.name === o3) return true;
+        for (let l5 of c3) if (l5.name === e || l5.name === o3) return true;
         return false;
       });
       if (s4) return s4;
@@ -1959,7 +1968,7 @@ var st = (_a30 = class {
       let o3 = P.toPascalCase(e), s4 = Array.from(this.allowedFragments).find((a4) => {
         let c3 = _.getAncestors(a4);
         if (!c3) return false;
-        for (let d4 of c3) if (d4.name === e || d4.name === o3) return true;
+        for (let l5 of c3) if (l5.name === e || l5.name === o3) return true;
         return false;
       });
       if (s4) return s4;
@@ -2015,7 +2024,7 @@ var st = (_a30 = class {
       }
       case i.isString(e): {
         let r8 = this.resolveConstructor(e);
-        if (!i.isComponentConstructor(r8) && !i.isEntityConstructor(r8) && !i.isFragmentConstructor(r8)) throw new S(S.ResolutionError, `Unable to resolve all instances for name: ${e} in scope ${this.name} as no matching component, entity or fragment constructor found`);
+        if (!i.isComponentConstructor(r8) && !i.isEntityConstructor(r8) && !i.isFragmentConstructor(r8)) throw new T(T.ResolutionError, `Unable to resolve all instances for name: ${e} in scope ${this.name} as no matching component, entity or fragment constructor found`);
         if (r8) {
           let n6 = this.resolveAll(r8);
           n6 && t4.push(...n6);
@@ -2023,7 +2032,7 @@ var st = (_a30 = class {
         break;
       }
       default:
-        throw new S(S.ResolutionError, `Invalid parameter provided to resolveAll method: ${e} in scope ${this.name}`);
+        throw new T(T.ResolutionError, `Invalid parameter provided to resolveAll method: ${e} in scope ${this.name}`);
     }
     return this._resolveFlatAllCache.set(e, t4), t4;
   }
@@ -2086,7 +2095,7 @@ var st = (_a30 = class {
           break;
         }
         default:
-          throw new S(S.ResolutionError, `Injected Component ${A.getComponentName(e)} not found in the scope`);
+          throw new T(T.ResolutionError, `Injected Component ${A.getComponentName(e)} not found in the scope`);
       }
       return t4;
     }
@@ -2149,8 +2158,10 @@ var st = (_a30 = class {
         _.indexConstructor(e.constructor), _.register(this, e), this.allowedComponents.has(e.constructor) || this.allowedComponents.add(e.constructor), this._components.set(e.constructor, e), this.bumpVersion();
         break;
       }
-      case (i.isEntityInstance(e) && !this._entities.has(e.aseid.toString())): {
-        _.indexConstructor(e.constructor), _.register(this, e), this.allowedEntities.has(e.constructor) || this.allowedEntities.add(e.constructor), this._entities.set(e.aseid.toString(), e), this.bumpVersion();
+      case i.isEntityInstance(e): {
+        let t4 = e.aseid.toString();
+        if (this._entities.has(t4)) throw new T(T.RegistrationError, `Entity with ASEID ${t4} is already registered in the scope ${this.name}`);
+        _.indexConstructor(e.constructor), _.register(this, e), this.allowedEntities.has(e.constructor) || this.allowedEntities.add(e.constructor), this._entities.set(t4, e), this.bumpVersion();
         break;
       }
       case i.isFragmentInstance(e): {
@@ -2178,11 +2189,11 @@ var st = (_a30 = class {
         break;
       }
       default:
-        if (e instanceof D) throw new S(S.RegistrationError, `Entity with ASEID ${e.aseid.toString()} is already registered in the scope ${this.name}`);
-        if (e instanceof B) throw new S(S.RegistrationError, `Fragment ${e.constructor.name} is already registered in the scope ${this.name}`);
+        if (e instanceof D) throw new T(T.RegistrationError, `Entity with ASEID ${e.aseid.toString()} is already registered in the scope ${this.name}`);
+        if (e instanceof H) throw new T(T.RegistrationError, `Fragment ${e.constructor.name} is already registered in the scope ${this.name}`);
         {
           let t4 = A.getComponentName(e);
-          throw new S(S.RegistrationError, `Cannot register ${t4} in the scope ${this.name}`);
+          throw new T(T.RegistrationError, `Cannot register ${t4} in the scope ${this.name}`);
         }
     }
   }
@@ -2228,7 +2239,7 @@ var st = (_a30 = class {
       }
       default:
         let t4 = A.getComponentName(e);
-        throw new S(S.DeregistrationError, `Cannot deregister ${t4} from the scope ${this.name}`);
+        throw new T(T.DeregistrationError, `Cannot deregister ${t4} from the scope ${this.name}`);
     }
   }
   toJSON() {
@@ -2270,19 +2281,19 @@ var st = (_a30 = class {
     for (; t4; ) e.push(t4.name), t4 = t4._parent;
     console.log(e.join(" -> "));
   }
-}, __name(_a30, "st"), _a30);
-p(st, "A_Scope");
-var R = st;
+}, __name(_a30, "it"), _a30);
+p(it, "A_Scope");
+var R = it;
 var _a31;
-var J = (_a31 = class extends b {
-}, __name(_a31, "J"), _a31);
-p(J, "A_ScopeError"), J.InitializationError = "A-Scope Initialization Error", J.ConstructorError = "Unable to construct A-Scope instance", J.ResolutionError = "A-Scope Resolution Error", J.RegistrationError = "A-Scope Registration Error", J.CircularInheritanceError = "A-Scope Circular Inheritance Error", J.CircularImportError = "A-Scope Circular Import Error", J.DeregistrationError = "A-Scope Deregistration Error";
-var S = J;
+var q = (_a31 = class extends b {
+}, __name(_a31, "q"), _a31);
+p(q, "A_ScopeError"), q.InitializationError = "A-Scope Initialization Error", q.ConstructorError = "Unable to construct A-Scope instance", q.ResolutionError = "A-Scope Resolution Error", q.RegistrationError = "A-Scope Registration Error", q.CircularInheritanceError = "A-Scope Circular Inheritance Error", q.CircularImportError = "A-Scope Circular Import Error", q.DeregistrationError = "A-Scope Deregistration Error";
+var T = q;
 var _a32;
 var Y = (_a32 = class extends b {
 }, __name(_a32, "Y"), _a32);
 p(Y, "A_ContextError"), Y.NotAllowedForScopeAllocationError = "Component is not allowed for scope allocation", Y.ComponentAlreadyHasScopeAllocatedError = "Component already has scope allocated", Y.InvalidMetaParameterError = "Invalid parameter provided to get meta", Y.InvalidScopeParameterError = "Invalid parameter provided to get scope", Y.ScopeNotFoundError = "Scope not found", Y.InvalidFeatureParameterError = "Invalid parameter provided to get feature", Y.InvalidFeatureDefinitionParameterError = "Invalid parameter provided to define feature", Y.InvalidFeatureTemplateParameterError = "Invalid parameter provided to get feature template", Y.InvalidFeatureExtensionParameterError = "Invalid parameter provided to extend feature", Y.InvalidAbstractionParameterError = "Invalid parameter provided to get abstraction", Y.InvalidAbstractionDefinitionParameterError = "Invalid parameter provided to define abstraction", Y.InvalidAbstractionTemplateParameterError = "Invalid parameter provided to get abstraction template", Y.InvalidAbstractionExtensionParameterError = "Invalid parameter provided to extend abstraction", Y.InvalidInjectionParameterError = "Invalid parameter provided to get injections", Y.InvalidExtensionParameterError = "Invalid parameter provided to get extensions", Y.InvalidRegisterParameterError = "Invalid parameter provided to register component", Y.InvalidComponentParameterError = "Invalid component provided", Y.ComponentNotRegisteredError = "Component not registered in the context", Y.InvalidDeregisterParameterError = "Invalid parameter provided to deregister component", Y.ComponentAlreadyRegisteredInOtherScopeError = "Instance already owned by another scope";
-var l = Y;
+var d = Y;
 var _a33;
 var x = (_a33 = class {
   constructor() {
@@ -2291,23 +2302,24 @@ var x = (_a33 = class {
     this._scopeIssuers = /* @__PURE__ */ new WeakMap();
     this._scopeStorage = /* @__PURE__ */ new WeakMap();
     this._metaStorage = /* @__PURE__ */ new Map();
+    this._overrideRegexpCache = /* @__PURE__ */ new Map();
     this._metaVersion = 0;
     this._featureCache = /* @__PURE__ */ new WeakMap();
     this._sortedStepsForTemplate = /* @__PURE__ */ new WeakMap();
     this._ancestors = /* @__PURE__ */ new Map();
     this._descendants = /* @__PURE__ */ new Map();
     this._globals = /* @__PURE__ */ new Map();
-    let e = String(V.A_CONCEPT_ROOT_SCOPE) || "root";
+    let e = String(J.A_CONCEPT_ROOT_SCOPE) || "root";
     this._root = new R({ name: e });
   }
   static get concept() {
-    return V.A_CONCEPT_NAME || "a-concept";
+    return J.A_CONCEPT_NAME || "a-concept";
   }
   static get root() {
     return this.getInstance()._root;
   }
   static get environment() {
-    return V.A_CONCEPT_RUNTIME_ENVIRONMENT;
+    return J.A_CONCEPT_RUNTIME_ENVIRONMENT;
   }
   static getInstance() {
     return _a33._instance || (_a33._instance = new _a33()), _a33._instance;
@@ -2316,26 +2328,26 @@ var x = (_a33 = class {
     return e ? this.getInstance()._scopeStorage.has(e) : false;
   }
   static register(e, t4) {
-    let r8 = A.getComponentName(t4), n6 = this.getInstance();
-    if (!t4) throw new l(l.InvalidRegisterParameterError, "Unable to register component. Component cannot be null or undefined.");
-    if (!e) throw new l(l.InvalidRegisterParameterError, "Unable to register component. Scope cannot be null or undefined.");
-    if (!this.isAllowedToBeRegistered(t4)) throw new l(l.NotAllowedForScopeAllocationError, `Component ${r8} is not allowed for scope allocation.`);
-    let o3 = n6._scopeStorage.get(t4);
-    if (o3 && o3 !== e) throw new l(l.ComponentAlreadyRegisteredInOtherScopeError, `Unable to register component. Component ${r8} is already registered in scope "${o3.name ?? "<unnamed>"}". An instance can be registered in at most one scope; inherit or import the owning scope instead of re-registering the same instance.`);
-    return n6._scopeStorage.set(t4, e), e;
+    let r8 = this.getInstance();
+    if (!t4) throw new d(d.InvalidRegisterParameterError, "Unable to register component. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidRegisterParameterError, "Unable to register component. Scope cannot be null or undefined.");
+    if (!this.isAllowedToBeRegistered(t4)) throw new d(d.NotAllowedForScopeAllocationError, `Component ${A.getComponentName(t4)} is not allowed for scope allocation.`);
+    let n6 = r8._scopeStorage.get(t4);
+    if (n6 && n6 !== e) throw new d(d.ComponentAlreadyRegisteredInOtherScopeError, `Unable to register component. Component ${A.getComponentName(t4)} is already registered in scope "${n6.name ?? "<unnamed>"}". An instance can be registered in at most one scope; inherit or import the owning scope instead of re-registering the same instance.`);
+    return r8._scopeStorage.set(t4, e), e;
   }
   static deregister(e) {
-    if (!e) throw new l(l.InvalidDeregisterParameterError, "Unable to deregister component. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidDeregisterParameterError, "Unable to deregister component. Component cannot be null or undefined.");
     if (!this.getInstance()._scopeStorage.delete(e)) {
       let r8 = A.getComponentName(e);
-      throw new l(l.ComponentNotRegisteredError, `Unable to deregister component. Component ${r8} is not registered.`);
+      throw new d(d.ComponentNotRegisteredError, `Unable to deregister component. Component ${r8} is not registered.`);
     }
   }
   static allocate(e, t4) {
     let r8 = A.getComponentName(e);
-    if (!this.isAllowedForScopeAllocation(e)) throw new l(l.NotAllowedForScopeAllocationError, `Component of type ${r8} is not allowed for scope allocation. Only A_Container, A_Feature are allowed.`);
+    if (!this.isAllowedForScopeAllocation(e)) throw new d(d.NotAllowedForScopeAllocationError, `Component of type ${r8} is not allowed for scope allocation. Only A_Container, A_Feature are allowed.`);
     let n6 = this.getInstance();
-    if (n6._registry.has(e)) throw new l(l.ComponentAlreadyHasScopeAllocatedError, `Component ${r8} already has a scope allocated.`);
+    if (n6._registry.has(e)) throw new d(d.ComponentAlreadyHasScopeAllocatedError, `Component ${r8} already has a scope allocated.`);
     let o3 = i.isScopeInstance(t4) ? t4 : new R(t4 || { name: r8 + "-scope" }, t4);
     return o3.isInheritedFrom(_a33.root) || o3.inherit(_a33.root), n6._registry.set(e, o3), n6._scopeIssuers.set(o3, e), i.isContainerInstance(e) && n6._containers.add(e), o3;
   }
@@ -2347,8 +2359,8 @@ var x = (_a33 = class {
   }
   static meta(e) {
     let t4 = A.getComponentName(e), r8 = this.getInstance();
-    if (!e) throw new l(l.InvalidMetaParameterError, "Invalid parameter provided to get meta. Parameter cannot be null or undefined.");
-    if (!(this.isAllowedForMeta(e) || this.isAllowedForMetaConstructor(e) || i.isString(e) || i.isFunction(e))) throw new l(l.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component of type ${t4} is not allowed for meta storage. Only A_Container, A_Component and A_Entity are allowed.`);
+    if (!e) throw new d(d.InvalidMetaParameterError, "Invalid parameter provided to get meta. Parameter cannot be null or undefined.");
+    if (!(this.isAllowedForMeta(e) || this.isAllowedForMetaConstructor(e) || i.isString(e) || i.isFunction(e))) throw new d(d.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component of type ${t4} is not allowed for meta storage. Only A_Container, A_Component and A_Entity are allowed.`);
     let n6, o3;
     switch (true) {
       case i.isContainerInstance(e): {
@@ -2385,12 +2397,12 @@ var x = (_a33 = class {
       }
       case typeof e == "string": {
         let s4 = Array.from(r8._metaStorage).find(([a4]) => a4.name === e || a4.name === P.toKebabCase(e) || a4.name === P.toPascalCase(e));
-        if (!(s4 && s4.length)) throw new l(l.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component with name ${e} not found in the meta storage.`);
+        if (!(s4 && s4.length)) throw new d(d.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component with name ${e} not found in the meta storage.`);
         n6 = s4[0], o3 = z;
         break;
       }
       default: {
-        n6 = e, o3 = f;
+        n6 = e, o3 = m;
         break;
       }
     }
@@ -2411,7 +2423,7 @@ var x = (_a33 = class {
   }
   static issuer(e) {
     let t4 = this.getInstance();
-    if (!e) throw new l(l.InvalidComponentParameterError, "Invalid parameter provided to get scope issuer. Parameter cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidComponentParameterError, "Invalid parameter provided to get scope issuer. Parameter cannot be null or undefined.");
     return t4._scopeIssuers.get(e);
   }
   static containers(e) {
@@ -2428,17 +2440,17 @@ var x = (_a33 = class {
   }
   static scope(e) {
     let t4 = e?.constructor?.name || String(e), r8 = this.getInstance();
-    if (!e) throw new l(l.InvalidScopeParameterError, "Invalid parameter provided to get scope. Parameter cannot be null or undefined.");
-    if (!this.isAllowedForScopeAllocation(e) && !this.isAllowedToBeRegistered(e)) throw new l(l.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed for scope allocation.`);
+    if (!e) throw new d(d.InvalidScopeParameterError, "Invalid parameter provided to get scope. Parameter cannot be null or undefined.");
+    if (!this.isAllowedForScopeAllocation(e) && !this.isAllowedToBeRegistered(e)) throw new d(d.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed for scope allocation.`);
     switch (true) {
       case this.isAllowedToBeRegistered(e):
-        if (!r8._scopeStorage.has(e)) throw new l(l.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope registered. Make sure to register the component using A_Context.register() method before trying to get the scope.`);
+        if (!r8._scopeStorage.has(e)) throw new d(d.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope registered. Make sure to register the component using A_Context.register() method before trying to get the scope.`);
         return r8._scopeStorage.get(e);
       case this.isAllowedForScopeAllocation(e):
-        if (!r8._registry.has(e)) throw new l(l.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope allocated. Make sure to allocate a scope using A_Context.allocate() method before trying to get the scope.`);
+        if (!r8._registry.has(e)) throw new d(d.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope allocated. Make sure to allocate a scope using A_Context.allocate() method before trying to get the scope.`);
         return r8._registry.get(e);
       default:
-        throw new l(l.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed to be registered.`);
+        throw new d(d.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed to be registered.`);
     }
   }
   static getSortedStepsFor(e) {
@@ -2447,52 +2459,65 @@ var x = (_a33 = class {
   static setSortedStepsFor(e, t4) {
     this.getInstance()._sortedStepsForTemplate.set(e, t4);
   }
+  static hasFeature(e, t4, r8 = this.scope(t4)) {
+    return this.featureTemplate(e, t4, r8).length > 0;
+  }
   static featureTemplate(e, t4, r8 = this.scope(t4)) {
-    if (!t4) throw new l(l.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new l(l.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
-    if (!i.isAllowedForFeatureDefinition(t4)) throw new l(l.InvalidFeatureTemplateParameterError, `Unable to get feature template. Component of type ${A.getComponentName(t4)} is not allowed for feature definition.`);
+    if (!t4) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
+    if (!i.isAllowedForFeatureDefinition(t4)) throw new d(d.InvalidFeatureTemplateParameterError, `Unable to get feature template. Component of type ${A.getComponentName(t4)} is not allowed for feature definition.`);
     let n6 = this.getInstance(), o3 = typeof t4 == "function" ? t4 : t4.constructor, s4 = n6._featureCache.get(o3);
     if (s4) {
-      let m6 = `${String(e)}::s${r8.fingerprint}::m${n6._metaVersion}`, g4 = s4.get(m6);
-      if (g4) return g4;
-      let F3 = [...this.featureDefinition(e, t4), ...this.featureExtensions(e, t4, r8)];
-      return s4.size >= _a33.FEATURE_EXTENSIONS_CACHE_MAX_SIZE && s4.clear(), s4.set(m6, F3), F3;
+      let f4 = `${String(e)}::s${r8.fingerprint}::m${n6._metaVersion}`, g5 = s4.get(f4);
+      if (g5) return g5;
+      let v6 = [...this.featureDefinition(e, t4), ...this.featureExtensions(e, t4, r8)];
+      return s4.size >= _a33.FEATURE_EXTENSIONS_CACHE_MAX_SIZE && s4.clear(), s4.set(f4, v6), v6;
     }
-    let a4 = `${String(e)}::s${r8.fingerprint}::m${n6._metaVersion}`, c3 = [...this.featureDefinition(e, t4), ...this.featureExtensions(e, t4, r8)], d4 = /* @__PURE__ */ new Map();
-    return d4.set(a4, c3), n6._featureCache.set(o3, d4), c3;
+    let a4 = `${String(e)}::s${r8.fingerprint}::m${n6._metaVersion}`, c3 = [...this.featureDefinition(e, t4), ...this.featureExtensions(e, t4, r8)], l5 = /* @__PURE__ */ new Map();
+    return l5.set(a4, c3), n6._featureCache.set(o3, l5), c3;
   }
   static featureExtensions(e, t4, r8) {
     let n6 = this.getInstance();
-    if (!t4) throw new l(l.InvalidFeatureExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new l(l.InvalidFeatureExtensionParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
-    if (!i.isAllowedForFeatureDefinition(t4)) throw new l(l.InvalidFeatureExtensionParameterError, `Unable to get feature template. Component of type ${A.getComponentName(t4)} is not allowed for feature definition.`);
-    let o3 = A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== U && E3 !== D).map((E3) => `${E3.name}.${e}`), s4 = /* @__PURE__ */ new Map(), a4 = /* @__PURE__ */ new Set(), c3 = /* @__PURE__ */ new Map(), d4 = /* @__PURE__ */ new Map(), m6 = p((E3) => {
-      let C3 = c3.get(E3);
-      return C3 === void 0 && (C3 = A.getComponentName(E3), c3.set(E3, C3)), C3;
-    }, "getNameCached"), g4 = p((E3) => {
-      let C3 = d4.get(E3);
-      return C3 || (C3 = new M(E3), d4.set(E3, C3)), C3;
-    }, "getDependencyCached"), F3 = new Set(A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== U && E3 !== D)), L2 = p((E3) => {
-      if (F3.has(E3)) return false;
-      let C3 = _a33.getAncestors(E3);
-      if (!C3) return false;
-      for (let _e2 of F3) if (C3.has(_e2)) return true;
+    if (!t4) throw new d(d.InvalidFeatureExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidFeatureExtensionParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
+    if (!i.isAllowedForFeatureDefinition(t4)) throw new d(d.InvalidFeatureExtensionParameterError, `Unable to get feature template. Component of type ${A.getComponentName(t4)} is not allowed for feature definition.`);
+    let o3 = A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== K && E3 !== D).map((E3) => `${E3.name}.${e}`), s4 = /* @__PURE__ */ new Map(), a4 = /* @__PURE__ */ new Set(), c3 = /* @__PURE__ */ new Map(), l5 = /* @__PURE__ */ new Map(), f4 = p((E3) => {
+      let y2 = c3.get(E3);
+      return y2 === void 0 && (y2 = A.getComponentName(E3), c3.set(E3, y2)), y2;
+    }, "getNameCached"), g5 = p((E3) => {
+      let y2 = l5.get(E3);
+      return y2 || (y2 = new M(E3), l5.set(E3, y2)), y2;
+    }, "getDependencyCached"), v6 = new Set(A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== K && E3 !== D)), L2 = p((E3) => {
+      if (v6.has(E3)) return false;
+      let y2 = _a33.getAncestors(E3);
+      if (!y2) return false;
+      for (let V2 of v6) if (y2.has(V2)) return true;
       return false;
-    }, "isSiblingOrUnrelatedDescendant"), ae = t4 instanceof D, ge = p((E3) => !ae || F3.has(E3) || typeof E3 != "function" ? false : E3.prototype instanceof D || E3 === D, "isForeignEntityClass"), K2 = [];
-    for (let [E3, C3] of n6._metaStorage) if (r8.has(E3) && (i.isComponentMetaInstance(C3) || i.isContainerMetaInstance(C3))) {
-      if (L2(E3) || ge(E3)) continue;
-      K2.push([E3, C3]);
+    }, "isSiblingOrUnrelatedDescendant"), ce = t4 instanceof D, ye = p((E3) => !ce || v6.has(E3) || typeof E3 != "function" ? false : E3.prototype instanceof D || E3 === D, "isForeignEntityClass"), B3 = [];
+    for (let [E3, y2] of n6._metaStorage) if (r8.has(E3) && (i.isComponentMetaInstance(y2) || i.isContainerMetaInstance(y2))) {
+      if (L2(E3) || ye(E3)) continue;
+      B3.push([E3, y2]);
     }
-    for (let E3 of o3) for (let [C3, _e2] of K2) {
-      a4.add(C3);
-      let q2 = _e2.extensions(E3);
-      for (let H = 0; H < q2.length; H++) {
-        let G2 = q2[H], Ee = Array.from(a4).reverse().find((Z) => _a33.isIndexedInheritedFrom(C3, Z) && Z !== C3);
-        if (Ee && s4.delete(`${m6(Ee)}.${G2.handler}`), G2.override) {
-          let Z = new RegExp(G2.override);
-          for (let [Fe, Tt] of s4) (Z.test(Fe) || Z.test(Tt.handler)) && s4.delete(Fe);
+    let Z2 = [];
+    for (let E3 of o3) for (let [y2, V2] of B3) {
+      a4.has(y2) || (a4.add(y2), Z2.push(y2));
+      let ie = V2.extensions(E3), Te = _a33.getAncestors(y2);
+      for (let pe = 0; pe < ie.length; pe++) {
+        let U = ie[pe], Ce;
+        for (let W2 = Z2.length - 1; W2 >= 0; W2--) {
+          let ae2 = Z2[W2];
+          if (ae2 === y2) continue;
+          if (Te ? Te.has(ae2) : _a33.isIndexedInheritedFrom(y2, ae2)) {
+            Ce = ae2;
+            break;
+          }
         }
-        s4.set(`${m6(C3)}.${G2.handler}`, { dependency: g4(C3), ...G2 });
+        if (Ce && s4.delete(`${f4(Ce)}.${U.handler}`), U.override) {
+          let W2 = n6._overrideRegexpCache.get(U.override);
+          W2 || (W2 = new RegExp(U.override), n6._overrideRegexpCache.set(U.override, W2));
+          for (let [ae2, At] of s4) (W2.test(ae2) || W2.test(At.handler)) && s4.delete(ae2);
+        }
+        s4.set(`${f4(y2)}.${U.handler}`, { dependency: g5(y2), ...U });
       }
     }
     return n6.filterToMostDerived(r8, Array.from(s4.values()));
@@ -2508,56 +2533,56 @@ var x = (_a33 = class {
     for (let [a4, c3] of r8) c3 && s4.set(c3, a4);
     for (let [a4, c3] of r8) {
       if (!c3) continue;
-      let d4 = _a33.getAncestors(c3);
-      if (d4) for (let m6 of d4) {
-        let g4 = s4.get(m6);
-        g4 && g4 !== a4 && n6.has(g4) && o3.add(g4);
+      let l5 = _a33.getAncestors(c3);
+      if (l5) for (let f4 of l5) {
+        let g5 = s4.get(f4);
+        g5 && g5 !== a4 && n6.has(g5) && o3.add(g5);
       }
     }
     return t4.filter((a4) => !o3.has(a4.dependency.name));
   }
   static featureDefinition(e, t4) {
     let r8;
-    if (!e) throw new l(l.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
-    if (!t4) throw new l(l.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
+    if (!t4) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
     switch (true) {
       case t4 instanceof D:
         r8 = "a-component-features";
         break;
-      case t4 instanceof U:
+      case t4 instanceof K:
         r8 = "a-container-features";
         break;
       case t4 instanceof O:
         r8 = "a-component-features";
         break;
       default:
-        throw new l(l.InvalidFeatureTemplateParameterError, `A-Feature cannot be defined on the ${t4} level`);
+        throw new d(d.InvalidFeatureTemplateParameterError, `A-Feature cannot be defined on the ${t4} level`);
     }
     return [...this.meta(t4)?.get(r8)?.get(e)?.template || []];
   }
   static abstractionTemplate(e, t4) {
     let r8 = A.getComponentName(t4);
-    if (!t4) throw new l(l.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new l(l.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
-    if (!i.isAllowedForAbstractionDefinition(t4)) throw new l(l.InvalidAbstractionTemplateParameterError, `Unable to get feature template. Component of type ${r8} is not allowed for feature definition.`);
+    if (!t4) throw new d(d.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
+    if (!i.isAllowedForAbstractionDefinition(t4)) throw new d(d.InvalidAbstractionTemplateParameterError, `Unable to get feature template. Component of type ${r8} is not allowed for feature definition.`);
     return [...this.abstractionExtensions(e, t4)];
   }
   static abstractionExtensions(e, t4) {
     let r8 = this.getInstance(), n6 = A.getComponentName(t4);
-    if (!t4) throw new l(l.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new l(l.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
-    if (!i.isAllowedForAbstractionDefinition(t4)) throw new l(l.InvalidAbstractionExtensionParameterError, `Unable to get feature template. Component of type ${n6} is not allowed for feature definition.`);
+    if (!t4) throw new d(d.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
+    if (!e) throw new d(d.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
+    if (!i.isAllowedForAbstractionDefinition(t4)) throw new d(d.InvalidAbstractionExtensionParameterError, `Unable to get feature template. Component of type ${n6} is not allowed for feature definition.`);
     let o3 = /* @__PURE__ */ new Map(), s4 = this.scope(t4), a4 = /* @__PURE__ */ new Set();
-    for (let [c3, d4] of r8._metaStorage) s4.has(c3) && (i.isComponentMetaInstance(d4) || i.isContainerMetaInstance(d4)) && (a4.add(c3), d4.abstractions(e).forEach((m6) => {
-      let g4 = Array.from(a4).reverse().find((F3) => _a33.isIndexedInheritedFrom(c3, F3) && F3 !== c3);
-      g4 && o3.delete(`${A.getComponentName(g4)}.${m6.handler}`), o3.set(`${A.getComponentName(c3)}.${m6.handler}`, { dependency: new M(c3), ...m6 });
+    for (let [c3, l5] of r8._metaStorage) s4.has(c3) && (i.isComponentMetaInstance(l5) || i.isContainerMetaInstance(l5)) && (a4.add(c3), l5.abstractions(e).forEach((f4) => {
+      let g5 = Array.from(a4).reverse().find((v6) => _a33.isIndexedInheritedFrom(c3, v6) && v6 !== c3);
+      g5 && o3.delete(`${A.getComponentName(g5)}.${f4.handler}`), o3.set(`${A.getComponentName(c3)}.${f4.handler}`, { dependency: new M(c3), ...f4 });
     }));
     return r8.filterToMostDerived(s4, Array.from(o3.values()));
   }
   static reset() {
     let e = _a33.getInstance();
     e._registry = /* @__PURE__ */ new WeakMap(), e._featureCache = /* @__PURE__ */ new WeakMap(), e._scopeStorage = /* @__PURE__ */ new WeakMap(), e._ancestors.clear(), e._descendants.clear(), e._containers.clear(), e._metaVersion++;
-    let t4 = String(V.A_CONCEPT_ROOT_SCOPE) || "root";
+    let t4 = String(J.A_CONCEPT_ROOT_SCOPE) || "root";
     e._root = new R({ name: t4 });
   }
   static indexConstructor(e) {
@@ -2636,11 +2661,11 @@ var x = (_a33 = class {
 p(x, "A_Context"), x.FEATURE_EXTENSIONS_CACHE_MAX_SIZE = 1024;
 var _ = x;
 var _a34;
-var xe = (_a34 = class extends b {
-}, __name(_a34, "xe"), _a34);
-p(xe, "A_AbstractionError"), xe.AbstractionExtensionError = "Unable to extend abstraction execution";
-var oe = xe;
-function it(u2, e = {}) {
+var ve = (_a34 = class extends b {
+}, __name(_a34, "ve"), _a34);
+p(ve, "A_AbstractionError"), ve.AbstractionExtensionError = "Unable to extend abstraction execution";
+var oe = ve;
+function at(u2, e = {}) {
   return function(t4, r8, n6) {
     let o3 = A.getComponentName(t4);
     if (!u2) throw new oe(oe.AbstractionExtensionError, `Abstraction name must be provided to extend abstraction for '${o3}'.`);
@@ -2654,14 +2679,14 @@ function it(u2, e = {}) {
         s4 = "a-component-abstractions";
         break;
     }
-    let c3 = `CONCEPT_ABSTRACTION::${u2}`, d4 = a4.get(s4) ? new f().from(a4.get(s4)) : new f(), m6 = [...d4.get(c3) || []], g4 = m6.findIndex((L2) => L2.handler === r8), F3 = { name: c3, handler: r8, behavior: e.behavior || "sync", throwOnError: e.throwOnError !== void 0 ? e.throwOnError : true, before: i.isArray(e.before) ? new RegExp(`^${e.before.join("|").replace(/\./g, "\\.")}$`).source : e.before instanceof RegExp ? e.before.source : "", after: i.isArray(e.after) ? new RegExp(`^${e.after.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "", override: i.isArray(e.override) ? new RegExp(`^${e.override.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "" };
-    g4 !== -1 ? m6[g4] = F3 : m6.push(F3), d4.set(c3, m6), _.meta(t4).set(s4, d4);
+    let c3 = `CONCEPT_ABSTRACTION::${u2}`, l5 = a4.get(s4) ? new m().from(a4.get(s4)) : new m(), f4 = [...l5.get(c3) || []], g5 = f4.findIndex((L2) => L2.handler === r8), v6 = { name: c3, handler: r8, behavior: e.behavior || "sync", throwOnError: e.throwOnError !== void 0 ? e.throwOnError : true, before: i.isArray(e.before) ? new RegExp(`^${e.before.join("|").replace(/\./g, "\\.")}$`).source : e.before instanceof RegExp ? e.before.source : "", after: i.isArray(e.after) ? new RegExp(`^${e.after.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "", override: i.isArray(e.override) ? new RegExp(`^${e.override.join("|").replace(/\./g, "\\.")}$`).source : e.override instanceof RegExp ? e.override.source : "" };
+    g5 !== -1 ? f4[g5] = v6 : f4.push(v6), l5.set(c3, f4), _.meta(t4).set(s4, l5);
   };
 }
-__name(it, "it");
-p(it, "A_Abstraction_Extend");
+__name(at, "at");
+p(at, "A_Abstraction_Extend");
 var _a35;
-var at = (_a35 = class {
+var _t = (_a35 = class {
   constructor(e) {
     this._featuresMap = /* @__PURE__ */ new Map();
     this._index = 0;
@@ -2671,7 +2696,7 @@ var at = (_a35 = class {
     }), this._current = this._featuresMap.values().next().value;
   }
   static get Extend() {
-    return it;
+    return at;
   }
   get name() {
     return this._name;
@@ -2693,37 +2718,40 @@ var at = (_a35 = class {
   async process(e) {
     if (!this.isDone) for (let [t4, r8] of this._featuresMap.entries()) await r8.process(e || t4.scope);
   }
-}, __name(_a35, "at"), _a35);
-p(at, "A_Abstraction");
-var v = at;
-var Ct = ((a4) => (a4.Run = "run", a4.Build = "build", a4.Publish = "publish", a4.Deploy = "deploy", a4.Load = "load", a4.Start = "start", a4.Stop = "stop", a4))(Ct || {});
-var Pt = ((e) => (e.LIFECYCLE = "a-component-extensions", e))(Pt || {});
+}, __name(_a35, "_t"), _a35);
+p(_t, "A_Abstraction");
+var F = _t;
+var It = ((c3) => (c3.Run = "run", c3.Build = "build", c3.Publish = "publish", c3.Deploy = "deploy", c3.Load = "load", c3.Start = "start", c3.Stop = "stop", c3.Debug = "debug", c3))(It || {});
+var bt = ((e) => (e.LIFECYCLE = "a-component-extensions", e))(bt || {});
 var _a36;
-var ct = (_a36 = class {
+var pt = (_a36 = class {
   constructor(e) {
     this.props = e;
     this._name = e.name || _.root.name, e.components && e.components.length && e.components.forEach((t4) => this.scope.register(t4)), e.fragments && e.fragments.length && e.fragments.forEach((t4) => this.scope.register(t4)), e.entities && e.entities.length && e.entities.forEach((t4) => this.scope.register(t4)), this._containers = e.containers || [];
   }
   static Load(e) {
-    return v.Extend("load", e);
+    return F.Extend("load", e);
   }
   static Publish(e) {
-    return v.Extend("publish");
+    return F.Extend("publish");
   }
   static Deploy(e) {
-    return v.Extend("deploy", e);
+    return F.Extend("deploy", e);
   }
   static Build(e) {
-    return v.Extend("build", e);
+    return F.Extend("build", e);
   }
   static Run(e) {
-    return v.Extend("run", e);
+    return F.Extend("run", e);
   }
   static Start(e) {
-    return v.Extend("start", e);
+    return F.Extend("start", e);
   }
   static Stop(e) {
-    return v.Extend("stop", e);
+    return F.Extend("stop", e);
+  }
+  static Debug(e) {
+    return F.Extend("debug", e);
   }
   get name() {
     return _.root.name;
@@ -2738,46 +2766,49 @@ var ct = (_a36 = class {
     return this.scope.resolve.bind(this.scope);
   }
   async load(e) {
-    await new v({ name: "load", containers: this._containers }).process(e);
+    await new F({ name: "load", containers: this._containers }).process(e);
   }
   async run(e) {
-    await new v({ name: "run", containers: this._containers }).process(e);
+    await new F({ name: "run", containers: this._containers }).process(e);
   }
   async start(e) {
-    await new v({ name: "start", containers: this._containers }).process(e);
+    await new F({ name: "start", containers: this._containers }).process(e);
   }
   async stop(e) {
-    await new v({ name: "stop", containers: this._containers }).process(e);
+    await new F({ name: "stop", containers: this._containers }).process(e);
   }
   async build(e) {
-    await new v({ name: "build", containers: this._containers }).process(e);
+    await new F({ name: "build", containers: this._containers }).process(e);
   }
   async deploy(e) {
-    await new v({ name: "deploy", containers: this._containers }).process(e);
+    await new F({ name: "deploy", containers: this._containers }).process(e);
   }
   async publish(e) {
-    await new v({ name: "publish", containers: this._containers }).process(e);
+    await new F({ name: "publish", containers: this._containers }).process(e);
+  }
+  async debug(e) {
+    await new F({ name: "debug", containers: this._containers }).process(e);
   }
   async call(e, t4) {
     return await new N({ name: e, component: t4 }).process();
   }
-}, __name(_a36, "ct"), _a36);
-p(ct, "A_Concept");
-var _t = ct;
+}, __name(_a36, "pt"), _a36);
+p(pt, "A_Concept");
+var ct = pt;
 var _a37;
-var ut = (_a37 = class extends f {
+var dt = (_a37 = class extends m {
   constructor(t4) {
     super();
     this.containers = t4;
   }
-}, __name(_a37, "ut"), _a37);
-p(ut, "A_ConceptMeta");
+}, __name(_a37, "dt"), _a37);
+p(dt, "A_ConceptMeta");
 var _a38;
-var he = (_a38 = class extends b {
-}, __name(_a38, "he"), _a38);
-p(he, "A_InjectError"), he.InvalidInjectionTarget = "Invalid target for A-Inject decorator", he.MissingInjectionTarget = "Missing target for A-Inject decorator";
-var se = he;
-function It(u2, e) {
+var ge = (_a38 = class extends b {
+}, __name(_a38, "ge"), _a38);
+p(ge, "A_InjectError"), ge.InvalidInjectionTarget = "Invalid target for A-Inject decorator", ge.MissingInjectionTarget = "Missing target for A-Inject decorator";
+var se = ge;
+function Yt(u2, e) {
   if (!u2) throw new se(se.MissingInjectionTarget, "A-Inject decorator is missing the target to inject");
   return function(t4, r8, n6) {
     let o3 = A.getComponentName(t4);
@@ -2794,12 +2825,12 @@ function It(u2, e) {
         a4 = "a-component-injections";
         break;
     }
-    let c3 = _.meta(t4).get(a4), d4 = c3 ? c3.clone() : new f(), m6 = d4.get(s4) ? [...d4.get(s4)] : [];
-    m6[n6] = u2 instanceof M ? u2 : new M(u2, e), d4.set(s4, m6), _.meta(t4).set(a4, d4);
+    let c3 = _.meta(t4).get(a4), l5 = c3 ? c3.clone() : new m(), f4 = l5.get(s4) ? [...l5.get(s4)] : [];
+    f4[n6] = u2 instanceof M ? u2 : new M(u2, e), l5.set(s4, f4), _.meta(t4).set(a4, l5);
   };
 }
-__name(It, "It");
-p(It, "A_Inject");
+__name(Yt, "Yt");
+p(Yt, "A_Inject");
 
 // node_modules/@adaas/a-utils/dist/browser/chunk-EQQGB2QZ.mjs
 var __defProp2 = Object.defineProperty;
@@ -2814,22 +2845,22 @@ var __decorateClass2 = /* @__PURE__ */ __name((decorators, target, key, kind) =>
 }, "__decorateClass");
 var __decorateParam2 = /* @__PURE__ */ __name((index, decorator) => (target, key) => decorator(target, key, index), "__decorateParam");
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-P7ZVJXAS.mjs
-var t = "0.1.7";
+// node_modules/@adaas/a-frame/dist/browser/chunk-UWXOV5XO.mjs
+var t = "0.1.15";
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-IKIN4MJV.mjs
 var h2 = Object.defineProperty;
 var i2 = Object.getOwnPropertyDescriptor;
 var j2 = /* @__PURE__ */ __name((c3, a4) => h2(c3, "name", { value: a4, configurable: true }), "j");
 var k2 = /* @__PURE__ */ __name((c3, a4, e, d4) => {
-  for (var b3 = d4 > 1 ? void 0 : d4 ? i2(a4, e) : a4, f5 = c3.length - 1, g4; f5 >= 0; f5--) (g4 = c3[f5]) && (b3 = (d4 ? g4(a4, e, b3) : g4(b3)) || b3);
+  for (var b3 = d4 > 1 ? void 0 : d4 ? i2(a4, e) : a4, f4 = c3.length - 1, g5; f4 >= 0; f4--) (g5 = c3[f4]) && (b3 = (d4 ? g5(a4, e, b3) : g5(b3)) || b3);
   return d4 && b3 && h2(a4, e, b3), b3;
 }, "k");
-var l2 = /* @__PURE__ */ __name((c3, a4) => (e, d4) => a4(e, d4, c3), "l");
+var l = /* @__PURE__ */ __name((c3, a4) => (e, d4) => a4(e, d4, c3), "l");
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-SV7DRIZK.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-PTHJM2MP.mjs
 var _a39;
-var _2 = (_a39 = class extends B {
+var _2 = (_a39 = class extends H {
   get A_FRAME_TOKEN() {
     return window.A_FRAME_TOKEN || "";
   }
@@ -2968,7 +2999,7 @@ var s = { debug: 10, info: 20, success: 20, warn: 30, error: 40 };
 var p2 = { debug: "\xB7", info: "\u2139", success: "\u2714", warn: "\u26A0", error: "\u2716" };
 var u = { reset: "\x1B[0m", bold: "\x1B[1m", dim: "\x1B[2m", gray: "\x1B[90m", red: "\x1B[31m", green: "\x1B[32m", yellow: "\x1B[33m", blue: "\x1B[34m", cyan: "\x1B[36m" };
 var L = { debug: "color: #888;", info: "color: #06b;", success: "color: #2a7; font-weight: bold;", warn: "color: #c80;", error: "color: #c33; font-weight: bold;" };
-var m = { progressBarWidth: 24, summaryTitle: "Summary", progressThrottleMs: 250 };
+var m2 = { progressBarWidth: 24, summaryTitle: "Summary", progressThrottleMs: 250 };
 var _a42;
 var i3 = (_a42 = class extends O {
   constructor(e = {}) {
@@ -3036,9 +3067,9 @@ var i3 = (_a42 = class extends O {
     let t4 = Math.floor(r8 / 60);
     return `${t4}m ${(r8 - t4 * 60).toFixed(1)}s`;
   }
-  summary(e = m.summaryTitle) {
+  summary(e = m2.summaryTitle) {
     this.section(e);
-    let r8 = [...this.counters.keys()], t4 = r8.reduce((o3, g4) => Math.max(o3, g4.length), 7);
+    let r8 = [...this.counters.keys()], t4 = r8.reduce((o3, g5) => Math.max(o3, g5.length), 7);
     for (let o3 of r8) this.info(`  ${o3.padEnd(t4)}  ${this.counters.get(o3)}`);
     this.info(`  ${"elapsed".padEnd(t4)}  ${this.elapsed()}`), this.divider();
   }
@@ -3048,7 +3079,7 @@ var c = i3;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-CMS3MVT4.mjs
 var _a43;
-var t3 = (_a43 = class extends B {
+var t3 = (_a43 = class extends H {
   constructor(e) {
     if (super({ name: "a-frame-file-store" }), !e || typeof e.filePath != "string" || e.filePath.length === 0) throw new Error("A_FrameFileStore requires `filePath` (non-empty string) \u2014 omit the fragment entirely to fall back to A_FRAME_STORAGE_DIR.");
     this.filePath = e.filePath;
@@ -3060,9 +3091,9 @@ var a = t3;
 // node_modules/@adaas/a-frame/dist/browser/chunk-ZMUIUXMW.mjs
 var _a44;
 var i4 = (_a44 = class {
-  static fnv1a(g4) {
+  static fnv1a(g5) {
     let t4 = 2166136261;
-    for (let n6 = 0; n6 < g4.length; n6++) t4 ^= g4.charCodeAt(n6), t4 = t4 * 16777619 >>> 0;
+    for (let n6 = 0; n6 < g5.length; n6++) t4 ^= g5.charCodeAt(n6), t4 = t4 * 16777619 >>> 0;
     return t4.toString(16).padStart(8, "0");
   }
 }, __name(_a44, "i"), _a44);
@@ -3121,15 +3152,15 @@ var n2 = (_a45 = class extends D {
 j2(n2, "A_FrameVector");
 var i5 = n2;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-G7MKGKG5.mjs
-var a2 = { ANTARES: "adaas-antares-v1", VEGA: "adaas-vega-v1", RIGEL: "adaas-rigel-v1", PULSAR: "adaas-pulsar-v1", LYRA: "adaas-lyra-v1", NOVA: "adaas-nova-v1" };
+// node_modules/@adaas/a-frame/dist/browser/chunk-IOR4CVQW.mjs
+var a2 = { ANTARES: "adaas-antares-v1", VEGA: "adaas-vega-v1", RIGEL: "adaas-rigel-v1", RIGEL_SMALL: "adaas-rigel-small-v1", PULSAR: "adaas-pulsar-v1", LYRA: "adaas-lyra-v1", NOVA: "adaas-nova-v1" };
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-6KGTMA34.mjs
-var C = "default";
-var m2 = { Load: "_A_FRAME_NAMESPACE_LOAD", Save: "_A_FRAME_NAMESPACE_SAVE", Embed: "_A_FRAME_NAMESPACE_EMBED", Destroy: "_A_FRAME_NAMESPACE_DESTROY" };
-var V2 = { debug: u.gray, info: u.cyan, success: u.green, warn: u.yellow, error: u.red };
+// node_modules/@adaas/a-frame/dist/browser/chunk-AOPOEK3V.mjs
+var C2 = "default";
+var m3 = { Load: "_A_FRAME_NAMESPACE_LOAD", Save: "_A_FRAME_NAMESPACE_SAVE", Embed: "_A_FRAME_NAMESPACE_EMBED", Destroy: "_A_FRAME_NAMESPACE_DESTROY" };
+var V = { debug: u.gray, info: u.cyan, success: u.green, warn: u.yellow, error: u.red };
 var _a46;
-var f2 = (_a46 = class extends c {
+var f = (_a46 = class extends c {
   constructor(e = {}) {
     super(e), this.useColor = e.color ?? !!(process.stdout && process.stdout.isTTY);
   }
@@ -3178,7 +3209,7 @@ var f2 = (_a46 = class extends c {
     process.stdout.write(e);
   }
   write(e) {
-    let s4 = `${this.c(V2[e.level], p2[e.level])} ${e.message}`;
+    let s4 = `${this.c(V[e.level], p2[e.level])} ${e.message}`;
     e.level === "error" ? console.error(s4) : e.level === "warn" ? console.warn(s4) : console.log(s4), e.metadata && Object.keys(e.metadata).length > 0 && console.log(this.c(u.gray, `   ${JSON.stringify(e.metadata)}`));
   }
   section(e) {
@@ -3189,24 +3220,24 @@ var f2 = (_a46 = class extends c {
   divider() {
     console.log(this.c(u.gray, "\u2500".repeat(60)));
   }
-  summary(e = m.summaryTitle) {
+  summary(e = m2.summaryTitle) {
     this.section(e);
-    let r8 = [...this.counters.keys()], s4 = r8.reduce((a4, l6) => Math.max(a4, l6.length), 7);
+    let r8 = [...this.counters.keys()], s4 = r8.reduce((a4, l5) => Math.max(a4, l5.length), 7);
     for (let a4 of r8) console.log(`  ${this.c(u.gray, a4.padEnd(s4))}  ${this.c(u.bold, String(this.counters.get(a4)))}`);
     console.log(`  ${this.c(u.gray, "elapsed".padEnd(s4))}  ${this.c(u.bold, this.elapsed())}`), this.divider();
   }
   progress(e, r8) {
-    let s4 = this.useColor, a$1 = m.progressBarWidth, l6 = Date.now(), o3 = 0, d$1 = "", c3 = j2((i6) => {
+    let s4 = this.useColor, a$1 = m2.progressBarWidth, l5 = Date.now(), o3 = 0, d$1 = "", c3 = j2((i6) => {
       if (r8 === 0) {
         i6 === "done" && console.log(`${this.c(u.green, "\u2714")} ${e} (0/0)`);
         return;
       }
-      let h6 = Math.min(1, o3 / r8), S5 = Math.round(h6 * a$1);
+      let h6 = Math.min(1, o3 / r8), S4 = Math.round(h6 * a$1);
       if (s4) {
-        let p5 = this.c(u.green, "\u2588".repeat(S5)) + this.c(u.gray, "\u2591".repeat(a$1 - S5)), N3 = i6 === "done" ? this.c(u.green, "\u2714") : i6 === "fail" ? this.c(u.red, "\u2716") : this.c(u.cyan, "\u27F3"), L2 = d$1 ? this.c(u.dim, ` \u2014 ${d$1}`) : "";
+        let p5 = this.c(u.green, "\u2588".repeat(S4)) + this.c(u.gray, "\u2591".repeat(a$1 - S4)), N3 = i6 === "done" ? this.c(u.green, "\u2714") : i6 === "fail" ? this.c(u.red, "\u2716") : this.c(u.cyan, "\u27F3"), L2 = d$1 ? this.c(u.dim, ` \u2014 ${d$1}`) : "";
         process.stdout.write(`\r\x1B[2K${N3} ${e} ${p5} ${o3}/${r8} (${(h6 * 100).toFixed(0)}%)${L2}`), i6 && process.stdout.write(`
 `);
-      } else if (i6 === "done") console.log(`[${e}] done ${o3}/${r8} in ${((Date.now() - l6) / 1e3).toFixed(2)}s`);
+      } else if (i6 === "done") console.log(`[${e}] done ${o3}/${r8} in ${((Date.now() - l5) / 1e3).toFixed(2)}s`);
       else if (i6 === "fail") console.log(`[${e}] FAILED at ${o3}/${r8}`);
       else {
         let p5 = Math.max(1, Math.floor(r8 / 10));
@@ -3224,10 +3255,10 @@ var f2 = (_a46 = class extends c {
     }, "update") };
   }
 }, __name(_a46, "f"), _a46);
-j2(f2, "A_FrameLogger");
-var _3 = f2;
+j2(f, "A_FrameLogger");
+var _3 = f;
 var _a47;
-var v2 = (_a47 = class extends D {
+var v = (_a47 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -3265,18 +3296,18 @@ var v2 = (_a47 = class extends D {
     return this._requestedModel;
   }
   save(e) {
-    return this.call(m2.Save, e);
+    return this.call(m3.Save, e);
   }
   destroy(e) {
-    return this.call(m2.Destroy, e);
+    return this.call(m3.Destroy, e);
   }
   async load(e) {
-    return this.call(m2.Load, e);
+    return this.call(m3.Load, e);
   }
   async saveTo(e) {
     let r8 = new a({ filePath: e }), s4 = new R({ name: `${this.aseid.id}-save-to`, fragments: [r8] }).inherit(_.scope(this));
     try {
-      await this.call(m2.Save, s4);
+      await this.call(m3.Save, s4);
     } finally {
       s4.destroy();
     }
@@ -3284,7 +3315,7 @@ var v2 = (_a47 = class extends D {
   async loadFrom(e) {
     let r8 = new a({ filePath: e }), s4 = new R({ name: `${this.aseid.id}-load-from`, fragments: [r8] }).inherit(_.scope(this));
     try {
-      await this.call(m2.Load, s4);
+      await this.call(m3.Load, s4);
     } finally {
       s4.destroy();
     }
@@ -3293,7 +3324,7 @@ var v2 = (_a47 = class extends D {
     e.name && (this._name = e.name), e.description !== void 0 && (this._description = e.description), e.metadata !== void 0 && (this._metadata = e.metadata);
   }
   embed(e) {
-    return _.scope(this).resolve(_3)?.debug(`Embedding namespace "${this._name}"...`), this.call(m2.Embed, e);
+    return _.scope(this).resolve(_3)?.debug(`Embedding namespace "${this._name}"...`), this.call(m3.Embed, e);
   }
   fromNew(e) {
     this.aseid = this.generateASEID({ id: P.toKebabCase(e.name), scope: "a-frame" }), this._name = e.name;
@@ -3319,10 +3350,10 @@ var v2 = (_a47 = class extends D {
 `);
   }
 }, __name(_a47, "v"), _a47);
-j2(v2, "A_FrameNamespace");
-var w2 = v2;
+j2(v, "A_FrameNamespace");
+var w2 = v;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-MU3Y5CRL.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-3MWPOKGL.mjs
 var r4 = { Load: "_A_FRAME_DEFINITION_LOAD", Save: "_A_FRAME_DEFINITION_SAVE", Embed: "_A_FRAME_DEFINITION_EMBED", Destroy: "_A_FRAME_DEFINITION_DESTROY" };
 var _a48;
 var n3 = (_a48 = class extends D {
@@ -3437,9 +3468,9 @@ var n3 = (_a48 = class extends D {
 j2(n3, "A_FrameDefinition");
 var h3 = n3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-IDKY6WSM.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-FYZWOISU.mjs
 var _a49;
-var z2 = (_a49 = class extends B {
+var z2 = (_a49 = class extends H {
   constructor() {
     super({ name: "a-frame-context" });
   }
@@ -3461,10 +3492,10 @@ var z2 = (_a49 = class extends B {
   }
 }, __name(_a49, "z"), _a49);
 j2(z2, "A_FrameContext");
-var v3 = z2;
+var v2 = z2;
 var S2 = { SaveDefinitions: "_A_FRAME_STORAGE_SAVE", LoadDefinitions: "_A_FRAME_STORAGE_LOAD", DestroyDefinitions: "_A_FRAME_STORAGE_DESTROY", SaveNamespaces: "_A_FRAME_STORAGE_SAVE_NAMESPACES", LoadNamespaces: "_A_FRAME_STORAGE_LOAD_NAMESPACES", DestroyNamespaces: "_A_FRAME_STORAGE_DESTROY_NAMESPACES", SaveKnowledge: "_A_FRAME_STORAGE_SAVE_KNOWLEDGE", LoadKnowledge: "_A_FRAME_STORAGE_LOAD_KNOWLEDGE", DestroyKnowledge: "_A_FRAME_STORAGE_DESTROY_KNOWLEDGE" };
 var _a50;
-var T2 = (_a50 = class extends B {
+var T2 = (_a50 = class extends H {
   constructor(o3) {
     super({ name: "a-frame-storage-operation" }), this._params = o3;
   }
@@ -3485,14 +3516,14 @@ var T2 = (_a50 = class extends B {
   }
 }, __name(_a50, "T"), _a50);
 j2(T2, "A_FrameStorageOperation");
-var F = T2;
+var F2 = T2;
 var _a51;
 var w3 = (_a51 = class extends b {
 }, __name(_a51, "w"), _a51);
 j2(w3, "A_FrameStorageError"), w3.SaveDefinitionFailed = "SaveDefinitionFailed", w3.LoadDefinitionsFailed = "LoadDefinitionsFailed", w3.DestroyDefinitionsFailed = "DestroyDefinitionsFailed", w3.SaveNamespaceFailed = "SaveNamespaceFailed", w3.LoadNamespacesFailed = "LoadNamespacesFailed", w3.DestroyNamespacesFailed = "DestroyNamespacesFailed", w3.SaveKnowledgeFailed = "SaveKnowledgeFailed", w3.LoadKnowledgeFailed = "LoadKnowledgeFailed", w3.DestroyKnowledgeFailed = "DestroyKnowledgeFailed", w3.CorruptKnowledgeFile = "CorruptKnowledgeFile";
 var A2 = w3;
 var _a52;
-var G = (_a52 = class extends O {
+var G2 = (_a52 = class extends O {
   _resolveFileStore(o3) {
     if (o3) return o3 instanceof a ? o3 : new a(o3);
   }
@@ -3501,7 +3532,7 @@ var G = (_a52 = class extends O {
     return a4 && !_.has(a4) && t4.push(a4), new R({ name: o3, fragments: t4 }).inherit(r8 || _.scope(this));
   }
   async saveDefinitions(o3, e, a4) {
-    let r8 = new F({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveDefinitions", r8, this._resolveFileStore(e), a4);
+    let r8 = new F2({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveDefinitions", r8, this._resolveFileStore(e), a4);
     try {
       return await this.call(S2.SaveDefinitions, t4), r8;
     } catch {
@@ -3511,7 +3542,7 @@ var G = (_a52 = class extends O {
     }
   }
   async loadDefinitions(o3, e, a4, r8) {
-    let t4 = new F({ namespaceId: o3 }), i6 = this._buildExecutionScope("A_FrameStorage.loadDefinitions", t4, this._resolveFileStore(a4), r8);
+    let t4 = new F2({ namespaceId: o3 }), i6 = this._buildExecutionScope("A_FrameStorage.loadDefinitions", t4, this._resolveFileStore(a4), r8);
     try {
       return await this.call(S2.LoadDefinitions, i6), t4;
     } catch {
@@ -3521,7 +3552,7 @@ var G = (_a52 = class extends O {
     }
   }
   async destroyDefinitions(o3, e, a4, r8) {
-    let t4 = new F({ namespaceId: o3, definitionId: e }), i6 = this._buildExecutionScope("A_FrameStorage.destroyDefinitions", t4, this._resolveFileStore(a4), r8);
+    let t4 = new F2({ namespaceId: o3, definitionId: e }), i6 = this._buildExecutionScope("A_FrameStorage.destroyDefinitions", t4, this._resolveFileStore(a4), r8);
     try {
       return await this.call(S2.DestroyDefinitions, i6), t4;
     } catch {
@@ -3531,7 +3562,7 @@ var G = (_a52 = class extends O {
     }
   }
   async saveNamespaces(o3, e, a4) {
-    let r8 = new F({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveNamespaces", r8, this._resolveFileStore(e), a4);
+    let r8 = new F2({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveNamespaces", r8, this._resolveFileStore(e), a4);
     try {
       return await this.call(S2.SaveNamespaces, t4), r8;
     } catch {
@@ -3541,7 +3572,7 @@ var G = (_a52 = class extends O {
     }
   }
   async loadNamespaces(o3, e, a4) {
-    let r8 = new F({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadNamespaces", r8, this._resolveFileStore(e), a4);
+    let r8 = new F2({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadNamespaces", r8, this._resolveFileStore(e), a4);
     try {
       return await this.call(S2.LoadNamespaces, t4), r8;
     } catch {
@@ -3551,7 +3582,7 @@ var G = (_a52 = class extends O {
     }
   }
   async destroyNamespaces(o3, e, a4) {
-    let r8 = new F({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyNamespaces", r8, this._resolveFileStore(e), a4);
+    let r8 = new F2({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyNamespaces", r8, this._resolveFileStore(e), a4);
     try {
       return await this.call(S2.DestroyNamespaces, t4), r8;
     } catch {
@@ -3561,7 +3592,7 @@ var G = (_a52 = class extends O {
     }
   }
   async saveKnowledge(o3, e, a4, r8) {
-    let t4 = new F({ id: o3, record: e }), i6 = this._buildExecutionScope("A_FrameStorage.saveKnowledge", t4, this._resolveFileStore(a4), r8);
+    let t4 = new F2({ id: o3, record: e }), i6 = this._buildExecutionScope("A_FrameStorage.saveKnowledge", t4, this._resolveFileStore(a4), r8);
     try {
       return await this.call(S2.SaveKnowledge, i6), t4;
     } catch {
@@ -3571,7 +3602,7 @@ var G = (_a52 = class extends O {
     }
   }
   async loadKnowledge(o3, e, a4) {
-    let r8 = new F({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadKnowledge", r8, this._resolveFileStore(e), a4);
+    let r8 = new F2({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadKnowledge", r8, this._resolveFileStore(e), a4);
     try {
       return await this.call(S2.LoadKnowledge, t4), r8;
     } catch {
@@ -3581,7 +3612,7 @@ var G = (_a52 = class extends O {
     }
   }
   async destroyKnowledge(o3, e, a4) {
-    let r8 = new F({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyKnowledge", r8, this._resolveFileStore(e), a4);
+    let r8 = new F2({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyKnowledge", r8, this._resolveFileStore(e), a4);
     try {
       return await this.call(S2.DestroyKnowledge, t4), r8;
     } catch {
@@ -3591,10 +3622,10 @@ var G = (_a52 = class extends O {
     }
   }
 }, __name(_a52, "G"), _a52);
-j2(G, "A_FrameStorage");
-var x2 = G;
+j2(G2, "A_FrameStorage");
+var x2 = G2;
 var _a53;
-var K = (_a53 = class extends B {
+var K2 = (_a53 = class extends H {
   constructor() {
     if (_a53._instance) return _a53._instance;
     super({ name: "a-frame-browser-storage-blobs" });
@@ -3619,12 +3650,12 @@ var K = (_a53 = class extends B {
     e.namespaceRecords?.length && (this.plainNamespaceRecords = e.namespaceRecords.map((a4) => ({ ...a4, embedding: a4.embedding.length > 0 ? new Float32Array(a4.embedding) : void 0 }))), this.bundleMeta = { aFrameVersion: e.aFrameVersion, serverVersion: e.serverVersion, builtAt: e.builtAt };
   }
 }, __name(_a53, "K"), _a53);
-j2(K, "A_FrameBrowserStorageBlobs");
-var E = K;
-var C2 = new TextEncoder();
+j2(K2, "A_FrameBrowserStorageBlobs");
+var E = K2;
+var C3 = new TextEncoder();
 var P2 = new TextDecoder();
 var _a54;
-var b2 = (_a54 = class extends B {
+var b2 = (_a54 = class extends H {
   constructor() {
     super(...arguments);
     this.enc = new TextEncoder();
@@ -3669,12 +3700,12 @@ var b2 = (_a54 = class extends B {
     let i6 = e[0]?.embedding.length ?? 0;
     t4.setUint16(9, i6, true), a4.push(r8);
     for (let n6 of e) {
-      let _5 = C2.encode(n6.aseid.toString()), f5 = C2.encode(n6.name), M3 = JSON.stringify({ hash: n6.hash, source: n6.source, type: n6.type, description: n6.description, metadata: n6.metadata, namespace: n6.namespace, date: n6.date, model: n6.model, credentialId: n6.credentialId, aFrameVersion: n6.aFrameVersion, aFrameServerVersion: n6.aFrameServerVersion }), N3 = C2.encode(M3), L2 = 2 + _5.length + 2 + f5.length + n6.embedding.length * 4 + 4 + N3.length, g4 = new Uint8Array(L2), h6 = new DataView(g4.buffer), m6 = 0;
-      h6.setUint16(m6, _5.length, true), m6 += 2, g4.set(_5, m6), m6 += _5.length, h6.setUint16(m6, f5.length, true), m6 += 2, g4.set(f5, m6), m6 += f5.length;
-      for (let y3 = 0; y3 < n6.embedding.length; y3++) h6.setFloat32(m6, n6.embedding[y3], true), m6 += 4;
-      h6.setUint32(m6, N3.length, true), m6 += 4, g4.set(N3, m6), a4.push(g4);
+      let _6 = C3.encode(n6.aseid.toString()), f4 = C3.encode(n6.name), M3 = JSON.stringify({ hash: n6.hash, source: n6.source, type: n6.type, description: n6.description, metadata: n6.metadata, namespace: n6.namespace, date: n6.date, model: n6.model, credentialId: n6.credentialId, aFrameVersion: n6.aFrameVersion, aFrameServerVersion: n6.aFrameServerVersion }), N3 = C3.encode(M3), L2 = 2 + _6.length + 2 + f4.length + n6.embedding.length * 4 + 4 + N3.length, g5 = new Uint8Array(L2), h6 = new DataView(g5.buffer), m7 = 0;
+      h6.setUint16(m7, _6.length, true), m7 += 2, g5.set(_6, m7), m7 += _6.length, h6.setUint16(m7, f4.length, true), m7 += 2, g5.set(f4, m7), m7 += f4.length;
+      for (let y2 = 0; y2 < n6.embedding.length; y2++) h6.setFloat32(m7, n6.embedding[y2], true), m7 += 4;
+      h6.setUint32(m7, N3.length, true), m7 += 4, g5.set(N3, m7), a4.push(g5);
     }
-    let c3 = a4.reduce((n6, _5) => n6 + _5.length, 0), p5 = new Uint8Array(c3), s4 = 0;
+    let c3 = a4.reduce((n6, _6) => n6 + _6.length, 0), p5 = new Uint8Array(c3), s4 = 0;
     for (let n6 of a4) p5.set(n6, s4), s4 += n6.length;
     return p5;
   }
@@ -3686,22 +3717,22 @@ var b2 = (_a54 = class extends B {
     if (t4 !== this.A_FRAME_FILE_VERSION) throw new Error(`Unsupported index version: ${t4}`);
     let i6 = a4.getUint32(5, true), c3 = a4.getUint16(9, true), p5 = [], s4 = this.A_FRAME_HEADER_SIZE;
     for (let n6 = 0; n6 < i6; n6++) {
-      let _5 = a4.getUint16(s4, true);
+      let _6 = a4.getUint16(s4, true);
       s4 += 2;
-      let f5 = P2.decode(e.slice(s4, s4 + _5));
-      s4 += _5;
+      let f4 = P2.decode(e.slice(s4, s4 + _6));
+      s4 += _6;
       let M3 = a4.getUint16(s4, true);
       s4 += 2;
       let N3 = P2.decode(e.slice(s4, s4 + M3));
       s4 += M3;
       let L2 = new Float32Array(c3);
-      for (let y3 = 0; y3 < c3; y3++) L2[y3] = a4.getFloat32(s4, true), s4 += 4;
-      let g4 = a4.getUint32(s4, true);
+      for (let y2 = 0; y2 < c3; y2++) L2[y2] = a4.getFloat32(s4, true), s4 += 4;
+      let g5 = a4.getUint32(s4, true);
       s4 += 4;
-      let h6 = P2.decode(e.slice(s4, s4 + g4));
-      s4 += g4;
-      let m6 = JSON.parse(h6);
-      p5.push({ aseid: f5, hash: m6.hash ?? f5, name: N3, type: m6.type, embedding: L2, source: m6.source, description: m6.description, metadata: m6.metadata, namespace: m6.namespace, date: m6.date, model: m6.model, credentialId: m6.credentialId, aFrameVersion: m6.aFrameVersion, aFrameServerVersion: m6.aFrameServerVersion });
+      let h6 = P2.decode(e.slice(s4, s4 + g5));
+      s4 += g5;
+      let m7 = JSON.parse(h6);
+      p5.push({ aseid: f4, hash: m7.hash ?? f4, name: N3, type: m7.type, embedding: L2, source: m7.source, description: m7.description, metadata: m7.metadata, namespace: m7.namespace, date: m7.date, model: m7.model, credentialId: m7.credentialId, aFrameVersion: m7.aFrameVersion, aFrameServerVersion: m7.aFrameServerVersion });
     }
     return p5;
   }
@@ -3713,12 +3744,12 @@ var b2 = (_a54 = class extends B {
     let i6 = e[0]?.embedding.length ?? 0;
     t4.setUint16(9, i6, true), a4.push(r8);
     for (let n6 of e) {
-      let _5 = C2.encode(n6.aseid.toString()), f5 = C2.encode(n6.name), M3 = JSON.stringify({ hash: n6.hash, description: n6.description, metadata: n6.metadata, embeddedAt: n6.embeddedAt, embeddingModel: n6.embeddingModel, credentialId: n6.credentialId, aFrameVersion: n6.aFrameVersion, aFrameServerVersion: n6.aFrameServerVersion }), N3 = C2.encode(M3), L2 = 2 + _5.length + 2 + f5.length + n6.embedding.length * 4 + 4 + N3.length, g4 = new Uint8Array(L2), h6 = new DataView(g4.buffer), m6 = 0;
-      h6.setUint16(m6, _5.length, true), m6 += 2, g4.set(_5, m6), m6 += _5.length, h6.setUint16(m6, f5.length, true), m6 += 2, g4.set(f5, m6), m6 += f5.length;
-      for (let y3 = 0; y3 < n6.embedding.length; y3++) h6.setFloat32(m6, n6.embedding[y3], true), m6 += 4;
-      h6.setUint32(m6, N3.length, true), m6 += 4, g4.set(N3, m6), a4.push(g4);
+      let _6 = C3.encode(n6.aseid.toString()), f4 = C3.encode(n6.name), M3 = JSON.stringify({ hash: n6.hash, description: n6.description, metadata: n6.metadata, embeddedAt: n6.embeddedAt, embeddingModel: n6.embeddingModel, credentialId: n6.credentialId, aFrameVersion: n6.aFrameVersion, aFrameServerVersion: n6.aFrameServerVersion }), N3 = C3.encode(M3), L2 = 2 + _6.length + 2 + f4.length + n6.embedding.length * 4 + 4 + N3.length, g5 = new Uint8Array(L2), h6 = new DataView(g5.buffer), m7 = 0;
+      h6.setUint16(m7, _6.length, true), m7 += 2, g5.set(_6, m7), m7 += _6.length, h6.setUint16(m7, f4.length, true), m7 += 2, g5.set(f4, m7), m7 += f4.length;
+      for (let y2 = 0; y2 < n6.embedding.length; y2++) h6.setFloat32(m7, n6.embedding[y2], true), m7 += 4;
+      h6.setUint32(m7, N3.length, true), m7 += 4, g5.set(N3, m7), a4.push(g5);
     }
-    let c3 = a4.reduce((n6, _5) => n6 + _5.length, 0), p5 = new Uint8Array(c3), s4 = 0;
+    let c3 = a4.reduce((n6, _6) => n6 + _6.length, 0), p5 = new Uint8Array(c3), s4 = 0;
     for (let n6 of a4) p5.set(n6, s4), s4 += n6.length;
     return p5;
   }
@@ -3730,27 +3761,27 @@ var b2 = (_a54 = class extends B {
     if (t4 !== this.A_FRAME_FILE_VERSION) throw new Error(`Unsupported namespace index version: ${t4}`);
     let i6 = a4.getUint32(5, true), c3 = a4.getUint16(9, true), p5 = [], s4 = this.A_FRAME_HEADER_SIZE;
     for (let n6 = 0; n6 < i6; n6++) {
-      let _5 = a4.getUint16(s4, true);
+      let _6 = a4.getUint16(s4, true);
       s4 += 2;
-      let f5 = P2.decode(e.slice(s4, s4 + _5));
-      s4 += _5;
+      let f4 = P2.decode(e.slice(s4, s4 + _6));
+      s4 += _6;
       let M3 = a4.getUint16(s4, true);
       s4 += 2;
       let N3 = P2.decode(e.slice(s4, s4 + M3));
       s4 += M3;
       let L2 = new Float32Array(c3);
-      for (let y3 = 0; y3 < c3; y3++) L2[y3] = a4.getFloat32(s4, true), s4 += 4;
-      let g4 = a4.getUint32(s4, true);
+      for (let y2 = 0; y2 < c3; y2++) L2[y2] = a4.getFloat32(s4, true), s4 += 4;
+      let g5 = a4.getUint32(s4, true);
       s4 += 4;
-      let h6 = P2.decode(e.slice(s4, s4 + g4));
-      s4 += g4;
-      let m6 = JSON.parse(h6);
-      p5.push({ aseid: f5, hash: m6.hash ?? f5, name: N3, embedding: L2, description: m6.description, metadata: m6.metadata, embeddedAt: m6.embeddedAt, embeddingModel: m6.embeddingModel, credentialId: m6.credentialId, aFrameVersion: m6.aFrameVersion, aFrameServerVersion: m6.aFrameServerVersion });
+      let h6 = P2.decode(e.slice(s4, s4 + g5));
+      s4 += g5;
+      let m7 = JSON.parse(h6);
+      p5.push({ aseid: f4, hash: m7.hash ?? f4, name: N3, embedding: L2, description: m7.description, metadata: m7.metadata, embeddedAt: m7.embeddedAt, embeddingModel: m7.embeddingModel, credentialId: m7.credentialId, aFrameVersion: m7.aFrameVersion, aFrameServerVersion: m7.aFrameServerVersion });
     }
     return p5;
   }
   encodeKnowledgePayload(e) {
-    let a4 = JSON.parse(JSON.stringify(e, (c3, p5) => p5 instanceof Float32Array ? Array.from(p5) : p5)), r8 = C2.encode(JSON.stringify(a4)), t4 = new Uint8Array(this.A_FRAME_HEADER_SIZE + 4 + r8.length), i6 = new DataView(t4.buffer);
+    let a4 = JSON.parse(JSON.stringify(e, (c3, p5) => p5 instanceof Float32Array ? Array.from(p5) : p5)), r8 = C3.encode(JSON.stringify(a4)), t4 = new Uint8Array(this.A_FRAME_HEADER_SIZE + 4 + r8.length), i6 = new DataView(t4.buffer);
     return i6.setUint32(0, this.A_FRAME_FILE_MAGIC, true), t4[4] = this.A_FRAME_KNOWLEDGE_VERSION, i6.setUint32(5, 1, true), i6.setUint16(9, 0, true), i6.setUint32(this.A_FRAME_HEADER_SIZE, r8.length, true), t4.set(r8, this.A_FRAME_HEADER_SIZE + 4), t4;
   }
   decodeKnowledgePayload(e) {
@@ -3774,8 +3805,8 @@ var D2 = (_a55 = class extends x2 {
   }
   async saveDefinitionsToMemory(o3, e, a4, r8, t4) {
     let i6 = e.params.records, c3 = i6[0].namespace, p5 = await this._loadDefinitionsFromMemory(t4.store, c3, a4.encryptionKey, r8), s4 = /* @__PURE__ */ new Map();
-    for (let _5 of p5) s4.set(_5.aseid, _5);
-    for (let _5 of i6) s4.set(_5.aseid.toString(), _5);
+    for (let _6 of p5) s4.set(_6.aseid, _6);
+    for (let _6 of i6) s4.set(_6.aseid.toString(), _6);
     let n6 = r8.encodePayload(Array.from(s4.values()));
     t4.store.set(c3, await g.encryptBytes(n6, a4.encryptionKey)), e.complete({ saved: i6.length });
   }
@@ -3784,7 +3815,7 @@ var D2 = (_a55 = class extends x2 {
     e.complete({ records: c3 });
   }
   async destroyDefinitionsFromMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.namespaceId, c3 = e.params.definitionId, s4 = (await this._loadDefinitionsFromMemory(t4.store, i6, a4.encryptionKey, r8)).filter((_5) => _5.aseid !== c3), n6 = r8.encodePayload(s4);
+    let i6 = e.params.namespaceId, c3 = e.params.definitionId, s4 = (await this._loadDefinitionsFromMemory(t4.store, i6, a4.encryptionKey, r8)).filter((_6) => _6.aseid !== c3), n6 = r8.encodePayload(s4);
     t4.store.set(i6, await g.encryptBytes(n6, a4.encryptionKey)), e.complete({ records: s4 });
   }
   async saveNamespacesToMemory(o3, e, a4, r8, t4) {
@@ -3858,12 +3889,12 @@ var D2 = (_a55 = class extends x2 {
     }
   }
 }, __name(_a55, "D"), _a55);
-j2(D2, "A_FrameBrowserStorageProvider"), k2([_t.Load(), l2(0, It(R)), l2(1, It(E))], D2.prototype, "onLoad", 1), k2([N.Extend({ name: S2.SaveDefinitions, scope: [x2] }), l2(0, It(R2)), l2(1, It(F)), l2(2, It(v3)), l2(3, It(O2)), l2(4, It(E))], D2.prototype, "saveDefinitionsToMemory", 1), k2([N.Extend({ name: S2.LoadDefinitions, scope: [x2] }), l2(0, It(R2)), l2(1, It(F)), l2(2, It(v3)), l2(3, It(O2)), l2(4, It(E))], D2.prototype, "loadDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.DestroyDefinitions, scope: [x2] }), l2(0, It(R2)), l2(1, It(F)), l2(2, It(v3)), l2(3, It(O2)), l2(4, It(E))], D2.prototype, "destroyDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.SaveNamespaces, scope: [x2] }), l2(0, It(R2)), l2(1, It(F)), l2(2, It(v3)), l2(3, It(O2)), l2(4, It(E))], D2.prototype, "saveNamespacesToMemory", 1), k2([N.Extend({ name: S2.LoadNamespaces, scope: [x2] }), l2(0, It(R2)), l2(1, It(F)), l2(2, It(v3)), l2(3, It(O2)), l2(4, It(E))], D2.prototype, "loadNamespacesFromMemory", 1), k2([N.Extend({ name: S2.DestroyNamespaces, scope: [x2] }), l2(0, It(R2)), l2(1, It(F)), l2(2, It(v3)), l2(3, It(O2)), l2(4, It(E))], D2.prototype, "destroyNamespacesFromMemory", 1), k2([N.Extend({ name: r4.Load, scope: [h3] }), l2(0, It(te)), l2(1, It(v3)), l2(2, It(O2)), l2(3, It(E))], D2.prototype, "loadDefinitionFromBlobs", 1), k2([N.Extend({ name: m2.Load, scope: [w2] }), l2(0, It(te)), l2(1, It(v3)), l2(2, It(O2)), l2(3, It(E))], D2.prototype, "loadNamespaceFromBlobs", 1);
+j2(D2, "A_FrameBrowserStorageProvider"), k2([ct.Load(), l(0, Yt(R)), l(1, Yt(E))], D2.prototype, "onLoad", 1), k2([N.Extend({ name: S2.SaveDefinitions, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "saveDefinitionsToMemory", 1), k2([N.Extend({ name: S2.LoadDefinitions, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "loadDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.DestroyDefinitions, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "destroyDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.SaveNamespaces, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "saveNamespacesToMemory", 1), k2([N.Extend({ name: S2.LoadNamespaces, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "loadNamespacesFromMemory", 1), k2([N.Extend({ name: S2.DestroyNamespaces, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "destroyNamespacesFromMemory", 1), k2([N.Extend({ name: r4.Load, scope: [h3] }), l(0, Yt(te)), l(1, Yt(v2)), l(2, Yt(O2)), l(3, Yt(E))], D2.prototype, "loadDefinitionFromBlobs", 1), k2([N.Extend({ name: m3.Load, scope: [w2] }), l(0, Yt(te)), l(1, Yt(v2)), l(2, Yt(O2)), l(3, Yt(E))], D2.prototype, "loadNamespaceFromBlobs", 1);
 var Y2 = D2;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-2GSDZE4W.mjs
 var _a56;
-var d = (_a56 = class extends c {
+var d2 = (_a56 = class extends c {
   constructor(e = {}) {
     super(e);
   }
@@ -3877,7 +3908,7 @@ var d = (_a56 = class extends c {
   divider() {
     console.log("%c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", "color: #aaa;");
   }
-  summary(e = m.summaryTitle) {
+  summary(e = m2.summaryTitle) {
     this.section(e);
     let o3 = {};
     for (let [t4, s4] of this.counters) o3[t4] = s4;
@@ -3885,11 +3916,11 @@ var d = (_a56 = class extends c {
   }
   progress(e$1, o3) {
     let t4 = Date.now(), s4 = 0, i6 = "", f$1 = 0, c3 = j2((r8 = false, a4) => {
-      let g4 = Date.now();
-      if (!r8 && g4 - f$1 < m.progressThrottleMs) return;
-      f$1 = g4;
-      let $2 = o3 > 0 ? Math.min(100, Math.round(s4 / o3 * 100)) : 100, A5 = i6 ? ` \u2014 ${i6}` : "";
-      a4 === "done" ? console.log(`%c\u2714 ${e$1} ${s4}/${o3} (${$2}%)%c \u2014 ${((g4 - t4) / 1e3).toFixed(2)}s`, L.success, "color: #888;") : a4 === "fail" ? console.log(`%c\u2716 ${e$1} FAILED at ${s4}/${o3}`, L.error) : console.log(`%c\u27F3 ${e$1} ${s4}/${o3} (${$2}%)${A5}`, L.info);
+      let g5 = Date.now();
+      if (!r8 && g5 - f$1 < m2.progressThrottleMs) return;
+      f$1 = g5;
+      let $2 = o3 > 0 ? Math.min(100, Math.round(s4 / o3 * 100)) : 100, A6 = i6 ? ` \u2014 ${i6}` : "";
+      a4 === "done" ? console.log(`%c\u2714 ${e$1} ${s4}/${o3} (${$2}%)%c \u2014 ${((g5 - t4) / 1e3).toFixed(2)}s`, L.success, "color: #888;") : a4 === "fail" ? console.log(`%c\u2716 ${e$1} FAILED at ${s4}/${o3}`, L.error) : console.log(`%c\u27F3 ${e$1} ${s4}/${o3} (${$2}%)${A6}`, L.info);
     }, "emit");
     return c3(true), { tick: j2((r8) => {
       s4 = Math.min(o3, s4 + 1), r8 && (i6 = r8), c3();
@@ -3902,13 +3933,69 @@ var d = (_a56 = class extends c {
     }, "update") };
   }
 }, __name(_a56, "d"), _a56);
-j2(d, "A_FrameLogger");
-var v4 = d;
+j2(d2, "A_FrameLogger");
+var v3 = d2;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-36EOUJTU.mjs
-var r5 = { Load: "_A_FRAME_SEGMENT_LOAD", Save: "_A_FRAME_SEGMENT_SAVE", Embed: "_A_FRAME_SEGMENT_EMBED", Destroy: "_A_FRAME_SEGMENT_DESTROY" };
+// node_modules/@adaas/a-frame/dist/browser/chunk-3NPQJZT7.mjs
+var n4 = { Generate: "_A_FRAME_COMPLETION_GENERATE" };
 var _a57;
 var o = (_a57 = class extends D {
+  static get concept() {
+    return "a-frame";
+  }
+  get prompt() {
+    return this._prompt;
+  }
+  get options() {
+    return this._options;
+  }
+  get text() {
+    return this._text;
+  }
+  get vector() {
+    return this._vector;
+  }
+  get embedding() {
+    return this._vector?.values ?? null;
+  }
+  get model() {
+    return this._model;
+  }
+  get date() {
+    return this._date;
+  }
+  get isGenerated() {
+    return this._text !== void 0;
+  }
+  fromNew(e) {
+    super.fromNew(e), this._prompt = e.prompt, this._options = e.options?.model ? e.options : { model: a2.RIGEL, ...e.options };
+  }
+  fromJSON(e) {
+    this._prompt = e.prompt, this._text = e.text, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
+  }
+  toJSON() {
+    return { ...super.toJSON(), prompt: this._prompt, text: this._text, embedding: this._vector?.values, model: this._model, date: this._date, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion };
+  }
+  generate(e) {
+    return this.call(n4.Generate, e);
+  }
+  hydrateFromGeneration(e) {
+    this._text = e.text, this._vector = new i5(e.embedding), this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
+  }
+}, __name(_a57, "o"), _a57);
+j2(o, "A_FrameCompletion");
+var m4 = o;
+
+// node_modules/@adaas/a-frame/dist/browser/chunk-J5F4MJEB.mjs
+var r5 = { Load: "_A_FRAME_SEGMENT_LOAD", Save: "_A_FRAME_SEGMENT_SAVE", Embed: "_A_FRAME_SEGMENT_EMBED", Destroy: "_A_FRAME_SEGMENT_DESTROY" };
+var g2 = { summary: "string - one concise sentence describing what the text is about", keywords: "string - comma-separated list of 5-15 lower-case keywords most useful for searching this text; prefer single words or short noun phrases", topics: 'string - comma-separated list of 1-5 higher-level topics or themes this text belongs to (broader than keywords, e.g. "authentication", "dependency injection")' };
+function A3(s4) {
+  return s4 ? s4.split(/[,;\n]/).map((e) => e.trim().toLowerCase()).filter((e) => e.length > 0).filter((e, t4, m7) => m7.indexOf(e) === t4) : [];
+}
+__name(A3, "A");
+j2(A3, "parseSegmentExtractionList");
+var _a58;
+var o2 = (_a58 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -3923,6 +4010,24 @@ var o = (_a57 = class extends D {
   }
   get hash() {
     return this._hash;
+  }
+  get meta() {
+    return this._extraction;
+  }
+  get extraction() {
+    return this._extraction;
+  }
+  get isExtracted() {
+    return this._extraction !== void 0;
+  }
+  get keywords() {
+    return this._extraction?.keywords ?? [];
+  }
+  get topics() {
+    return this._extraction?.topics ?? [];
+  }
+  get summary() {
+    return this._extraction?.summary;
   }
   get vector() {
     return this._vector;
@@ -3972,10 +4077,10 @@ var o = (_a57 = class extends D {
     this._hash = r3.fnv1a(t4);
   }
   fromJSON(e) {
-    super.fromJSON(e), this._content = e.content, this._hash = e.hash, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._embeddedAt = e.embeddedAt, this._model = e.model, this._credentialId = e.credentialId, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion, this._index = e.index, e.task && (this._options = { ...this._options, task: e.task });
+    super.fromJSON(e), this._content = e.content, this._hash = e.hash, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._embeddedAt = e.embeddedAt, this._model = e.model, this._credentialId = e.credentialId, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion, this._index = e.index, e.task && (this._options = { ...this._options, task: e.task }), this._extraction = e.extraction;
   }
   toJSON() {
-    return { ...super.toJSON(), hash: this._hash, content: this._content, embedding: this._vector?.values, embeddedAt: this._embeddedAt ?? (/* @__PURE__ */ new Date()).toISOString(), task: this._options?.task, index: this._index, model: this._model, credentialId: this._credentialId, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion };
+    return { ...super.toJSON(), hash: this._hash, content: this._content, embedding: this._vector?.values, embeddedAt: this._embeddedAt ?? (/* @__PURE__ */ new Date()).toISOString(), task: this._options?.task, index: this._index, model: this._model, credentialId: this._credentialId, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion, extraction: this._extraction };
   }
   hydrateFromRecord(e) {
     if (e.hash !== this._hash) throw new Error(`A_FrameSegment.hydrateFromRecord: hash mismatch for "${this._content}" (expected ${this._hash}, got ${e.hash})`);
@@ -3985,20 +4090,20 @@ var o = (_a57 = class extends D {
     this._vector = new i5(e);
   }
   clone(e) {
-    let t4 = new _a57(this.toJSON());
+    let t4 = new _a58(this.toJSON());
     return t4.aseid = t4.generateASEID(e), t4;
   }
   toString() {
     return [`// content: ${this._content}`].join(`
 `);
   }
-}, __name(_a57, "o"), _a57);
-j2(o, "A_FrameSegment");
-var d2 = o;
+}, __name(_a58, "o"), _a58);
+j2(o2, "A_FrameSegment");
+var _4 = o2;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-NZWNJOZ2.mjs
-var _a58;
-var A3 = (_a58 = class extends D {
+// node_modules/@adaas/a-frame/dist/browser/chunk-OVTCNCGJ.mjs
+var _a59;
+var A4 = (_a59 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4008,12 +4113,12 @@ var A3 = (_a58 = class extends D {
   toJSON() {
     return { ...super.toJSON(), version: this.version, timestamp: this.timestamp, reason: this.reason, encoded: this.encoded, delta: this.delta };
   }
-}, __name(_a58, "A"), _a58);
-j2(A3, "A_FrameDynamicPatch");
-var l3 = A3;
-var F2 = { Generate: "_A_FRAME_DYNAMIC_CONTENT_GENERATE", Patch: "_A_FRAME_DYNAMIC_CONTENT_PATCH" };
-var _a59;
-var S3 = (_a59 = class extends B {
+}, __name(_a59, "A"), _a59);
+j2(A4, "A_FrameDynamicPatch");
+var l2 = A4;
+var F3 = { Generate: "_A_FRAME_DYNAMIC_CONTENT_GENERATE", Patch: "_A_FRAME_DYNAMIC_CONTENT_PATCH" };
+var _a60;
+var S3 = (_a60 = class extends H {
   constructor(e = {}) {
     super({ name: "a-frame-dynamic-content-operation-context" });
     this._meta = /* @__PURE__ */ new Map();
@@ -4028,16 +4133,16 @@ var S3 = (_a59 = class extends B {
   set(e, t4) {
     this._meta.set(e, t4);
   }
-}, __name(_a59, "S"), _a59);
+}, __name(_a60, "S"), _a60);
 j2(S3, "A_FrameDynamicContentOperation");
-var f3 = S3;
-var _a60;
-var h4 = (_a60 = class extends b {
-}, __name(_a60, "h"), _a60);
-j2(h4, "A_FrameDynamicContentError"), h4.GenerationFailed = "GenerationFailed", h4.PatchFailed = "PatchFailed", h4.InvalidPatch = "InvalidPatch", h4.PieceNotFound = "PieceNotFound";
-var m3 = h4;
+var f2 = S3;
 var _a61;
-var p3 = (_a61 = class extends B {
+var h4 = (_a61 = class extends b {
+}, __name(_a61, "h"), _a61);
+j2(h4, "A_FrameDynamicContentError"), h4.GenerationFailed = "GenerationFailed", h4.PatchFailed = "PatchFailed", h4.InvalidPatch = "InvalidPatch", h4.PieceNotFound = "PieceNotFound";
+var m5 = h4;
+var _a62;
+var p3 = (_a62 = class extends H {
   constructor() {
     super(...arguments);
     this._order = [];
@@ -4134,18 +4239,18 @@ var p3 = (_a61 = class extends B {
     for (let r8 = 0; r8 < t4; r8++) n6[r8] /= e.length;
     return new i5(n6);
   }
-  search(e, t4 = _a61.PATCH_PIECE_LIMIT) {
+  search(e, t4 = _a62.PATCH_PIECE_LIMIT) {
     let n6 = e.normalize();
     return this.list().filter((r8) => r8.isEmbed && r8.vector).map((r8) => ({ segment: r8, score: n6.dot(r8.vector.normalize()) })).sort((r8, o3) => o3.score - r8.score).slice(0, t4);
   }
-  searchByKeywords(e, t4 = _a61.PATCH_PIECE_LIMIT) {
+  searchByKeywords(e, t4 = _a62.PATCH_PIECE_LIMIT) {
     let n6 = e.toLowerCase().split(/\W+/).filter((r8) => r8.length > 3);
     return n6.length === 0 ? [] : this.list().map((r8) => {
       let o3 = r8.content.toLowerCase(), s4 = n6.reduce((a4, c3) => a4 + (o3.includes(c3) ? 1 : 0), 0);
       return { segment: r8, score: s4 };
     }).filter((r8) => r8.score > 0).sort((r8, o3) => o3.score - r8.score).slice(0, t4);
   }
-  selectForPatch(e, t4, n6 = _a61.PATCH_PIECE_LIMIT) {
+  selectForPatch(e, t4, n6 = _a62.PATCH_PIECE_LIMIT) {
     let r8 = this.list();
     if (r8.length <= n6) return r8;
     if (e && r8.some((a4) => a4.isEmbed)) {
@@ -4160,11 +4265,11 @@ var p3 = (_a61 = class extends B {
     let n6 = e.dot(t4), r8 = e.magnitude() * t4.magnitude();
     return r8 === 0 ? 0 : n6 / r8;
   }
-}, __name(_a61, "p"), _a61);
+}, __name(_a62, "p"), _a62);
 j2(p3, "A_FrameDynamicContentIndex"), p3.PATCH_PIECE_LIMIT = 5;
-var _4 = p3;
-var _a62;
-var g2 = (_a62 = class extends D {
+var _5 = p3;
+var _a63;
+var g3 = (_a63 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4172,12 +4277,12 @@ var g2 = (_a62 = class extends D {
     return this._scope || (this._scope = _.allocate(this, new R({ name: `${this.aseid.id}-scope` }))), this._scope;
   }
   get index() {
-    return this.scope.resolve(_4);
+    return this.scope.resolve(_5);
   }
   fromNew(i6) {
     super.fromNew(i6);
-    let e = new _4({ name: `${this.aseid.id}` });
-    this.scope.register(e), this.createdAt = Date.now(), this.prompt = i6.prompt, this.model = i6.options?.model || a2.LYRA, this._system = i6.options?.system, this._patchPieceLimit = i6.options?.patchPieceLimit || _4.PATCH_PIECE_LIMIT, this._splitStrategy = i6.options?.splitStrategy ?? "paragraph", this._history = [], this._version = 0;
+    let e = new _5({ name: `${this.aseid.id}` });
+    this.scope.register(e), this.createdAt = Date.now(), this.prompt = i6.prompt, this.model = i6.options?.model || a2.LYRA, this._system = i6.options?.system, this._patchPieceLimit = i6.options?.patchPieceLimit || _5.PATCH_PIECE_LIMIT, this._splitStrategy = i6.options?.splitStrategy ?? "paragraph", this._history = [], this._version = 0;
   }
   get segments() {
     return this.index.list();
@@ -4205,32 +4310,32 @@ var g2 = (_a62 = class extends D {
     return this._splitStrategy;
   }
   async generate() {
-    let i6 = new f3();
+    let i6 = new f2();
     this.scope.isInheritedFrom(_.scope(this)) || this.scope.inherit(_.scope(this));
     let e = new R({ name: "a-frame-dynamic-content-generate", fragments: [i6] }).inherit(this.scope);
     try {
-      await this.call(F2.Generate, e), e.destroy();
+      await this.call(F3.Generate, e), e.destroy();
     } catch (t4) {
-      throw e.destroy(), new m3({ title: m3.GenerationFailed, description: `Failed to generate content: ${t4 instanceof Error ? t4.message : String(t4)}` });
+      throw e.destroy(), new m5({ title: m5.GenerationFailed, description: `Failed to generate content: ${t4 instanceof Error ? t4.message : String(t4)}` });
     }
   }
-  async patch(i6, e) {
+  async patch(i6, e$1) {
     this.scope.isInheritedFrom(_.scope(this)) || this.scope.inherit(_.scope(this));
     let t4 = new R({ name: "a-frame-dynamic-content-patch" }).inherit(this.scope), n6;
-    if (e !== void 0) {
-      let o3 = Array.isArray(e) ? e : [e], s4 = o3.filter((a4) => !this.index.get(a4.id));
-      if (s4.length > 0) throw t4.destroy(), new m3({ title: m3.PatchFailed, description: "Segment(s) not found in this content's index: " + s4.map((a4) => `"${a4.id}"`).join(", ") + ". Only segments that belong to this DynamicContent instance can be targeted." });
+    if (e$1 !== void 0) {
+      let o3 = Array.isArray(e$1) ? e$1 : [e$1], s4 = o3.filter((a4) => !this.index.get(a4.id));
+      if (s4.length > 0) throw t4.destroy(), new m5({ title: m5.PatchFailed, description: "Segment(s) not found in this content's index: " + s4.map((a4) => `"${a4.id}"`).join(", ") + ". Only segments that belong to this DynamicContent instance can be targeted." });
       n6 = o3;
     } else {
-      let o3 = new d2({ content: i6, options: { task: "query" } });
+      let o3 = new _4({ content: i6, options: { task: "query" } });
       t4.register(o3), await o3.embed(), n6 = this.index.selectForPatch(o3.vector ?? null, i6, this._patchPieceLimit);
     }
-    let r8 = new f3({ instruction: i6, segments: n6 });
+    let r8 = new f2({ instruction: i6, segments: n6 });
     t4.register(r8);
     try {
-      await this.call(F2.Patch, t4), t4.destroy();
+      await this.call(F3.Patch, t4), t4.destroy();
     } catch (o3) {
-      throw t4.destroy(), new m3({ title: m3.PatchFailed, description: `Failed to patch content: ${o3 instanceof Error ? o3.message : String(o3)}` });
+      throw t4.destroy(), new m5({ title: m5.PatchFailed, description: `Failed to patch content: ${o3 instanceof Error ? o3.message : String(o3)}` });
     }
   }
   compareTo(i6) {
@@ -4238,21 +4343,21 @@ var g2 = (_a62 = class extends D {
     return !e || !t4 ? 0 : e.cosineSimilarity(t4);
   }
   hydrateFromGeneration(i6, e) {
-    i6.forEach((t4) => this.index.add(t4)), this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size }));
+    i6.forEach((t4) => this.index.add(t4)), this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size }));
   }
   _resolveSplitter(i6) {
-    return typeof i6 == "function" ? i6 : _a62.SPLITTERS[i6] ?? _a62.SPLITTERS.paragraph;
+    return typeof i6 == "function" ? i6 : _a63.SPLITTERS[i6] ?? _a63.SPLITTERS.paragraph;
   }
-  hydrateFromText(i6, e) {
-    if (this.index.size > 0) throw new m3({ title: m3.GenerationFailed, description: `hydrateFromText() called on a non-empty content (${this.index.size} segments). Hydration sources must not be mixed \u2014 create a fresh A_FrameDynamicContent instead.` });
-    let n6 = this._resolveSplitter(e ?? this._splitStrategy)(i6 ?? "").filter((r8) => r8.trim().length > 0);
+  hydrateFromText(i6, e$1) {
+    if (this.index.size > 0) throw new m5({ title: m5.GenerationFailed, description: `hydrateFromText() called on a non-empty content (${this.index.size} segments). Hydration sources must not be mixed \u2014 create a fresh A_FrameDynamicContent instead.` });
+    let n6 = this._resolveSplitter(e$1 ?? this._splitStrategy)(i6 ?? "").filter((r8) => r8.trim().length > 0);
     for (let r8 of n6) {
-      let o3 = new d2({ content: r8, options: { task: "document" } });
+      let o3 = new _4({ content: r8, options: { task: "document" } });
       this.index.add(o3);
     }
-    return this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: `Hydrated from local text (${n6.length} segments)`, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size })), n6.length;
+    return this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Hydrated from local text (${n6.length} segments)`, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size })), n6.length;
   }
-  hydrateFromPatch(i6, e) {
+  hydrateFromPatch(i6, e$1) {
     let t4 = this.index.size, n6 = j2((s4) => s4.toLowerCase().replace(/[^\w\s]/g, "").replace(/\s+/g, " ").trim(), "normalize"), r8 = this.index.list().map((s4) => n6(s4.content)), o3 = j2((s4) => {
       let a4 = n6(s4);
       return a4.length < 8 ? false : r8.some((c3) => c3 === a4 || c3.includes(a4));
@@ -4262,23 +4367,23 @@ var g2 = (_a62 = class extends D {
       let a4;
       if (s4.segment) {
         if ((s4.action === "add" || s4.action === "replace") && o3(s4.segment.content)) continue;
-        a4 = new d2({ content: s4.segment.content, options: { task: "document" } }), s4.segment.embedding?.length && a4.hydrateFromEmbedding(new Float32Array(s4.segment.embedding));
+        a4 = new _4({ content: s4.segment.content, options: { task: "document" } }), s4.segment.embedding?.length && a4.hydrateFromEmbedding(new Float32Array(s4.segment.embedding));
       }
       s4.action === "add" && ((/* @__PURE__ */ new Set(["before", "after", "append", void 0])).has(s4.position) || (s4.position = "append", s4.targetId = void 0)), this.index.applyOperation(s4, a4);
     }
-    this._version++, this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: i6.patchSummary, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size - t4 }));
+    this._version++, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: i6.patchSummary, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size - t4 }));
   }
   toJSON() {
     return { ...super.toJSON(), prompt: this.prompt, metadata: { model: this.model, createdAt: this.createdAt }, history: this._history.map((i6) => i6.toJSON()) };
   }
-}, __name(_a62, "g"), _a62);
-j2(g2, "A_FrameDynamicContent"), g2.SPLITTERS = { paragraph: j2((i6) => i6.split(/\n\s*\n+/).map((e) => e.trim()), "paragraph"), line: j2((i6) => i6.split(/\r?\n/).map((e) => e.trim()), "line"), sentence: j2((i6) => i6.split(/(?<=[.!?])\s+/).map((e) => e.trim()), "sentence"), none: j2((i6) => [i6], "none") };
-var w4 = g2;
+}, __name(_a63, "g"), _a63);
+j2(g3, "A_FrameDynamicContent"), g3.SPLITTERS = { paragraph: j2((i6) => i6.split(/\n\s*\n+/).map((e) => e.trim()), "paragraph"), line: j2((i6) => i6.split(/\r?\n/).map((e) => e.trim()), "line"), sentence: j2((i6) => i6.split(/(?<=[.!?])\s+/).map((e) => e.trim()), "sentence"), none: j2((i6) => [i6], "none") };
+var w4 = g3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-SQMVQ4WZ.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-WZPDJK3P.mjs
 var r6 = { Extract: "_A_FRAME_SCHEMA_EXTRACT", ExtractMultiple: "_A_FRAME_SCHEMA_EXTRACT_MULTIPLE" };
-var _a63;
-var a3 = (_a63 = class extends D {
+var _a64;
+var a3 = (_a64 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4330,64 +4435,14 @@ var a3 = (_a63 = class extends D {
   hydrateFromMultipleExtraction(e, t4) {
     this._dataArray = e, this._model = t4.model, this._date = t4.date, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion;
   }
-}, __name(_a63, "a"), _a63);
+}, __name(_a64, "a"), _a64);
 j2(a3, "A_FrameSchema");
 var s2 = a3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-6NAYM62O.mjs
-var n4 = { Generate: "_A_FRAME_COMPLETION_GENERATE" };
-var _a64;
-var o2 = (_a64 = class extends D {
-  static get concept() {
-    return "a-frame";
-  }
-  get prompt() {
-    return this._prompt;
-  }
-  get options() {
-    return this._options;
-  }
-  get text() {
-    return this._text;
-  }
-  get vector() {
-    return this._vector;
-  }
-  get embedding() {
-    return this._vector?.values ?? null;
-  }
-  get model() {
-    return this._model;
-  }
-  get date() {
-    return this._date;
-  }
-  get isGenerated() {
-    return this._text !== void 0;
-  }
-  fromNew(e) {
-    super.fromNew(e), this._prompt = e.prompt, this._options = e.options?.model ? e.options : { model: a2.RIGEL, ...e.options };
-  }
-  fromJSON(e) {
-    this._prompt = e.prompt, this._text = e.text, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
-  }
-  toJSON() {
-    return { ...super.toJSON(), prompt: this._prompt, text: this._text, embedding: this._vector?.values, model: this._model, date: this._date, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion };
-  }
-  generate(e) {
-    return this.call(n4.Generate, e);
-  }
-  hydrateFromGeneration(e) {
-    this._text = e.text, this._vector = new i5(e.embedding), this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
-  }
-}, __name(_a64, "o"), _a64);
-j2(o2, "A_FrameCompletion");
-var m4 = o2;
-
-// node_modules/@adaas/a-frame/dist/browser/chunk-WASEJBER.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-PIH5MHMV.mjs
 var d3 = { Request: "_A_FRAME_REQUEST", Socket: "_A_FRAME_SOCKET", Stream: "_A_FRAME_STREAM", Send: "_A_FRAME_SEND" };
 var _a65;
-var k3 = (_a65 = class extends B {
+var J2 = (_a65 = class extends H {
   constructor(t4, r8, a4) {
     super({ name: "a-frame-channel-request" });
     this.method = t4;
@@ -4406,9 +4461,9 @@ var k3 = (_a65 = class extends B {
   get error() {
     return this._error;
   }
-}, __name(_a65, "k"), _a65);
-j2(k3, "A_FrameChannelRequest");
-var c2 = k3;
+}, __name(_a65, "J"), _a65);
+j2(J2, "A_FrameChannelRequest");
+var c2 = J2;
 var _a66;
 var N2 = (_a66 = class extends b {
 }, __name(_a66, "N"), _a66);
@@ -4416,12 +4471,12 @@ j2(N2, "A_FrameChannelError"), N2.InvalidRequest = "InvalidRequest", N2.Timeout 
 var s3 = N2;
 var D3 = { Load: "_A_FRAME_DYNAMIC_STRUCTURE_LOAD", Patch: "_A_FRAME_DYNAMIC_STRUCTURE_PATCH", Generate: "_A_FRAME_DYNAMIC_STRUCTURE_GENERATE", Map: "_A_FRAME_DYNAMIC_STRUCTURE_MAP" };
 var _a67;
-var S4 = (_a67 = class extends b {
-}, __name(_a67, "S"), _a67);
-j2(S4, "A_FrameDynamicStructureError"), S4.InvalidPatch = "InvalidPatch", S4.VersionMismatch = "VersionMismatch", S4.ComponentNotFound = "ComponentNotFound", S4.InvalidOperation = "InvalidOperation", S4.GenerationFailed = "GenerationFailed";
-var y2 = S4;
+var R3 = (_a67 = class extends b {
+}, __name(_a67, "R"), _a67);
+j2(R3, "A_FrameDynamicStructureError"), R3.InvalidPatch = "InvalidPatch", R3.VersionMismatch = "VersionMismatch", R3.ComponentNotFound = "ComponentNotFound", R3.InvalidOperation = "InvalidOperation", R3.GenerationFailed = "GenerationFailed";
+var y = R3;
 var _a68;
-var J2 = (_a68 = class extends B {
+var Y3 = (_a68 = class extends H {
   constructor() {
     super({ name: "a-frame-component-map-index" });
     this._entries = /* @__PURE__ */ new Map();
@@ -4454,11 +4509,11 @@ var J2 = (_a68 = class extends B {
     }, "getEntry");
     return { containers: t4.containers.map((a4) => ({ ...r8(a4), components: (a4.components ?? []).map(r8), fragments: (a4.fragments ?? []).map(r8), entities: (a4.entities ?? []).map(r8) })), components: t4.components.map(r8), fragments: t4.fragments.map(r8), entities: t4.entities.map(r8) };
   }
-}, __name(_a68, "J"), _a68);
-j2(J2, "A_FrameComponentMapIndex");
-var q = J2;
+}, __name(_a68, "Y"), _a68);
+j2(Y3, "A_FrameComponentMapIndex");
+var G3 = Y3;
 var _a69;
-var Y3 = (_a69 = class extends B {
+var z3 = (_a69 = class extends H {
   constructor(t4 = {}) {
     super({ name: "a-frame-dynamic-structure-operation-context" });
     this._meta = /* @__PURE__ */ new Map();
@@ -4473,11 +4528,11 @@ var Y3 = (_a69 = class extends B {
   set(t4, r8) {
     this._meta.set(t4, r8);
   }
-}, __name(_a69, "Y"), _a69);
-j2(Y3, "A_FrameDynamicStructureOperation");
-var R3 = Y3;
+}, __name(_a69, "z"), _a69);
+j2(z3, "A_FrameDynamicStructureOperation");
+var v4 = z3;
 var _a70;
-var X2 = (_a70 = class extends D {
+var j3 = (_a70 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4527,35 +4582,35 @@ var X2 = (_a70 = class extends D {
     return this._version;
   }
   async generate() {
-    let e = new R3(), t4 = new R({ name: "a-frame-dynamic-structure-generate", fragments: [e] }).inherit(_.scope(this));
+    let e = new v4(), t4 = new R({ name: "a-frame-dynamic-structure-generate", fragments: [e] }).inherit(_.scope(this));
     try {
       await this.call(D3.Generate, t4), t4.destroy();
     } catch (r8) {
-      throw t4.destroy(), new y2({ title: y2.GenerationFailed, description: `Failed to generate structure: ${r8 instanceof Error ? r8.message : String(r8)}` });
+      throw t4.destroy(), new y({ title: y.GenerationFailed, description: `Failed to generate structure: ${r8 instanceof Error ? r8.message : String(r8)}` });
     }
   }
   async patch(e) {
-    let t4 = new R3({ instruction: e }), r8 = new R({ name: "a-frame-dynamic-structure-patch", fragments: [t4] }).inherit(_.scope(this));
+    let t4 = new v4({ instruction: e }), r8 = new R({ name: "a-frame-dynamic-structure-patch", fragments: [t4] }).inherit(_.scope(this));
     try {
       await this.call(D3.Patch, r8), r8.destroy();
     } catch (a4) {
-      throw r8.destroy(), new y2({ title: y2.GenerationFailed, description: `Failed to patch structure: ${a4 instanceof Error ? a4.message : String(a4)}` });
+      throw r8.destroy(), new y({ title: y.GenerationFailed, description: `Failed to patch structure: ${a4 instanceof Error ? a4.message : String(a4)}` });
     }
   }
   async map() {
-    let e = new q(), t4 = new R({ name: "a-frame-dynamic-structure-map", fragments: [e] }).inherit(_.scope(this));
+    let e = new G3(), t4 = new R({ name: "a-frame-dynamic-structure-map", fragments: [e] }).inherit(_.scope(this));
     try {
       await this.call(D3.Map, t4), t4.destroy();
     } catch (r8) {
-      throw t4.destroy(), new y2({ title: y2.GenerationFailed, description: `Failed to map structure: ${r8 instanceof Error ? r8.message : String(r8)}` });
+      throw t4.destroy(), new y({ title: y.GenerationFailed, description: `Failed to map structure: ${r8 instanceof Error ? r8.message : String(r8)}` });
     }
   }
   hydrateFromGeneration(e, t4) {
-    this._definition = e, this._mapResult = null, this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: this._countElements(e) }));
+    this._definition = e, this._mapResult = null, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: this._countElements(e) }));
   }
   hydrateFromPatch(e, t4, r8) {
     let a4 = this._definition ? this._countElements(this._definition) : 0;
-    this._definition = e, this._mapResult = null, this._version++, this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: this._countElements(e) - a4 }));
+    this._definition = e, this._mapResult = null, this._version++, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: this._countElements(e) - a4 }));
   }
   hydrateFromMap(e) {
     this._mapResult = e;
@@ -4574,12 +4629,12 @@ var X2 = (_a70 = class extends D {
     }, "strip");
     return { containers: e.containers.map((r8) => ({ ...t4(r8), components: (r8.components ?? []).map(t4), fragments: (r8.fragments ?? []).map(t4), entities: (r8.entities ?? []).map(t4) })), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
   }
-}, __name(_a70, "X"), _a70);
-j2(X2, "A_FrameDynamicStructure");
-var O3 = X2;
-var x3 = { Generate: "_A_FRAME_DYNAMIC_FEATURE_GENERATE", Patch: "_A_FRAME_DYNAMIC_FEATURE_PATCH", Map: "_A_FRAME_DYNAMIC_FEATURE_MAP" };
+}, __name(_a70, "j"), _a70);
+j2(j3, "A_FrameDynamicStructure");
+var O3 = j3;
+var C4 = { Generate: "_A_FRAME_DYNAMIC_FEATURE_GENERATE", Patch: "_A_FRAME_DYNAMIC_FEATURE_PATCH", Map: "_A_FRAME_DYNAMIC_FEATURE_MAP" };
 var _a71;
-var j3 = (_a71 = class extends B {
+var W = (_a71 = class extends H {
   constructor(t4 = {}) {
     super({ name: "a-frame-dynamic-feature-operation-context" });
     this._meta = /* @__PURE__ */ new Map();
@@ -4594,16 +4649,16 @@ var j3 = (_a71 = class extends B {
   set(t4, r8) {
     this._meta.set(t4, r8);
   }
-}, __name(_a71, "j"), _a71);
-j2(j3, "A_FrameDynamicFeatureOperation");
-var v5 = j3;
+}, __name(_a71, "W"), _a71);
+j2(W, "A_FrameDynamicFeatureOperation");
+var w5 = W;
 var _a72;
-var w5 = (_a72 = class extends b {
-}, __name(_a72, "w"), _a72);
-j2(w5, "A_FrameDynamicFeatureError"), w5.GenerationFailed = "GenerationFailed", w5.PatchFailed = "PatchFailed", w5.MappingFailed = "MappingFailed", w5.MethodNotFound = "MethodNotFound", w5.InvalidOperation = "InvalidOperation";
-var E2 = w5;
+var x3 = (_a72 = class extends b {
+}, __name(_a72, "x"), _a72);
+j2(x3, "A_FrameDynamicFeatureError"), x3.GenerationFailed = "GenerationFailed", x3.PatchFailed = "PatchFailed", x3.MappingFailed = "MappingFailed", x3.MethodNotFound = "MethodNotFound", x3.InvalidOperation = "InvalidOperation";
+var E2 = x3;
 var _a73;
-var W2 = (_a73 = class extends B {
+var Z = (_a73 = class extends H {
   constructor() {
     super({ name: "a-frame-method-map-index" });
     this._stepEntries = /* @__PURE__ */ new Map();
@@ -4646,11 +4701,11 @@ var W2 = (_a73 = class extends B {
     }, "getElement");
     return { steps: t4.steps.map(r8), components: t4.components.map(a$1), fragments: t4.fragments.map(a$1), entities: t4.entities.map(a$1) };
   }
-}, __name(_a73, "W"), _a73);
-j2(W2, "A_FrameMethodMapIndex");
-var B2 = W2;
+}, __name(_a73, "Z"), _a73);
+j2(Z, "A_FrameMethodMapIndex");
+var B = Z;
 var _a74;
-var ne2 = (_a74 = class extends D {
+var re2 = (_a74 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4694,35 +4749,35 @@ var ne2 = (_a74 = class extends D {
     return this._version;
   }
   async generate() {
-    let e = new v5(), t4 = new R({ name: "a-frame-dynamic-feature-generate", fragments: [e] }).inherit(_.scope(this));
+    let e = new w5(), t4 = new R({ name: "a-frame-dynamic-feature-generate", fragments: [e] }).inherit(_.scope(this));
     try {
-      await this.call(x3.Generate, t4), t4.destroy();
+      await this.call(C4.Generate, t4), t4.destroy();
     } catch (r8) {
       throw t4.destroy(), new E2({ title: E2.GenerationFailed, description: `Failed to generate feature workflow: ${r8 instanceof Error ? r8.message : String(r8)}` });
     }
   }
   async patch(e) {
-    let t4 = new v5({ instruction: e }), r8 = new R({ name: "a-frame-dynamic-feature-patch", fragments: [t4] }).inherit(_.scope(this));
+    let t4 = new w5({ instruction: e }), r8 = new R({ name: "a-frame-dynamic-feature-patch", fragments: [t4] }).inherit(_.scope(this));
     try {
-      await this.call(x3.Patch, r8), r8.destroy();
+      await this.call(C4.Patch, r8), r8.destroy();
     } catch (a4) {
       throw r8.destroy(), new E2({ title: E2.PatchFailed, description: `Failed to patch feature workflow: ${a4 instanceof Error ? a4.message : String(a4)}` });
     }
   }
   async map() {
-    let e = new B2(), t4 = new R({ name: "a-frame-dynamic-feature-map", fragments: [e] }).inherit(_.scope(this));
+    let e = new B(), t4 = new R({ name: "a-frame-dynamic-feature-map", fragments: [e] }).inherit(_.scope(this));
     try {
-      await this.call(x3.Map, t4), t4.destroy();
+      await this.call(C4.Map, t4), t4.destroy();
     } catch (r8) {
       throw t4.destroy(), new E2({ title: E2.MappingFailed, description: `Failed to map feature workflow: ${r8 instanceof Error ? r8.message : String(r8)}` });
     }
   }
   hydrateFromGeneration(e, t4) {
-    this._definition = e, this._mapResult = null, this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: e.steps.length }));
+    this._definition = e, this._mapResult = null, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: e.steps.length }));
   }
   hydrateFromPatch(e, t4, r8) {
     let a4 = this._definition?.steps.length ?? 0;
-    this._definition = e, this._mapResult = null, this._version++, this._history.push(new l3({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: e.steps.length - a4 }));
+    this._definition = e, this._mapResult = null, this._version++, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: e.steps.length - a4 }));
   }
   hydrateFromMap(e) {
     this._mapResult = e;
@@ -4737,11 +4792,11 @@ var ne2 = (_a74 = class extends D {
     }, "strip");
     return { ...e, steps: e.steps.map(t4), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
   }
-}, __name(_a74, "ne"), _a74);
-j2(ne2, "A_FrameDynamicFeature");
-var P3 = ne2;
+}, __name(_a74, "re"), _a74);
+j2(re2, "A_FrameDynamicFeature");
+var P3 = re2;
 var _a75;
-var re2 = (_a75 = class extends B {
+var ae = (_a75 = class extends H {
   get A_FRAME_FILE_EXTENSION() {
     return ".aframe";
   }
@@ -4773,11 +4828,11 @@ var re2 = (_a75 = class extends B {
     let e = process.env.A_FRAME_REQUEST_TIMEOUT, t4 = e ? parseInt(e, 10) : NaN;
     return isNaN(t4) ? 12e4 : t4;
   }
-}, __name(_a75, "re"), _a75);
-j2(re2, "A_FrameEnv");
-var f4 = re2;
+}, __name(_a75, "ae"), _a75);
+j2(ae, "A_FrameEnv");
+var f3 = ae;
 var _a76;
-var l4 = (_a76 = class extends O {
+var l3 = (_a76 = class extends O {
   async generate(e) {
     let t4 = new c2("POST", "/api/v1/completions", { prompt: e, max_tokens: 512 }), r8 = new R({ name: "A_FrameChannel.generate", fragments: [t4] }).inherit(_.scope(this));
     try {
@@ -4840,10 +4895,24 @@ var l4 = (_a76 = class extends O {
       await this.call(d3.Request, a4), a4.destroy();
       let n6 = r8.response;
       if (!n6.data || !n6.data[0] || !n6.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Error during embed a segment: ${e.content}` });
-      let o3 = new Float32Array(n6.data[0].embedding);
-      e.fromJSON({ aseid: e.aseid.toString(), content: e.content, hash: e.hash, embedding: o3, model: n6.model, aFrameServerVersion: n6.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n6.meta.credential_id, embeddedAt: n6.date });
+      let o3 = new Float32Array(n6.data[0].embedding), S4 = await this.extractSegmentMeta(e.content);
+      e.fromJSON({ aseid: e.aseid.toString(), content: e.content, hash: e.hash, embedding: o3, model: n6.model, aFrameServerVersion: n6.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n6.meta.credential_id, embeddedAt: n6.date, extraction: S4 });
     } catch (n6) {
       throw new s3({ title: s3.RequestFailed, description: `Failed to embed segment with content "${e.content}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+    }
+  }
+  async extractSegmentMeta(e) {
+    if (!e || e.trim().length === 0) return;
+    let t4 = new s2({ prompt: e, schema: g2 }), r8 = new R({ name: "A_FrameChannel.embedSegment.meta" }).inherit(_.scope(this));
+    r8.register(t4);
+    try {
+      await t4.extract();
+      let a4 = t4.data;
+      return a4 ? { summary: (a4.summary ?? "").trim(), keywords: A3(a4.keywords), topics: A3(a4.topics), extractedAt: t4.date ?? (/* @__PURE__ */ new Date()).toISOString(), model: t4.model } : void 0;
+    } catch {
+      return;
+    } finally {
+      r8.destroy();
     }
   }
   async generateDynamicStructure(e, t4) {
@@ -4884,23 +4953,23 @@ var l4 = (_a76 = class extends O {
     }, "strip");
     return { ...e, steps: e.steps.map(t4), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
   }
-  async generateDynamicContent(e, t4) {
-    let r8 = new c2("POST", "/api/v1/content/generate", { prompt: e.prompt, model: e.modelName, ...e.systemPrompt !== void 0 ? { system: e.systemPrompt } : {} }), a4 = new R({ name: "A_FrameChannel.generateDynamicContent", fragments: [r8] }).inherit(_.scope(this));
+  async generateDynamicContent(e$1, t4) {
+    let r8 = new c2("POST", "/api/v1/content/generate", { prompt: e$1.prompt, model: e$1.modelName, ...e$1.systemPrompt !== void 0 ? { system: e$1.systemPrompt } : {} }), a4 = new R({ name: "A_FrameChannel.generateDynamicContent", fragments: [r8] }).inherit(_.scope(this));
     await this.call(d3.Request, a4), a4.destroy();
-    let n6 = r8.response, o3 = (n6.segments ?? []).map((C3) => {
-      let b3 = new d2({ content: C3.content, options: { task: "document" } });
-      return C3.embedding?.length && b3.hydrateFromEmbedding(new Float32Array(C3.embedding)), b3;
+    let n6 = r8.response, o3 = (n6.segments ?? []).map((S4) => {
+      let b3 = new _4({ content: S4.content, options: { task: "document" } });
+      return S4.embedding?.length && b3.hydrateFromEmbedding(new Float32Array(S4.embedding)), b3;
     });
-    e.hydrateFromGeneration(o3, { model: n6.model, serverVersion: n6.meta?.server_version ?? "0.0.0" });
+    e$1.hydrateFromGeneration(o3, { model: n6.model, serverVersion: n6.meta?.server_version ?? "0.0.0" });
   }
   async patchDynamicContent(e, t4) {
-    let { instruction: r8, segments: a4 } = t4.params, n6 = /* @__PURE__ */ new Map(), o3 = a4.map((g4, ae) => {
-      let se2 = `s${ae}`;
-      return n6.set(se2, String(g4.id)), { id: se2, index: ae, text: g4.content, vector: g4.vector ? Array.from(g4.vector.values) : void 0 };
-    }), C3 = new c2("POST", "/api/v1/content/patch", { prompt: e.prompt, segments: o3, instruction: r8, model: e.modelName, ...e.systemPrompt !== void 0 ? { system: e.systemPrompt } : {} }), b3 = new R({ name: "A_FrameChannel.patchDynamicContent", fragments: [C3] }).inherit(_.scope(this));
+    let { instruction: r8, segments: a4 } = t4.params, n6 = /* @__PURE__ */ new Map(), o3 = a4.map((g5, se2) => {
+      let ie = `s${se2}`;
+      return n6.set(ie, String(g5.id)), { id: ie, index: se2, text: g5.content, vector: g5.vector ? Array.from(g5.vector.values) : void 0 };
+    }), S4 = new c2("POST", "/api/v1/content/patch", { prompt: e.prompt, segments: o3, instruction: r8, model: e.modelName, ...e.systemPrompt !== void 0 ? { system: e.systemPrompt } : {} }), b3 = new R({ name: "A_FrameChannel.patchDynamicContent", fragments: [S4] }).inherit(_.scope(this));
     await this.call(d3.Request, b3), b3.destroy();
-    let I2 = C3.response, he2 = I2.operations.map((g4) => ({ ...g4, targetId: g4.targetId ? n6.get(g4.targetId) ?? g4.targetId : g4.targetId }));
-    e.hydrateFromPatch({ ...I2, operations: he2 }, { model: I2.model, serverVersion: I2.meta?.server_version ?? "0.0.0" });
+    let T3 = S4.response, Ae2 = T3.operations.map((g5) => ({ ...g5, targetId: g5.targetId ? n6.get(g5.targetId) ?? g5.targetId : g5.targetId }));
+    e.hydrateFromPatch({ ...T3, operations: Ae2 }, { model: T3.model, serverVersion: T3.meta?.server_version ?? "0.0.0" });
   }
   async generateCompletion(e, t4) {
     let r8 = new c2("POST", "/api/v1/completions/generate", { prompt: e.prompt, options: e.options }), a4 = new R({ name: "A_FrameChannel.generateCompletion", fragments: [r8] }).inherit(_.scope(this));
@@ -4936,32 +5005,32 @@ var l4 = (_a76 = class extends O {
     }
   }
 }, __name(_a76, "l"), _a76);
-j2(l4, "A_FrameChannel"), k2([N.Extend({ name: r4.Embed, scope: [h3] }), l2(0, It(te)), l2(1, It(f4))], l4.prototype, "embedDefinition", 1), k2([N.Extend({ name: m2.Embed, scope: [w2] }), l2(0, It(te)), l2(1, It(f4))], l4.prototype, "embedNamespace", 1), k2([N.Extend({ name: r5.Embed, scope: [d2] }), l2(0, It(te)), l2(1, It(f4))], l4.prototype, "embedSegment", 1), k2([N.Extend({ name: D3.Generate, scope: [O3] }), l2(0, It(te)), l2(1, It(R3))], l4.prototype, "generateDynamicStructure", 1), k2([N.Extend({ name: D3.Patch, scope: [O3] }), l2(0, It(te)), l2(1, It(R3))], l4.prototype, "patchDynamicStructure", 1), k2([N.Extend({ name: x3.Generate, scope: [P3] }), l2(0, It(te)), l2(1, It(v5))], l4.prototype, "generateDynamicFeature", 1), k2([N.Extend({ name: x3.Patch, scope: [P3] }), l2(0, It(te)), l2(1, It(v5))], l4.prototype, "patchDynamicFeature", 1), k2([N.Extend({ name: F2.Generate, scope: [w4] }), l2(0, It(te)), l2(1, It(f3))], l4.prototype, "generateDynamicContent", 1), k2([N.Extend({ name: F2.Patch, scope: [w4] }), l2(0, It(te)), l2(1, It(f3))], l4.prototype, "patchDynamicContent", 1), k2([N.Extend({ name: n4.Generate, scope: [m4] }), l2(0, It(te)), l2(1, It(f4))], l4.prototype, "generateCompletion", 1), k2([N.Extend({ name: r6.Extract, scope: [s2] }), l2(0, It(te)), l2(1, It(f4))], l4.prototype, "extractSchema", 1), k2([N.Extend({ name: r6.ExtractMultiple, scope: [s2] }), l2(0, It(te)), l2(1, It(f4))], l4.prototype, "extractSchemaMultiple", 1);
-var le2 = l4;
+j2(l3, "A_FrameChannel"), k2([N.Extend({ name: r4.Embed, scope: [h3] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedDefinition", 1), k2([N.Extend({ name: m3.Embed, scope: [w2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedNamespace", 1), k2([N.Extend({ name: r5.Embed, scope: [_4] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedSegment", 1), k2([N.Extend({ name: D3.Generate, scope: [O3] }), l(0, Yt(te)), l(1, Yt(v4))], l3.prototype, "generateDynamicStructure", 1), k2([N.Extend({ name: D3.Patch, scope: [O3] }), l(0, Yt(te)), l(1, Yt(v4))], l3.prototype, "patchDynamicStructure", 1), k2([N.Extend({ name: C4.Generate, scope: [P3] }), l(0, Yt(te)), l(1, Yt(w5))], l3.prototype, "generateDynamicFeature", 1), k2([N.Extend({ name: C4.Patch, scope: [P3] }), l(0, Yt(te)), l(1, Yt(w5))], l3.prototype, "patchDynamicFeature", 1), k2([N.Extend({ name: F3.Generate, scope: [w4] }), l(0, Yt(te)), l(1, Yt(f2))], l3.prototype, "generateDynamicContent", 1), k2([N.Extend({ name: F3.Patch, scope: [w4] }), l(0, Yt(te)), l(1, Yt(f2))], l3.prototype, "patchDynamicContent", 1), k2([N.Extend({ name: n4.Generate, scope: [m4] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "generateCompletion", 1), k2([N.Extend({ name: r6.Extract, scope: [s2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "extractSchema", 1), k2([N.Extend({ name: r6.ExtractMultiple, scope: [s2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "extractSchemaMultiple", 1);
+var Fe2 = l3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-X7TQYO7H.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-2O3HAEYW.mjs
 var _a77;
-var r7 = (_a77 = class extends le2 {
+var r7 = (_a77 = class extends Fe2 {
   async request(e, a4) {
-    let R5 = `${a4.A_FRAME_SERVER_URL}${e.path}`, m6 = new AbortController(), _5 = setTimeout(() => {
-      m6.abort(), e.fail(new s3({ title: s3.Timeout, description: `Request to ${e.path} timed out after 15 seconds` }));
+    let R5 = `${a4.A_FRAME_SERVER_URL}${e.path}`, m7 = new AbortController(), _6 = setTimeout(() => {
+      m7.abort(), e.fail(new s3({ title: s3.Timeout, description: `Request to ${e.path} timed out after 15 seconds` }));
     }, 15e3);
     try {
-      let n6 = await fetch(R5, { method: e.method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${a4.A_FRAME_SERVER_API_KEY}` }, body: e.body !== void 0 ? JSON.stringify(e.body) : void 0, signal: m6.signal });
+      let n6 = await fetch(R5, { method: e.method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${a4.A_FRAME_SERVER_API_KEY}` }, body: e.body !== void 0 ? JSON.stringify(e.body) : void 0, signal: m7.signal });
       e.complete(await n6.json());
     } catch {
       e.fail(new s3({ title: s3.RequestFailed, description: `Request to ${e.path} failed or timed out` }));
     } finally {
-      clearTimeout(_5);
+      clearTimeout(_6);
     }
   }
 }, __name(_a77, "r"), _a77);
-j2(r7, "A_FrameBrowserChannel"), k2([N.Extend({ name: d3.Request, scope: [le2] }), l2(0, It(c2)), l2(1, It(R2))], r7.prototype, "request", 1);
-var A4 = r7;
+j2(r7, "A_FrameBrowserChannel"), k2([N.Extend({ name: d3.Request, scope: [Fe2] }), l(0, Yt(c2)), l(1, Yt(R2))], r7.prototype, "request", 1);
+var A5 = r7;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-NXZZIWC6.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-V44ZFIUA.mjs
 var _a78;
-var n5 = (_a78 = class extends B {
+var n5 = (_a78 = class extends H {
   constructor() {
     if (_a78._instance) return _a78._instance;
     super({ name: "A_FrameIndex" });
@@ -5045,8 +5114,8 @@ var n5 = (_a78 = class extends B {
     return this.namespaces.get(i6);
   }
   getDefaultNamespace() {
-    let e = this.getNamespace(C);
-    return e || (e = new w2({ name: C }), this.addNamespace(e)), e;
+    let e = this.getNamespace(C2);
+    return e || (e = new w2({ name: C2 }), this.addNamespace(e)), e;
   }
   listNamespaces() {
     return [...this.namespaces.values()];
@@ -5056,7 +5125,7 @@ var n5 = (_a78 = class extends B {
   }
   search(e, i6 = {}) {
     let { topK: a4 = 10, namespace: t4, minScore: r8 = 0, inherit: c3 } = i6, d4 = c3 ? Array.isArray(c3) ? c3 : [c3] : void 0;
-    return [...this.definitions.values()].filter((s4) => !(t4 && s4.namespace.id !== t4 || d4 && !this.matchesInheritanceFilters(s4, d4))).map((s4) => ({ record: s4, score: this.cosineSimilarity(e, s4.vector) })).filter((s4) => s4.score >= r8).sort((s4, m6) => m6.score - s4.score).slice(0, a4).map(({ record: s4, score: m6 }) => ({ record: s4, score: m6 }));
+    return [...this.definitions.values()].filter((s4) => !(t4 && s4.namespace.id !== t4 || d4 && !this.matchesInheritanceFilters(s4, d4))).map((s4) => ({ record: s4, score: this.cosineSimilarity(e, s4.vector) })).filter((s4) => s4.score >= r8).sort((s4, m7) => m7.score - s4.score).slice(0, a4).map(({ record: s4, score: m7 }) => ({ record: s4, score: m7 }));
   }
   matchesInheritanceFilters(e, i6) {
     let a4 = this.scope.resolveConstructor(e.name);
@@ -5107,13 +5176,13 @@ var M2 = (_a79 = class {
   }
 }, __name(_a79, "M"), _a79);
 j2(M2, "A_FrameTypeGuard");
-var g3 = M2;
+var g4 = M2;
 var _a80;
 var p4 = (_a80 = class extends b {
 }, __name(_a80, "p"), _a80);
 j2(p4, "A_FrameError"), p4.InvalidTarget = "A-Frame Index Invalid Target Error", p4.InvalidConfiguration = "A-Frame Index Invalid Configuration Error", p4.IndexDefinitionError = "A-Frame Index Definition Error", p4.IndexMetadataError = "A-Frame Index Metadata Error", p4.IndexRegistryError = "A-Frame Index Registry Error", p4.IndexComponentNotFoundError = "A-Frame Index Component Not Found Error";
-var m5 = p4;
-function k4(n6) {
+var m6 = p4;
+function k3(n6) {
   return function(e, r8, t4) {
     let o3;
     switch (true) {
@@ -5133,36 +5202,36 @@ function k4(n6) {
         o3 = "fragment";
         break;
       default:
-        throw new m5(m5.InvalidTarget, `@A_Frame.Define decorator cannot be applied to the target : ${A.getComponentName(e)}. It can only be applied to classes or methods inheriting from allowed base classes.`);
+        throw new m6(m6.InvalidTarget, `@A_Frame.Define decorator cannot be applied to the target : ${A.getComponentName(e)}. It can only be applied to classes or methods inheriting from allowed base classes.`);
     }
     let a4 = n6.namespace ? n6.namespace instanceof w2 ? n6.namespace : h5.getNamespace(n6.namespace) || new w2({ name: n6.namespace }) : h5.getDefaultNamespace();
     if (r8 && t4) {
-      let c3 = e.constructor, H = String(r8), $2 = t4.value.toString();
-      return h5.addDefinition(new h3({ name: H, dependency: c3.name, description: n6.description, source: $2, metadata: n6.metadata, type: "method", namespace: a4 })), t4;
+      let c3 = e.constructor, H2 = String(r8), $2 = t4.value.toString();
+      return h5.addDefinition(new h3({ name: H2, dependency: c3.name, description: n6.description, source: $2, metadata: n6.metadata, type: "method", namespace: a4 })), t4;
     }
-    if (!g3.isAllowedTarget(e)) throw new m5(m5.InvalidTarget, `@A_Frame.${o3} decorator cannot be applied to the target : ${A.getComponentName(e)}. It can only be applied to allowed targets.`);
-    let F3 = A.getComponentName(e), f5 = g3.getTargetConstructor(e), u2 = e.toString();
-    return h5.addDefinition(new h3({ name: F3, description: n6.description, dependency: f5.name, source: u2, metadata: n6.metadata, type: o3, namespace: a4 })), e;
+    if (!g4.isAllowedTarget(e)) throw new m6(m6.InvalidTarget, `@A_Frame.${o3} decorator cannot be applied to the target : ${A.getComponentName(e)}. It can only be applied to allowed targets.`);
+    let F4 = A.getComponentName(e), f4 = g4.getTargetConstructor(e), u2 = e.toString();
+    return h5.addDefinition(new h3({ name: F4, description: n6.description, dependency: f4.name, source: u2, metadata: n6.metadata, type: o3, namespace: a4 })), e;
   };
 }
-__name(k4, "k");
-j2(k4, "A_FrameDefineDecorator");
-function B3(n6 = {}) {
+__name(k3, "k");
+j2(k3, "A_FrameDefineDecorator");
+function B2(n6 = {}) {
   return function(e, r8, t4) {
-    if (!n6.name) throw new m5(m5.InvalidConfiguration, "@A_Frame.Namespace decorator requires a name in the configuration.");
+    if (!n6.name) throw new m6(m6.InvalidConfiguration, "@A_Frame.Namespace decorator requires a name in the configuration.");
     let o3 = new w2({ name: n6.name, description: n6.description });
     h5.addNamespace(o3);
   };
 }
-__name(B3, "B");
-j2(B3, "A_FrameNamespaceDecorator");
+__name(B2, "B");
+j2(B2, "A_FrameNamespaceDecorator");
 var _a81;
-var v6 = (_a81 = class extends O {
+var v5 = (_a81 = class extends O {
   static Define(e) {
-    return k4(e);
+    return k3(e);
   }
   static NameSpace(e) {
-    return B3(e);
+    return B2(e);
   }
   get package() {
     return [];
@@ -5171,12 +5240,12 @@ var v6 = (_a81 = class extends O {
     e.resolve(r8) || e.register(t4);
   }
 }, __name(_a81, "v"), _a81);
-j2(v6, "A_FrameBase");
-var P4 = v6;
+j2(v5, "A_FrameBase");
+var P4 = v5;
 var _a82;
-var l5 = (_a82 = class extends P4 {
+var l4 = (_a82 = class extends P4 {
   get package() {
-    return [{ ctor: v3, instance: new v3() }, { ctor: R2, instance: new R2() }, { ctor: O2, instance: new O2() }, { ctor: Y2, instance: Y2 }, { ctor: v4, instance: new v4() }, { ctor: A4, instance: A4 }];
+    return [{ ctor: v2, instance: new v2() }, { ctor: R2, instance: new R2() }, { ctor: O2, instance: new O2() }, { ctor: Y2, instance: Y2 }, { ctor: v3, instance: new v3() }, { ctor: A5, instance: A5 }];
   }
   async injectDependencies() {
     let e = _.root;
@@ -5191,11 +5260,11 @@ var l5 = (_a82 = class extends P4 {
       return;
     }
     a4.bundleMeta && t4.serverVersion && a4.bundleMeta.serverVersion !== t4.serverVersion && o3.warn(`A_Frame bundle was built against server v${a4.bundleMeta.serverVersion} but the current credentials report v${t4.serverVersion}. Hydration may skip records \u2014 rebuild the bundle.`);
-    let F3 = r8.listNamespaces(), f5 = r8.listDefinitions();
-    await Promise.all([...F3.map((c3) => Promise.resolve(c3.load()).catch(() => {
-    })), ...f5.map((c3) => Promise.resolve(c3.load()).catch(() => {
+    let F4 = r8.listNamespaces(), f4 = r8.listDefinitions();
+    await Promise.all([...F4.map((c3) => Promise.resolve(c3.load()).catch(() => {
+    })), ...f4.map((c3) => Promise.resolve(c3.load()).catch(() => {
     }))]);
-    let u2 = F3.filter((c3) => !c3.isEmbed).length + f5.filter((c3) => !c3.isEmbed).length;
+    let u2 = F4.filter((c3) => !c3.isEmbed).length + f4.filter((c3) => !c3.isEmbed).length;
     u2 > 0 && o3.warn(`${u2} A-Frame entit${u2 === 1 ? "y" : "ies"} could not be hydrated from the bundle. Rebuild the bundle on the Node side to include them.`);
   }
   async build(e) {
@@ -5203,8 +5272,8 @@ var l5 = (_a82 = class extends P4 {
   async start(e) {
   }
 }, __name(_a82, "l"), _a82);
-j2(l5, "A_Frame"), k2([_t.Load()], l5.prototype, "injectDependencies", 1), k2([_t.Load(), l2(0, It(R)), l2(1, It(h5)), l2(2, It(v3)), l2(3, It(v4)), l2(4, It(E))], l5.prototype, "load", 1), k2([_t.Build(), l2(0, It(R))], l5.prototype, "build", 1), k2([_t.Start(), l2(0, It(R))], l5.prototype, "start", 1);
-var R4 = l5;
+j2(l4, "A_Frame"), k2([ct.Load()], l4.prototype, "injectDependencies", 1), k2([ct.Load(), l(0, Yt(R)), l(1, Yt(h5)), l(2, Yt(v2)), l(3, Yt(v3)), l(4, Yt(E))], l4.prototype, "load", 1), k2([ct.Build(), l(0, Yt(R))], l4.prototype, "build", 1), k2([ct.Start(), l(0, Yt(R))], l4.prototype, "start", 1);
+var R4 = l4;
 
 // node_modules/@adaas/a-utils/dist/browser/chunk-ZSD77J3W.mjs
 var _a83;
@@ -5851,25 +5920,25 @@ var A_Polyfill = (_a99 = class extends O {
   }
 }, __name(_a99, "A_Polyfill"), _a99);
 __decorateClass2([
-  _t.Load()
+  ct.Load()
 ], A_Polyfill.prototype, "load", 1);
 __decorateClass2([
-  _t.Load()
+  ct.Load()
 ], A_Polyfill.prototype, "attachToWindow", 1);
 A_Polyfill = __decorateClass2([
   R4.Define({
     namespace: "A-Utils",
     description: "Polyfill component that provides cross-environment compatibility for Node.js core modules such as fs, crypto, http, https, path, url, buffer, and process. It dynamically loads appropriate polyfills based on the execution environment (Node.js or browser), enabling seamless usage of these modules in different contexts."
   }),
-  __decorateParam2(0, It("A_Logger"))
+  __decorateParam2(0, Yt("A_Logger"))
 ], A_Polyfill);
 
 // node_modules/@adaas/a-utils/dist/browser/chunk-SEQJPRV7.mjs
 var _a100;
-var A_ExecutionContext = (_a100 = class extends B {
+var A_ExecutionContext = (_a100 = class extends H {
   constructor(name, defaults) {
     super({ name });
-    this._meta = new f();
+    this._meta = new m();
     for (const key in defaults) {
       this._meta.set(key, defaults[key]);
     }
@@ -5925,7 +5994,7 @@ var A_Config = (_a102 = class extends A_ExecutionContext {
   constructor(config) {
     super("a-config");
     this.DEFAULT_ALLOWED_TO_READ_PROPERTIES = [
-      ...Oe,
+      ...Re,
       ...A_CONSTANTS__CONFIG_ENV_VARIABLES_ARRAY
     ];
     this._strict = config.strict ?? false;
@@ -5973,7 +6042,7 @@ var ConfigReader = (_a103 = class extends O {
     super();
     this.polyfill = polyfill;
     this.DEFAULT_ALLOWED_TO_READ_PROPERTIES = [
-      ...Oe,
+      ...Re,
       ...A_CONSTANTS__CONFIG_ENV_VARIABLES_ARRAY
     ];
   }
@@ -5984,7 +6053,7 @@ var ConfigReader = (_a103 = class extends O {
       });
       container.scope.register(config);
     }
-    config.set("A_CONCEPT_ROOT_FOLDER", V.A_CONCEPT_ROOT_FOLDER);
+    config.set("A_CONCEPT_ROOT_FOLDER", J.A_CONCEPT_ROOT_FOLDER);
   }
   async initialize(config) {
     const data = await this.read();
@@ -6009,15 +6078,15 @@ var ConfigReader = (_a103 = class extends O {
   }
 }, __name(_a103, "ConfigReader"), _a103);
 __decorateClass2([
-  _t.Load(),
-  __decorateParam2(0, It(U)),
-  __decorateParam2(1, It(R)),
-  __decorateParam2(2, It(A_Config))
+  ct.Load(),
+  __decorateParam2(0, Yt(K)),
+  __decorateParam2(1, Yt(R)),
+  __decorateParam2(2, Yt(A_Config))
 ], ConfigReader.prototype, "attachContext", 1);
 __decorateClass2([
-  _t.Load(),
+  ct.Load(),
   __decorateParam2(0, M.Required()),
-  __decorateParam2(0, It(A_Config))
+  __decorateParam2(0, Yt(A_Config))
 ], ConfigReader.prototype, "initialize", 1);
 ConfigReader = __decorateClass2([
   R4.Define({
@@ -6025,7 +6094,7 @@ ConfigReader = __decorateClass2([
     description: "Abstract component for reading configuration data from various sources such as files, environment variables, or remote services. This component can be extended to implement specific configuration reading strategies."
   }),
   __decorateParam2(0, M.Required()),
-  __decorateParam2(0, It(A_Polyfill))
+  __decorateParam2(0, Yt(A_Polyfill))
 ], ConfigReader);
 var _a104;
 var FileConfigReader = (_a104 = class extends ConfigReader {
@@ -6069,7 +6138,7 @@ var ENVConfigReader = (_a105 = class extends ConfigReader {
       fs.readFileSync(`${config.get("A_CONCEPT_ROOT_FOLDER")}/.env`, "utf-8").split("\n").forEach((line) => {
         const [key, value] = line.split("=");
         if (key && value) {
-          V.set(key.trim(), value.trim());
+          J.set(key.trim(), value.trim());
         }
       });
   }
@@ -6081,12 +6150,12 @@ var ENVConfigReader = (_a105 = class extends ConfigReader {
     return P.toUpperSnakeCase(property);
   }
   resolve(property) {
-    return V.get(this.getConfigurationProperty_ENV_Alias(property));
+    return J.get(this.getConfigurationProperty_ENV_Alias(property));
   }
   async read(variables = []) {
     const allVariables = [
       ...variables,
-      ...V.getAllKeys()
+      ...J.getAllKeys()
     ];
     const config = {};
     allVariables.forEach((variable) => {
@@ -6096,12 +6165,12 @@ var ENVConfigReader = (_a105 = class extends ConfigReader {
   }
 }, __name(_a105, "ENVConfigReader"), _a105);
 __decorateClass2([
-  _t.Load({
+  ct.Load({
     before: ["ENVConfigReader.initialize"]
   }),
-  __decorateParam2(0, It(A_Config)),
-  __decorateParam2(1, It(A_Polyfill)),
-  __decorateParam2(2, It(N))
+  __decorateParam2(0, Yt(A_Config)),
+  __decorateParam2(1, Yt(A_Polyfill)),
+  __decorateParam2(2, Yt(N))
 ], ENVConfigReader.prototype, "readEnvFile", 1);
 ENVConfigReader = __decorateClass2([
   R4.Define({
@@ -6110,12 +6179,12 @@ ENVConfigReader = __decorateClass2([
   })
 ], ENVConfigReader);
 var _a106;
-var A_ConfigLoader = (_a106 = class extends U {
+var A_ConfigLoader = (_a106 = class extends K {
   async prepare(polyfill) {
     if (!this.scope.has(A_Config)) {
       const newConfig = new A_Config({
         variables: [
-          ...Oe,
+          ...Re,
           ...A_CONSTANTS__CONFIG_ENV_VARIABLES_ARRAY
         ],
         defaults: {}
@@ -6141,7 +6210,7 @@ var A_ConfigLoader = (_a106 = class extends U {
           );
       }
     } catch (error) {
-      if (error instanceof S) {
+      if (error instanceof T) {
         throw new A_ConfigError({
           title: A_ConfigError.InitializationError,
           description: `Failed to initialize A_ConfigLoader. Reader not found for environment ${_.environment}`,
@@ -6152,10 +6221,10 @@ var A_ConfigLoader = (_a106 = class extends U {
   }
 }, __name(_a106, "A_ConfigLoader"), _a106);
 __decorateClass2([
-  _t.Load({
+  ct.Load({
     before: /.*/
   }),
-  __decorateParam2(0, It(A_Polyfill))
+  __decorateParam2(0, Yt(A_Polyfill))
 ], A_ConfigLoader.prototype, "prepare", 1);
 A_ConfigLoader = __decorateClass2([
   R4.Define({
@@ -6164,7 +6233,7 @@ A_ConfigLoader = __decorateClass2([
   })
 ], A_ConfigLoader);
 
-// node_modules/@adaas/a-utils/dist/browser/chunk-2UT5WCOA.mjs
+// node_modules/@adaas/a-utils/dist/browser/chunk-TMI47MXH.mjs
 var A_LOGGER_DEFAULT_SCOPE_LENGTH = 20;
 var A_LOGGER_COLOR_CODES = {
   // System colors (reserved for specific purposes)
@@ -6295,7 +6364,7 @@ var A_LOGGER_FEATURES = {
   onLog: "A_Logger_onLog"
 };
 var _a107;
-var A_LoggerLogContext = (_a107 = class extends B {
+var A_LoggerLogContext = (_a107 = class extends H {
   constructor(level, ...args) {
     super();
     this.level = level;
@@ -6708,18 +6777,16 @@ ${scopePadding}${A_LOGGER_FORMAT.PIPE}`);
   }
   debug(param1, ...args) {
     if (!this.shouldLog("debug")) return;
+    const isColor = typeof param1 === "string" && !!this.COLORS[param1];
+    const messageArgs = isColor ? args : [param1, ...args];
+    const compiled = isColor ? this.compile(param1, ...args) : this.compile(this.DEFAULT_LOG_COLOR, param1, ...args);
+    console.log(...compiled);
+    if (!_.hasFeature(A_LOGGER_FEATURES.onLog, this)) return;
     const callScope = new R({
       name: this.scope.name + ":debug",
-      fragments: [new A_LoggerLogContext("debug", ...args)]
+      fragments: [new A_LoggerLogContext("debug", ...messageArgs)]
     }).inherit(this.scope);
-    let compiled = [];
-    if (typeof param1 === "string" && this.COLORS[param1]) {
-      compiled = this.compile(param1, ...args);
-    } else {
-      compiled = this.compile(this.DEFAULT_LOG_COLOR, param1, ...args);
-    }
     try {
-      console.log(...compiled);
       this.call(A_LOGGER_FEATURES.onLog, callScope);
     } finally {
       callScope.destroy();
@@ -6727,18 +6794,16 @@ ${scopePadding}${A_LOGGER_FORMAT.PIPE}`);
   }
   info(param1, ...args) {
     if (!this.shouldLog("info")) return;
+    const isColor = typeof param1 === "string" && !!this.COLORS[param1];
+    const messageArgs = isColor ? args : [param1, ...args];
+    const compiled = isColor ? this.compile(param1, ...args) : this.compile(this.DEFAULT_LOG_COLOR, param1, ...args);
+    console.log(...compiled);
+    if (!_.hasFeature(A_LOGGER_FEATURES.onLog, this)) return;
     const callScope = new R({
       name: this.scope.name + ":info",
-      fragments: [new A_LoggerLogContext("info", ...args)]
+      fragments: [new A_LoggerLogContext("info", ...messageArgs)]
     }).inherit(this.scope);
-    let compiled = [];
-    if (typeof param1 === "string" && this.COLORS[param1]) {
-      compiled = this.compile(param1, ...args);
-    } else {
-      compiled = this.compile(this.DEFAULT_LOG_COLOR, param1, ...args);
-    }
     try {
-      console.log(...compiled);
       this.call(A_LOGGER_FEATURES.onLog, callScope);
     } finally {
       callScope.destroy();
@@ -6763,13 +6828,14 @@ ${scopePadding}${A_LOGGER_FORMAT.PIPE}`);
    */
   warning(...args) {
     if (!this.shouldLog("warning")) return;
+    let compiled = this.compile("yellow", ...args);
+    console.log(...compiled);
+    if (!_.hasFeature(A_LOGGER_FEATURES.onLog, this)) return;
     const callScope = new R({
       name: this.scope.name + ":warning",
       fragments: [new A_LoggerLogContext("warning", ...args)]
     }).inherit(this.scope);
-    let compiled = this.compile("yellow", ...args);
     try {
-      console.log(...compiled);
       this.call(A_LOGGER_FEATURES.onLog, callScope);
     } finally {
       callScope.destroy();
@@ -6792,13 +6858,14 @@ ${scopePadding}${A_LOGGER_FORMAT.PIPE}`);
    */
   error(...args) {
     if (!this.shouldLog("error")) return;
+    let compiled = this.compile("red", ...args);
+    console.log(...compiled);
+    if (!_.hasFeature(A_LOGGER_FEATURES.onLog, this)) return;
     const callScope = new R({
       name: this.scope.name + ":error",
       fragments: [new A_LoggerLogContext("error", ...args)]
     }).inherit(this.scope);
-    let compiled = this.compile("red", ...args);
     try {
-      console.log(...compiled);
       this.call(A_LOGGER_FEATURES.onLog, callScope);
     } finally {
       callScope.destroy();
@@ -6944,7 +7011,7 @@ ${scopePadding}|-------------------------------
     const locRegex = /(\(?)([^()\s:]+\.(?:ts|tsx|js|jsx|mjs|cjs)):(\d+):(\d+)(\)?)/g;
     const colorized = line.replace(
       locRegex,
-      (_5, openP, file, ln, col, closeP) => `${openP}${c3.CYAN}${file}${c3.RESET}${c3.RED}:${c3.YELLOW}${ln}${c3.RED}:${c3.YELLOW}${col}${c3.RED}${closeP}`
+      (_6, openP, file, ln, col, closeP) => `${openP}${c3.CYAN}${file}${c3.RESET}${c3.RED}:${c3.YELLOW}${ln}${c3.RED}:${c3.YELLOW}${col}${c3.RED}${closeP}`
     );
     const baseColor = /caused by:/i.test(line) ? c3.RED_BOLD : c3.RED;
     return `${baseColor}${colorized}${c3.RESET}`;
@@ -7028,8 +7095,8 @@ A_Logger = __decorateClass2([
     namespace: "A-Utils",
     description: "Advanced Logging Component with Scope-based Output Formatting that provides color-coded console output, multi-type support, and configurable log levels for enhanced debugging and monitoring."
   }),
-  __decorateParam2(0, It(R)),
-  __decorateParam2(1, It(A_Config))
+  __decorateParam2(0, Yt(R)),
+  __decorateParam2(1, Yt(A_Config))
 ], A_Logger);
 var A_LoggerEnvVariables = {
   /**
@@ -7124,11 +7191,11 @@ var A_UtilsHelper = (_a109 = class extends O {
         return `fn:${value.toString()}`;
     }
     if (value instanceof Map) {
-      const entries = Array.from(value.entries()).map(([k5, v7]) => `${A_UtilsHelper.serialize(k5)}=>${A_UtilsHelper.serialize(v7)}`).sort().join(",");
+      const entries = Array.from(value.entries()).map(([k4, v6]) => `${A_UtilsHelper.serialize(k4)}=>${A_UtilsHelper.serialize(v6)}`).sort().join(",");
       return `Map{${entries}}`;
     }
     if (value instanceof Set) {
-      const items = Array.from(value.values()).map((v7) => A_UtilsHelper.serialize(v7)).sort().join(",");
+      const items = Array.from(value.values()).map((v6) => A_UtilsHelper.serialize(v6)).sort().join(",");
       return `Set{${items}}`;
     }
     if (value instanceof Date) {
@@ -7138,14 +7205,14 @@ var A_UtilsHelper = (_a109 = class extends O {
       return `RegExp:${value.toString()}`;
     }
     if (Array.isArray(value)) {
-      const items = value.map((v7) => A_UtilsHelper.serialize(v7)).join(",");
+      const items = value.map((v6) => A_UtilsHelper.serialize(v6)).join(",");
       return `[${items}]`;
     }
     if (typeof value.toJSON === "function") {
       return `json:${A_UtilsHelper.serialize(value.toJSON())}`;
     }
     const keys = Object.keys(value).sort();
-    const pairs = keys.map((k5) => `${k5}:${A_UtilsHelper.serialize(value[k5])}`).join(",");
+    const pairs = keys.map((k4) => `${k4}:${A_UtilsHelper.serialize(value[k4])}`).join(",");
     return `{${pairs}}`;
   }
   /**
@@ -7255,33 +7322,33 @@ __decorateClass2([
   R4.Define({
     description: "Instance method wrapper for the static hash function, allowing it to be injected as a dependency."
   }),
-  __decorateParam2(0, It(te)),
-  __decorateParam2(1, It(A_ExecutionContext)),
-  __decorateParam2(2, It(N))
+  __decorateParam2(0, Yt(te)),
+  __decorateParam2(1, Yt(A_ExecutionContext)),
+  __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "hash", 1);
 __decorateClass2([
   R4.Define({
     description: "Instance method wrapper for the static serialize function, allowing it to be injected as a dependency."
   }),
-  __decorateParam2(0, It(te)),
-  __decorateParam2(1, It(A_ExecutionContext)),
-  __decorateParam2(2, It(N))
+  __decorateParam2(0, Yt(te)),
+  __decorateParam2(1, Yt(A_ExecutionContext)),
+  __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "serialize", 1);
 __decorateClass2([
   R4.Define({
     description: "Instance method wrapper for the static setByPath function, allowing it to be injected as a dependency."
   }),
-  __decorateParam2(0, It(te)),
-  __decorateParam2(1, It(A_ExecutionContext)),
-  __decorateParam2(2, It(N))
+  __decorateParam2(0, Yt(te)),
+  __decorateParam2(1, Yt(A_ExecutionContext)),
+  __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "setByPath", 1);
 __decorateClass2([
   R4.Define({
     description: "Instance method wrapper for the static getByPath function, allowing it to be injected as a dependency."
   }),
-  __decorateParam2(0, It(te)),
-  __decorateParam2(1, It(A_ExecutionContext)),
-  __decorateParam2(2, It(N))
+  __decorateParam2(0, Yt(te)),
+  __decorateParam2(1, Yt(A_ExecutionContext)),
+  __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "getByPath", 1);
 A_UtilsHelper = __decorateClass2([
   R4.Define({
@@ -7644,7 +7711,7 @@ A_SignalVector = __decorateClass2([
   })
 ], A_SignalVector);
 var _a112;
-var A_SignalState = (_a112 = class extends B {
+var A_SignalState = (_a112 = class extends H {
   /**
    * Creates a new A_SignalState instance
    * 
@@ -7731,7 +7798,7 @@ A_SignalState = __decorateClass2([
   })
 ], A_SignalState);
 var _a113;
-var A_SignalConfig = (_a113 = class extends B {
+var A_SignalConfig = (_a113 = class extends H {
   get structure() {
     if (this._structure) {
       return this._structure;
@@ -7841,7 +7908,7 @@ var A_SignalBus = (_a116 = class extends O {
     const componentContext = _.scope(this);
     if (!config) {
       const entries = componentContext.allowedEntities.entries();
-      const signalTypes = Array.from(entries).filter(([_5, entity]) => A.isInheritedFrom(entity, A_Signal)).map(([ctor, _5]) => ctor);
+      const signalTypes = Array.from(entries).filter(([_6, entity]) => A.isInheritedFrom(entity, A_Signal)).map(([ctor, _6]) => ctor);
       config = new A_SignalConfig({
         structure: signalTypes.length ? signalTypes : void 0,
         stringStructure: globalConfig?.get("A_SIGNAL_VECTOR_STRUCTURE") || void 0
@@ -7878,19 +7945,19 @@ __decorateClass2([
   N.Extend({
     before: /.*/
   }),
-  __decorateParam2(0, It(b)),
-  __decorateParam2(1, It(A_Logger))
+  __decorateParam2(0, Yt(b)),
+  __decorateParam2(1, Yt(A_Logger))
 ], A_SignalBus.prototype, _c, 1);
 __decorateClass2([
   N.Extend({
     scope: [A_SignalBus],
     before: /.*/
   }),
-  __decorateParam2(0, It(R)),
-  __decorateParam2(1, It(A_Config)),
-  __decorateParam2(2, It(A_SignalState)),
-  __decorateParam2(3, It(A_Logger)),
-  __decorateParam2(4, It(A_SignalConfig))
+  __decorateParam2(0, Yt(R)),
+  __decorateParam2(1, Yt(A_Config)),
+  __decorateParam2(2, Yt(A_SignalState)),
+  __decorateParam2(3, Yt(A_Logger)),
+  __decorateParam2(4, Yt(A_SignalConfig))
 ], A_SignalBus.prototype, _b, 1);
 __decorateClass2([
   N.Extend({
@@ -7899,13 +7966,13 @@ __decorateClass2([
   }),
   __decorateParam2(0, M.Flat()),
   __decorateParam2(0, M.All()),
-  __decorateParam2(0, It(A_Signal)),
-  __decorateParam2(1, It(R)),
+  __decorateParam2(0, Yt(A_Signal)),
+  __decorateParam2(1, Yt(R)),
   __decorateParam2(2, M.Required()),
-  __decorateParam2(2, It(A_SignalState)),
-  __decorateParam2(3, It(A_Config)),
-  __decorateParam2(4, It(A_Logger)),
-  __decorateParam2(5, It(A_SignalConfig))
+  __decorateParam2(2, Yt(A_SignalState)),
+  __decorateParam2(3, Yt(A_Config)),
+  __decorateParam2(4, Yt(A_Logger)),
+  __decorateParam2(5, Yt(A_SignalConfig))
 ], A_SignalBus.prototype, _a115, 1);
 A_SignalBus = __decorateClass2([
   R4.Define({
@@ -7938,14 +8005,14 @@ var _a118;
 var _b2;
 var _c2;
 var _d;
-var _e;
+var _e2;
 var _f;
 var _g;
 var _h;
 var _i;
 var _j;
 var _a119;
-var A_Service = (_a119 = class extends U {
+var A_Service = (_a119 = class extends K {
   static get onBeforeLoad() {
     return (target, propertyKey, descriptor) => {
       return N.Extend({
@@ -8143,7 +8210,7 @@ var A_Service = (_a119 = class extends U {
   ](...args) {
   }
   async [
-    _e = "_A_Service_onAfterStart"
+    _e2 = "_A_Service_onAfterStart"
     /* onAfterStart */
   ](...args) {
   }
@@ -8170,17 +8237,17 @@ var A_Service = (_a119 = class extends U {
   }
 }, __name(_a119, "A_Service"), _a119);
 __decorateClass2([
-  _t.Load()
+  ct.Load()
 ], A_Service.prototype, "load", 1);
 __decorateClass2([
-  _t.Start()
+  ct.Start()
 ], A_Service.prototype, "start", 1);
 __decorateClass2([
-  _t.Stop()
+  ct.Stop()
 ], A_Service.prototype, "stop", 1);
 __decorateClass2([
   N.Extend(),
-  __decorateParam2(0, It(A_Polyfill))
+  __decorateParam2(0, Yt(A_Polyfill))
 ], A_Service.prototype, _j, 1);
 __decorateClass2([
   N.Extend()
@@ -8196,7 +8263,7 @@ __decorateClass2([
 ], A_Service.prototype, _f, 1);
 __decorateClass2([
   N.Extend()
-], A_Service.prototype, _e, 1);
+], A_Service.prototype, _e2, 1);
 __decorateClass2([
   N.Extend()
 ], A_Service.prototype, _d, 1);
@@ -8210,8 +8277,8 @@ __decorateClass2([
   N.Extend({
     before: /.*/
   }),
-  __decorateParam2(0, It(b)),
-  __decorateParam2(1, It(A_Logger))
+  __decorateParam2(0, Yt(b)),
+  __decorateParam2(1, Yt(A_Logger))
 ], A_Service.prototype, _a118, 1);
 A_Service = __decorateClass2([
   R4.Define({
@@ -8222,7 +8289,7 @@ A_Service = __decorateClass2([
 
 // node_modules/@adaas/a-utils/dist/browser/a-route.mjs
 var _a120;
-var A_Route = (_a120 = class extends B {
+var A_Route = (_a120 = class extends H {
   constructor(url) {
     super();
     this.url = url instanceof RegExp ? url.source : url;
@@ -8494,6 +8561,11 @@ var AreFeatures = {
   //=================================================================================== 
   onSignal: "_Are_onSignal"
 };
+function AreSignalFeatureKey(ctor) {
+  const key = ctor.entity || ctor.name;
+  return `${AreFeatures.onSignal}:${key}`;
+}
+__name(AreSignalFeatureKey, "AreSignalFeatureKey");
 var AreInstructionFeatures = {
   /**
    * The 'Apply' feature indicates that the instruction has been applied to the scene or component, meaning that its effects have been executed and are now reflected in the state of the scene or component. This status is typically used to track the lifecycle of an instruction, allowing for proper management and potential reversal of changes if needed.
@@ -8732,7 +8804,7 @@ var AreSceneStatuses = {
   Destroyed: "destroyed"
 };
 var _a127;
-var AreScene = (_a127 = class extends B {
+var AreScene = (_a127 = class extends H {
   constructor(id) {
     super({ name: id.toString() });
     this._groupToInstructionsMap = /* @__PURE__ */ new Map();
@@ -9487,16 +9559,18 @@ var AreNode = (_a129 = class extends D {
    */
   mount() {
     this.checkScopeInheritance();
-    try {
-      const context = this.scope.resolve(AreContext);
-      context?.startPerformance("Node Mount");
-      this.call(AreNodeFeatures.onBeforeMount, this.scope);
-      this.call(AreNodeFeatures.onMount, this.scope);
-      this.call(AreNodeFeatures.onAfterMount, this.scope);
-      context?.endPerformance("Node Mount");
-    } catch (error) {
-      throw error;
+    const context = this.scope.resolve(AreContext);
+    context?.startPerformance("Node Mount");
+    this.call(AreNodeFeatures.onBeforeMount, this.scope);
+    const onMount = this.call(AreNodeFeatures.onMount, this.scope);
+    if (onMount && typeof onMount.then === "function") {
+      return onMount.then(() => {
+        this.call(AreNodeFeatures.onAfterMount, this.scope);
+        context?.endPerformance("Node Mount");
+      });
     }
+    this.call(AreNodeFeatures.onAfterMount, this.scope);
+    context?.endPerformance("Node Mount");
   }
   /**
    * Interprets the node, which typically involves executing any necessary logic to process the node's features, attributes, directives, and other properties to generate the corresponding SceneInstructions for rendering and updating the node in response to changes in state or context. This method is responsible for ensuring that the node is properly interpreted based on its content, markup, styles, and features to enable dynamic behavior and responsiveness within the scene.
@@ -9660,7 +9734,26 @@ AreEvent = __decorateClass3([
 ], AreEvent);
 var _a131;
 var AreSignalsMeta = (_a131 = class extends z {
-  registerCondition(component, vector) {
+  /**
+   * Registers a condition vector for a component.
+   *
+   * @param component The component constructor to render when the condition matches.
+   * @param vector    The signal vector that activates the component.
+   * @param root      Optional root id. When provided, the condition only
+   *                  applies to the outlet with that id (per-root targeting).
+   *                  When omitted, the condition applies to ALL roots — this
+   *                  is the original, root-agnostic behavior.
+   */
+  registerCondition(component, vector, root) {
+    if (root) {
+      const rootScopedConditions = this.get("rootScopedConditions") || /* @__PURE__ */ new Map();
+      if (!rootScopedConditions.has(root)) {
+        rootScopedConditions.set(root, /* @__PURE__ */ new Map());
+      }
+      rootScopedConditions.get(root).set(vector, component);
+      this.set("rootScopedConditions", rootScopedConditions);
+      return;
+    }
     const vectorToComponent = this.get("vectorToComponent") || /* @__PURE__ */ new Map();
     const componentToVector = this.get("componentToVector") || /* @__PURE__ */ new Map();
     vectorToComponent.set(vector, component);
@@ -9685,40 +9778,62 @@ var AreSignalsMeta = (_a131 = class extends z {
    * @param vector   The incoming signal vector.
    * @param allowed  Optional set/array of component constructors to consider.
    *                 When omitted, every registered component is eligible.
+   * @param root     Optional root id. When provided, conditions registered
+   *                 specifically for that root (via `@Are.Condition(vector,
+   *                 { root })`) are considered FIRST and take priority over
+   *                 global, root-agnostic conditions. Conditions scoped to a
+   *                 DIFFERENT root are never returned here.
    */
-  findComponentByVector(vector, allowed) {
+  findComponentByVector(vector, allowed, root) {
     if (!vector) return void 0;
     const allowedSet = allowed ? allowed instanceof Set ? allowed : new Set(allowed) : void 0;
     const isAllowed = /* @__PURE__ */ __name((component) => !allowedSet || allowedSet.has(component), "isAllowed");
+    if (root) {
+      const rootScoped = this.get("rootScopedConditions")?.get(root);
+      if (rootScoped) {
+        const match = this.matchInMap(rootScoped, vector, isAllowed);
+        if (match) return match;
+      }
+    }
     const vectorToComponent = this.get("vectorToComponent");
     if (vectorToComponent) {
-      const component = vectorToComponent.get(vector);
-      if (component && isAllowed(component)) {
+      return this.matchInMap(vectorToComponent, vector, isAllowed);
+    }
+    return void 0;
+  }
+  /**
+   * Resolves the best component from a vector→component map using the
+   * three-tier priority shared by all condition matching:
+   *   1. Simple identity lookup (same vector instance).
+   *   2. Full equivalence (`vector.equals`).
+   *   3. Logical match (`vector.match`, order-independent).
+   *   4. Inclusion (`vector.includes`, provided vector is a subset).
+   */
+  matchInMap(map, vector, isAllowed) {
+    const direct = map.get(vector);
+    if (direct && isAllowed(direct)) {
+      return direct;
+    }
+    for (const [registeredVector, component] of map.entries()) {
+      if (isAllowed(component) && vector.equals(registeredVector)) {
         return component;
       }
     }
-    if (vectorToComponent) {
-      for (const [registeredVector, component] of vectorToComponent.entries()) {
-        if (isAllowed(component) && vector.equals(registeredVector)) {
-          return component;
-        }
+    for (const [registeredVector, component] of map.entries()) {
+      if (isAllowed(component) && vector.match(registeredVector)) {
+        return component;
       }
-      for (const [registeredVector, component] of vectorToComponent.entries()) {
-        if (isAllowed(component) && vector.match(registeredVector)) {
-          return component;
-        }
-      }
-      for (const [registeredVector, component] of vectorToComponent.entries()) {
-        if (isAllowed(component) && vector.includes(registeredVector)) {
-          return component;
-        }
+    }
+    for (const [registeredVector, component] of map.entries()) {
+      if (isAllowed(component) && vector.includes(registeredVector)) {
+        return component;
       }
     }
     return void 0;
   }
 }, __name(_a131, "AreSignalsMeta"), _a131);
 var _a132;
-var AreSignalsContext = (_a132 = class extends B {
+var AreSignalsContext = (_a132 = class extends H {
   constructor(config) {
     super({ name: "AreSignalsContext" });
     this._componentMap = /* @__PURE__ */ new Map();
@@ -9870,6 +9985,20 @@ var AreSignals = (_a133 = class extends O {
         logger?.debug("Emitting signal for root node:", vector);
         await root.emit(callScope);
         callScope.destroy();
+        const dispatchedSignals = scope.resolveFlatAll(A_Signal);
+        for (const signal of dispatchedSignals) {
+          if (!signal) continue;
+          const ctor = signal.constructor;
+          const typedFeatureName = AreSignalFeatureKey(ctor);
+          const typedScope = new R({
+            fragments: [new AreEvent(typedFeatureName, {
+              vector,
+              signal
+            })]
+          }).import(scope, root.scope);
+          await root.emit(typedScope);
+          typedScope.destroy();
+        }
       }
     } catch (error) {
       logger?.error(error);
@@ -9948,29 +10077,29 @@ __decorateClass3([
   N.Extend({
     name: A_SignalBusFeatures.onNext
   }),
-  __decorateParam3(0, It(A_SignalVector)),
-  __decorateParam3(1, It(AreSignalsContext)),
-  __decorateParam3(2, It(A_SignalState)),
-  __decorateParam3(3, It(R)),
-  __decorateParam3(4, It(A_Logger))
+  __decorateParam3(0, Yt(A_SignalVector)),
+  __decorateParam3(1, Yt(AreSignalsContext)),
+  __decorateParam3(2, Yt(A_SignalState)),
+  __decorateParam3(3, Yt(R)),
+  __decorateParam3(4, Yt(A_Logger))
 ], AreSignals.prototype, "handleSignalVector", 1);
 __decorateClass3([
   N.Extend({
     name: AreNodeFeatures.onEmit,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreEvent)),
-  __decorateParam3(3, It(N)),
-  __decorateParam3(4, It(A_Logger))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreEvent)),
+  __decorateParam3(3, Yt(N)),
+  __decorateParam3(4, Yt(A_Logger))
 ], AreSignals.prototype, "propagateEvent", 1);
 AreSignals = __decorateClass3([
   R4.Define({
     namespace: "A-ARE",
     description: "AreSignals is the central signal bus component within the ARE framework. It listens for incoming signal vectors and dispatches them to all subscribed root nodes, enabling reactive, event-driven rendering and lifecycle management across the component tree."
   }),
-  f.Define(AreSignalsMeta)
+  m.Define(AreSignalsMeta)
 ], AreSignals);
 var _a134;
 var AreMeta = (_a134 = class extends z {
@@ -9981,7 +10110,7 @@ var Are = (_a135 = class extends O {
     super(...arguments);
     this.props = {};
   }
-  static Condition(signals) {
+  static Condition(signals, options) {
     return function(target) {
       const componentMeta = _.meta(target);
       const signalsMeta = _.meta(AreSignals);
@@ -9998,7 +10127,7 @@ var Are = (_a135 = class extends O {
       }
       if (vector) {
         componentMeta.vector = vector;
-        signalsMeta.registerCondition(target, vector);
+        signalsMeta.registerCondition(target, vector, options?.root);
       }
       return target;
     };
@@ -10138,13 +10267,19 @@ var Are = (_a135 = class extends O {
       })(target, propertyKey, descriptor);
     };
   }
-  /**
-   * Allows to define a custom method for handling signals emitted by the component or other parts of the application. This method can be used to implement custom logic for responding to specific signals, such as user interactions, state changes, or other events that may affect the component's behavior or appearance. By defining this method, developers can create more dynamic and interactive components that can react to changes in the application state or user input in a flexible and efficient way.
-   */
-  static get Signal() {
-    return (target, propertyKey, descriptor) => {
+  static Signal(...args) {
+    if (args.length >= 3 && typeof args[1] === "string") {
+      const [target, propertyKey, descriptor] = args;
       return N.Extend({
         name: AreFeatures.onSignal,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    }
+    const ctor = args[0];
+    const featureName = AreSignalFeatureKey(ctor);
+    return function(target, propertyKey, descriptor) {
+      return N.Extend({
+        name: featureName,
         scope: [target.constructor]
       })(target, propertyKey, descriptor);
     };
@@ -10170,10 +10305,10 @@ Are = __decorateClass3([
     namespace: "A-ARE",
     description: "Base component class for A-Concept Rendering Engine (ARE) components. It provides lifecycle decorators and methods for defining templates, styles, and data, facilitating the creation of dynamic and interactive UI components within the ARE framework."
   }),
-  f.Define(AreMeta)
+  m.Define(AreMeta)
 ], Are);
 var _a136;
-var AreSyntax = (_a136 = class extends B {
+var AreSyntax = (_a136 = class extends H {
   constructor(config) {
     super({ name: "AreSyntax" });
     this.MAX_LENGTH = 500;
@@ -10418,11 +10553,11 @@ var AreSyntax = (_a136 = class extends B {
   // ── Sandbox ───────────────────────────────────────────────────────────────
   createSandbox(store, scope) {
     return new Proxy({}, {
-      has: /* @__PURE__ */ __name((_5, key) => {
+      has: /* @__PURE__ */ __name((_6, key) => {
         if (typeof key === "string" && this.BLOCKED_GLOBALS.has(key)) return false;
         return true;
       }, "has"),
-      get: /* @__PURE__ */ __name((_5, key) => {
+      get: /* @__PURE__ */ __name((_6, key) => {
         if (typeof key !== "string") return void 0;
         if (scope && key in scope) return scope[key];
         this.assertSafeKey(key);
@@ -10524,9 +10659,9 @@ __decorateClass3([
     name: AreNodeFeatures.onCompile,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreScene)),
-  __decorateParam3(2, It(A_Logger))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreScene)),
+  __decorateParam3(2, Yt(A_Logger))
 ], AreCompiler.prototype, "compile", 1);
 AreCompiler = __decorateClass3([
   R4.Define({
@@ -10553,9 +10688,9 @@ __decorateClass3([
     name: AreNodeFeatures.onTransform,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene))
 ], AreTransformer.prototype, "transform", 1);
 AreTransformer = __decorateClass3([
   R4.Define({
@@ -10581,25 +10716,19 @@ var AreLoader = (_a139 = class extends O {
     context?.startPerformance("Tokenization");
     node.tokenize();
     context?.endPerformance("Tokenization");
-    for (let i6 = 0; i6 < node.children.length; i6++) {
-      const childNode = node.children[i6];
-      const res = childNode.load();
-      if (res instanceof Promise) {
-        await res;
-      }
-    }
+    await Promise.all(node.children.map((childNode) => childNode.load()));
   }
 }, __name(_a139, "AreLoader"), _a139);
 __decorateClass3([
   N.Extend({
-    name: Pe.LOAD,
+    name: be.LOAD,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(N)),
-  __decorateParam3(3, It(A_Logger)),
-  __decorateParam3(4, It(AreContext))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(N)),
+  __decorateParam3(3, Yt(A_Logger)),
+  __decorateParam3(4, Yt(AreContext))
 ], AreLoader.prototype, "load", 1);
 AreLoader = __decorateClass3([
   R4.Define({
@@ -10615,7 +10744,10 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
   constructor(aseid) {
     super(aseid.toString());
     this.dependencies = /* @__PURE__ */ new Map();
+    this.watcherPaths = /* @__PURE__ */ new Map();
     this._keys = /* @__PURE__ */ new Set();
+    this._batchDepth = 0;
+    this._pendingNotify = /* @__PURE__ */ new Set();
   }
   /**
    * Allows to define a pure function that will be executed in the context of the store, so it can access the store's data and methods, but it won't have access to the component's scope or other features. This can be useful for example for defining a function that will update the store's data based on some logic, without having access to the component's scope or other features, so we can keep the store's logic separate from the component's logic.
@@ -10645,7 +10777,10 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
   get keys() {
     return this._keys;
   }
-  watch(instruction) {
+  watch(instruction, reevaluate = false) {
+    if (reevaluate) {
+      this.pruneWatcher(instruction);
+    }
     const watchers = this.context.get("watchers") || /* @__PURE__ */ new Set();
     watchers.add(instruction);
     this.context.set("watchers", watchers);
@@ -10674,13 +10809,7 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
         super.set(firstPart, result ? result[firstPart] : primaryObject);
       }
     }
-    const normChanged = this.normalizePath(String(key));
-    const prefix = normChanged + ".";
-    for (const [normRegistered, instructions] of this.dependencies) {
-      if (normRegistered === normChanged || normRegistered.startsWith(prefix) || normChanged.startsWith(normRegistered + ".")) {
-        this.notify(instructions);
-      }
-    }
+    this.dispatch(this.collectAffected(String(key)));
   }
   set(param1, param2) {
     if (typeof param1 === "string" && param2 !== void 0) {
@@ -10704,7 +10833,15 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
         if (!this.dependencies.has(normAncestor)) {
           this.dependencies.set(normAncestor, /* @__PURE__ */ new Set());
         }
-        this.watchers.forEach((watcher) => this.dependencies.get(normAncestor).add(watcher));
+        this.watchers.forEach((watcher) => {
+          this.dependencies.get(normAncestor).add(watcher);
+          let paths = this.watcherPaths.get(watcher);
+          if (!paths) {
+            paths = /* @__PURE__ */ new Set();
+            this.watcherPaths.set(watcher, paths);
+          }
+          paths.add(normAncestor);
+        });
       }
     }
     const primaryObject = super.get(firstPart);
@@ -10713,19 +10850,15 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
   }
   setAsObject(values) {
     const entires = Object.entries(values);
+    const affected = /* @__PURE__ */ new Set();
     for (const [key, value] of entires) {
       this._keys.add(key);
       super.set(key, value);
-      const normChanged = this.normalizePath(String(key));
-      const prefix = normChanged + ".";
-      for (const [normRegistered, instructions] of this.dependencies) {
-        if (normRegistered === normChanged || // exact
-        normRegistered.startsWith(prefix) || // descendant
-        normChanged.startsWith(normRegistered + ".")) {
-          this.notify(instructions);
-        }
+      for (const watcher of this.collectAffected(String(key))) {
+        affected.add(watcher);
       }
     }
+    this.dispatch(affected);
     return this;
   }
   setAsKeyValue(key, value) {
@@ -10734,15 +10867,7 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
     const primaryObject = super.get(firstPart);
     const result = A_UtilsHelper.setBypath(primaryObject, pathPart.join("."), value);
     super.set(firstPart, result ? result[firstPart] : value);
-    const normChanged = this.normalizePath(String(key));
-    const prefix = normChanged + ".";
-    for (const [normRegistered, instructions] of this.dependencies) {
-      if (normRegistered === normChanged || // exact
-      normRegistered.startsWith(prefix) || // descendant
-      normChanged.startsWith(normRegistered + ".")) {
-        this.notify(instructions);
-      }
-    }
+    this.dispatch(this.collectAffected(String(key)));
     return this;
   }
   /**
@@ -10757,39 +10882,128 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
    */
   forceUpdate(key) {
     if (key === void 0) {
+      const all = /* @__PURE__ */ new Set();
       for (const instructions of this.dependencies.values()) {
-        this.notify(instructions);
+        for (const watcher of instructions) all.add(watcher);
       }
+      this.dispatch(all);
       return this;
     }
-    const normChanged = this.normalizePath(String(key));
-    const prefix = normChanged + ".";
-    for (const [normRegistered, instructions] of this.dependencies) {
-      if (normRegistered === normChanged || normRegistered.startsWith(prefix) || normChanged.startsWith(normRegistered + ".")) {
-        this.notify(instructions);
+    this.dispatch(this.collectAffected(String(key)));
+    return this;
+  }
+  /**
+   * Runs `fn` with notifications deferred: every watcher affected by writes
+   * performed inside `fn` is collected and notified exactly once when the
+   * outermost batch completes. Nested `batch()` calls are coalesced into the
+   * outermost flush. Use this to wrap a burst of `set()`/`drop()` calls that
+   * logically belong together so each dependent renders only once (#4).
+   */
+  batch(fn) {
+    this._batchDepth++;
+    try {
+      fn();
+    } finally {
+      this._batchDepth--;
+      if (this._batchDepth === 0 && this._pendingNotify.size > 0) {
+        const pending = this._pendingNotify;
+        this._pendingNotify = /* @__PURE__ */ new Set();
+        this.notify(pending);
       }
     }
     return this;
   }
   /**
+   * Builds the deduplicated set of watchers affected by a change to
+   * `changedKey`, using the same exact/descendant/ancestor path matching as
+   * `set()`. Returning a single union Set guarantees each watcher appears at
+   * most once regardless of how many of its registered paths matched (#3).
+   */
+  collectAffected(changedKey) {
+    const normChanged = this.normalizePath(String(changedKey));
+    const prefix = normChanged + ".";
+    const affected = /* @__PURE__ */ new Set();
+    for (const [normRegistered, instructions] of this.dependencies) {
+      if (normRegistered === normChanged || // exact
+      normRegistered.startsWith(prefix) || // descendant
+      normChanged.startsWith(normRegistered + ".")) {
+        for (const instruction of instructions) affected.add(instruction);
+      }
+    }
+    return affected;
+  }
+  /**
+   * Notifies the given watchers now, or defers them to the batch flush when a
+   * `batch()` is active. The incoming set is already deduplicated by
+   * {@link collectAffected}.
+   */
+  dispatch(affected) {
+    if (affected.size === 0) return;
+    if (this._batchDepth > 0) {
+      for (const watcher of affected) this._pendingNotify.add(watcher);
+      return;
+    }
+    this.notify(affected);
+  }
+  /**
+   * Removes a watcher from every dependency set it holds on THIS store (and,
+   * best-effort, on ancestor stores reached via parent delegation in
+   * `get()`), clearing the matching reverse-index entries. Called at the
+   * start of each tracking window so a re-evaluating watcher does not keep
+   * stale subscriptions (#5).
+   */
+  pruneWatcher(instruction) {
+    const paths = this.watcherPaths.get(instruction);
+    if (paths) {
+      for (const path of paths) {
+        const set = this.dependencies.get(path);
+        if (set) {
+          set.delete(instruction);
+          if (set.size === 0) this.dependencies.delete(path);
+        }
+      }
+      this.watcherPaths.delete(instruction);
+    }
+    try {
+      this.parent?.pruneWatcher(instruction);
+    } catch {
+    }
+  }
+  /**
    * Notifies instructions — immediately or deferred if inside a batch.
+   *
+   * A failing watcher is isolated so one bad `update()` cannot abort the rest
+   * of the flush, but the error is surfaced (no longer swallowed silently) so
+   * render-time failures are diagnosable. Logger resolution is best-effort and
+   * confined to this cold error path.
    */
   notify(instructions) {
     for (const instruction of instructions) {
       try {
         instruction.update();
       } catch (error) {
+        try {
+          const logger = _.scope(this).resolve(A_Logger);
+          logger?.error(error);
+        } catch {
+          console.error("[AreStore] watcher update failed:", error);
+        }
       }
     }
   }
   /**
-   * Removes an instruction from all dependency sets.
-   * Called when an instruction is reverted/destroyed.
+   * Removes an instruction from all dependency sets on this store, clearing
+   * its reverse-index entry and any pending batched notification. Called when
+   * an instruction is reverted/destroyed so a torn-down node's watcher can
+   * never be re-notified by a later `set()` (#1).
    */
   unregister(instruction) {
-    for (const instructions of this.dependencies.values()) {
+    for (const [path, instructions] of this.dependencies) {
       instructions.delete(instruction);
+      if (instructions.size === 0) this.dependencies.delete(path);
     }
+    this.watcherPaths.delete(instruction);
+    this._pendingNotify.delete(instruction);
   }
   /**
    * Normalizes a path once — reused in both get and set.
@@ -10907,28 +11121,30 @@ var AreInterpreter = (_a141 = class extends O {
   }
   applyInstruction(instruction, interpreter, store, scope, feature, ...args) {
     try {
-      store.watch(instruction);
+      store?.watch(instruction);
       feature.chain(interpreter, instruction.name + AreInstructionFeatures.Apply, scope);
-      store.unwatch(instruction);
+      store?.unwatch(instruction);
     } catch (error) {
-      store.unwatch(instruction);
+      store?.unwatch(instruction);
       throw error;
     }
   }
   updateInstruction(instruction, interpreter, store, scope, feature, ...args) {
     try {
-      store.watch(instruction);
+      store?.watch(instruction, true);
       feature.chain(interpreter, instruction.name + AreInstructionFeatures.Update, scope);
-      store.unwatch(instruction);
+      store?.unwatch(instruction);
     } catch (error) {
-      store.unwatch(instruction);
+      store?.unwatch(instruction);
       throw error;
     }
   }
   revertInstruction(instruction, interpreter, store, scope, feature, ...args) {
     try {
       feature.chain(interpreter, instruction.name + AreInstructionFeatures.Revert, scope);
+      store?.unregister(instruction);
     } catch (error) {
+      store?.unregister(instruction);
       throw error;
     }
   }
@@ -10938,40 +11154,40 @@ __decorateClass3([
     name: AreNodeFeatures.onInterpret,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(AreScene))
+  __decorateParam3(0, Yt(AreScene))
 ], AreInterpreter.prototype, "interpret", 1);
 __decorateClass3([
   N.Extend({
     name: AreInstructionFeatures.Apply,
     scope: [AreInstruction]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreInterpreter)),
-  __decorateParam3(2, It(AreStore)),
-  __decorateParam3(3, It(R)),
-  __decorateParam3(4, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreInterpreter)),
+  __decorateParam3(2, Yt(AreStore)),
+  __decorateParam3(3, Yt(R)),
+  __decorateParam3(4, Yt(N))
 ], AreInterpreter.prototype, "applyInstruction", 1);
 __decorateClass3([
   N.Extend({
     name: AreInstructionFeatures.Update,
     scope: [AreInstruction]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreInterpreter)),
-  __decorateParam3(2, It(AreStore)),
-  __decorateParam3(3, It(R)),
-  __decorateParam3(4, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreInterpreter)),
+  __decorateParam3(2, Yt(AreStore)),
+  __decorateParam3(3, Yt(R)),
+  __decorateParam3(4, Yt(N))
 ], AreInterpreter.prototype, "updateInstruction", 1);
 __decorateClass3([
   N.Extend({
     name: AreInstructionFeatures.Revert,
     scope: [AreInstruction]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreInterpreter)),
-  __decorateParam3(2, It(AreStore)),
-  __decorateParam3(3, It(R)),
-  __decorateParam3(4, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreInterpreter)),
+  __decorateParam3(2, Yt(AreStore)),
+  __decorateParam3(3, Yt(R)),
+  __decorateParam3(4, Yt(N))
 ], AreInterpreter.prototype, "revertInstruction", 1);
 AreInterpreter = __decorateClass3([
   R4.Define({
@@ -11152,20 +11368,20 @@ __decorateClass3([
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "beforeInit", 1);
 __decorateClass3([
   N.Extend({
     name: AreNodeFeatures.onInit,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreContext)),
-  __decorateParam3(3, It(A_Logger))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreContext)),
+  __decorateParam3(3, Yt(A_Logger))
 ], AreLifecycle.prototype, "init", 1);
 __decorateClass3([
   N.Extend({
@@ -11173,10 +11389,10 @@ __decorateClass3([
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "afterInit", 1);
 __decorateClass3([
   N.Extend({
@@ -11184,19 +11400,19 @@ __decorateClass3([
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "beforeMount", 1);
 __decorateClass3([
   N.Extend({
     name: AreNodeFeatures.onMount,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreScene)),
-  __decorateParam3(2, It(A_Logger))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreScene)),
+  __decorateParam3(2, Yt(A_Logger))
 ], AreLifecycle.prototype, "mount", 1);
 __decorateClass3([
   N.Extend({
@@ -11204,10 +11420,10 @@ __decorateClass3([
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "afterMount", 1);
 __decorateClass3([
   N.Extend({
@@ -11215,19 +11431,19 @@ __decorateClass3([
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "beforeUpdate", 1);
 __decorateClass3([
   N.Extend({
     name: AreNodeFeatures.onUpdate,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreContext)),
-  __decorateParam3(2, It(A_Logger))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreContext)),
+  __decorateParam3(2, Yt(A_Logger))
 ], AreLifecycle.prototype, "update", 1);
 __decorateClass3([
   N.Extend({
@@ -11235,10 +11451,10 @@ __decorateClass3([
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "afterUpdate", 1);
 __decorateClass3([
   N.Extend({
@@ -11246,18 +11462,18 @@ __decorateClass3([
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "beforeUnmount", 1);
 __decorateClass3([
   N.Extend({
     name: AreNodeFeatures.onUnmount,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreScene))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreScene))
 ], AreLifecycle.prototype, "unmount", 1);
 __decorateClass3([
   N.Extend({
@@ -11265,10 +11481,10 @@ __decorateClass3([
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(AreScene)),
-  __decorateParam3(3, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(AreScene)),
+  __decorateParam3(3, Yt(N))
 ], AreLifecycle.prototype, "afterUnmount", 1);
 __decorateClass3([
   N.Extend({
@@ -11276,17 +11492,17 @@ __decorateClass3([
     before: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(N))
 ], AreLifecycle.prototype, "beforeDestroy", 1);
 __decorateClass3([
   N.Extend({
-    name: Pe.DESTROY,
+    name: be.DESTROY,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreScene))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreScene))
 ], AreLifecycle.prototype, "destroy", 1);
 __decorateClass3([
   N.Extend({
@@ -11294,9 +11510,9 @@ __decorateClass3([
     after: /.*/,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(R)),
-  __decorateParam3(2, It(N))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(R)),
+  __decorateParam3(2, Yt(N))
 ], AreLifecycle.prototype, "afterDestroy", 1);
 AreLifecycle = __decorateClass3([
   R4.Define({
@@ -11413,9 +11629,9 @@ var AreTokenizer = (_a145 = class extends O {
     if (rule.pattern) {
       const slice = source.slice(from, to);
       rule.pattern.lastIndex = 0;
-      const m6 = rule.pattern.exec(slice);
-      if (!m6) return null;
-      return this.buildMatch(rule, m6[0], m6[0], from + m6.index, "");
+      const m7 = rule.pattern.exec(slice);
+      if (!m7) return null;
+      return this.buildMatch(rule, m7[0], m7[0], from + m7.index, "");
     }
     if (!rule.opening || !rule.closing) return null;
     if (rule.prefix) return this.matchPrefixedRule(source, rule, from, to);
@@ -11508,16 +11724,16 @@ __decorateClass3([
     name: AreEngineFeatures.Load
     // scope: [AreEngine]
   }),
-  __decorateParam3(0, It(AreContext))
+  __decorateParam3(0, Yt(AreContext))
 ], AreTokenizer.prototype, "instantiate", 1);
 __decorateClass3([
   N.Extend({
     name: AreNodeFeatures.onTokenize,
     scope: [AreNode]
   }),
-  __decorateParam3(0, It(te)),
-  __decorateParam3(1, It(AreContext)),
-  __decorateParam3(2, It(A_Logger))
+  __decorateParam3(0, Yt(te)),
+  __decorateParam3(1, Yt(AreContext)),
+  __decorateParam3(2, Yt(A_Logger))
 ], AreTokenizer.prototype, "tokenize", 1);
 AreTokenizer = __decorateClass3([
   R4.Define({
@@ -11621,7 +11837,7 @@ var AreEngine = (_a148 = class extends O {
     logger?.debug("cyan", "Starting to execute the scene and mount root nodes...");
     for (const root of context.roots) {
       context.startPerformance(`Mount root <${root.aseid.id}>`);
-      root.mount();
+      await root.mount();
       context.endPerformance(`Mount root <${root.aseid.id}>`);
     }
     logger?.debug("cyan", "Emitting AreInit signal to start the reactive update cycle...");
@@ -11724,8 +11940,8 @@ __decorateClass3([
     before: /.*/
   }),
   __decorateParam3(0, M.Required()),
-  __decorateParam3(0, It(AreContext)),
-  __decorateParam3(1, It(A_Logger))
+  __decorateParam3(0, Yt(AreContext)),
+  __decorateParam3(1, Yt(A_Logger))
 ], AreEngine.prototype, "defaultBuild", 1);
 __decorateClass3([
   N.Extend({
@@ -11733,31 +11949,31 @@ __decorateClass3([
     before: /.*/
   }),
   __decorateParam3(0, M.Required()),
-  __decorateParam3(0, It(AreContext)),
-  __decorateParam3(1, It(A_SignalBus)),
-  __decorateParam3(2, It(A_Logger))
+  __decorateParam3(0, Yt(AreContext)),
+  __decorateParam3(1, Yt(A_SignalBus)),
+  __decorateParam3(2, Yt(A_Logger))
 ], AreEngine.prototype, "defaultExecute", 1);
 __decorateClass3([
   N.Extend({
     name: AreEngineFeatures.Load,
     before: /.*/
   }),
-  __decorateParam3(0, It(R))
+  __decorateParam3(0, Yt(R))
 ], AreEngine.prototype, "init", 1);
 __decorateClass3([
   N.Extend({
     name: AreEngineFeatures.Load,
     before: /.*/
   }),
-  __decorateParam3(0, It(R)),
-  __decorateParam3(1, It(AreSyntax)),
-  __decorateParam3(2, It(AreSyntax)),
-  __decorateParam3(3, It(AreTransformer)),
-  __decorateParam3(4, It(AreLoader)),
-  __decorateParam3(5, It(AreCompiler)),
-  __decorateParam3(6, It(AreInterpreter)),
-  __decorateParam3(7, It(AreLifecycle)),
-  __decorateParam3(8, It(A_Logger))
+  __decorateParam3(0, Yt(R)),
+  __decorateParam3(1, Yt(AreSyntax)),
+  __decorateParam3(2, Yt(AreSyntax)),
+  __decorateParam3(3, Yt(AreTransformer)),
+  __decorateParam3(4, Yt(AreLoader)),
+  __decorateParam3(5, Yt(AreCompiler)),
+  __decorateParam3(6, Yt(AreInterpreter)),
+  __decorateParam3(7, Yt(AreLifecycle)),
+  __decorateParam3(8, Yt(A_Logger))
 ], AreEngine.prototype, "verify", 1);
 __decorateClass3([
   R4.Define({
@@ -11786,7 +12002,7 @@ var AreWatcher = (_a149 = class extends O {
   }
 }, __name(_a149, "AreWatcher"), _a149);
 __decorateClass3([
-  _t.Stop()
+  ct.Stop()
 ], AreWatcher.prototype, "destroy", 1);
 AreWatcher = __decorateClass3([
   R4.Define({
@@ -11827,13 +12043,13 @@ var AreContainer = (_a151 = class extends A_Service {
 __decorateClass3([
   N.Extend(),
   __decorateParam3(0, M.Required()),
-  __decorateParam3(0, It(AreEngine)),
+  __decorateParam3(0, Yt(AreEngine)),
   __decorateParam3(1, M.Required()),
-  __decorateParam3(1, It(AreContext)),
+  __decorateParam3(1, Yt(AreContext)),
   __decorateParam3(2, M.All()),
   __decorateParam3(2, M.Flat()),
-  __decorateParam3(2, It(AreWatcher)),
-  __decorateParam3(3, It(A_Logger))
+  __decorateParam3(2, Yt(AreWatcher)),
+  __decorateParam3(3, Yt(A_Logger))
 ], AreContainer.prototype, _a150, 1);
 var _a152;
 var AreSyntaxError = (_a152 = class extends b {
@@ -11896,11 +12112,11 @@ var _DashboardApp = class _DashboardApp extends Are {
 __name(_DashboardApp, "DashboardApp");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardApp.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardApp.prototype, "data", 1);
 var DashboardApp = _DashboardApp;
 
@@ -11934,11 +12150,11 @@ var _DashboardHeader = class _DashboardHeader extends Are {
 __name(_DashboardHeader, "DashboardHeader");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardHeader.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardHeader.prototype, "data", 1);
 var DashboardHeader = _DashboardHeader;
 
@@ -11964,16 +12180,16 @@ var _DashboardLogo = class _DashboardLogo extends Are {
 __name(_DashboardLogo, "DashboardLogo");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardLogo.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardLogo.prototype, "data", 1);
 __decorateClass([
   Are.onAfterMount,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore))
 ], _DashboardLogo.prototype, "onMount", 1);
 var DashboardLogo = _DashboardLogo;
 
@@ -11995,11 +12211,11 @@ var _DashboardNav = class _DashboardNav extends Are {
 __name(_DashboardNav, "DashboardNav");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardNav.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardNav.prototype, "data", 1);
 var DashboardNav = _DashboardNav;
 
@@ -12025,11 +12241,11 @@ var _DashboardNavItem = class _DashboardNavItem extends Are {
 __name(_DashboardNavItem, "DashboardNavItem");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardNavItem.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardNavItem.prototype, "data", 1);
 var DashboardNavItem = _DashboardNavItem;
 
@@ -12057,17 +12273,17 @@ var _DashboardSidebar = class _DashboardSidebar extends Are {
 __name(_DashboardSidebar, "DashboardSidebar");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardSidebar.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardSidebar.prototype, "data", 1);
 __decorateClass([
   Are.EventHandler,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreEvent)),
-  __decorateParam(2, It(AreStore))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreStore))
 ], _DashboardSidebar.prototype, "menuItemClicked", 1);
 var DashboardSidebar = _DashboardSidebar;
 
@@ -12100,11 +12316,11 @@ var _DashboardUserCard = class _DashboardUserCard extends Are {
 __name(_DashboardUserCard, "DashboardUserCard");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardUserCard.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardUserCard.prototype, "data", 1);
 var DashboardUserCard = _DashboardUserCard;
 
@@ -12165,19 +12381,19 @@ var _DashboardMenu = class _DashboardMenu extends Are {
 __name(_DashboardMenu, "DashboardMenu");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardMenu.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardMenu.prototype, "data", 1);
 __decorateClass([
   Are.EventHandler,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreEvent)),
-  __decorateParam(2, It(AreContext)),
-  __decorateParam(3, It(AreStore)),
-  __decorateParam(4, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
 ], _DashboardMenu.prototype, "handleClick", 1);
 var DashboardMenu = _DashboardMenu;
 
@@ -12216,19 +12432,19 @@ var _DashboardMain = class _DashboardMain extends Are {
 __name(_DashboardMain, "DashboardMain");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardMain.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardMain.prototype, "data", 1);
 __decorateClass([
   Are.EventHandler,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(A_Logger)),
-  __decorateParam(3, It(AreEvent)),
-  __decorateParam(4, It(AreScene))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(A_Logger)),
+  __decorateParam(3, Yt(AreEvent)),
+  __decorateParam(4, Yt(AreScene))
 ], _DashboardMain.prototype, "testHandler", 1);
 var DashboardMain = _DashboardMain;
 
@@ -12250,11 +12466,11 @@ var _DashboardStats = class _DashboardStats extends Are {
 __name(_DashboardStats, "DashboardStats");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardStats.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardStats.prototype, "data", 1);
 var DashboardStats = _DashboardStats;
 
@@ -12316,11 +12532,11 @@ var _DashboardStatCard = class _DashboardStatCard extends Are {
 __name(_DashboardStatCard, "DashboardStatCard");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardStatCard.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardStatCard.prototype, "data", 1);
 var DashboardStatCard = _DashboardStatCard;
 
@@ -12444,11 +12660,11 @@ var _DashboardTable = class _DashboardTable extends Are {
 __name(_DashboardTable, "DashboardTable");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], _DashboardTable.prototype, "template", 1);
 __decorateClass([
   Are.Data,
-  __decorateParam(0, It(AreStore))
+  __decorateParam(0, Yt(AreStore))
 ], _DashboardTable.prototype, "data", 1);
 var DashboardTable = _DashboardTable;
 
@@ -12630,28 +12846,28 @@ var AreDirective = class extends O {
 };
 __name(AreDirective, "AreDirective");
 __decorateClass([
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], AreDirective.prototype, "transform", 1);
 __decorateClass([
   N.Extend({
     name: AreDirectiveFeatures.Compile,
     scope: [AreDirective]
   }),
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], AreDirective.prototype, "compile", 1);
 __decorateClass([
   N.Extend({
     name: AreDirectiveFeatures.Update,
     scope: [AreDirective]
   }),
-  __decorateParam(0, It(te))
+  __decorateParam(0, Yt(te))
 ], AreDirective.prototype, "update", 1);
 AreDirective = __decorateClass([
   R4.Define({
     namespace: "a-are-html",
     description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
   }),
-  f.Define(AreDirectiveMeta)
+  m.Define(AreDirectiveMeta)
 ], AreDirective);
 
 // src/instructions/AreHTML.instructions.constants.ts
@@ -12662,7 +12878,8 @@ var AreHTMLInstructions = {
   AddStyle: "_AreHTML_AddStyle",
   AddListener: "_AreHTML_AddListener",
   AddInterpolation: "_AreHTML_AddInterpolation",
-  AddComment: "_AreHTML_AddComment"
+  AddComment: "_AreHTML_AddComment",
+  HideElement: "_AreHTML_HideElement"
 };
 
 // src/instructions/AddComment.instruction.ts
@@ -12696,6 +12913,44 @@ var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext
 __name(_AreDirectiveContext, "AreDirectiveContext");
 var AreDirectiveContext = _AreDirectiveContext;
 
+// src/helpers/AreScheduler.helper.ts
+var _AreSchedulerHelper = class _AreSchedulerHelper {
+  /**
+   * High-resolution wall-clock time in milliseconds. Uses `performance.now()`
+   * when available (monotonic, sub-millisecond), falling back to `Date.now()`.
+   */
+  static now() {
+    return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now();
+  }
+  /**
+   * Schedule `fn` to run on the next macrotask.
+   *
+   * `MessageChannel` yields a true macrotask without the ~4ms clamp that nested
+   * `setTimeout(0)` calls incur, so the browser can paint between chunks with
+   * minimal scheduling overhead. Falls back to `setTimeout` in non-DOM
+   * environments (e.g. tests / SSR).
+   */
+  static scheduleMacrotask(fn) {
+    if (typeof MessageChannel === "undefined") {
+      setTimeout(fn, 0);
+      return;
+    }
+    if (!this._channel) {
+      this._channel = new MessageChannel();
+      this._channel.port1.onmessage = () => {
+        const next = this._queue.shift();
+        if (next) next();
+      };
+    }
+    this._queue.push(fn);
+    this._channel.port2.postMessage(null);
+  }
+};
+__name(_AreSchedulerHelper, "AreSchedulerHelper");
+/** FIFO queue of callbacks waiting for their posted macrotask to fire. */
+_AreSchedulerHelper._queue = [];
+var AreSchedulerHelper = _AreSchedulerHelper;
+
 // src/directives/AreDirectiveFor.directive.ts
 var AreDirectiveFor = class extends AreDirective {
   transform(attribute, scope, store, scene, logger, ...args) {
@@ -12725,27 +12980,45 @@ var AreDirectiveFor = class extends AreDirective {
     scene.unPlan(hostInstruction);
   }
   update(attribute, store, scene, ...args) {
+    let state = AreDirectiveFor.renderState.get(attribute);
+    if (!state) {
+      state = { running: false, pending: false };
+      AreDirectiveFor.renderState.set(attribute, state);
+    }
+    if (state.running) {
+      state.pending = true;
+      return;
+    }
+    return this.performUpdate(attribute, store, scene, state);
+  }
+  /**
+   * Core of the `$for` update: re-diff the source array against the current
+   * children, reconcile reused/removed items, then mount the new ones (small
+   * lists synchronously, large lists time-sliced). Never called while another
+   * pass for the same `$for` is in flight (see `update`).
+   */
+  performUpdate(attribute, store, scene, state) {
     const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
     const newArray = this.resolveArray(store, arrayExpr, attribute.content);
     const owner = attribute.owner;
     const currentChildren = [...owner.children];
     attribute.value = newArray;
+    const attached = this.isAttached(owner);
     const computeKey = this.makeKeyFn(key, index, trackExpr);
     const childByKey = /* @__PURE__ */ new Map();
     const remaining = /* @__PURE__ */ new Set();
     for (let i6 = 0; i6 < currentChildren.length; i6++) {
       const child = currentChildren[i6];
       const ctx = child.scope.resolveFlat(AreDirectiveContext);
-      const k5 = ctx ? computeKey(ctx.scope[key], ctx.scope[index || "index"]) : /* @__PURE__ */ Symbol("orphan");
-      childByKey.set(k5, child);
+      const k4 = ctx ? computeKey(ctx.scope[key], ctx.scope[index || "index"]) : /* @__PURE__ */ Symbol("orphan");
+      childByKey.set(k4, child);
       remaining.add(child);
     }
-    const desired = [];
-    const newOnes = [];
+    const toCreate = [];
     for (let i6 = 0; i6 < newArray.length; i6++) {
       const item = newArray[i6];
-      const k5 = computeKey(item, i6);
-      const existing = childByKey.get(k5);
+      const k4 = computeKey(item, i6);
+      const existing = childByKey.get(k4);
       if (existing) {
         remaining.delete(existing);
         let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
@@ -12758,22 +13031,73 @@ var AreDirectiveFor = class extends AreDirective {
           [key]: item,
           [index || "index"]: i6
         };
-        desired.push(existing);
       } else {
-        const itemNode = this.spawnItemNode(attribute.template, owner, key, index, item, i6);
-        desired.push(itemNode);
-        newOnes.push(itemNode);
+        toCreate.push({ item, idx: i6 });
       }
     }
     for (const child of remaining) {
-      child.unmount();
+      if (attached) child.unmount();
       owner.removeChild(child);
     }
-    for (const child of newOnes) {
+    const createItem = /* @__PURE__ */ __name((desc) => {
+      const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
       child.transform();
       child.compile();
-      child.mount();
+      if (attached) child.mount();
+    }, "createItem");
+    if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
+      for (const desc of toCreate) createItem(desc);
+      return this.finishUpdate(attribute, store, scene, state);
     }
+    state.running = true;
+    let cursor = 0;
+    const processChunk = /* @__PURE__ */ __name(() => {
+      try {
+        const start = AreSchedulerHelper.now();
+        while (cursor < toCreate.length) {
+          createItem(toCreate[cursor]);
+          cursor++;
+          if (AreSchedulerHelper.now() - start >= AreDirectiveFor.CHUNK_BUDGET_MS) break;
+        }
+      } catch (error) {
+        state.running = false;
+        state.pending = false;
+        throw error;
+      }
+      if (cursor < toCreate.length) {
+        return new Promise((resolve) => {
+          AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
+        });
+      }
+      return this.finishUpdate(attribute, store, scene, state);
+    }, "processChunk");
+    return processChunk();
+  }
+  /**
+   * Completes an update pass. If another update() arrived while a chunked
+   * render was streaming, run exactly one more pass now from the latest store
+   * value so the final DOM always reflects the most recent data.
+   */
+  finishUpdate(attribute, store, scene, state) {
+    state.running = false;
+    if (state.pending) {
+      state.pending = false;
+      return this.performUpdate(attribute, store, scene, state);
+    }
+  }
+  /**
+   * Walks the node's ancestor chain (inclusive) and reports whether the
+   * whole path is currently active — i.e. the subtree is actually rendered
+   * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+   * condition is false) means the subtree is detached.
+   */
+  isAttached(node) {
+    let current = node;
+    while (current) {
+      if (current.scene?.isInactive) return false;
+      current = current.parent;
+    }
+    return true;
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -12792,12 +13116,12 @@ var AreDirectiveFor = class extends AreDirective {
       if (item == null) return i6;
       if (path === key || path === "$index") return path === "$index" ? i6 : item;
       const parts = path.split(".");
-      let v7 = item;
+      let v6 = item;
       for (const p5 of parts) {
-        if (v7 == null) return i6;
-        v7 = v7[p5];
+        if (v6 == null) return i6;
+        v6 = v6[p5];
       }
-      return v7 ?? i6;
+      return v6 ?? i6;
     };
   }
   /**
@@ -12817,9 +13141,9 @@ var AreDirectiveFor = class extends AreDirective {
     const trackIdx = content.search(/\s+track\s+/);
     let body = content;
     if (trackIdx !== -1) {
-      const m6 = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
-      if (m6) {
-        trackExpr = m6[1].trim();
+      const m7 = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
+      if (m7) {
+        trackExpr = m7[1].trim();
         body = content.slice(0, trackIdx).trim();
       }
     }
@@ -12920,25 +13244,48 @@ var AreDirectiveFor = class extends AreDirective {
   }
 };
 __name(AreDirectiveFor, "AreDirectiveFor");
+/**
+ * Lists whose number of NEW item nodes is at or below this threshold render
+ * fully synchronously — byte-for-byte the previous behavior. Typical UIs
+ * (menus, small tables) are therefore completely unaffected; only genuinely
+ * large lists pay the (tiny) scheduling cost to keep the main thread responsive.
+ */
+AreDirectiveFor.SYNC_THRESHOLD = 100;
+/**
+ * Per-chunk time budget (ms). During a large-list render we mount item nodes
+ * until this much time has elapsed, then yield to the browser so it can paint
+ * and process input before the next chunk. ~16ms targets one animation frame.
+ */
+AreDirectiveFor.CHUNK_BUDGET_MS = 16;
+/**
+ * Per-attribute serialization state. A new update() that arrives while a
+ * chunked render of the SAME `$for` is still in flight does NOT start a second
+ * concurrent pass (which could interleave mutations on the shared children
+ * list); instead it marks `pending` and the in-flight run re-runs once more
+ * with the latest data when it finishes. This guarantees the children list is
+ * only ever mutated by one pass at a time and the final state always reflects
+ * the most recent store value.
+ */
+AreDirectiveFor.renderState = /* @__PURE__ */ new WeakMap();
 __decorateClass([
   AreDirective.Transform,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreScene)),
-  __decorateParam(4, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreScene)),
+  __decorateParam(4, Yt(A_Logger))
 ], AreDirectiveFor.prototype, "transform", 1);
 __decorateClass([
   AreDirective.Compile,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(AreScene))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene))
 ], AreDirectiveFor.prototype, "compile", 1);
 __decorateClass([
   AreDirective.Update,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(AreScene))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene))
 ], AreDirectiveFor.prototype, "update", 1);
 AreDirectiveFor = __decorateClass([
   R4.Define({
@@ -12996,27 +13343,27 @@ var AreDirectiveIf = class extends AreDirective {
 __name(AreDirectiveIf, "AreDirectiveIf");
 __decorateClass([
   AreDirective.Transform,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreScene)),
-  __decorateParam(4, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreScene)),
+  __decorateParam(4, Yt(A_Logger))
 ], AreDirectiveIf.prototype, "transform", 1);
 __decorateClass([
   AreDirective.Compile,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(AreScene)),
-  __decorateParam(3, It(AreSyntax)),
-  __decorateParam(4, It(AreDirectiveContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext))
 ], AreDirectiveIf.prototype, "compile", 1);
 __decorateClass([
   AreDirective.Update,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(R)),
-  __decorateParam(3, It(AreSyntax)),
-  __decorateParam(4, It(AreScene))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(R)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreScene))
 ], AreDirectiveIf.prototype, "update", 1);
 AreDirectiveIf = __decorateClass([
   R4.Define({
@@ -13099,7 +13446,7 @@ AddTextInstruction = __decorateClass([
 ], AddTextInstruction);
 
 // src/lib/AreStyle/AreStyle.context.ts
-var AreStyle = class extends B {
+var AreStyle = class extends H {
   constructor(styles, aseid) {
     super({
       name: aseid ? aseid.toString() : "default-style"
@@ -13421,10 +13768,10 @@ function normalizeStyleValue(value) {
   if (typeof value === "object") {
     const parts = [];
     for (const key of Object.keys(value)) {
-      const v7 = value[key];
-      if (v7 === null || v7 === void 0 || v7 === false) continue;
-      const kebab = key.replace(/[A-Z]/g, (m6) => "-" + m6.toLowerCase());
-      parts.push(`${kebab}: ${v7}`);
+      const v6 = value[key];
+      if (v6 === null || v6 === void 0 || v6 === false) continue;
+      const kebab = key.replace(/[A-Z]/g, (m7) => "-" + m7.toLowerCase());
+      parts.push(`${kebab}: ${v6}`);
     }
     return parts.join("; ");
   }
@@ -13752,48 +14099,48 @@ var AreHTMLCompiler = class extends AreCompiler {
 __name(AreHTMLCompiler, "AreHTMLCompiler");
 __decorateClass([
   AreCompiler.Compile(AreHTMLNode),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene)),
-  __decorateParam(2, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
 ], AreHTMLCompiler.prototype, "compileHTMLNode", 1);
 __decorateClass([
   AreCompiler.Compile(AreInterpolation),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(A_Logger))
 ], AreHTMLCompiler.prototype, "compileInterpolation", 1);
 __decorateClass([
   AreCompiler.Compile(AreText),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene)),
-  __decorateParam(2, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
 ], AreHTMLCompiler.prototype, "compileText", 1);
 __decorateClass([
   AreCompiler.Compile(AreStaticAttribute),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene))
 ], AreHTMLCompiler.prototype, "compileStaticAttribute", 1);
 __decorateClass([
   AreCompiler.Compile(AreDirectiveAttribute),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(N)),
-  __decorateParam(3, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
 ], AreHTMLCompiler.prototype, "compileDirectiveAttribute", 1);
 __decorateClass([
   AreCompiler.Compile(AreEventAttribute),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene))
 ], AreHTMLCompiler.prototype, "compileEventAttribute", 1);
 __decorateClass([
   AreCompiler.Compile(AreBindingAttribute),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene)),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
   __decorateParam(2, M.Parent()),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreStore)),
-  __decorateParam(4, It(AreSyntax))
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(AreSyntax))
 ], AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
 AreHTMLCompiler = __decorateClass([
   R4.Define({
@@ -13973,6 +14320,19 @@ var AreHTMLInterpreter = class extends AreInterpreter {
       console.log("Error removing attribute:", error);
     }
   }
+  hideElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    mutation.cache = el.style.display;
+    el.style.display = "none";
+  }
+  showElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
+  }
   addEventListener(mutation, context, store, syntax, directiveContext, logger) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element) {
@@ -14021,14 +14381,14 @@ var AreHTMLInterpreter = class extends AreInterpreter {
             right: ["arrowright"],
             delete: ["delete", "backspace"]
           };
-          const keyMods = [...modifiers].filter((m6) => m6 in KEY_ALIASES || m6 === "ctrl" || m6 === "alt" || m6 === "shift" || m6 === "meta");
+          const keyMods = [...modifiers].filter((m7) => m7 in KEY_ALIASES || m7 === "ctrl" || m7 === "alt" || m7 === "shift" || m7 === "meta");
           if (keyMods.length > 0) {
-            const keyMatch = keyMods.some((m6) => {
-              if (m6 === "ctrl") return e.ctrlKey;
-              if (m6 === "alt") return e.altKey;
-              if (m6 === "shift") return e.shiftKey;
-              if (m6 === "meta") return e.metaKey;
-              const aliases = KEY_ALIASES[m6];
+            const keyMatch = keyMods.some((m7) => {
+              if (m7 === "ctrl") return e.ctrlKey;
+              if (m7 === "alt") return e.altKey;
+              if (m7 === "shift") return e.shiftKey;
+              if (m7 === "meta") return e.metaKey;
+              const aliases = KEY_ALIASES[m7];
               return aliases && aliases.includes(key);
             });
             if (!keyMatch) return;
@@ -14192,9 +14552,9 @@ __decorateClass([
   }),
   AreInterpreter.Apply(AreInstructionDefaultNames.Default),
   AreInterpreter.Apply(AreHTMLInstructions.AddElement),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext)),
-  __decorateParam(2, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
 ], AreHTMLInterpreter.prototype, "addElement", 1);
 __decorateClass([
   R4.Define({
@@ -14202,8 +14562,8 @@ __decorateClass([
   }),
   AreInterpreter.Revert(AreInstructionDefaultNames.Default),
   AreInterpreter.Revert(AreHTMLInstructions.AddElement),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeElement", 1);
 __decorateClass([
   R4.Define({
@@ -14211,40 +14571,56 @@ __decorateClass([
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddAttribute),
   AreInterpreter.Update(AreHTMLInstructions.AddAttribute),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreSyntax)),
-  __decorateParam(4, It(AreDirectiveContext)),
-  __decorateParam(5, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
 ], AreHTMLInterpreter.prototype, "addAttribute", 1);
 __decorateClass([
   R4.Define({
     description: "Remove an attribute from an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeAttribute", 1);
+__decorateClass([
+  R4.Define({
+    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.HideElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "hideElement", 1);
+__decorateClass([
+  R4.Define({
+    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.HideElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "showElement", 1);
 __decorateClass([
   R4.Define({
     description: "Add an event listener to an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddListener),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreSyntax)),
-  __decorateParam(4, It(AreDirectiveContext)),
-  __decorateParam(5, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
 ], AreHTMLInterpreter.prototype, "addEventListener", 1);
 __decorateClass([
   R4.Define({
     description: "Remove an event listener from an HTML element based on the provided mutation instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddListener),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeEventListener", 1);
 __decorateClass([
   R4.Define({
@@ -14252,20 +14628,20 @@ __decorateClass([
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddText),
   AreInterpreter.Update(AreHTMLInstructions.AddText),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreSyntax)),
-  __decorateParam(4, It(AreDirectiveContext)),
-  __decorateParam(5, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
 ], AreHTMLInterpreter.prototype, "addText", 1);
 __decorateClass([
   R4.Define({
     description: "Remove text content from an HTML element based on the provided declaration instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddText),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeText", 1);
 __decorateClass([
   R4.Define({
@@ -14273,20 +14649,20 @@ __decorateClass([
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddComment),
   AreInterpreter.Update(AreHTMLInstructions.AddComment),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext)),
-  __decorateParam(2, It(AreStore)),
-  __decorateParam(3, It(AreSyntax)),
-  __decorateParam(4, It(AreDirectiveContext)),
-  __decorateParam(5, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
 ], AreHTMLInterpreter.prototype, "addComment", 1);
 __decorateClass([
   R4.Define({
     description: "Remove a comment node from the DOM based on the provided declaration instruction."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddComment),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeComment", 1);
 __decorateClass([
   R4.Define({
@@ -14294,17 +14670,17 @@ __decorateClass([
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddStyle),
   AreInterpreter.Update(AreHTMLInstructions.AddStyle),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext)),
-  __decorateParam(2, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
 ], AreHTMLInterpreter.prototype, "addStyle", 1);
 __decorateClass([
   R4.Define({
     description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
   }),
   AreInterpreter.Revert(AreHTMLInstructions.AddStyle),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreHTMLEngineContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeStyle", 1);
 AreHTMLInterpreter = __decorateClass([
   R4.Define({
@@ -14367,9 +14743,9 @@ __decorateClass([
     name: AreNodeFeatures.onTokenize,
     scope: [AreComponentNode, AreRootNode]
   }),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreContext)),
-  __decorateParam(2, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreContext)),
+  __decorateParam(2, Yt(A_Logger))
 ], AreHTMLTokenizer.prototype, "tokenize", 1);
 AreHTMLTokenizer = __decorateClass([
   R4.Define({
@@ -14401,10 +14777,45 @@ var AreHTMLLifecycle = class extends AreLifecycle {
     logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
     if (scene.isInactive) return;
     node.interpret();
-    for (let i6 = 0; i6 < node.children.length; i6++) {
-      const child = node.children[i6];
-      child.mount();
+    const stack = [];
+    for (let i6 = node.children.length - 1; i6 >= 0; i6--) {
+      stack.push({ node: node.children[i6], entered: false });
     }
+    const step = /* @__PURE__ */ __name(() => {
+      const frame = stack[stack.length - 1];
+      const current = frame.node;
+      if (frame.entered) {
+        stack.pop();
+        current.call(AreNodeFeatures.onAfterMount, current.scope);
+        return;
+      }
+      frame.entered = true;
+      current.call(AreNodeFeatures.onBeforeMount, current.scope);
+      if (!current.scene.isInactive) {
+        current.interpret();
+        for (let i6 = current.children.length - 1; i6 >= 0; i6--) {
+          stack.push({ node: current.children[i6], entered: false });
+        }
+      }
+    }, "step");
+    const drive = /* @__PURE__ */ __name(() => {
+      const start = AreSchedulerHelper.now();
+      while (stack.length > 0) {
+        step();
+        if (stack.length > 0 && AreSchedulerHelper.now() - start >= AreHTMLLifecycle.MOUNT_BUDGET_MS) {
+          return new Promise((resolve, reject) => {
+            AreSchedulerHelper.scheduleMacrotask(() => {
+              try {
+                resolve(drive());
+              } catch (error) {
+                reject(error);
+              }
+            });
+          });
+        }
+      }
+    }, "drive");
+    return drive();
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -14415,54 +14826,61 @@ var AreHTMLLifecycle = class extends AreLifecycle {
   }
 };
 __name(AreHTMLLifecycle, "AreHTMLLifecycle");
+/**
+ * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
+ * mounting a large subtree we keep applying nodes until this much wall-clock
+ * time has elapsed, then yield to the browser so it can paint and process
+ * input before the next chunk. ~16ms targets a single animation frame.
+ */
+AreHTMLLifecycle.MOUNT_BUDGET_MS = 16;
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(AreHTMLEngineContext)),
-  __decorateParam(3, It(AreSignalsContext)),
-  __decorateParam(4, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(A_Logger))
 ], AreHTMLLifecycle.prototype, "initComponent", 1);
 __decorateClass([
   AreLifecycle.Init(AreRootNode),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(AreHTMLEngineContext)),
-  __decorateParam(3, It(AreSignalsContext)),
-  __decorateParam(4, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(A_Logger))
 ], AreHTMLLifecycle.prototype, "initRoot", 1);
 __decorateClass([
   AreLifecycle.Init(AreText),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(AreHTMLEngineContext)),
-  __decorateParam(3, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(A_Logger))
 ], AreHTMLLifecycle.prototype, "initText", 1);
 __decorateClass([
   AreLifecycle.Init(AreInterpolation),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(AreHTMLEngineContext)),
-  __decorateParam(3, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(A_Logger))
 ], AreHTMLLifecycle.prototype, "initInterpolation", 1);
 __decorateClass([
   N.Extend({
     name: AreNodeFeatures.onMount,
     scope: [AreHTMLNode]
   }),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreScene)),
-  __decorateParam(2, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
 ], AreHTMLLifecycle.prototype, "mount", 1);
 __decorateClass([
   N.Extend({
     name: AreAttributeFeatures.Update,
     scope: [AreDirectiveAttribute]
   }),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(R)),
-  __decorateParam(2, It(N)),
-  __decorateParam(3, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
 ], AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
 AreHTMLLifecycle = __decorateClass([
   R4.Define({
@@ -14489,10 +14907,10 @@ __decorateClass([
     name: AreAttributeFeatures.Transform,
     scope: [AreDirectiveAttribute]
   }),
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(AreStore)),
-  __decorateParam(2, It(N)),
-  __decorateParam(3, It(A_Logger))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
 ], AreHTMLTransformer.prototype, "transformDirectiveAttribute", 1);
 AreHTMLTransformer = __decorateClass([
   R4.Define({
@@ -14500,6 +14918,100 @@ AreHTMLTransformer = __decorateClass([
     description: "HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation \u2014 sorting directives by declared priority and expanding compound directive expressions \u2014 so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission."
   })
 ], AreHTMLTransformer);
+
+// src/lib/AreRoot/AreRootCache.context.ts
+var AreRootCache = class extends H {
+  constructor(limit = 10) {
+    super({ name: "AreRootCache" });
+    /**
+     * rootId -> (component tag -> cache entry). The inner Map preserves
+     * insertion order which is used as the LRU recency order: the first key is
+     * the least-recently-used entry, the last key the most-recently-used.
+     */
+    this._cache = /* @__PURE__ */ new Map();
+    this._limit = Math.max(0, Math.floor(limit));
+  }
+  /**
+   * Maximum number of cached subtrees kept per root.
+   */
+  get limit() {
+    return this._limit;
+  }
+  bucket(rootId) {
+    let bucket = this._cache.get(rootId);
+    if (!bucket) {
+      bucket = /* @__PURE__ */ new Map();
+      this._cache.set(rootId, bucket);
+    }
+    return bucket;
+  }
+  /**
+   * Whether a subtree for the given component tag is currently cached.
+   */
+  has(rootId, tag) {
+    return this.bucket(rootId).has(tag);
+  }
+  /**
+   * Retrieve AND remove a cached subtree so it can become live again. Returns
+   * `undefined` on a cache miss.
+   */
+  take(rootId, tag) {
+    const bucket = this.bucket(rootId);
+    const entry = bucket.get(tag);
+    if (entry) {
+      bucket.delete(tag);
+    }
+    return entry;
+  }
+  /**
+   * Stash a detached subtree under the given component tag. Returns any entries
+   * that were evicted to honour the LRU limit (or replaced for the same tag) so
+   * the caller can `destroy()` them.
+   */
+  put(rootId, tag, entry) {
+    const bucket = this.bucket(rootId);
+    const evicted = [];
+    const existing = bucket.get(tag);
+    if (existing) {
+      bucket.delete(tag);
+      if (existing.node !== entry.node) {
+        evicted.push(existing);
+      }
+    }
+    bucket.set(tag, entry);
+    while (bucket.size > this._limit) {
+      const oldestKey = bucket.keys().next().value;
+      if (oldestKey === void 0) {
+        break;
+      }
+      const oldest = bucket.get(oldestKey);
+      bucket.delete(oldestKey);
+      evicted.push(oldest);
+    }
+    return evicted;
+  }
+  /**
+   * Remove and return every cached entry for a root (e.g. on teardown) so the
+   * caller can destroy them.
+   */
+  clear(rootId) {
+    const bucket = this._cache.get(rootId);
+    if (!bucket) {
+      return [];
+    }
+    const entries = [...bucket.values()];
+    bucket.clear();
+    this._cache.delete(rootId);
+    return entries;
+  }
+};
+__name(AreRootCache, "AreRootCache");
+AreRootCache = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "AreRootCache is a fragment that keeps a small per-root LRU of previously rendered are-root subtrees. When an are-root swaps the component it displays, the outgoing subtree is stashed here (unmounted + detached, but not destroyed) so that routing back to it can re-inject the preserved scene instantly instead of rebuilding from scratch."
+  })
+], AreRootCache);
 
 // src/engine/AreHTML.engine.ts
 var AreHTMLEngine = class extends AreEngine {
@@ -14524,7 +15036,7 @@ var AreHTMLEngine = class extends AreEngine {
           component: AreInterpolation,
           priority: 9,
           nested: false,
-          extract: /* @__PURE__ */ __name((_5, match) => ({ key: match.content }), "extract")
+          extract: /* @__PURE__ */ __name((_6, match) => ({ key: match.content }), "extract")
         },
         // are-root — matched before generic elements, produces AreRootNode
         {
@@ -14546,7 +15058,7 @@ var AreHTMLEngine = class extends AreEngine {
       ]
     });
   }
-  async init(scope, signalContext) {
+  async init(scope, signalContext, rootCache) {
     this.package(scope, {
       context: new AreHTMLEngineContext({}),
       syntax: this.DefaultSyntax,
@@ -14559,6 +15071,10 @@ var AreHTMLEngine = class extends AreEngine {
     if (!signalContext) {
       signalContext = new AreSignalsContext();
       scope.register(signalContext);
+    }
+    if (!rootCache) {
+      rootCache = new AreRootCache();
+      scope.register(rootCache);
     }
   }
   rootElementMatcher(source, from, to, build) {
@@ -14669,8 +15185,9 @@ __decorateClass([
     name: A_ServiceFeatures.onBeforeLoad,
     before: /.*/
   }),
-  __decorateParam(0, It(R)),
-  __decorateParam(1, It(AreSignalsContext))
+  __decorateParam(0, Yt(R)),
+  __decorateParam(1, Yt(AreSignalsContext)),
+  __decorateParam(2, Yt(AreRootCache))
 ], AreHTMLEngine.prototype, "init", 1);
 AreHTMLEngine = __decorateClass([
   R4.Define({
@@ -14681,7 +15198,7 @@ AreHTMLEngine = __decorateClass([
 
 // src/lib/AreRoot/AreRoot.component.ts
 var AreRoot = class extends Are {
-  async template(root, logger, signalsContext) {
+  async template(root, logger, signalsContext, signalState) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       if (!root.content?.trim()) {
@@ -14693,26 +15210,9 @@ var AreRoot = class extends Are {
       }
       return;
     }
-    const currentRoute = AreRoute2.default();
-    let componentName;
-    if (currentRoute) {
-      const initialVector = new A_SignalVector([currentRoute]);
-      let renderTarget = signalsContext?.findComponentByVector(rootId, initialVector);
-      if (!renderTarget) {
-        const signalsMeta = _.meta(AreSignals);
-        const pool = signalsContext?.getComponentById(rootId);
-        const metaTarget = signalsMeta?.findComponentByVector(
-          initialVector,
-          pool?.length ? pool : void 0
-        );
-        if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-          renderTarget = metaTarget;
-        }
-      }
-      if (renderTarget?.name) {
-        componentName = P.toKebabCase(renderTarget.name);
-      }
-    }
+    const initialVector = this.buildInitialVector(signalState);
+    const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
+    let componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : void 0;
     if (!componentName) {
       if (root.content?.trim()) {
         return;
@@ -14734,32 +15234,17 @@ var AreRoot = class extends Are {
     }
     root.setContent(`<${componentName}></${componentName}>`);
   }
-  async onSignal(root, vector, logger, signalsContext) {
+  async onSignal(root, vector, logger, signalsContext, cache) {
     const rootId = root.id;
     if (signalsContext && !signalsContext.hasRoot(rootId)) {
       return;
     }
-    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
-    if (!renderTarget) {
-      const signalsMeta = _.meta(AreSignals);
-      const pool = signalsContext?.getComponentById(rootId);
-      const metaTarget = signalsMeta?.findComponentByVector(
-        vector,
-        pool?.length ? pool : void 0
-      );
-      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-        renderTarget = metaTarget;
-      }
-    }
+    const renderTarget = this.matchComponent(rootId, vector, signalsContext);
     const def = signalsContext?.getDefault(rootId);
     const componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : def?.name ? P.toKebabCase(def.name) : void 0;
     if (!componentName) {
-      for (let i6 = 0; i6 < root.children.length; i6++) {
-        const child = root.children[i6];
-        signalsContext?.unsubscribe(child);
-        child.unmount();
-        child.destroy();
-        root.removeChild(child);
+      for (const child of [...root.children]) {
+        this.stashChild(root, child, signalsContext, cache);
       }
       root.setContent("");
       return;
@@ -14768,13 +15253,14 @@ var AreRoot = class extends Are {
     if (currentChild?.type === componentName) {
       return;
     }
+    for (const child of [...root.children]) {
+      this.stashChild(root, child, signalsContext, cache);
+    }
     root.setContent(`<${componentName}></${componentName}>`);
-    for (let i6 = 0; i6 < root.children.length; i6++) {
-      const child = root.children[i6];
-      signalsContext?.unsubscribe(child);
-      child.unmount();
-      child.destroy();
-      root.removeChild(child);
+    const cached = cache?.take(root.id, componentName);
+    if (cached) {
+      this.restoreChild(root, cached, signalsContext);
+      return;
     }
     root.tokenize();
     for (let i6 = 0; i6 < root.children.length; i6++) {
@@ -14786,23 +15272,142 @@ var AreRoot = class extends Are {
       }
       child.transform();
       child.compile();
-      child.mount();
+      await child.mount();
     }
+  }
+  /**
+   * Resolves the component a vector should render for the given root, mirroring
+   * the priority used everywhere in the routing system:
+   *   1. Root-specific conditions registered on AreSignalsContext.
+   *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
+   *
+   * Passing the pool *into* the meta lookup is critical: without it, the first
+   * globally matching component wins and may belong to a different outlet
+   * (e.g. AisRequirementsPanel for the meta-outlet matching
+   * AisEditorCursorScope) — the pool check would then reject it and the outlet
+   * would fall back to its default, hiding a valid in-pool match (e.g.
+   * AisDiagramTab matching AisSetPrimaryDisplay).
+   *
+   * Returns `undefined` when nothing matches — callers decide whether to use a
+   * configured default, body content, or clear the outlet.
+   */
+  matchComponent(rootId, vector, signalsContext) {
+    if (!vector) return void 0;
+    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
+    if (!renderTarget) {
+      const signalsMeta = _.meta(AreSignals);
+      const pool = signalsContext?.getComponentById(rootId);
+      const metaTarget = signalsMeta?.findComponentByVector(
+        vector,
+        pool?.length ? pool : void 0,
+        rootId
+      );
+      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+        renderTarget = metaTarget;
+      }
+    }
+    return renderTarget;
+  }
+  /**
+   * Builds the vector used for the INITIAL render. It is seeded from the
+   * accumulated signal state (every signal dispatched on the bus so far) so a
+   * freshly-mounted outlet reflects the live application state immediately,
+   * not just on the next signal tick. The current URL route is appended when
+   * no AreRoute is already present in the state, so route-driven outlets still
+   * resolve on the very first paint (before AreRouteWatcher has dispatched).
+   */
+  buildInitialVector(signalState) {
+    const signals = [];
+    if (signalState) {
+      for (const signal of signalState.toVector()) {
+        if (signal) signals.push(signal);
+      }
+    }
+    if (!signals.some((signal) => signal instanceof AreRoute2)) {
+      try {
+        const currentRoute = AreRoute2.default();
+        if (currentRoute) signals.push(currentRoute);
+      } catch {
+      }
+    }
+    return new A_SignalVector(signals);
+  }
+  /**
+   * Detach a displayed child subtree from the outlet and stash it in the cache
+   * for fast re-injection later. The subtree is unmounted (its scene plan is
+   * preserved) and deregistered from the root scope, but NOT destroyed. The
+   * nodes that were subscribed to the signal bus are unsubscribed while cached
+   * so the detached DOM never reacts to signals, and recorded so they can be
+   * re-subscribed verbatim on restore.
+   *
+   * When no cache is available, or the LRU evicts an entry, the affected
+   * subtree is fully destroyed.
+   */
+  stashChild(root, child, signalsContext, cache) {
+    const tag = child.type;
+    child.unmount();
+    const subscribers = signalsContext ? this.collectSubscribers(child, signalsContext) : [];
+    for (const node of subscribers) {
+      signalsContext?.unsubscribe(node);
+    }
+    root.removeChild(child);
+    if (!cache) {
+      void child.destroy();
+      return;
+    }
+    const evicted = cache.put(root.id, tag, { node: child, subscribers });
+    for (const entry of evicted) {
+      void entry.node.destroy();
+    }
+  }
+  /**
+   * Re-attach a cached subtree to the outlet and re-mount it from its preserved
+   * scene plan, re-subscribing exactly the nodes that were subscribed before it
+   * was cached.
+   */
+  restoreChild(root, entry, signalsContext) {
+    const child = entry.node;
+    root.addChild(child);
+    for (const node of entry.subscribers) {
+      signalsContext?.subscribe(node);
+    }
+    child.mount();
+  }
+  /**
+   * Walk a subtree and collect the nodes currently registered as signal
+   * subscribers. Mirrors the subscription performed at init time in
+   * AreHTMLLifecycle (component nodes and root nodes) without depending on the
+   * concrete node classes — it simply intersects the subtree with the live
+   * subscriber registry.
+   */
+  collectSubscribers(node, signalsContext) {
+    const result = [];
+    const queue = [node];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (signalsContext.subscribers.has(current)) {
+        result.push(current);
+      }
+      queue.push(...current.children);
+    }
+    return result;
   }
 };
 __name(AreRoot, "AreRoot");
 __decorateClass([
   Are.Template,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(A_Logger)),
-  __decorateParam(2, It(AreSignalsContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_Logger)),
+  __decorateParam(2, Yt(AreSignalsContext)),
+  __decorateParam(3, Yt(A_SignalState))
 ], AreRoot.prototype, "template", 1);
 __decorateClass([
   Are.Signal,
-  __decorateParam(0, It(te)),
-  __decorateParam(1, It(A_SignalVector)),
-  __decorateParam(2, It(A_Logger)),
-  __decorateParam(3, It(AreSignalsContext))
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_SignalVector)),
+  __decorateParam(2, Yt(A_Logger)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(AreRootCache))
 ], AreRoot.prototype, "onSignal", 1);
 AreRoot = __decorateClass([
   R4.Define({
@@ -14854,16 +15459,17 @@ AreRoot = __decorateClass([
         new AreHTMLEngineContext({ container: document }),
         new A_Config({
           defaults: {
-            [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "info"
+            [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "debug"
           }
         })
       ]
     });
-    const concept = new _t({
+    const concept = new ct({
       name: "adaas-are-example-dashboard",
       fragments: [new A_Config({
-        variables: ["CONFIG_VERBOSE", "DEV_MODE"],
+        variables: ["CONFIG_VERBOSE", "DEV_MODE", A_LOGGER_ENV_KEYS.LOG_LEVEL],
         defaults: {
+          [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "debug",
           CONFIG_VERBOSE: true,
           DEV_MODE: true
         }

@@ -123,9 +123,45 @@ declare class AreBindingAttribute extends AreHTMLAttribute {
 }
 
 declare class AreDirectiveFor extends AreDirective {
+    /**
+     * Lists whose number of NEW item nodes is at or below this threshold render
+     * fully synchronously — byte-for-byte the previous behavior. Typical UIs
+     * (menus, small tables) are therefore completely unaffected; only genuinely
+     * large lists pay the (tiny) scheduling cost to keep the main thread responsive.
+     */
+    private static readonly SYNC_THRESHOLD;
+    /**
+     * Per-chunk time budget (ms). During a large-list render we mount item nodes
+     * until this much time has elapsed, then yield to the browser so it can paint
+     * and process input before the next chunk. ~16ms targets one animation frame.
+     */
+    private static readonly CHUNK_BUDGET_MS;
+    /**
+     * Per-attribute serialization state. A new update() that arrives while a
+     * chunked render of the SAME `$for` is still in flight does NOT start a second
+     * concurrent pass (which could interleave mutations on the shared children
+     * list); instead it marks `pending` and the in-flight run re-runs once more
+     * with the latest data when it finishes. This guarantees the children list is
+     * only ever mutated by one pass at a time and the final state always reflects
+     * the most recent store value.
+     */
+    private static readonly renderState;
     transform(attribute: AreDirectiveAttribute, scope: A_Scope, store: AreStore, scene: AreScene, logger: A_Logger, ...args: any[]): void;
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
-    update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void;
+    update(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, ...args: any[]): void | Promise<void>;
+    /**
+     * Core of the `$for` update: re-diff the source array against the current
+     * children, reconcile reused/removed items, then mount the new ones (small
+     * lists synchronously, large lists time-sliced). Never called while another
+     * pass for the same `$for` is in flight (see `update`).
+     */
+    private performUpdate;
+    /**
+     * Completes an update pass. If another update() arrived while a chunked
+     * render was streaming, run exactly one more pass now from the latest store
+     * value so the final DOM always reflects the most recent data.
+     */
+    private finishUpdate;
     /**
      * Walks the node's ancestor chain (inclusive) and reports whether the
      * whole path is currently active — i.e. the subtree is actually rendered
@@ -671,6 +707,13 @@ declare class AreHTMLInterpreter extends AreInterpreter {
 }
 
 declare class AreHTMLLifecycle extends AreLifecycle {
+    /**
+     * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
+     * mounting a large subtree we keep applying nodes until this much wall-clock
+     * time has elapsed, then yield to the browser so it can paint and process
+     * input before the next chunk. ~16ms targets a single animation frame.
+     */
+    private static readonly MOUNT_BUDGET_MS;
     initComponent(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initRoot(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initText(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
@@ -683,7 +726,7 @@ declare class AreHTMLLifecycle extends AreLifecycle {
     /**
      * Node Content
      */
-    scene: AreScene, logger?: A_Logger, ...args: any[]): void;
+    scene: AreScene, logger?: A_Logger, ...args: any[]): void | Promise<void>;
     updateDirectiveAttribute(directive: AreDirectiveAttribute, scope: A_Scope, feature: A_Feature, logger?: A_Logger, ...args: any[]): void;
 }
 

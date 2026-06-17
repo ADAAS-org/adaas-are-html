@@ -7,6 +7,7 @@ import { AddCommentInstruction } from "@adaas/are-html/instructions/AddComment.i
 import { AreHTMLNode } from "@adaas/are-html/node";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 import { A_Frame } from "@adaas/a-frame/core";
+import { AreSchedulerHelper } from "@adaas/are-html/helpers/AreScheduler.helper";
 
 
 type AreForExpression = {
@@ -17,6 +18,12 @@ type AreForExpression = {
     trackExpr: string | undefined;
 };
 
+/**
+ * Per-`$for` reentrancy state used to serialize chunked (async) renders.
+ * Keyed by the directive attribute instance (one per `$for` in the template).
+ */
+type AreForRenderState = { running: boolean; pending: boolean };
+
 
 @A_Frame.Define({
     namespace: 'a-are-html',
@@ -24,6 +31,32 @@ type AreForExpression = {
 })
 @AreDirective.Priority(1)
 export class AreDirectiveFor extends AreDirective {
+
+    /**
+     * Lists whose number of NEW item nodes is at or below this threshold render
+     * fully synchronously — byte-for-byte the previous behavior. Typical UIs
+     * (menus, small tables) are therefore completely unaffected; only genuinely
+     * large lists pay the (tiny) scheduling cost to keep the main thread responsive.
+     */
+    private static readonly SYNC_THRESHOLD = 100;
+
+    /**
+     * Per-chunk time budget (ms). During a large-list render we mount item nodes
+     * until this much time has elapsed, then yield to the browser so it can paint
+     * and process input before the next chunk. ~16ms targets one animation frame.
+     */
+    private static readonly CHUNK_BUDGET_MS = 16;
+
+    /**
+     * Per-attribute serialization state. A new update() that arrives while a
+     * chunked render of the SAME `$for` is still in flight does NOT start a second
+     * concurrent pass (which could interleave mutations on the shared children
+     * list); instead it marks `pending` and the in-flight run re-runs once more
+     * with the latest data when it finishes. This guarantees the children list is
+     * only ever mutated by one pass at a time and the final state always reflects
+     * the most recent store value.
+     */
+    private static readonly renderState = new WeakMap<object, AreForRenderState>();
 
 
     @AreDirective.Transform
@@ -122,7 +155,40 @@ export class AreDirectiveFor extends AreDirective {
         @A_Inject(AreStore) store: AreStore,
         @A_Inject(AreScene) scene: AreScene,
         ...args: any[]
-    ): void {
+    ): void | Promise<void> {
+        /**
+         * Serialize chunked renders per `$for`. If a previous large-list render
+         * is still streaming item nodes across macrotasks, do NOT start a second
+         * concurrent pass — that would interleave two diffs over the same shared
+         * children list (and leave half-compiled item nodes that the next diff
+         * would wrongly "reuse"). Mark a pass as pending instead; the in-flight
+         * run re-diffs once more from the latest store value when it completes.
+         */
+        let state = AreDirectiveFor.renderState.get(attribute);
+        if (!state) {
+            state = { running: false, pending: false };
+            AreDirectiveFor.renderState.set(attribute, state);
+        }
+        if (state.running) {
+            state.pending = true;
+            return;
+        }
+
+        return this.performUpdate(attribute, store, scene, state);
+    }
+
+    /**
+     * Core of the `$for` update: re-diff the source array against the current
+     * children, reconcile reused/removed items, then mount the new ones (small
+     * lists synchronously, large lists time-sliced). Never called while another
+     * pass for the same `$for` is in flight (see `update`).
+     */
+    private performUpdate(
+        attribute: AreDirectiveAttribute,
+        store: AreStore,
+        scene: AreScene,
+        state: AreForRenderState,
+    ): void | Promise<void> {
         /**
          * Re-evaluate the source array.
          */
@@ -167,9 +233,13 @@ export class AreDirectiveFor extends AreDirective {
             remaining.add(child);
         }
 
-        // ── 2. Walk desired list; reuse existing or spawn new ───────────────
-        const desired: AreHTMLNode[] = [];
-        const newOnes: AreHTMLNode[] = [];
+        // ── 2. Walk desired list; reuse existing or record items to create ──
+        // NOTE: new item nodes are NOT spawned here. Spawning (cloneWithScope +
+        // subtree init + scene activation) is the dominant cost of a large
+        // render, so it is deferred into the time-sliced loop below alongside
+        // transform/compile/mount. Existing (keyed) children are reconciled in
+        // place synchronously — that is cheap and keeps reused rows stable.
+        const toCreate: Array<{ item: any; idx: number }> = [];
 
         for (let i = 0; i < newArray.length; i++) {
             const item = newArray[i];
@@ -189,11 +259,8 @@ export class AreDirectiveFor extends AreDirective {
                     [key]: item,
                     [index || 'index']: i,
                 };
-                desired.push(existing);
             } else {
-                const itemNode = this.spawnItemNode(attribute.template!, owner, key, index, item, i);
-                desired.push(itemNode);
-                newOnes.push(itemNode);
+                toCreate.push({ item, idx: i });
             }
         }
 
@@ -206,8 +273,13 @@ export class AreDirectiveFor extends AreDirective {
             owner.removeChild(child);
         }
 
-        // ── 4. Mount only the new ones (kept children stay where they are). ─
-        for (const child of newOnes) {
+        // ── 4. Create + mount the new item nodes. ───────────────────────────
+        // `spawnItemNode` appends to `owner.children` immediately, so iterating
+        // `toCreate` in source order preserves list order (reused children keep
+        // their positions, new rows are appended in order) — identical to the
+        // previous synchronous behavior.
+        const createItem = (desc: { item: any; idx: number }) => {
+            const child = this.spawnItemNode(attribute.template!, owner, key, index, desc.item, desc.idx);
             child.transform();
             child.compile();
             // While detached, stop after compile: the item's instructions are
@@ -215,6 +287,65 @@ export class AreDirectiveFor extends AreDirective {
             // the correct container once the condition becomes truthy. Mounting
             // here would hoist the item to the nearest mounted ancestor.
             if (attached) child.mount();
+        };
+
+        // Small lists → fully synchronous, identical to the previous behavior.
+        if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
+            for (const desc of toCreate) createItem(desc);
+            return this.finishUpdate(attribute, store, scene, state);
+        }
+
+        // Large lists → time-sliced render. Create item nodes until the frame
+        // budget elapses, then yield to the browser (zero-delay macrotask) so
+        // it can paint and stay responsive instead of blocking for the whole
+        // batch. The `state.running` flag (see `update`) prevents any other
+        // update() for this `$for` from interleaving while we stream.
+        state.running = true;
+        let cursor = 0;
+
+        const processChunk = (): void | Promise<void> => {
+            try {
+                const start = AreSchedulerHelper.now();
+                while (cursor < toCreate.length) {
+                    createItem(toCreate[cursor]);
+                    cursor++;
+                    if (AreSchedulerHelper.now() - start >= AreDirectiveFor.CHUNK_BUDGET_MS) break;
+                }
+            } catch (error) {
+                // Never leave the `$for` wedged in the running state on failure,
+                // or every future update would be silently deferred forever.
+                state.running = false;
+                state.pending = false;
+                throw error;
+            }
+
+            if (cursor < toCreate.length) {
+                return new Promise<void>(resolve => {
+                    AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
+                });
+            }
+
+            return this.finishUpdate(attribute, store, scene, state);
+        };
+
+        return processChunk();
+    }
+
+    /**
+     * Completes an update pass. If another update() arrived while a chunked
+     * render was streaming, run exactly one more pass now from the latest store
+     * value so the final DOM always reflects the most recent data.
+     */
+    private finishUpdate(
+        attribute: AreDirectiveAttribute,
+        store: AreStore,
+        scene: AreScene,
+        state: AreForRenderState,
+    ): void | Promise<void> {
+        state.running = false;
+        if (state.pending) {
+            state.pending = false;
+            return this.performUpdate(attribute, store, scene, state);
         }
     }
 

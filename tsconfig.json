@@ -15,6 +15,7 @@
       "@adaas/are-html/instructions/*": ["src/instructions/*"],
       "@adaas/are-html/watchers/*": ["src/watchers/*"],
       "@adaas/are-html/signals/*": ["src/signals/*"],
+      "@adaas/are-html/helpers/*": ["src/helpers/*"],
       // Custom Lib Exports
       "@adaas/are-html/style/*": ["src/lib/AreStyle/*"],
       "@adaas/are-html/directive/*": ["src/lib/AreDirective/*"],

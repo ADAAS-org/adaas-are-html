@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARE $for Performance Lab</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f17;
+      color: #e5e7eb;
+    }
+
+    are-root {
+      display: block;
+      min-height: 100vh;
+    }
+
+    .app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* ---------- header ---------- */
+    .header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #23232f;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 22px;
+      color: #7c3aed;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #8b8b9b;
+    }
+
+    /* ---------- legend ---------- */
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 10px;
+    }
+
+    .legend-card {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: #181824;
+      border: 1px solid #23232f;
+      border-radius: 8px;
+      padding: 8px 12px;
+      min-width: 130px;
+    }
+
+    .legend-key {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #7c3aed;
+      font-weight: 700;
+    }
+
+    .legend-label {
+      font-size: 12px;
+      color: #b6b6c6;
+    }
+
+    /* ---------- hint ---------- */
+    .hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #8b8b9b;
+      margin-bottom: 18px;
+    }
+
+    .hint-icon {
+      color: #7c3aed;
+    }
+
+    /* ---------- toolbar ---------- */
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      background: #1f1f2e;
+      color: #e5e7eb;
+      border: 1px solid #2d2d3d;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn:hover {
+      background: #2a2a3e;
+      border-color: #7c3aed;
+    }
+
+    .btn-danger:hover {
+      border-color: #ef4444;
+    }
+
+    .sep {
+      width: 1px;
+      height: 22px;
+      background: #2d2d3d;
+      margin: 0 4px;
+    }
+
+    /* ---------- meta ---------- */
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      background: #181824;
+      border: 1px solid #23232f;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #b6b6c6;
+    }
+
+    .empty {
+      padding: 30px;
+      text-align: center;
+      color: #6b6b7b;
+      border: 1px dashed #2d2d3d;
+      border-radius: 8px;
+    }
+
+    /* ---------- grid ---------- */
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #15151f;
+      border: 1px solid #1f1f2b;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .row-active {
+      border-color: #7c3aed;
+      background: #1a1626;
+    }
+
+    .row-id {
+      width: 64px;
+      color: #6b6b7b;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .row-label {
+      width: 90px;
+      font-weight: 600;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-ok {
+      background: #064e3b;
+      color: #6ee7b7;
+    }
+
+    .badge-warn {
+      background: #4d3c06;
+      color: #fcd34d;
+    }
+
+    .badge-error {
+      background: #4c0519;
+      color: #fda4af;
+    }
+
+    .badge-idle {
+      background: #1f2937;
+      color: #9ca3af;
+    }
+
+    .star {
+      color: #fbbf24;
+    }
+
+    .cells {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .cell {
+      background: #1f1f2e;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      color: #b6b6c6;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .row-value {
+      width: 70px;
+      text-align: right;
+      color: #8b8b9b;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+
+<body>
+  <are-root id="app">
+    <perf-app></perf-app>
+  </are-root>
+
+  <script type="module" src="./{{BUNDLE_ID}}.js"></script>
+</body>
+
+</html>

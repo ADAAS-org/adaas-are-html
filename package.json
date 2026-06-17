@@ -73,6 +73,7 @@
     "example:signal-routing": "nodemon ./examples/signal-routing/concept.ts",
     "example:component-styles": "nodemon ./examples/component-styles/concept.ts",
     "example:auxta": "nodemon ./examples/auxta/concept.ts",
+    "example:for-perf": "nodemon ./examples/for-perf/concept.ts",
     "test:test": "nodemon ./src/test/app.ts",
     "release": " npm run build && git add . && git commit -m \"new version created :: $(cat package.json | grep version | head -1  | awk -F: '{ print $2 }'  | sed 's/[\",]//g')\" && npm version patch && npm publish --access public",
     "preversion": "echo test",
@@ -82,16 +83,16 @@
     "build": "tsup --config tsup.config.ts"
   },
   "peerDependencies": {
-    "@adaas/a-concept": "^0.3.27",
-    "@adaas/a-frame": "^0.1.14",
-    "@adaas/a-utils": "^0.3.32",
-    "@adaas/are": "^0.0.21"
+    "@adaas/a-concept": "^0.3.29",
+    "@adaas/a-frame": "^0.1.17",
+    "@adaas/a-utils": "^0.3.34",
+    "@adaas/are": "^0.0.23"
   },
   "devDependencies": {
-    "@adaas/a-concept": "^0.3.27",
-    "@adaas/a-frame": "^0.1.14",
-    "@adaas/a-utils": "^0.3.32",
-    "@adaas/are": "^0.0.21",
+    "@adaas/a-concept": "^0.3.29",
+    "@adaas/a-frame": "^0.1.17",
+    "@adaas/a-utils": "^0.3.34",
+    "@adaas/are": "^0.0.23",
     "@types/chai": "^4.3.14",
     "@types/jest": "^29.5.12",
     "@types/mocha": "^10.0.6",

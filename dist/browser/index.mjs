@@ -1,4 +1,4 @@
-import { AreStore, AreScene, AreSyntax, AreCompiler, AreInterpreter, AreInstructionDefaultNames, AreNodeFeatures, AreContext, AreLifecycle, AreSignalsContext, AreAttributeFeatures, Are, AreNode, AreDeclaration, AreAttribute, AreCompilerError, AreMutation, AreSignal, AreInterpreterError, AreTokenizer, AreTransformer, AreEngine, AreSignals, AreEvent } from '@adaas/are';
+import { AreStore, AreScene, AreSyntax, AreCompiler, AreInterpreter, AreInstructionDefaultNames, AreNodeFeatures, AreContext, AreLifecycle, AreSignalsContext, AreAttributeFeatures, Are, AreCompilerError, AreNode, AreDeclaration, AreAttribute, AreMutation, AreSignal, AreInterpreterError, AreTokenizer, AreTransformer, AreEngine, AreSignals, AreEvent } from '@adaas/are';
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_Inject, A_Caller, A_Feature, A_Meta, A_Scope, A_Dependency, A_Component, A_Context, A_ComponentMeta, A_FormatterHelper, A_Fragment } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
@@ -236,6 +236,44 @@ var AreDirectiveContext = class extends A_ExecutionContext {
     this.scope = {};
   }
 };
+
+// src/helpers/AreScheduler.helper.ts
+var AreSchedulerHelper = class {
+  /**
+   * High-resolution wall-clock time in milliseconds. Uses `performance.now()`
+   * when available (monotonic, sub-millisecond), falling back to `Date.now()`.
+   */
+  static now() {
+    return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now();
+  }
+  /**
+   * Schedule `fn` to run on the next macrotask.
+   *
+   * `MessageChannel` yields a true macrotask without the ~4ms clamp that nested
+   * `setTimeout(0)` calls incur, so the browser can paint between chunks with
+   * minimal scheduling overhead. Falls back to `setTimeout` in non-DOM
+   * environments (e.g. tests / SSR).
+   */
+  static scheduleMacrotask(fn) {
+    if (typeof MessageChannel === "undefined") {
+      setTimeout(fn, 0);
+      return;
+    }
+    if (!this._channel) {
+      this._channel = new MessageChannel();
+      this._channel.port1.onmessage = () => {
+        const next = this._queue.shift();
+        if (next) next();
+      };
+    }
+    this._queue.push(fn);
+    this._channel.port2.postMessage(null);
+  }
+};
+/** FIFO queue of callbacks waiting for their posted macrotask to fire. */
+AreSchedulerHelper._queue = [];
+
+// src/directives/AreDirectiveFor.directive.ts
 var AreDirectiveFor = class extends AreDirective {
   transform(attribute, scope, store, scene, logger, ...args) {
     logger.debug(`[Transform] directive $FOR for <${attribute.owner.aseid.toString()}>`);
@@ -264,6 +302,24 @@ var AreDirectiveFor = class extends AreDirective {
     scene.unPlan(hostInstruction);
   }
   update(attribute, store, scene, ...args) {
+    let state = AreDirectiveFor.renderState.get(attribute);
+    if (!state) {
+      state = { running: false, pending: false };
+      AreDirectiveFor.renderState.set(attribute, state);
+    }
+    if (state.running) {
+      state.pending = true;
+      return;
+    }
+    return this.performUpdate(attribute, store, scene, state);
+  }
+  /**
+   * Core of the `$for` update: re-diff the source array against the current
+   * children, reconcile reused/removed items, then mount the new ones (small
+   * lists synchronously, large lists time-sliced). Never called while another
+   * pass for the same `$for` is in flight (see `update`).
+   */
+  performUpdate(attribute, store, scene, state) {
     const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
     const newArray = this.resolveArray(store, arrayExpr, attribute.content);
     const owner = attribute.owner;
@@ -280,7 +336,7 @@ var AreDirectiveFor = class extends AreDirective {
       childByKey.set(k, child);
       remaining.add(child);
     }
-    const newOnes = [];
+    const toCreate = [];
     for (let i = 0; i < newArray.length; i++) {
       const item = newArray[i];
       const k = computeKey(item, i);
@@ -298,18 +354,57 @@ var AreDirectiveFor = class extends AreDirective {
           [index || "index"]: i
         };
       } else {
-        const itemNode = this.spawnItemNode(attribute.template, owner, key, index, item, i);
-        newOnes.push(itemNode);
+        toCreate.push({ item, idx: i });
       }
     }
     for (const child of remaining) {
       if (attached) child.unmount();
       owner.removeChild(child);
     }
-    for (const child of newOnes) {
+    const createItem = (desc) => {
+      const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
       child.transform();
       child.compile();
       if (attached) child.mount();
+    };
+    if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
+      for (const desc of toCreate) createItem(desc);
+      return this.finishUpdate(attribute, store, scene, state);
+    }
+    state.running = true;
+    let cursor = 0;
+    const processChunk = () => {
+      try {
+        const start = AreSchedulerHelper.now();
+        while (cursor < toCreate.length) {
+          createItem(toCreate[cursor]);
+          cursor++;
+          if (AreSchedulerHelper.now() - start >= AreDirectiveFor.CHUNK_BUDGET_MS) break;
+        }
+      } catch (error) {
+        state.running = false;
+        state.pending = false;
+        throw error;
+      }
+      if (cursor < toCreate.length) {
+        return new Promise((resolve) => {
+          AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
+        });
+      }
+      return this.finishUpdate(attribute, store, scene, state);
+    };
+    return processChunk();
+  }
+  /**
+   * Completes an update pass. If another update() arrived while a chunked
+   * render was streaming, run exactly one more pass now from the latest store
+   * value so the final DOM always reflects the most recent data.
+   */
+  finishUpdate(attribute, store, scene, state) {
+    state.running = false;
+    if (state.pending) {
+      state.pending = false;
+      return this.performUpdate(attribute, store, scene, state);
     }
   }
   /**
@@ -470,6 +565,29 @@ var AreDirectiveFor = class extends AreDirective {
     return itemNode;
   }
 };
+/**
+ * Lists whose number of NEW item nodes is at or below this threshold render
+ * fully synchronously — byte-for-byte the previous behavior. Typical UIs
+ * (menus, small tables) are therefore completely unaffected; only genuinely
+ * large lists pay the (tiny) scheduling cost to keep the main thread responsive.
+ */
+AreDirectiveFor.SYNC_THRESHOLD = 100;
+/**
+ * Per-chunk time budget (ms). During a large-list render we mount item nodes
+ * until this much time has elapsed, then yield to the browser so it can paint
+ * and process input before the next chunk. ~16ms targets one animation frame.
+ */
+AreDirectiveFor.CHUNK_BUDGET_MS = 16;
+/**
+ * Per-attribute serialization state. A new update() that arrives while a
+ * chunked render of the SAME `$for` is still in flight does NOT start a second
+ * concurrent pass (which could interleave mutations on the shared children
+ * list); instead it marks `pending` and the in-flight run re-runs once more
+ * with the latest data when it finishes. This guarantees the children list is
+ * only ever mutated by one pass at a time and the final state always reflects
+ * the most recent store value.
+ */
+AreDirectiveFor.renderState = /* @__PURE__ */ new WeakMap();
 __decorateClass([
   AreDirective.Transform,
   __decorateParam(0, A_Inject(A_Caller)),
@@ -2026,10 +2144,45 @@ var AreHTMLLifecycle = class extends AreLifecycle {
     logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
     if (scene.isInactive) return;
     node.interpret();
-    for (let i = 0; i < node.children.length; i++) {
-      const child = node.children[i];
-      child.mount();
+    const stack = [];
+    for (let i = node.children.length - 1; i >= 0; i--) {
+      stack.push({ node: node.children[i], entered: false });
     }
+    const step = () => {
+      const frame = stack[stack.length - 1];
+      const current = frame.node;
+      if (frame.entered) {
+        stack.pop();
+        current.call(AreNodeFeatures.onAfterMount, current.scope);
+        return;
+      }
+      frame.entered = true;
+      current.call(AreNodeFeatures.onBeforeMount, current.scope);
+      if (!current.scene.isInactive) {
+        current.interpret();
+        for (let i = current.children.length - 1; i >= 0; i--) {
+          stack.push({ node: current.children[i], entered: false });
+        }
+      }
+    };
+    const drive = () => {
+      const start = AreSchedulerHelper.now();
+      while (stack.length > 0) {
+        step();
+        if (stack.length > 0 && AreSchedulerHelper.now() - start >= AreHTMLLifecycle.MOUNT_BUDGET_MS) {
+          return new Promise((resolve, reject) => {
+            AreSchedulerHelper.scheduleMacrotask(() => {
+              try {
+                resolve(drive());
+              } catch (error) {
+                reject(error);
+              }
+            });
+          });
+        }
+      }
+    };
+    return drive();
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -2039,6 +2192,13 @@ var AreHTMLLifecycle = class extends AreLifecycle {
     }
   }
 };
+/**
+ * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
+ * mounting a large subtree we keep applying nodes until this much wall-clock
+ * time has elapsed, then yield to the browser so it can paint and process
+ * input before the next chunk. ~16ms targets a single animation frame.
+ */
+AreHTMLLifecycle.MOUNT_BUDGET_MS = 16;
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
   __decorateParam(0, A_Inject(A_Caller)),
@@ -2469,7 +2629,7 @@ var AreRoot = class extends Are {
       }
       child.transform();
       child.compile();
-      child.mount();
+      await child.mount();
     }
   }
   /**
