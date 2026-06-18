@@ -1,4 +1,4 @@
-export { c as AreEventAttribute } from '../AreBinding.attribute-Bm5LlOyE.js';
+export { c as AreEventAttribute } from '../AreBinding.attribute-GpT-5Qmf.js';
 import '@adaas/are';
 import '@adaas/a-concept';
 import '../lib/AreStyle/AreStyle.context.js';

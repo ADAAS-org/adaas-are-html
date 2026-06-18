@@ -15,6 +15,7 @@ import { AddElementInstruction } from "@adaas/are-html/instructions/AddElement.i
 import { AddListenerInstruction } from "@adaas/are-html/instructions/AddListener.instruction";
 import { AddTextInstruction } from "@adaas/are-html/instructions/AddText.instruction";
 import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
+import { AddStaticHTMLInstruction } from "@adaas/are-html/instructions/AddStaticHTML.instruction";
 import { HideElementInstruction } from "@adaas/are-html/instructions/HideElement.instruction";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 import { AreHTMLNode } from "../lib/AreHTMLNode/AreHTMLNode";
@@ -84,16 +85,25 @@ export class AreHTMLInterpreter extends AreInterpreter {
                     ? context.container.createElementNS(SVG_NAMESPACE, tag)
                     : context.container.createElement(tag);
 
-                if (mountPoint.nodeType === Node.ELEMENT_NODE) {
+                // Index the element synchronously so descendants can resolve this
+                // node as their mount point during the same (still off-document) pass.
+                context.setInstructionElement(declaration, element);
+
+                const attach = mountPoint.nodeType === Node.ELEMENT_NODE
                     // parent is a real element — just append
-                    mountPoint.appendChild(element);
-                } else {
+                    ? () => mountPoint.appendChild(element)
                     // parent is an anchor (comment/text node) — insert before it
                     // so content always appears before the anchor marker
-                    mountPoint.parentNode?.insertBefore(element, mountPoint);
-                }
+                    : () => { mountPoint.parentNode?.insertBefore(element, mountPoint); };
 
-                context.setInstructionElement(declaration, element);
+                // When batching, only the mutation that touches the *live* document
+                // needs deferring; appends into an already-detached subtree are free
+                // and run immediately so the offline tree keeps taking shape.
+                if (context.isBatching && mountPoint.isConnected) {
+                    context.deferAttach(attach);
+                } else {
+                    attach();
+                }
 
             } else {
                 const mountPoint = context.container.getElementById(node.id);
@@ -108,9 +118,17 @@ export class AreHTMLInterpreter extends AreInterpreter {
                     ? context.container.createElementNS(SVG_NAMESPACE, tag)
                     : context.container.createElement(tag);
 
-                mountPoint.parentNode?.replaceChild(element, mountPoint);
-
                 context.setInstructionElement(declaration, element);
+
+                const attach = () => { mountPoint.parentNode?.replaceChild(element, mountPoint); };
+
+                // The placeholder lives in the live DOM — defer the swap so the
+                // whole subtree built into `element` lands in one mutation.
+                if (context.isBatching && mountPoint.isConnected) {
+                    context.deferAttach(attach);
+                } else {
+                    attach();
+                }
             }
 
             // Register the element in the context index
@@ -135,7 +153,12 @@ export class AreHTMLInterpreter extends AreInterpreter {
     ) {
         const element = context.getElementByInstruction(declaration);
 
-        if (element && element.parentNode) {
+        // Skip the live-DOM detach when the element is already off-document: an
+        // ancestor removed earlier in the same unmount took this whole subtree
+        // with it, and a detached subtree is garbage-collected as a unit. The
+        // per-node removeChild would be wasted work. The index bookkeeping below
+        // must still run to drop the strong references that would pin it in memory.
+        if (element && element.parentNode && element.isConnected) {
             element.parentNode.removeChild(element);
         }
 
@@ -283,7 +306,10 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
             const { name } = mutation.payload;
 
-            if (name && element.nodeType === Node.ELEMENT_NODE) {
+            // No point stripping attributes off an element that is already
+            // detached from the live document (it is about to be discarded with
+            // its whole subtree). Only touch attributes while the element is live.
+            if (name && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
                 const colonIdx = name.indexOf(':');
                 if (colonIdx > 0) {
                     const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
@@ -342,6 +368,10 @@ export class AreHTMLInterpreter extends AreInterpreter {
         const element = context.getElementByInstruction(mutation.parent!);
 
         if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+
+        // A detached element is being discarded with its subtree — restoring its
+        // inline display would be pointless work. Only restore while it is live.
+        if (!element.isConnected) return;
 
         const el = element as HTMLElement;
 
@@ -510,7 +540,12 @@ export class AreHTMLInterpreter extends AreInterpreter {
         const listener = (mutation.payload as any)._callback as EventListenerOrEventListenerObject | undefined;
 
         if (listener) {
-            element.removeEventListener(eventName, listener);
+            // Detaching a listener from an element that is already off-document is
+            // unnecessary — the element and its listeners are collected together.
+            // Still clear the context bookkeeping so no strong reference lingers.
+            if (element.isConnected) {
+                element.removeEventListener(eventName, listener);
+            }
             context.removeListener(element, name, listener);
             (mutation.payload as any)._callback = undefined;
         }
@@ -592,8 +627,70 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
         if (!element) return;
 
-        element.parentNode?.removeChild(element);
+        // Off-document text nodes vanish with their detached parent subtree, so
+        // skip the removeChild and just release the index reference.
+        if (element.isConnected) {
+            element.parentNode?.removeChild(element);
+        }
         context.removeInstructionElement(declaration);
+    }
+
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ── AddStaticHTML — Apply / Update / Revert ──────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Materialises a fully static subtree (a "static island") onto its host
+    // element in a single pass. The tokenizer captured the inner markup verbatim
+    // instead of exploding it into per-element/per-text AreNodes, so here we hand
+    // the markup to the browser parser ONCE (via a cached <template>) and clone
+    // the pre-parsed fragment in. This collapses N DOM mutations into one and
+    // decodes HTML entities (e.g. &nbsp;) natively.
+    @A_Frame.Define({
+        description: 'Inject a static island\'s inner markup onto its host element in one pass via a cached, browser-parsed <template> clone. Decodes HTML entities natively.'
+    })
+    @AreInterpreter.Apply(AreHTMLInstructions.AddStaticHTML)
+    @AreInterpreter.Update(AreHTMLInstructions.AddStaticHTML)
+    addStaticHTML(
+        @A_Inject(A_Caller) mutation: AddStaticHTMLInstruction,
+        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+        @A_Inject(A_Logger) logger?: A_Logger,
+    ) {
+        const element = context.getElementByInstruction(mutation.parent!);
+
+        if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+            throw new AreInterpreterError({
+                title: 'Element Not Found',
+                description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure the host element is rendered before materialising its static island.`
+            });
+        }
+
+        const el = element as HTMLElement;
+        const { html } = mutation.payload;
+
+        // Clear any previously injected content (Update path) before re-injecting.
+        el.textContent = '';
+
+        // Parse once (in the host tag's context) and clone the cached fragment.
+        const fragment = context.getStaticFragment(el.tagName.toLowerCase(), html);
+        el.appendChild(fragment.cloneNode(true));
+
+        logger?.debug('green', `Static island materialised onto <${(mutation.owner.parent ?? mutation.owner)?.aseid?.toString?.()}>`);
+    }
+
+
+    @A_Frame.Define({
+        description: 'Clear a static island\'s injected markup from its host element on revert.'
+    })
+    @AreInterpreter.Revert(AreHTMLInstructions.AddStaticHTML)
+    removeStaticHTML(
+        @A_Inject(A_Caller) mutation: AddStaticHTMLInstruction,
+        @A_Inject(AreHTMLEngineContext) context: AreHTMLEngineContext,
+    ) {
+        const element = context.getElementByInstruction(mutation.parent!);
+
+        if (element && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+            (element as HTMLElement).textContent = '';
+        }
     }
 
 
@@ -667,7 +764,11 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
         if (!element) return;
 
-        element.parentNode?.removeChild(element);
+        // Off-document comment anchors are discarded with their detached parent
+        // subtree; skip the removeChild and just release the index reference.
+        if (element.isConnected) {
+            element.parentNode?.removeChild(element);
+        }
         context.removeInstructionElement(declaration);
     }
 

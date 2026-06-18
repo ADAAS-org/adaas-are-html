@@ -1,6 +1,6 @@
 import { A_Scope } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
-import { a as AreDirective, b as AreDirectiveAttribute } from '../AreBinding.attribute-doUvtOjc.mjs';
+import { a as AreDirective, b as AreDirectiveAttribute } from '../AreBinding.attribute-BWzEIw6H.mjs';
 import { AreStore, AreScene } from '@adaas/are';
 import '../lib/AreStyle/AreStyle.context.mjs';
 
@@ -39,6 +39,17 @@ declare class AreDirectiveFor extends AreDirective {
      */
     private performUpdate;
     /**
+     * Repositions the item nodes' DOM elements so the rendered order matches the
+     * source array order. The keyed diff (steps 1–4) reuses existing nodes in
+     * place and mounts new ones at the end; without this pass a `prepend` or
+     * `shuffle` would leave reused rows where they were and pile new rows at the
+     * bottom. We walk the desired order RIGHT-TO-LEFT, keeping a `ref` pointer to
+     * the element each item must precede (starting at the `$for` anchor comment),
+     * and only call `insertBefore` when an element is not already in position —
+     * so a plain `append` (already-correct order) performs ZERO DOM moves.
+     */
+    private reconcileOrder;
+    /**
      * Completes an update pass. If another update() arrived while a chunked
      * render was streaming, run exactly one more pass now from the latest store
      * value so the final DOM always reflects the most recent data.
@@ -75,6 +86,12 @@ declare class AreDirectiveFor extends AreDirective {
      * Supports both plain key lookups and function-call expressions:
      *   items          → store.get('items')
      *   filter(items)  → store.get('filter')(store.get('items'))
+     *
+     * `contextScope` carries item-scoped variables introduced by an enclosing
+     * directive (e.g. the `row` of an outer `$for`). It is consulted BEFORE the
+     * store so a nested `$for="cell in row.cells"` resolves `row` from the
+     * parent iteration instead of looking for a (non-existent) top-level store
+     * key. Leading identifiers not present in the context fall back to the store.
      */
     private resolveArray;
     /**

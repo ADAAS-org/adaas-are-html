@@ -26,6 +26,57 @@ exports.AreHTMLNode = class AreHTMLNode extends are.AreNode {
     return this.aseid.entity;
   }
   /**
+   * The verbatim inner markup captured when this node was identified as a
+   * static island, or `undefined` for ordinary (per-node) nodes.
+   */
+  get staticInnerHTML() {
+    return this._staticInnerHTML;
+  }
+  /**
+   * Whether this node is a static-island root (see `_staticInnerHTML`).
+   */
+  get isStaticIsland() {
+    return this._staticInnerHTML !== void 0;
+  }
+  /**
+   * Marks this node as a static-island root, capturing the verbatim inner
+   * markup to be materialised in one shot by the interpreter. Called by the
+   * tokenizer when the node's inner content is detected to be fully static.
+   */
+  markStatic(innerHTML) {
+    this._staticInnerHTML = innerHTML;
+  }
+  /**
+   * Deep-clone the node. Overridden to carry over the static-island marker
+   * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
+   * copied by the base AreNode.clone(). Without this, cloning a directive
+   * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
+   * would drop the captured inner markup and render an empty element. The
+   * base clone() recurses via each child's polymorphic clone(), so nested
+   * island children are preserved automatically through this override.
+   */
+  clone() {
+    const cloned = super.clone();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
+   * Clone the node while transferring its existing scope to the clone (used by
+   * the $if/$for directives to turn the original node into a lightweight group
+   * container). Overridden for the same reason as `clone()`: the static-island
+   * marker must survive so a directive applied to an island root keeps its
+   * inner markup.
+   */
+  cloneWithScope() {
+    const cloned = super.cloneWithScope();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
     * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
     * 
     * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.

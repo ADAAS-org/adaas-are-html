@@ -17,12 +17,86 @@ import { AreDirectiveMeta } from "@adaas/are-html/directive/AreDirective.meta";
 })
 export class AreHTMLNode extends AreNode {
     /**
+     * When set, this node is a *static island* root: its entire inner subtree
+     * was detected (at tokenize time) to contain no ARE-reactive constructs —
+     * no interpolations, no dynamic attributes and only standard HTML tags.
+     *
+     * Instead of being exploded into one child AreNode per element/text node,
+     * the inner markup is preserved verbatim here and materialised in a single
+     * pass by the interpreter (browser-parsed `innerHTML` / cached `<template>`
+     * clone). The node's OWN attributes (including any dynamic `:`/`@`/`$` on
+     * the island root) still compile and stay reactive as usual.
+     */
+    protected _staticInnerHTML?: string;
+
+    /**
      * Actual node type. 
      * By default it's a tag name
      */
     get tag(): string {
         return this.aseid.entity;
     }
+
+    /**
+     * The verbatim inner markup captured when this node was identified as a
+     * static island, or `undefined` for ordinary (per-node) nodes.
+     */
+    get staticInnerHTML(): string | undefined {
+        return this._staticInnerHTML;
+    }
+
+    /**
+     * Whether this node is a static-island root (see `_staticInnerHTML`).
+     */
+    get isStaticIsland(): boolean {
+        return this._staticInnerHTML !== undefined;
+    }
+
+    /**
+     * Marks this node as a static-island root, capturing the verbatim inner
+     * markup to be materialised in one shot by the interpreter. Called by the
+     * tokenizer when the node's inner content is detected to be fully static.
+     */
+    markStatic(innerHTML: string): void {
+        this._staticInnerHTML = innerHTML;
+    }
+
+    /**
+     * Deep-clone the node. Overridden to carry over the static-island marker
+     * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
+     * copied by the base AreNode.clone(). Without this, cloning a directive
+     * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
+     * would drop the captured inner markup and render an empty element. The
+     * base clone() recurses via each child's polymorphic clone(), so nested
+     * island children are preserved automatically through this override.
+     */
+    clone<T extends AreNode = AreNode>(this: T): T {
+        const cloned = super.clone() as unknown as AreHTMLNode;
+        const self = this as unknown as AreHTMLNode;
+
+        if (self._staticInnerHTML !== undefined)
+            cloned.markStatic(self._staticInnerHTML);
+
+        return cloned as unknown as T;
+    }
+
+    /**
+     * Clone the node while transferring its existing scope to the clone (used by
+     * the $if/$for directives to turn the original node into a lightweight group
+     * container). Overridden for the same reason as `clone()`: the static-island
+     * marker must survive so a directive applied to an island root keeps its
+     * inner markup.
+     */
+    cloneWithScope<T extends AreNode = AreNode>(this: T): T {
+        const cloned = super.cloneWithScope() as unknown as AreHTMLNode;
+        const self = this as unknown as AreHTMLNode;
+
+        if (self._staticInnerHTML !== undefined)
+            cloned.markStatic(self._staticInnerHTML);
+
+        return cloned as unknown as T;
+    }
+
     /**
       * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
       * 

@@ -8,6 +8,7 @@ const AreHTMLInstructions = {
   AddListener: "_AreHTML_AddListener",
   AddInterpolation: "_AreHTML_AddInterpolation",
   AddComment: "_AreHTML_AddComment",
+  AddStaticHTML: "_AreHTML_AddStaticHTML",
   HideElement: "_AreHTML_HideElement"
 };
 

@@ -74,10 +74,55 @@ declare class AreStyle extends A_Fragment {
 
 declare class AreHTMLNode extends AreNode {
     /**
+     * When set, this node is a *static island* root: its entire inner subtree
+     * was detected (at tokenize time) to contain no ARE-reactive constructs —
+     * no interpolations, no dynamic attributes and only standard HTML tags.
+     *
+     * Instead of being exploded into one child AreNode per element/text node,
+     * the inner markup is preserved verbatim here and materialised in a single
+     * pass by the interpreter (browser-parsed `innerHTML` / cached `<template>`
+     * clone). The node's OWN attributes (including any dynamic `:`/`@`/`$` on
+     * the island root) still compile and stay reactive as usual.
+     */
+    protected _staticInnerHTML?: string;
+    /**
      * Actual node type.
      * By default it's a tag name
      */
     get tag(): string;
+    /**
+     * The verbatim inner markup captured when this node was identified as a
+     * static island, or `undefined` for ordinary (per-node) nodes.
+     */
+    get staticInnerHTML(): string | undefined;
+    /**
+     * Whether this node is a static-island root (see `_staticInnerHTML`).
+     */
+    get isStaticIsland(): boolean;
+    /**
+     * Marks this node as a static-island root, capturing the verbatim inner
+     * markup to be materialised in one shot by the interpreter. Called by the
+     * tokenizer when the node's inner content is detected to be fully static.
+     */
+    markStatic(innerHTML: string): void;
+    /**
+     * Deep-clone the node. Overridden to carry over the static-island marker
+     * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
+     * copied by the base AreNode.clone(). Without this, cloning a directive
+     * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
+     * would drop the captured inner markup and render an empty element. The
+     * base clone() recurses via each child's polymorphic clone(), so nested
+     * island children are preserved automatically through this override.
+     */
+    clone<T extends AreNode = AreNode>(this: T): T;
+    /**
+     * Clone the node while transferring its existing scope to the clone (used by
+     * the $if/$for directives to turn the original node into a lightweight group
+     * container). Overridden for the same reason as `clone()`: the static-island
+     * marker must survive so a directive applied to an island root keeps its
+     * inner markup.
+     */
+    cloneWithScope<T extends AreNode = AreNode>(this: T): T;
     /**
       * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
       *
@@ -157,6 +202,17 @@ declare class AreDirectiveFor extends AreDirective {
      */
     private performUpdate;
     /**
+     * Repositions the item nodes' DOM elements so the rendered order matches the
+     * source array order. The keyed diff (steps 1–4) reuses existing nodes in
+     * place and mounts new ones at the end; without this pass a `prepend` or
+     * `shuffle` would leave reused rows where they were and pile new rows at the
+     * bottom. We walk the desired order RIGHT-TO-LEFT, keeping a `ref` pointer to
+     * the element each item must precede (starting at the `$for` anchor comment),
+     * and only call `insertBefore` when an element is not already in position —
+     * so a plain `append` (already-correct order) performs ZERO DOM moves.
+     */
+    private reconcileOrder;
+    /**
      * Completes an update pass. If another update() arrived while a chunked
      * render was streaming, run exactly one more pass now from the latest store
      * value so the final DOM always reflects the most recent data.
@@ -193,6 +249,12 @@ declare class AreDirectiveFor extends AreDirective {
      * Supports both plain key lookups and function-call expressions:
      *   items          → store.get('items')
      *   filter(items)  → store.get('filter')(store.get('items'))
+     *
+     * `contextScope` carries item-scoped variables introduced by an enclosing
+     * directive (e.g. the `row` of an outer `$for`). It is consulted BEFORE the
+     * store so a nested `$for="cell in row.cells"` resolves `row` from the
+     * parent iteration instead of looking for a (non-existent) top-level store
+     * key. Leading identifiers not present in the context fall back to the store.
      */
     private resolveArray;
     /**
@@ -289,6 +351,14 @@ type AreHtmlAddStyleInstructionPayload = {
     /** Full CSS string to inject as a <style> block scoped to the component. Applied to the document head and reverted on unmount. */
     styles: string;
 };
+type AreHtmlAddStaticHTMLInstructionPayload = {
+    /**
+     * Verbatim inner markup of a static island, materialised on the parent
+     * element in a single pass (browser-parsed `innerHTML` / cached `<template>`
+     * clone). Decodes HTML entities (e.g. `&nbsp;`) for free via the parser.
+     */
+    html: string;
+};
 type AreHtmlHideInstructionPayload = {
     /**
      * Optional explicit display value to restore when the element becomes
@@ -327,6 +397,10 @@ declare class AddListenerInstruction extends AreMutation<AreHtmlAddListenerInstr
     constructor(parent: AreDeclaration, props: AreHtmlAddListenerInstructionPayload | AreInstructionSerialized<AreHtmlAddListenerInstructionPayload>);
 }
 
+declare class AddStaticHTMLInstruction extends AreMutation<AreHtmlAddStaticHTMLInstructionPayload> {
+    constructor(parent: AreDeclaration, props: AreHtmlAddStaticHTMLInstructionPayload | AreInstructionSerialized<AreHtmlAddStaticHTMLInstructionPayload>);
+}
+
 declare class AddStyleInstruction extends AreMutation<AreHtmlAddStyleInstructionPayload> {
     constructor(parent: AreDeclaration, props: AreHtmlAddStyleInstructionPayload | AreInstructionSerialized<AreHtmlAddStyleInstructionPayload>);
 }
@@ -352,6 +426,7 @@ declare const AreHTMLInstructions: {
     readonly AddListener: "_AreHTML_AddListener";
     readonly AddInterpolation: "_AreHTML_AddInterpolation";
     readonly AddComment: "_AreHTML_AddComment";
+    readonly AddStaticHTML: "_AreHTML_AddStaticHTML";
     readonly HideElement: "_AreHTML_HideElement";
 };
 
@@ -468,6 +543,38 @@ declare const LISTENER_OPTION_MODIFIERS: Set<string>;
  * Avoids "undefined"/"null"/"[object Object]" leaks into the DOM.
  */
 declare function toDOMString(value: any): string;
+/**
+ * Standard HTML element names that are safe to materialise wholesale via
+ * `innerHTML` / a cached `<template>` clone.
+ *
+ * The set is intentionally an allow-list of plain HTML flow/phrasing/table/list
+ * /form-display tags. Anything NOT in this set — custom elements, registered
+ * ARE components (resolved by PascalCase tag), and SVG/MathML elements — is
+ * excluded so those subtrees keep flowing through the normal per-node pipeline
+ * (SVG needs createElementNS; components need their own lifecycle).
+ */
+declare const STANDARD_HTML_TAGS: Set<string>;
+/**
+ * Detects whether an inner-markup string is a fully *static island* — i.e. it
+ * contains no ARE-reactive constructs and therefore can be rendered in one shot
+ * (browser-parsed `innerHTML` / cached `<template>` clone) instead of being
+ * exploded into one AreNode per element/text/interpolation.
+ *
+ * A subtree is static iff it contains:
+ *   1. no `{{ }}` interpolations, and
+ *   2. no dynamic attributes (`$`-directive / `:`-binding / `@`-event), and
+ *   3. only standard HTML tags (no custom elements, ARE components or SVG).
+ *
+ * The scanner is quote-aware so a `:` / `@` / `$` inside an attribute *value*
+ * (e.g. `href="http://…"`, `style="color:red"`) is never mistaken for a
+ * dynamic-attribute prefix. The detector is deliberately conservative: any
+ * ambiguity resolves to `false` (skip the optimisation, keep the safe path).
+ *
+ * NOTE: pure-text content (no tags at all) is also considered static — this is
+ * what lets `&nbsp;`, `&amp;`, `&#160;` and friends decode correctly, since the
+ * browser HTML parser handles entities that hand-built text nodes do not.
+ */
+declare function isStaticMarkup(inner: string): boolean;
 
 type AreHTMLContextConstructor = {
     container: Document;
@@ -517,8 +624,74 @@ declare class AreHTMLEngineContext extends AreContext {
      * The root container for the HTML engine, which can be either a Document or a ShadowRoot. This is where the engine will mount the generated DOM elements. The context uses this container to manage the relationship between AreNodes, instructions, and their corresponding DOM elements, allowing for efficient updates and cleanups as the application state changes.
      */
     protected _container: Document;
+    /**
+     * Parsed-fragment cache for static islands (see AddStaticHTMLInstruction).
+     *
+     * Keyed by `hostTag\u0000markup`, each entry holds a `DocumentFragment` whose
+     * children were parsed by the browser exactly once — in the *correct element
+     * context* (the host tag), so table fragments (`<tr>`, `<td>`, …) and other
+     * context-sensitive content parse correctly. Repeated static islands with
+     * identical markup (e.g. list rows, reused components) clone the pre-parsed
+     * fragment instead of re-parsing the HTML string on every mount — turning an
+     * O(parse) operation into an O(clone) one.
+     */
+    protected _staticFragmentCache: Map<string, DocumentFragment>;
+    /**
+     * Live-DOM attachments deferred while a mount pass is batching.
+     *
+     * A freshly-mounted subtree is built inside a *detached* root element, so
+     * every descendant `appendChild`/`insertBefore` happens off-document and
+     * triggers zero layout/paint invalidation. The single mutation that actually
+     * connects the built subtree to the live document is deferred and collected
+     * here, then flushed once when the batch closes — collapsing O(nodes) reflows
+     * into O(1) per mount root.
+     */
+    protected _pendingAttachments: Array<() => void>;
+    /**
+     * Depth of the currently open batching scopes. Re-entrant so that nested
+     * `beginBatch`/`endBatch` pairs flush exactly once, when the outermost scope
+     * closes.
+     */
+    protected _batchDepth: number;
     constructor(props: Partial<AreHTMLContextConstructor>);
     get container(): Document;
+    /**
+     * `true` while a synchronous mount pass is batching live-DOM attachments.
+     * Interpreter handlers consult this to decide whether to attach an element
+     * immediately or hand the attachment to {@link deferAttach}.
+     */
+    get isBatching(): boolean;
+    /**
+     * Opens a batching scope. Re-entrant: only the outermost matching
+     * {@link endBatch} flushes the deferred attachments, so a single mount pass
+     * connects its built subtree to the live DOM exactly once.
+     */
+    beginBatch(): void;
+    /**
+     * Registers a live-DOM attachment to run when the current batch flushes. If
+     * no batch is active the attachment runs immediately, preserving the original
+     * synchronous behaviour for updates that mount outside a batch.
+     *
+     * @param attach the DOM mutation that connects a built subtree to the document
+     */
+    deferAttach(attach: () => void): void;
+    /**
+     * Closes a batching scope. When the outermost scope closes, every deferred
+     * attachment runs in registration (document) order, connecting the built
+     * subtrees to the live DOM in a single pass.
+     */
+    endBatch(): void;
+    /**
+     * Returns a `DocumentFragment` containing the parsed form of `html`, parsed
+     * once in the context of `hostTag` (so context-sensitive content such as
+     * table rows/cells parses correctly) and cached thereafter. Callers should
+     * `cloneNode(true)` the returned fragment rather than mutating it, so the
+     * cache stays reusable.
+     *
+     * @param hostTag the tag name of the element the markup will be injected into
+     * @param html    verbatim static-island inner markup
+     */
+    getStaticFragment(hostTag: string, html: string): DocumentFragment;
     /**
      * Retrieves the DOM element associated with a given AreNode. This method looks up the node's ASEID in the nodeToHostElements map to find the corresponding DOM element. If the node is not found, it returns undefined. This allows the engine to efficiently access and manipulate the DOM elements that correspond to specific nodes in the AreNode tree, enabling dynamic updates and interactions based on the application state.
      *
@@ -694,6 +867,8 @@ declare class AreHTMLInterpreter extends AreInterpreter {
     removeEventListener(mutation: AddListenerInstruction, context: AreHTMLEngineContext): void;
     addText(declaration: AddTextInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeText(declaration: AddTextInstruction, context: AreHTMLEngineContext): void;
+    addStaticHTML(mutation: AddStaticHTMLInstruction, context: AreHTMLEngineContext, logger?: A_Logger): void;
+    removeStaticHTML(mutation: AddStaticHTMLInstruction, context: AreHTMLEngineContext): void;
     addComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext): void;
     addStyle(mutation: AddStyleInstruction, context: AreHTMLEngineContext, logger?: A_Logger): void;
@@ -707,13 +882,6 @@ declare class AreHTMLInterpreter extends AreInterpreter {
 }
 
 declare class AreHTMLLifecycle extends AreLifecycle {
-    /**
-     * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
-     * mounting a large subtree we keep applying nodes until this much wall-clock
-     * time has elapsed, then yield to the browser so it can paint and process
-     * input before the next chunk. ~16ms targets a single animation frame.
-     */
-    private static readonly MOUNT_BUDGET_MS;
     initComponent(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initRoot(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, signalsContext?: AreSignalsContext, logger?: A_Logger, ...args: any[]): void;
     initText(node: AreHTMLNode, scope: A_Scope, context: AreHTMLEngineContext, logger?: A_Logger, ...args: any[]): void;
@@ -842,4 +1010,4 @@ declare class AreRouteWatcher extends A_Component {
     private notify;
 }
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, type AreHtmlHideInstructionPayload, AreInterpolation, AreRoot, AreRootCache, type AreRootCacheEntry, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStaticHTMLInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStaticHTMLInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, type AreHtmlHideInstructionPayload, AreInterpolation, AreRoot, AreRootCache, type AreRootCacheEntry, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

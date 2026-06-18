@@ -9,6 +9,7 @@ var AreDirective_attribute = require('@adaas/are-html/attributes/AreDirective.at
 var AreEvent_attribute = require('@adaas/are-html/attributes/AreEvent.attribute');
 var AreBinding_attribute = require('@adaas/are-html/attributes/AreBinding.attribute');
 var AreStatic_attribute = require('@adaas/are-html/attributes/AreStatic.attribute');
+var AreHTML_constants = require('./AreHTML.constants');
 var core = require('@adaas/a-frame/core');
 
 var __defProp = Object.defineProperty;
@@ -28,7 +29,12 @@ exports.AreHTMLTokenizer = class AreHTMLTokenizer extends are.AreTokenizer {
     this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
-    super.tokenize(node, context, logger);
+    const isStaticIsland = node instanceof AreComponent.AreComponentNode && !!node.content && AreHTML_constants.isStaticMarkup(node.content);
+    if (isStaticIsland) {
+      node.markStatic(node.content);
+    } else {
+      super.tokenize(node, context, logger);
+    }
     context.startPerformance("attributeExtraction");
     const attributes = this.extractAttributes(node.markup);
     for (const attr of attributes) {

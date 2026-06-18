@@ -8,6 +8,7 @@ import { AreDirectiveAttribute } from '@adaas/are-html/attributes/AreDirective.a
 import { AreEventAttribute } from '@adaas/are-html/attributes/AreEvent.attribute';
 import { AreBindingAttribute } from '@adaas/are-html/attributes/AreBinding.attribute';
 import { AreStaticAttribute } from '@adaas/are-html/attributes/AreStatic.attribute';
+import { isStaticMarkup } from './AreHTML.constants';
 import { A_Frame } from '@adaas/a-frame/core';
 
 let AreHTMLTokenizer = class extends AreTokenizer {
@@ -16,7 +17,12 @@ let AreHTMLTokenizer = class extends AreTokenizer {
     this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
-    super.tokenize(node, context, logger);
+    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
+    if (isStaticIsland) {
+      node.markStatic(node.content);
+    } else {
+      super.tokenize(node, context, logger);
+    }
     context.startPerformance("attributeExtraction");
     const attributes = this.extractAttributes(node.markup);
     for (const attr of attributes) {

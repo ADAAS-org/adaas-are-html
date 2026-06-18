@@ -84,15 +84,15 @@
   },
   "peerDependencies": {
     "@adaas/a-concept": "^0.3.29",
-    "@adaas/a-frame": "^0.1.17",
+    "@adaas/a-frame": "^0.1.18",
     "@adaas/a-utils": "^0.3.34",
-    "@adaas/are": "^0.0.23"
+    "@adaas/are": "^0.0.24"
   },
   "devDependencies": {
     "@adaas/a-concept": "^0.3.29",
-    "@adaas/a-frame": "^0.1.17",
+    "@adaas/a-frame": "^0.1.18",
     "@adaas/a-utils": "^0.3.34",
-    "@adaas/are": "^0.0.23",
+    "@adaas/are": "^0.0.24",
     "@types/chai": "^4.3.14",
     "@types/jest": "^29.5.12",
     "@types/mocha": "^10.0.6",

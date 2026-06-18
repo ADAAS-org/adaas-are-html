@@ -12,7 +12,6 @@ var AreDirective_constants = require('@adaas/are-html/directive/AreDirective.con
 var AreHTML_context = require('./AreHTML.context');
 var AreHTMLNode = require('../lib/AreHTMLNode/AreHTMLNode');
 var core = require('@adaas/a-frame/core');
-var AreScheduler_helper = require('@adaas/are-html/helpers/AreScheduler.helper');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -46,46 +45,39 @@ exports.AreHTMLLifecycle = class AreHTMLLifecycle extends are.AreLifecycle {
   mount(node, scene, logger, ...args) {
     logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
     if (scene.isInactive) return;
-    node.interpret();
-    const stack = [];
-    for (let i = node.children.length - 1; i >= 0; i--) {
-      stack.push({ node: node.children[i], entered: false });
-    }
-    const step = () => {
-      const frame = stack[stack.length - 1];
-      const current = frame.node;
-      if (frame.entered) {
-        stack.pop();
-        current.call(are.AreNodeFeatures.onAfterMount, current.scope);
-        return;
+    const context = node.scope.resolve(AreHTML_context.AreHTMLEngineContext);
+    context?.beginBatch();
+    const afterMountQueue = [];
+    try {
+      node.interpret();
+      const stack = [];
+      for (let i = node.children.length - 1; i >= 0; i--) {
+        stack.push({ node: node.children[i], entered: false });
       }
-      frame.entered = true;
-      current.call(are.AreNodeFeatures.onBeforeMount, current.scope);
-      if (!current.scene.isInactive) {
-        current.interpret();
-        for (let i = current.children.length - 1; i >= 0; i--) {
-          stack.push({ node: current.children[i], entered: false });
-        }
-      }
-    };
-    const drive = () => {
-      const start = AreScheduler_helper.AreSchedulerHelper.now();
       while (stack.length > 0) {
-        step();
-        if (stack.length > 0 && AreScheduler_helper.AreSchedulerHelper.now() - start >= exports.AreHTMLLifecycle.MOUNT_BUDGET_MS) {
-          return new Promise((resolve, reject) => {
-            AreScheduler_helper.AreSchedulerHelper.scheduleMacrotask(() => {
-              try {
-                resolve(drive());
-              } catch (error) {
-                reject(error);
-              }
-            });
-          });
+        const frame = stack[stack.length - 1];
+        const current = frame.node;
+        if (frame.entered) {
+          stack.pop();
+          afterMountQueue.push(current);
+          continue;
+        }
+        frame.entered = true;
+        current.call(are.AreNodeFeatures.onBeforeMount, current.scope);
+        if (!current.scene.isInactive) {
+          current.interpret();
+          for (let i = current.children.length - 1; i >= 0; i--) {
+            stack.push({ node: current.children[i], entered: false });
+          }
         }
       }
-    };
-    return drive();
+    } finally {
+      context?.endBatch();
+    }
+    for (let i = 0; i < afterMountQueue.length; i++) {
+      const mounted = afterMountQueue[i];
+      mounted.call(are.AreNodeFeatures.onAfterMount, mounted.scope);
+    }
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -95,13 +87,6 @@ exports.AreHTMLLifecycle = class AreHTMLLifecycle extends are.AreLifecycle {
     }
   }
 };
-/**
- * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
- * mounting a large subtree we keep applying nodes until this much wall-clock
- * time has elapsed, then yield to the browser so it can paint and process
- * input before the next chunk. ~16ms targets a single animation frame.
- */
-exports.AreHTMLLifecycle.MOUNT_BUDGET_MS = 16;
 __decorateClass([
   are.AreLifecycle.Init(AreComponent.AreComponentNode),
   __decorateParam(0, aConcept.A_Inject(aConcept.A_Caller)),

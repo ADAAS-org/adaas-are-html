@@ -34,6 +34,15 @@ export type AreHtmlAddStyleInstructionPayload = {
     styles: string;
 }
 
+export type AreHtmlAddStaticHTMLInstructionPayload = {
+    /**
+     * Verbatim inner markup of a static island, materialised on the parent
+     * element in a single pass (browser-parsed `innerHTML` / cached `<template>`
+     * clone). Decodes HTML entities (e.g. `&nbsp;`) for free via the parser.
+     */
+    html: string;
+}
+
 export type AreHtmlHideInstructionPayload = {
     /**
      * Optional explicit display value to restore when the element becomes

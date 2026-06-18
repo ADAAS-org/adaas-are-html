@@ -1,4 +1,4 @@
-export { f as AreStaticAttribute } from '../AreBinding.attribute-Bm5LlOyE.js';
+export { f as AreStaticAttribute } from '../AreBinding.attribute-GpT-5Qmf.js';
 import '@adaas/are';
 import '@adaas/a-concept';
 import '../lib/AreStyle/AreStyle.context.js';

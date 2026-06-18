@@ -2845,8 +2845,8 @@ var __decorateClass2 = /* @__PURE__ */ __name((decorators, target, key, kind) =>
 }, "__decorateClass");
 var __decorateParam2 = /* @__PURE__ */ __name((index, decorator) => (target, key) => decorator(target, key, index), "__decorateParam");
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-UWXOV5XO.mjs
-var t = "0.1.15";
+// node_modules/@adaas/a-frame/dist/browser/chunk-VBGV4GJ5.mjs
+var t = "0.1.16";
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-IKIN4MJV.mjs
 var h2 = Object.defineProperty;
@@ -2858,7 +2858,7 @@ var k2 = /* @__PURE__ */ __name((c3, a4, e, d4) => {
 }, "k");
 var l = /* @__PURE__ */ __name((c3, a4) => (e, d4) => a4(e, d4, c3), "l");
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-PTHJM2MP.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-6K7VISNV.mjs
 var _a39;
 var _2 = (_a39 = class extends H {
   get A_FRAME_TOKEN() {
@@ -3468,7 +3468,7 @@ var n3 = (_a48 = class extends D {
 j2(n3, "A_FrameDefinition");
 var h3 = n3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-FYZWOISU.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-3ROGJ3YE.mjs
 var _a49;
 var z2 = (_a49 = class extends H {
   constructor() {
@@ -4439,7 +4439,7 @@ var a3 = (_a64 = class extends D {
 j2(a3, "A_FrameSchema");
 var s2 = a3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-PIH5MHMV.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-4KUCX5R6.mjs
 var d3 = { Request: "_A_FRAME_REQUEST", Socket: "_A_FRAME_SOCKET", Stream: "_A_FRAME_STREAM", Send: "_A_FRAME_SEND" };
 var _a65;
 var J2 = (_a65 = class extends H {
@@ -5008,7 +5008,7 @@ var l3 = (_a76 = class extends O {
 j2(l3, "A_FrameChannel"), k2([N.Extend({ name: r4.Embed, scope: [h3] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedDefinition", 1), k2([N.Extend({ name: m3.Embed, scope: [w2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedNamespace", 1), k2([N.Extend({ name: r5.Embed, scope: [_4] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedSegment", 1), k2([N.Extend({ name: D3.Generate, scope: [O3] }), l(0, Yt(te)), l(1, Yt(v4))], l3.prototype, "generateDynamicStructure", 1), k2([N.Extend({ name: D3.Patch, scope: [O3] }), l(0, Yt(te)), l(1, Yt(v4))], l3.prototype, "patchDynamicStructure", 1), k2([N.Extend({ name: C4.Generate, scope: [P3] }), l(0, Yt(te)), l(1, Yt(w5))], l3.prototype, "generateDynamicFeature", 1), k2([N.Extend({ name: C4.Patch, scope: [P3] }), l(0, Yt(te)), l(1, Yt(w5))], l3.prototype, "patchDynamicFeature", 1), k2([N.Extend({ name: F3.Generate, scope: [w4] }), l(0, Yt(te)), l(1, Yt(f2))], l3.prototype, "generateDynamicContent", 1), k2([N.Extend({ name: F3.Patch, scope: [w4] }), l(0, Yt(te)), l(1, Yt(f2))], l3.prototype, "patchDynamicContent", 1), k2([N.Extend({ name: n4.Generate, scope: [m4] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "generateCompletion", 1), k2([N.Extend({ name: r6.Extract, scope: [s2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "extractSchema", 1), k2([N.Extend({ name: r6.ExtractMultiple, scope: [s2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "extractSchemaMultiple", 1);
 var Fe2 = l3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-2O3HAEYW.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-P6WICUUU.mjs
 var _a77;
 var r7 = (_a77 = class extends Fe2 {
   async request(e, a4) {
@@ -8809,7 +8809,9 @@ var AreScene = (_a127 = class extends H {
     super({ name: id.toString() });
     this._groupToInstructionsMap = /* @__PURE__ */ new Map();
     this._plan = [];
+    this._planIndex = /* @__PURE__ */ new Map();
     this._state = [];
+    this._stateIndex = /* @__PURE__ */ new Map();
     this._status = AreSceneStatuses.Active;
   }
   /**
@@ -8969,6 +8971,7 @@ var AreScene = (_a127 = class extends H {
     } catch (error) {
     }
     this._plan.push(instruction);
+    this._planIndex.set(instruction.aseid.toString(), instruction);
     if (!this._groupToInstructionsMap.has(instruction.group || "default")) {
       this._groupToInstructionsMap.set(instruction.group || "default", /* @__PURE__ */ new Set());
     }
@@ -8989,6 +8992,7 @@ var AreScene = (_a127 = class extends H {
       } catch (error) {
       }
       this._plan.splice(beforeIndex, 0, instruction);
+      this._planIndex.set(instruction.aseid.toString(), instruction);
     } else {
       this._plan.splice(instructionIndex, 1);
       this._plan.splice(beforeIndex, 0, instruction);
@@ -9006,6 +9010,7 @@ var AreScene = (_a127 = class extends H {
     if (instructionIndex === -1) {
       this.scope.register(instruction);
       this._plan.splice(afterIndex + 1, 0, instruction);
+      this._planIndex.set(instruction.aseid.toString(), instruction);
     } else {
       this._plan.splice(instructionIndex, 1);
       this._plan.splice(afterIndex + 1, 0, instruction);
@@ -9035,7 +9040,9 @@ var AreScene = (_a127 = class extends H {
    * @param instruction 
    */
   unPlan(instruction) {
-    this._plan = this._plan.filter((i6) => i6.aseid.toString() !== instruction.aseid.toString());
+    const key = instruction.aseid.toString();
+    if (!this._planIndex.delete(key)) return;
+    this._plan = this._plan.filter((i6) => i6.aseid.toString() !== key);
   }
   /**
    * Checks if the instruction is already in the plan, so it will be rendered in the next render cycle.
@@ -9044,8 +9051,7 @@ var AreScene = (_a127 = class extends H {
    * @returns 
    */
   getPlanned(instruction) {
-    const found = this._plan.find((i6) => i6.aseid.toString() === instruction.aseid.toString());
-    return found;
+    return this._planIndex.get(instruction.aseid.toString());
   }
   /**
    * Checks if the instruction is already in the plan, so it will be rendered in the next render cycle.
@@ -9054,7 +9060,7 @@ var AreScene = (_a127 = class extends H {
    * @returns 
    */
   isInPlan(instruction) {
-    return !!this.getPlanned(instruction);
+    return this._planIndex.has(instruction.aseid.toString());
   }
   // -------------------------------------------------------------------------------------------------------------
   // Scene Apply Methods
@@ -9065,8 +9071,10 @@ var AreScene = (_a127 = class extends H {
    * @param instruction 
    */
   apply(instruction) {
-    if (!this.isApplied(instruction)) {
+    const key = instruction.aseid.toString();
+    if (!this._stateIndex.has(key)) {
       this._state.push(instruction);
+      this._stateIndex.set(key, instruction);
     }
   }
   /**
@@ -9075,7 +9083,9 @@ var AreScene = (_a127 = class extends H {
    * @param instruction 
    */
   unApply(instruction) {
-    this._state = this._state.filter((i6) => i6.aseid.toString() !== instruction.aseid.toString());
+    const key = instruction.aseid.toString();
+    if (!this._stateIndex.delete(key)) return;
+    this._state = this._state.filter((i6) => i6.aseid.toString() !== key);
   }
   /**
    * Checks if the instruction is already in the state, so it is currently applied to the scene.
@@ -9084,8 +9094,7 @@ var AreScene = (_a127 = class extends H {
    * @returns 
    */
   getApplied(instruction) {
-    const found = this._state.find((i6) => i6.aseid.toString() === instruction.aseid.toString());
-    return found;
+    return this._stateIndex.get(instruction.aseid.toString());
   }
   /**
    * Checks if the instruction is already in the state, so it is currently applied to the scene.
@@ -9094,7 +9103,7 @@ var AreScene = (_a127 = class extends H {
    * @returns 
    */
   isApplied(instruction) {
-    return !!this.getApplied(instruction);
+    return this._stateIndex.has(instruction.aseid.toString());
   }
   /**
    * Method that should reset the scene to the initial state, so it will clear the plan and state, but it will not deregister the instructions from the scene scope, so they will still be registered in the scene and can be planned and applied again if needed.
@@ -9103,6 +9112,8 @@ var AreScene = (_a127 = class extends H {
   reset() {
     this._plan = [];
     this._state = [];
+    this._planIndex.clear();
+    this._stateIndex.clear();
   }
 }, __name(_a127, "AreScene"), _a127);
 AreScene = __decorateClass3([
@@ -12074,208 +12085,362 @@ var AreLoaderError = (_a156 = class extends b {
 }, __name(_a156, "AreLoaderError"), _a156);
 AreLoaderError.SyntaxError = "Are Loader Syntax Error";
 AreLoaderError.EmptyTemplateError = "Are Loader Empty Template Error";
+var _a157;
+var AreRoute = (_a157 = class extends AreSignal {
+  constructor(path) {
+    super({
+      data: new A_Route(path)
+    });
+  }
+  get route() {
+    return this.data;
+  }
+  static default() {
+    return new _a157(document.location.pathname || "/");
+  }
+  compare(other) {
+    return this.route.toRegExp().test(other.data.toString());
+  }
+}, __name(_a157, "_AreRoute"), _a157);
 
-// src/lib/AreHTMLAttribute/AreHTML.attribute.ts
-var AreHTMLAttribute = class extends AreAttribute {
-  get owner() {
-    return this.scope.issuer();
+// src/signals/AreRoute.signal.ts
+var AreRoute2 = class extends AreSignal {
+  constructor(path) {
+    super({
+      data: new A_Route(path)
+    });
+  }
+  get route() {
+    return this.data;
+  }
+  static default() {
+    return new AreRoute2(document.location.pathname || "/");
+  }
+  compare(other) {
+    return this.route.toRegExp().test(other.data.toString());
   }
 };
-__name(AreHTMLAttribute, "AreHTMLAttribute");
-AreHTMLAttribute = __decorateClass([
+__name(AreRoute2, "AreRoute");
+AreRoute2 = __decorateClass([
   R4.Define({
     namespace: "a-are-html",
-    description: "Base class for all typed HTML attributes in the ARE framework. Provides typed access to the owning AreHTMLNode via the scope injector so that attribute subclasses can inspect host-node properties and resolve store bindings during transformation, compilation, and lifecycle phases."
+    description: "ARE signal that carries an A_Route value. Dispatched by AreRouteWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
   })
-], AreHTMLAttribute);
+], AreRoute2);
 
-// src/attributes/AreBinding.attribute.ts
-var AreBindingAttribute = class extends AreHTMLAttribute {
-  // get value(): string {
-  //     const [firstPart, ...pathPart] = this.content.split('.');
-  //     const primaryObject = this.owner.store.get(firstPart);
-  //     return AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join('.')) as string;
-  // }
+// src/lib/AreRoot/AreRootCache.context.ts
+var AreRootCache = class extends H {
+  constructor(limit = 10) {
+    super({ name: "AreRootCache" });
+    /**
+     * rootId -> (component tag -> cache entry). The inner Map preserves
+     * insertion order which is used as the LRU recency order: the first key is
+     * the least-recently-used entry, the last key the most-recently-used.
+     */
+    this._cache = /* @__PURE__ */ new Map();
+    this._limit = Math.max(0, Math.floor(limit));
+  }
+  /**
+   * Maximum number of cached subtrees kept per root.
+   */
+  get limit() {
+    return this._limit;
+  }
+  bucket(rootId) {
+    let bucket = this._cache.get(rootId);
+    if (!bucket) {
+      bucket = /* @__PURE__ */ new Map();
+      this._cache.set(rootId, bucket);
+    }
+    return bucket;
+  }
+  /**
+   * Whether a subtree for the given component tag is currently cached.
+   */
+  has(rootId, tag) {
+    return this.bucket(rootId).has(tag);
+  }
+  /**
+   * Retrieve AND remove a cached subtree so it can become live again. Returns
+   * `undefined` on a cache miss.
+   */
+  take(rootId, tag) {
+    const bucket = this.bucket(rootId);
+    const entry = bucket.get(tag);
+    if (entry) {
+      bucket.delete(tag);
+    }
+    return entry;
+  }
+  /**
+   * Stash a detached subtree under the given component tag. Returns any entries
+   * that were evicted to honour the LRU limit (or replaced for the same tag) so
+   * the caller can `destroy()` them.
+   */
+  put(rootId, tag, entry) {
+    const bucket = this.bucket(rootId);
+    const evicted = [];
+    const existing = bucket.get(tag);
+    if (existing) {
+      bucket.delete(tag);
+      if (existing.node !== entry.node) {
+        evicted.push(existing);
+      }
+    }
+    bucket.set(tag, entry);
+    while (bucket.size > this._limit) {
+      const oldestKey = bucket.keys().next().value;
+      if (oldestKey === void 0) {
+        break;
+      }
+      const oldest = bucket.get(oldestKey);
+      bucket.delete(oldestKey);
+      evicted.push(oldest);
+    }
+    return evicted;
+  }
+  /**
+   * Remove and return every cached entry for a root (e.g. on teardown) so the
+   * caller can destroy them.
+   */
+  clear(rootId) {
+    const bucket = this._cache.get(rootId);
+    if (!bucket) {
+      return [];
+    }
+    const entries = [...bucket.values()];
+    bucket.clear();
+    this._cache.delete(rootId);
+    return entries;
+  }
 };
-__name(AreBindingAttribute, "AreBindingAttribute");
-AreBindingAttribute = __decorateClass([
+__name(AreRootCache, "AreRootCache");
+AreRootCache = __decorateClass([
   R4.Define({
     namespace: "a-are-html",
-    description: "Attribute type for two-way value bindings (: prefix). Marks that the attribute value should be resolved dynamically from the node store rather than used verbatim, enabling reactive updates whenever the underlying store value changes during a rendering cycle."
+    description: "AreRootCache is a fragment that keeps a small per-root LRU of previously rendered are-root subtrees. When an are-root swaps the component it displays, the outgoing subtree is stashed here (unmounted + detached, but not destroyed) so that routing back to it can re-inject the preserved scene instantly instead of rebuilding from scratch."
   })
-], AreBindingAttribute);
+], AreRootCache);
 
-// src/attributes/AreDirective.attribute.ts
-var AreDirectiveAttribute = class extends AreHTMLAttribute {
-  /**
-   * Returns a custom directive component associated with this attribute, if available.
-   * 
-   * The method uses the attribute's name to resolve the corresponding directive component from the scope. It constructs the expected directive name by converting the attribute name to PascalCase and prefixing it with "AreDirective". If a matching directive component is found in the scope, it is returned; otherwise, the method returns undefined.
-   */
-  get component() {
-    const component = this.scope.resolve(`AreDirective${P.toPascalCase(this.name)}`);
-    return component;
+// src/lib/AreRoot/AreRoot.component.ts
+var AreRoot = class extends Are {
+  async template(root, logger, signalsContext, signalState) {
+    const rootId = root.id;
+    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      if (!root.content?.trim()) {
+        const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+        const defaultComponent = defaultMatch?.[1];
+        if (defaultComponent) {
+          root.setContent(`<${defaultComponent}></${defaultComponent}>`);
+        }
+      }
+      return;
+    }
+    const initialVector = this.buildInitialVector(signalState);
+    const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
+    let componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : void 0;
+    if (!componentName) {
+      if (root.content?.trim()) {
+        return;
+      }
+    }
+    if (!componentName) {
+      const defaultComp = signalsContext?.getDefault(rootId);
+      if (defaultComp?.name) {
+        componentName = P.toKebabCase(defaultComp.name);
+      }
+    }
+    if (!componentName) {
+      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+      componentName = defaultMatch?.[1];
+    }
+    if (!componentName) {
+      logger.warning('AreRoot: No component found for initial render. Provide body content, a route condition, or a "default" attribute.');
+      return;
+    }
+    root.setContent(`<${componentName}></${componentName}>`);
   }
-};
-__name(AreDirectiveAttribute, "AreDirectiveAttribute");
-AreDirectiveAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for directive invocations ($ prefix). Carries the resolved directive component class and a cloned template node. The associated directive uses these during its Compile phase to emit conditional or repeated instruction groups and to manage per-item or per-condition subscopes."
-  })
-], AreDirectiveAttribute);
-
-// src/attributes/AreEvent.attribute.ts
-var AreEventAttribute = class extends AreHTMLAttribute {
-};
-__name(AreEventAttribute, "AreEventAttribute");
-AreEventAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for DOM event listeners (@ prefix). Marks the attribute as an event binding \u2014 the compiler emits an AddListener instruction that attaches a handler expression resolved from the store to the specified event name on the host element."
-  })
-], AreEventAttribute);
-
-// src/attributes/AreStatic.attribute.ts
-var AreStaticAttribute = class extends AreHTMLAttribute {
-};
-__name(AreStaticAttribute, "AreStaticAttribute");
-AreStaticAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for plain static HTML attributes with no dynamic prefix. Its value is emitted verbatim via an AddAttribute instruction at compile time and does not participate in reactive update cycles."
-  })
-], AreStaticAttribute);
-
-// src/lib/AreDirective/AreDirective.meta.ts
-var _AreDirectiveMeta = class _AreDirectiveMeta extends z {
-  constructor() {
-    super(...arguments);
-    this.priority = 0;
-  }
-};
-__name(_AreDirectiveMeta, "AreDirectiveMeta");
-var AreDirectiveMeta = _AreDirectiveMeta;
-
-// src/lib/AreDirective/AreDirective.constants.ts
-var AreDirectiveFeatures = {
-  /**
-   * Feature that should transform the tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   */
-  Transform: "_AreDirective_Transform",
-  /**
-   * Feature that should convert a directiveAttribute definition into a set of SceneInstructions to be rendered correctly
-   */
-  Compile: "_AreDirective_Compile",
-  /**
-   * Feature that should update the directiveAttribute based on the changes in the store or other dependencies. 
-   */
-  Update: "_AreDirective_Update"
-};
-
-// src/lib/AreDirective/AreDirective.component.ts
-var AreDirective = class extends O {
-  //==================================================================================
-  //======================== LIFECYCLE DECORATORS ====================================
-  //==================================================================================
-  /**
-   * Allows to define a compilation order for directives, which is necessary when we have multiple directives on the same node and we want to control the order of their compilation and application. The directive with the highest priority will be compiled and applied first, and the directive with the lowest priority will be compiled and applied last. This is important because some directives may depend on the output of other directives, so we need to ensure that they are compiled and applied in the correct order to avoid errors and ensure the expected behavior.
-   * 
-   * @param priority 
-   * @returns 
-   */
-  static Priority(priority) {
-    return function(target) {
-      const meta = _.meta(target);
-      meta.priority = priority;
-      return target;
-    };
-  }
-  /**
-   * Allows to define a custom method for transforming the AreNode tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   */
-  static get Transform() {
-    return (target, propertyKey, descriptor) => {
-      return N.Extend({
-        name: AreDirectiveFeatures.Transform,
-        scope: [target.constructor]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  /**
-   * Allows to define a custom method for compiling a directive attribute into a set of SceneInstructions. 
-   * Can be used at any component to extend this logic not only for a AreDirective inherited.
-   */
-  static get Compile() {
-    return (target, propertyKey, descriptor) => {
-      return N.Extend({
-        name: AreDirectiveFeatures.Compile,
-        scope: [target.constructor]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  /**
-   * Allows to define a custom method for updating a directive attribute based on changes in the store or other dependencies.
-   * Can be used at any component to extend this logic not only for a AreDirective inherited.
-   */
-  static get Update() {
-    return (target, propertyKey, descriptor) => {
-      return N.Extend({
-        name: AreDirectiveFeatures.Update,
-        scope: [target.constructor]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  /**
-   * Default transform method for directives, which can be overridden by specific directive implementations. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   * 
-   * @param attribute - The directive attribute to transform, which contains all the information about the directive as defined in the template (e.g. name, raw content, evaluated value, etc.)
-   * @param args - Additional arguments that may be required for the transformation process.
-   */
-  transform(attribute, ...args) {
-    const logger = _.scope(this).resolve(A_Logger);
-    if (logger) {
-      logger.warning(`No transforming logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+  async onSignal(root, vector, logger, signalsContext, cache) {
+    const rootId = root.id;
+    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      return;
+    }
+    const renderTarget = this.matchComponent(rootId, vector, signalsContext);
+    const def = signalsContext?.getDefault(rootId);
+    const componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : def?.name ? P.toKebabCase(def.name) : void 0;
+    if (!componentName) {
+      for (const child of [...root.children]) {
+        this.stashChild(root, child, signalsContext, cache);
+      }
+      root.setContent("");
+      return;
+    }
+    const currentChild = root.children[0];
+    if (currentChild?.type === componentName) {
+      return;
+    }
+    for (const child of [...root.children]) {
+      this.stashChild(root, child, signalsContext, cache);
+    }
+    root.setContent(`<${componentName}></${componentName}>`);
+    const cached = cache?.take(root.id, componentName);
+    if (cached) {
+      this.restoreChild(root, cached, signalsContext);
+      return;
+    }
+    root.tokenize();
+    for (let i6 = 0; i6 < root.children.length; i6++) {
+      const child = root.children[i6];
+      child.init();
+      const res = child.load();
+      if (res instanceof Promise) {
+        await res;
+      }
+      child.transform();
+      child.compile();
+      await child.mount();
     }
   }
-  compile(attribute, ...args) {
-    const logger = _.scope(this).resolve(A_Logger);
-    if (logger) {
-      logger.warning(`No compiling logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+  /**
+   * Resolves the component a vector should render for the given root, mirroring
+   * the priority used everywhere in the routing system:
+   *   1. Root-specific conditions registered on AreSignalsContext.
+   *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
+   *
+   * Passing the pool *into* the meta lookup is critical: without it, the first
+   * globally matching component wins and may belong to a different outlet
+   * (e.g. AisRequirementsPanel for the meta-outlet matching
+   * AisEditorCursorScope) — the pool check would then reject it and the outlet
+   * would fall back to its default, hiding a valid in-pool match (e.g.
+   * AisDiagramTab matching AisSetPrimaryDisplay).
+   *
+   * Returns `undefined` when nothing matches — callers decide whether to use a
+   * configured default, body content, or clear the outlet.
+   */
+  matchComponent(rootId, vector, signalsContext) {
+    if (!vector) return void 0;
+    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
+    if (!renderTarget) {
+      const signalsMeta = _.meta(AreSignals);
+      const pool = signalsContext?.getComponentById(rootId);
+      const metaTarget = signalsMeta?.findComponentByVector(
+        vector,
+        pool?.length ? pool : void 0,
+        rootId
+      );
+      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+        renderTarget = metaTarget;
+      }
+    }
+    return renderTarget;
+  }
+  /**
+   * Builds the vector used for the INITIAL render. It is seeded from the
+   * accumulated signal state (every signal dispatched on the bus so far) so a
+   * freshly-mounted outlet reflects the live application state immediately,
+   * not just on the next signal tick. The current URL route is appended when
+   * no AreRoute is already present in the state, so route-driven outlets still
+   * resolve on the very first paint (before AreRouteWatcher has dispatched).
+   */
+  buildInitialVector(signalState) {
+    const signals = [];
+    if (signalState) {
+      for (const signal of signalState.toVector()) {
+        if (signal) signals.push(signal);
+      }
+    }
+    if (!signals.some((signal) => signal instanceof AreRoute2)) {
+      try {
+        const currentRoute = AreRoute2.default();
+        if (currentRoute) signals.push(currentRoute);
+      } catch {
+      }
+    }
+    return new A_SignalVector(signals);
+  }
+  /**
+   * Detach a displayed child subtree from the outlet and stash it in the cache
+   * for fast re-injection later. The subtree is unmounted (its scene plan is
+   * preserved) and deregistered from the root scope, but NOT destroyed. The
+   * nodes that were subscribed to the signal bus are unsubscribed while cached
+   * so the detached DOM never reacts to signals, and recorded so they can be
+   * re-subscribed verbatim on restore.
+   *
+   * When no cache is available, or the LRU evicts an entry, the affected
+   * subtree is fully destroyed.
+   */
+  stashChild(root, child, signalsContext, cache) {
+    const tag = child.type;
+    child.unmount();
+    const subscribers = signalsContext ? this.collectSubscribers(child, signalsContext) : [];
+    for (const node of subscribers) {
+      signalsContext?.unsubscribe(node);
+    }
+    root.removeChild(child);
+    if (!cache) {
+      void child.destroy();
+      return;
+    }
+    const evicted = cache.put(root.id, tag, { node: child, subscribers });
+    for (const entry of evicted) {
+      void entry.node.destroy();
     }
   }
-  update(attribute, ...args) {
-    const logger = _.scope(this).resolve(A_Logger);
-    if (logger) {
-      logger.warning(`No update logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+  /**
+   * Re-attach a cached subtree to the outlet and re-mount it from its preserved
+   * scene plan, re-subscribing exactly the nodes that were subscribed before it
+   * was cached.
+   */
+  restoreChild(root, entry, signalsContext) {
+    const child = entry.node;
+    root.addChild(child);
+    for (const node of entry.subscribers) {
+      signalsContext?.subscribe(node);
     }
+    child.mount();
+  }
+  /**
+   * Walk a subtree and collect the nodes currently registered as signal
+   * subscribers. Mirrors the subscription performed at init time in
+   * AreHTMLLifecycle (component nodes and root nodes) without depending on the
+   * concrete node classes — it simply intersects the subtree with the live
+   * subscriber registry.
+   */
+  collectSubscribers(node, signalsContext) {
+    const result = [];
+    const queue = [node];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (signalsContext.subscribers.has(current)) {
+        result.push(current);
+      }
+      queue.push(...current.children);
+    }
+    return result;
   }
 };
-__name(AreDirective, "AreDirective");
+__name(AreRoot, "AreRoot");
 __decorateClass([
-  __decorateParam(0, Yt(te))
-], AreDirective.prototype, "transform", 1);
+  Are.Template,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_Logger)),
+  __decorateParam(2, Yt(AreSignalsContext)),
+  __decorateParam(3, Yt(A_SignalState))
+], AreRoot.prototype, "template", 1);
 __decorateClass([
-  N.Extend({
-    name: AreDirectiveFeatures.Compile,
-    scope: [AreDirective]
-  }),
-  __decorateParam(0, Yt(te))
-], AreDirective.prototype, "compile", 1);
-__decorateClass([
-  N.Extend({
-    name: AreDirectiveFeatures.Update,
-    scope: [AreDirective]
-  }),
-  __decorateParam(0, Yt(te))
-], AreDirective.prototype, "update", 1);
-AreDirective = __decorateClass([
+  Are.Signal,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_SignalVector)),
+  __decorateParam(2, Yt(A_Logger)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(AreRootCache))
+], AreRoot.prototype, "onSignal", 1);
+AreRoot = __decorateClass([
   R4.Define({
     namespace: "a-are-html",
-    description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
-  }),
-  m.Define(AreDirectiveMeta)
-], AreDirective);
+    description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
+  })
+], AreRoot);
 
 // src/instructions/AreHTML.instructions.constants.ts
 var AreHTMLInstructions = {
@@ -12286,29 +12451,9 @@ var AreHTMLInstructions = {
   AddListener: "_AreHTML_AddListener",
   AddInterpolation: "_AreHTML_AddInterpolation",
   AddComment: "_AreHTML_AddComment",
+  AddStaticHTML: "_AreHTML_AddStaticHTML",
   HideElement: "_AreHTML_HideElement"
 };
-
-// src/instructions/AddComment.instruction.ts
-var AddCommentInstruction = class extends AreDeclaration {
-  get content() {
-    return this.payload.content;
-  }
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddComment, props);
-    }
-  }
-};
-__name(AddCommentInstruction, "AddCommentInstruction");
-AddCommentInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
-  })
-], AddCommentInstruction);
 
 // src/lib/AreDirective/AreDirective.context.ts
 var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext {
@@ -12319,967 +12464,6 @@ var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext
 };
 __name(_AreDirectiveContext, "AreDirectiveContext");
 var AreDirectiveContext = _AreDirectiveContext;
-
-// src/helpers/AreScheduler.helper.ts
-var _AreSchedulerHelper = class _AreSchedulerHelper {
-  /**
-   * High-resolution wall-clock time in milliseconds. Uses `performance.now()`
-   * when available (monotonic, sub-millisecond), falling back to `Date.now()`.
-   */
-  static now() {
-    return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now();
-  }
-  /**
-   * Schedule `fn` to run on the next macrotask.
-   *
-   * `MessageChannel` yields a true macrotask without the ~4ms clamp that nested
-   * `setTimeout(0)` calls incur, so the browser can paint between chunks with
-   * minimal scheduling overhead. Falls back to `setTimeout` in non-DOM
-   * environments (e.g. tests / SSR).
-   */
-  static scheduleMacrotask(fn) {
-    if (typeof MessageChannel === "undefined") {
-      setTimeout(fn, 0);
-      return;
-    }
-    if (!this._channel) {
-      this._channel = new MessageChannel();
-      this._channel.port1.onmessage = () => {
-        const next = this._queue.shift();
-        if (next) next();
-      };
-    }
-    this._queue.push(fn);
-    this._channel.port2.postMessage(null);
-  }
-};
-__name(_AreSchedulerHelper, "AreSchedulerHelper");
-/** FIFO queue of callbacks waiting for their posted macrotask to fire. */
-_AreSchedulerHelper._queue = [];
-var AreSchedulerHelper = _AreSchedulerHelper;
-
-// src/directives/AreDirectiveFor.directive.ts
-var AreDirectiveFor = class extends AreDirective {
-  transform(attribute, scope, store, scene, logger, ...args) {
-    logger.debug(`[Transform] directive $FOR for <${attribute.owner.aseid.toString()}>`);
-    const node = attribute.owner;
-    const forTemplate = node.cloneWithScope();
-    const forAttr = forTemplate.attributes.find((d4) => d4.name === attribute.name);
-    if (forAttr) {
-      forTemplate.scope.deregister(forAttr);
-      node.scope.register(forAttr);
-    }
-    node.init();
-    attribute.template = forTemplate;
-    const { key, index, arrayExpr } = this.parseExpression(attribute.content);
-    const array = this.resolveArray(store, arrayExpr, attribute.content);
-    attribute.value = array;
-    for (let i6 = 0; i6 < array.length; i6++) {
-      this.spawnItemNode(attribute.template, attribute.owner, key, index, array[i6], i6);
-    }
-  }
-  compile(attribute, store, scene, ...args) {
-    const hostInstruction = scene.host;
-    const commentIdentifier = ` --- for: ${attribute.template.id} --- `;
-    const declaration = new AddCommentInstruction({ content: commentIdentifier });
-    scene.setHost(declaration);
-    scene.planBefore(declaration, hostInstruction);
-    scene.unPlan(hostInstruction);
-  }
-  update(attribute, store, scene, ...args) {
-    let state = AreDirectiveFor.renderState.get(attribute);
-    if (!state) {
-      state = { running: false, pending: false };
-      AreDirectiveFor.renderState.set(attribute, state);
-    }
-    if (state.running) {
-      state.pending = true;
-      return;
-    }
-    return this.performUpdate(attribute, store, scene, state);
-  }
-  /**
-   * Core of the `$for` update: re-diff the source array against the current
-   * children, reconcile reused/removed items, then mount the new ones (small
-   * lists synchronously, large lists time-sliced). Never called while another
-   * pass for the same `$for` is in flight (see `update`).
-   */
-  performUpdate(attribute, store, scene, state) {
-    const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
-    const newArray = this.resolveArray(store, arrayExpr, attribute.content);
-    const owner = attribute.owner;
-    const currentChildren = [...owner.children];
-    attribute.value = newArray;
-    const attached = this.isAttached(owner);
-    const computeKey = this.makeKeyFn(key, index, trackExpr);
-    const childByKey = /* @__PURE__ */ new Map();
-    const remaining = /* @__PURE__ */ new Set();
-    for (let i6 = 0; i6 < currentChildren.length; i6++) {
-      const child = currentChildren[i6];
-      const ctx = child.scope.resolveFlat(AreDirectiveContext);
-      const k4 = ctx ? computeKey(ctx.scope[key], ctx.scope[index || "index"]) : /* @__PURE__ */ Symbol("orphan");
-      childByKey.set(k4, child);
-      remaining.add(child);
-    }
-    const toCreate = [];
-    for (let i6 = 0; i6 < newArray.length; i6++) {
-      const item = newArray[i6];
-      const k4 = computeKey(item, i6);
-      const existing = childByKey.get(k4);
-      if (existing) {
-        remaining.delete(existing);
-        let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
-        if (!directiveContext) {
-          directiveContext = new AreDirectiveContext(existing.aseid);
-          existing.scope.register(directiveContext);
-        }
-        directiveContext.scope = {
-          ...directiveContext.scope,
-          [key]: item,
-          [index || "index"]: i6
-        };
-      } else {
-        toCreate.push({ item, idx: i6 });
-      }
-    }
-    for (const child of remaining) {
-      if (attached) child.unmount();
-      owner.removeChild(child);
-    }
-    const createItem = /* @__PURE__ */ __name((desc) => {
-      const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
-      child.transform();
-      child.compile();
-      if (attached) child.mount();
-    }, "createItem");
-    if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
-      for (const desc of toCreate) createItem(desc);
-      return this.finishUpdate(attribute, store, scene, state);
-    }
-    state.running = true;
-    let cursor = 0;
-    const processChunk = /* @__PURE__ */ __name(() => {
-      try {
-        const start = AreSchedulerHelper.now();
-        while (cursor < toCreate.length) {
-          createItem(toCreate[cursor]);
-          cursor++;
-          if (AreSchedulerHelper.now() - start >= AreDirectiveFor.CHUNK_BUDGET_MS) break;
-        }
-      } catch (error) {
-        state.running = false;
-        state.pending = false;
-        throw error;
-      }
-      if (cursor < toCreate.length) {
-        return new Promise((resolve) => {
-          AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
-        });
-      }
-      return this.finishUpdate(attribute, store, scene, state);
-    }, "processChunk");
-    return processChunk();
-  }
-  /**
-   * Completes an update pass. If another update() arrived while a chunked
-   * render was streaming, run exactly one more pass now from the latest store
-   * value so the final DOM always reflects the most recent data.
-   */
-  finishUpdate(attribute, store, scene, state) {
-    state.running = false;
-    if (state.pending) {
-      state.pending = false;
-      return this.performUpdate(attribute, store, scene, state);
-    }
-  }
-  /**
-   * Walks the node's ancestor chain (inclusive) and reports whether the
-   * whole path is currently active — i.e. the subtree is actually rendered
-   * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
-   * condition is false) means the subtree is detached.
-   */
-  isAttached(node) {
-    let current = node;
-    while (current) {
-      if (current.scene?.isInactive) return false;
-      current = current.parent;
-    }
-    return true;
-  }
-  // ─────────────────────────────────────────────────────────────────────────────
-  // ── Helpers ──────────────────────────────────────────────────────────────────
-  // ─────────────────────────────────────────────────────────────────────────────
-  /**
-   * Build a key-function that derives a stable identity from each item.
-   * If the user provided a `track <expr>` clause, evaluate it as a path on
-   * the item; otherwise fall back to the item identity (reference equality).
-   */
-  makeKeyFn(key, index, trackExpr) {
-    if (!trackExpr) {
-      return (item, i6) => item ?? i6;
-    }
-    const path = trackExpr.startsWith(key + ".") ? trackExpr.slice(key.length + 1) : trackExpr;
-    return (item, i6) => {
-      if (item == null) return i6;
-      if (path === key || path === "$index") return path === "$index" ? i6 : item;
-      const parts = path.split(".");
-      let v6 = item;
-      for (const p5 of parts) {
-        if (v6 == null) return i6;
-        v6 = v6[p5];
-      }
-      return v6 ?? i6;
-    };
-  }
-  /**
-   * Parses the $for expression string into its constituent parts.
-   *
-   * Supported formats:
-   *   item in items
-   *   item, index in items
-   *   (item, index) in items
-   *   item in filter(items)
-   *   item, index in filter(items, 'active')
-   *   item in items track item.id
-   *   (item, i) in items track item.id
-   */
-  parseExpression(content) {
-    let trackExpr;
-    const trackIdx = content.search(/\s+track\s+/);
-    let body = content;
-    if (trackIdx !== -1) {
-      const m7 = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
-      if (m7) {
-        trackExpr = m7[1].trim();
-        body = content.slice(0, trackIdx).trim();
-      }
-    }
-    const inIndex = body.lastIndexOf(" in ");
-    const keyAndIndex = body.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
-    const arrayExpr = body.slice(inIndex + 4).trim();
-    const keyParts = keyAndIndex.split(",").map((p5) => p5.trim());
-    return {
-      key: keyParts[0],
-      index: keyParts[1] || void 0,
-      arrayExpr,
-      trackExpr
-    };
-  }
-  /**
-   * Resolves the array expression against the store.
-   * Supports both plain key lookups and function-call expressions:
-   *   items          → store.get('items')
-   *   filter(items)  → store.get('filter')(store.get('items'))
-   */
-  resolveArray(store, arrayExpr, fullContent) {
-    let result;
-    const callMatch = arrayExpr.match(/^([^(]+)\((.+)\)$/);
-    if (callMatch) {
-      const fnName = callMatch[1].trim();
-      const fn = store.get(fnName);
-      if (typeof fn !== "function")
-        throw new AreCompilerError({
-          title: 'Invalid "for" Directive Function',
-          description: `The expression "${fnName}" in the "for" directive does not resolve to a function in the store. Received: ${typeof fn}`
-        });
-      const rawArgs = callMatch[2].split(",").map((a4) => a4.trim());
-      const resolvedArgs = rawArgs.map((arg) => {
-        if (arg.startsWith("'") && arg.endsWith("'")) return arg.slice(1, -1);
-        if (arg.startsWith('"') && arg.endsWith('"')) return arg.slice(1, -1);
-        if (!isNaN(Number(arg))) return Number(arg);
-        const stripped = arg.replace(/\?$/, "");
-        if (stripped.includes(".")) {
-          const parts = stripped.split(".").map((p5) => p5.replace(/\?$/, ""));
-          let val = store.get(parts[0]);
-          for (let j5 = 1; j5 < parts.length; j5++) {
-            if (val == null) return void 0;
-            val = val[parts[j5]];
-          }
-          return val ?? void 0;
-        }
-        return store.get(stripped);
-      });
-      result = fn(...resolvedArgs);
-    } else if (arrayExpr.includes(".")) {
-      const parts = arrayExpr.split(".").map((p5) => p5.replace(/\?$/, ""));
-      result = store.get(parts[0]);
-      for (let i6 = 1; i6 < parts.length; i6++) {
-        if (result == null) break;
-        result = result[parts[i6]];
-      }
-    } else {
-      result = store.get(arrayExpr.replace(/\?$/, ""));
-    }
-    if (result == null) return [];
-    if (!Array.isArray(result))
-      throw new AreCompilerError({
-        title: 'Invalid "for" Directive Value',
-        description: `The "for" directive expects an array but got ${typeof result}. Expression: "${fullContent}". Received: ${JSON.stringify(result)}`
-      });
-    return result;
-  }
-  /**
-   * Creates a single item node from the template, registers it as a child of
-   * the owner, initialises it, injects item-scoped store values, and activates
-   * its scene so the mount/compile cycle will include it.
-   *
-   * NOTE: This method does NOT call compile() or mount() — the caller is
-   * responsible for doing so when the main lifecycle cycle won't cover it
-   * (i.e. during update, but not during the initial compile phase).
-   */
-  spawnItemNode(template, owner, key, index, item, i6) {
-    const itemNode = template.clone();
-    owner.addChild(itemNode);
-    const queue = [itemNode];
-    while (queue.length > 0) {
-      const current = queue.shift();
-      current.init();
-      queue.push(...current.children);
-    }
-    let directiveContext = itemNode.scope.resolveFlat(AreDirectiveContext);
-    if (!directiveContext) {
-      directiveContext = new AreDirectiveContext(itemNode.aseid);
-      itemNode.scope.register(directiveContext);
-    }
-    directiveContext.scope = {
-      ...directiveContext.scope,
-      [key]: item,
-      [index || "index"]: i6
-    };
-    itemNode.scene.activate();
-    return itemNode;
-  }
-};
-__name(AreDirectiveFor, "AreDirectiveFor");
-/**
- * Lists whose number of NEW item nodes is at or below this threshold render
- * fully synchronously — byte-for-byte the previous behavior. Typical UIs
- * (menus, small tables) are therefore completely unaffected; only genuinely
- * large lists pay the (tiny) scheduling cost to keep the main thread responsive.
- */
-AreDirectiveFor.SYNC_THRESHOLD = 100;
-/**
- * Per-chunk time budget (ms). During a large-list render we mount item nodes
- * until this much time has elapsed, then yield to the browser so it can paint
- * and process input before the next chunk. ~16ms targets one animation frame.
- */
-AreDirectiveFor.CHUNK_BUDGET_MS = 16;
-/**
- * Per-attribute serialization state. A new update() that arrives while a
- * chunked render of the SAME `$for` is still in flight does NOT start a second
- * concurrent pass (which could interleave mutations on the shared children
- * list); instead it marks `pending` and the in-flight run re-runs once more
- * with the latest data when it finishes. This guarantees the children list is
- * only ever mutated by one pass at a time and the final state always reflects
- * the most recent store value.
- */
-AreDirectiveFor.renderState = /* @__PURE__ */ new WeakMap();
-__decorateClass([
-  AreDirective.Transform,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreScene)),
-  __decorateParam(4, Yt(A_Logger))
-], AreDirectiveFor.prototype, "transform", 1);
-__decorateClass([
-  AreDirective.Compile,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(AreScene))
-], AreDirectiveFor.prototype, "compile", 1);
-__decorateClass([
-  AreDirective.Update,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(AreScene))
-], AreDirectiveFor.prototype, "update", 1);
-AreDirectiveFor = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Built-in $for directive. Iterates over an array expression resolved from the store and renders a cloned template fragment per item, managing per-item subscopes and comment-node anchors. Supports keyed diffing via an optional track clause to minimise DOM mutations on collection updates."
-  }),
-  AreDirective.Priority(1)
-], AreDirectiveFor);
-
-// src/directives/AreDirectiveIf.directive.ts
-var AreDirectiveIf = class extends AreDirective {
-  transform(attribute, scope, store, scene, logger, ...args) {
-    logger.debug(`[Transform] directive $IF for <${attribute.owner.aseid.toString()}>`);
-    const node = attribute.owner;
-    const ifTemplate = node.cloneWithScope();
-    const ifAttr = ifTemplate.attributes.find((d4) => d4.name === attribute.name);
-    if (ifAttr) {
-      ifTemplate.scope.deregister(ifAttr);
-      node.scope.register(ifAttr);
-    }
-    node.init();
-    node.addChild(ifTemplate);
-    ifTemplate.scene.deactivate();
-    attribute.template = ifTemplate;
-  }
-  compile(attribute, store, scene, syntax, directiveContext, ...args) {
-    attribute.value = syntax.evaluate(attribute.content, store, {
-      ...directiveContext?.scope || {}
-    });
-    const hostInstruction = scene.host;
-    const commentIdentifier = ` --- if: ${attribute.template.id} --- `;
-    const declaration = new AddCommentInstruction({ content: commentIdentifier });
-    scene.setHost(declaration);
-    scene.planBefore(declaration, hostInstruction);
-    scene.unPlan(hostInstruction);
-    if (attribute.value)
-      attribute.template.scene.activate();
-    else
-      attribute.template.scene.deactivate();
-  }
-  update(attribute, store, scope, syntax, scene, ...args) {
-    const previous = !!attribute.value;
-    const next = !!syntax.evaluate(attribute.content, store);
-    attribute.value = next;
-    if (previous === next) return;
-    if (next) {
-      attribute.template.scene.activate();
-      attribute.template.mount();
-    } else {
-      attribute.template.unmount();
-      attribute.template.scene.deactivate();
-    }
-  }
-};
-__name(AreDirectiveIf, "AreDirectiveIf");
-__decorateClass([
-  AreDirective.Transform,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreScene)),
-  __decorateParam(4, Yt(A_Logger))
-], AreDirectiveIf.prototype, "transform", 1);
-__decorateClass([
-  AreDirective.Compile,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(AreScene)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext))
-], AreDirectiveIf.prototype, "compile", 1);
-__decorateClass([
-  AreDirective.Update,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(R)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreScene))
-], AreDirectiveIf.prototype, "update", 1);
-AreDirectiveIf = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Built-in $if directive. Conditionally renders a subtree based on a store expression. Replaces the target element with a stable comment anchor when the condition is false and restores the fully rendered subtree when it becomes true, preventing any leaking of the host element between states."
-  }),
-  AreDirective.Priority(2)
-], AreDirectiveIf);
-
-// src/instructions/HideElement.instruction.ts
-var HideElementInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.HideElement, parent, props);
-    }
-  }
-};
-__name(HideElementInstruction, "HideElementInstruction");
-HideElementInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: 'Toggles the visibility of an existing element by setting its inline display to "none" on apply and restoring the previous inline display on revert. Used by the $show directive to hide/show an element without unmounting it, preserving its subtree, listeners and scene state.'
-  })
-], HideElementInstruction);
-
-// src/directives/AreDirectiveShow.directive.ts
-var AreDirectiveShow = class extends AreDirective {
-  transform(attribute, logger, ...args) {
-    logger.debug(`[Transform] directive $SHOW for <${attribute.owner.aseid.toString()}> (no structural change)`);
-  }
-  compile(attribute, store, scene, syntax, directiveContext, ...args) {
-    const visible = !!syntax.evaluate(attribute.content, store, {
-      ...directiveContext?.scope || {}
-    });
-    attribute.value = visible;
-    const hide = new HideElementInstruction(scene.host, {});
-    attribute.cache = hide;
-    if (!visible)
-      scene.plan(hide);
-  }
-  update(attribute, store, scene, syntax, directiveContext, ...args) {
-    const previous = !!attribute.value;
-    const next = !!syntax.evaluate(attribute.content, store, {
-      ...directiveContext?.scope || {}
-    });
-    attribute.value = next;
-    if (previous === next) return;
-    const hide = attribute.cache;
-    if (!hide) return;
-    if (next)
-      scene.unPlan(hide);
-    else
-      scene.plan(hide);
-    attribute.owner.interpret();
-  }
-};
-__name(AreDirectiveShow, "AreDirectiveShow");
-__decorateClass([
-  AreDirective.Transform,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_Logger))
-], AreDirectiveShow.prototype, "transform", 1);
-__decorateClass([
-  AreDirective.Compile,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(AreScene)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext))
-], AreDirectiveShow.prototype, "compile", 1);
-__decorateClass([
-  AreDirective.Update,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(AreScene)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext))
-], AreDirectiveShow.prototype, "update", 1);
-AreDirectiveShow = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Built-in $show directive. Toggles an element's visibility by flipping its inline display value based on a store expression, keeping the element mounted (subtree, listeners and scene state preserved) instead of unmounting it like $if."
-  }),
-  AreDirective.Priority(3)
-], AreDirectiveShow);
-
-// src/instructions/AddAttribute.instruction.ts
-var AddAttributeInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddAttribute, parent, props);
-    }
-  }
-};
-__name(AddAttributeInstruction, "AddAttributeInstruction");
-AddAttributeInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
-  })
-], AddAttributeInstruction);
-
-// src/instructions/AddListener.instruction.ts
-var AddListenerInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddListener, parent, props);
-    }
-  }
-};
-__name(AddListenerInstruction, "AddListenerInstruction");
-AddListenerInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
-  })
-], AddListenerInstruction);
-
-// src/instructions/AddStyle.instruction.ts
-var AddStyleInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddStyle, parent, props);
-    }
-  }
-};
-__name(AddStyleInstruction, "AddStyleInstruction");
-AddStyleInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
-  })
-], AddStyleInstruction);
-
-// src/instructions/AddText.instruction.ts
-var AddTextInstruction = class extends AreDeclaration {
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddText, props);
-    }
-  }
-};
-__name(AddTextInstruction, "AddTextInstruction");
-AddTextInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
-  })
-], AddTextInstruction);
-
-// src/lib/AreStyle/AreStyle.context.ts
-var AreStyle = class extends H {
-  constructor(styles, aseid) {
-    super({
-      name: aseid ? aseid.toString() : "default-style"
-    });
-    this.styles = styles;
-  }
-};
-__name(AreStyle, "AreStyle");
-AreStyle = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Context fragment that holds the resolved CSS style rules string for a component scope. Populated during lifecycle initialisation and read by the compiler when emitting AddStyle instructions for inline styles declared on the component host element."
-  })
-], AreStyle);
-
-// src/lib/AreHTMLNode/AreHTMLNode.ts
-var AreHTMLNode = class extends AreNode {
-  /**
-   * Actual node type. 
-   * By default it's a tag name
-   */
-  get tag() {
-    return this.aseid.entity;
-  }
-  /**
-    * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
-    * 
-    * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.
-    */
-  get staticAttributes() {
-    return this.scope.resolveFlatAll(AreStaticAttribute);
-  }
-  /**
-   * The binding attributes defined for the node, which are typically used to represent dynamic properties or characteristics of the node that can change based on the context or state. These attributes are usually defined in the template with a specific syntax (e.g., `:prop="value"` or `v-bind:prop="value"`) and are reactive, meaning that they will update automatically when the underlying data changes.
-   * 
-   * Example: For a node defined as `<div :class="dynamicClass">`, the binding attribute would be `:class="dynamicClass"`.
-   */
-  get bindings() {
-    return this.scope.resolveFlatAll(AreBindingAttribute);
-  }
-  /**
-   * The directive attributes defined for the node, which are typically used to represent special instructions or behaviors that should be applied to the node. These attributes are usually defined in the template with a specific syntax (e.g., `v-if="condition"` or `v-for="item in list"`) and are processed by the rendering engine to apply the corresponding logic or behavior to the node.
-   * 
-   * Example: For a node defined as `<div v-if="isVisible">`, the directive attribute would be `v-if="isVisible"`.
-   */
-  get directives() {
-    const directives = this.scope.resolveFlatAll(AreDirectiveAttribute);
-    return directives.filter((d4) => d4.component).sort((a4, b3) => {
-      const aMeta = _.meta(a4.component);
-      const bMeta = _.meta(b3.component);
-      const aPriority = aMeta.priority ?? 0;
-      const bPriority = bMeta.priority ?? 0;
-      return bPriority - aPriority;
-    });
-  }
-  /**
-   * The event attributes defined for the node, which are typically used to represent event listeners or handlers that should be attached to the node. These attributes are usually defined in the template with a specific syntax (e.g., `@click="handleClick"` or `v-on:click="handleClick"`) and are processed by the rendering engine to attach the corresponding event listeners to the node.
-   * 
-   * Example: For a node defined as `<button @click="handleClick">`, the event attribute would be `@click="handleClick"`.
-   */
-  get events() {
-    return this.scope.resolveFlatAll(AreEventAttribute);
-  }
-  /**
-   * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
-   */
-  get styles() {
-    return this.scope.resolveFlat(AreStyle);
-  }
-  /**
-   * Registers or updates the component-scoped CSS string for this node.
-   * Called by the @Are.Styles-decorated method on the associated component.
-   * A new AreStyle fragment is registered in scope on first call; subsequent
-   * calls update the existing fragment in-place.
-   */
-  setStyles(css) {
-    const existing = this.scope.resolveFlat(AreStyle);
-    if (existing) {
-      existing.styles = css;
-    } else {
-      this.scope.register(new AreStyle(css, this.aseid.toString()));
-    }
-  }
-};
-__name(AreHTMLNode, "AreHTMLNode");
-AreHTMLNode = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles."
-  })
-], AreHTMLNode);
-
-// src/nodes/AreComment.ts
-var AreComment = class extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-comment"
-      }
-    });
-  }
-};
-__name(AreComment, "AreComment");
-AreComment = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Node type representing a comment node in the AreHTMLNode tree. Used as a stable DOM anchor by structural directives such as $if and $for that swap rendered content in and out, ensuring the parent container always has a consistent insertion point."
-  })
-], AreComment);
-
-// src/nodes/AreComponent.ts
-var AreComponentNode = class extends AreHTMLNode {
-  /**
-   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
-   * 
-   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
-   * 
-   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
-   */
-  get component() {
-    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
-  }
-};
-__name(AreComponentNode, "AreComponentNode");
-AreComponentNode = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreComponentNode represents a node in the scene graph that corresponds to a component. It extends the base AreNode and includes additional properties and methods specific to component nodes, such as handling attributes, bindings, directives, events, styles, and interpolations associated with the component."
-  })
-], AreComponentNode);
-
-// src/nodes/AreInterpolation.ts
-var AreInterpolation = class extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-interpolation"
-      }
-    });
-  }
-};
-__name(AreInterpolation, "AreInterpolation");
-AreInterpolation = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Node type representing a reactive inline expression in the AreHTMLNode tree. Its content expression is resolved from the store at render time and kept live via an AddInterpolation instruction that updates the corresponding text node on each reactive cycle."
-  })
-], AreInterpolation);
-
-// src/nodes/AreRoot.ts
-var AreRootNode = class extends AreHTMLNode {
-  /**
-   * For the root node, we can default to a generic container element like <div> since it serves as the root of the component tree and does not correspond to a specific HTML tag defined in the markup. The actual content and structure of the root node will be determined by the child nodes and components that are rendered within it, allowing for flexibility in how the root node is used and what it contains.
-   */
-  get tag() {
-    return "div";
-  }
-  /**
-   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
-   * 
-   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
-   * 
-   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
-   */
-  get component() {
-    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
-  }
-};
-__name(AreRootNode, "AreRootNode");
-AreRootNode = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreRootNode represents the root node in the scene graph. It extends the base AreHTMLNode and includes additional properties and methods specific to the root node, such as handling the root element and its associated component."
-  })
-], AreRootNode);
-
-// src/nodes/AreText.ts
-var AreText = class extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-text"
-      }
-    });
-  }
-};
-__name(AreText, "AreText");
-AreText = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Node type representing a plain or partially-dynamic text segment in the AreHTMLNode tree. Emits an AddText instruction that sets or updates the corresponding DOM text node; the content may carry a store getter for any dynamic portion."
-  })
-], AreText);
-
-// src/signals/AreRoute.signal.ts
-var AreRoute = class extends AreSignal {
-  constructor(path) {
-    super({
-      data: new A_Route(path)
-    });
-  }
-  get route() {
-    return this.data;
-  }
-  static default() {
-    return new AreRoute(document.location.pathname || "/");
-  }
-  compare(other) {
-    return this.route.toRegExp().test(other.data.toString());
-  }
-};
-__name(AreRoute, "AreRoute");
-AreRoute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "ARE signal that carries an A_Route value. Dispatched by AreRouteWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
-  })
-], AreRoute);
-
-// src/engine/AreHTML.constants.ts
-var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-var SVG_ATTRIBUTE_NS = {
-  xlink: "http://www.w3.org/1999/xlink",
-  xml: "http://www.w3.org/XML/1998/namespace",
-  xmlns: "http://www.w3.org/2000/xmlns/"
-};
-var VOID_ELEMENTS = /* @__PURE__ */ new Set([
-  "area",
-  "base",
-  "br",
-  "col",
-  "embed",
-  "hr",
-  "img",
-  "input",
-  "link",
-  "meta",
-  "param",
-  "source",
-  "track",
-  "wbr"
-]);
-function isVoidElement(tagName) {
-  return VOID_ELEMENTS.has(tagName.toLowerCase());
-}
-__name(isVoidElement, "isVoidElement");
-var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
-  "allowfullscreen",
-  "async",
-  "autofocus",
-  "autoplay",
-  "checked",
-  "controls",
-  "default",
-  "defer",
-  "disabled",
-  "formnovalidate",
-  "hidden",
-  "inert",
-  "ismap",
-  "itemscope",
-  "loop",
-  "multiple",
-  "muted",
-  "nomodule",
-  "novalidate",
-  "open",
-  "playsinline",
-  "readonly",
-  "required",
-  "reversed",
-  "selected"
-]);
-function isBooleanAttribute(name) {
-  return BOOLEAN_ATTRIBUTES.has(name.toLowerCase());
-}
-__name(isBooleanAttribute, "isBooleanAttribute");
-var IDL_FORM_PROPERTIES = {
-  INPUT: /* @__PURE__ */ new Set(["value", "checked", "indeterminate"]),
-  TEXTAREA: /* @__PURE__ */ new Set(["value"]),
-  SELECT: /* @__PURE__ */ new Set(["value"]),
-  OPTION: /* @__PURE__ */ new Set(["selected"])
-};
-function isIDLFormProperty(tagName, attrName) {
-  const set = IDL_FORM_PROPERTIES[tagName.toUpperCase()];
-  return !!set && set.has(attrName);
-}
-__name(isIDLFormProperty, "isIDLFormProperty");
-function normalizeClassValue(value) {
-  if (value === null || value === void 0 || value === false) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number") return String(value);
-  if (Array.isArray(value)) {
-    return value.map(normalizeClassValue).filter(Boolean).join(" ");
-  }
-  if (typeof value === "object") {
-    const parts = [];
-    for (const key of Object.keys(value)) {
-      if (value[key]) parts.push(key);
-    }
-    return parts.join(" ");
-  }
-  return "";
-}
-__name(normalizeClassValue, "normalizeClassValue");
-function normalizeStyleValue(value) {
-  if (value === null || value === void 0 || value === false) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number") return String(value);
-  if (Array.isArray(value)) {
-    return value.map(normalizeStyleValue).filter(Boolean).join("; ");
-  }
-  if (typeof value === "object") {
-    const parts = [];
-    for (const key of Object.keys(value)) {
-      const v6 = value[key];
-      if (v6 === null || v6 === void 0 || v6 === false) continue;
-      const kebab = key.replace(/[A-Z]/g, (m7) => "-" + m7.toLowerCase());
-      parts.push(`${kebab}: ${v6}`);
-    }
-    return parts.join("; ");
-  }
-  return "";
-}
-__name(normalizeStyleValue, "normalizeStyleValue");
-function parseEventName(raw) {
-  const [event, ...modifiers] = raw.split(".");
-  return { event, modifiers: new Set(modifiers) };
-}
-__name(parseEventName, "parseEventName");
-function toDOMString(value) {
-  if (value === null || value === void 0) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
-  try {
-    return JSON.stringify(value);
-  } catch {
-    return "";
-  }
-}
-__name(toDOMString, "toDOMString");
 
 // src/engine/AreHTML.context.ts
 var AreHTMLEngineContext = class extends AreContext {
@@ -13323,10 +12507,108 @@ var AreHTMLEngineContext = class extends AreContext {
        */
       elementListeners: /* @__PURE__ */ new WeakMap()
     };
+    /**
+     * Parsed-fragment cache for static islands (see AddStaticHTMLInstruction).
+     *
+     * Keyed by `hostTag\u0000markup`, each entry holds a `DocumentFragment` whose
+     * children were parsed by the browser exactly once — in the *correct element
+     * context* (the host tag), so table fragments (`<tr>`, `<td>`, …) and other
+     * context-sensitive content parse correctly. Repeated static islands with
+     * identical markup (e.g. list rows, reused components) clone the pre-parsed
+     * fragment instead of re-parsing the HTML string on every mount — turning an
+     * O(parse) operation into an O(clone) one.
+     */
+    this._staticFragmentCache = /* @__PURE__ */ new Map();
+    /**
+     * Live-DOM attachments deferred while a mount pass is batching.
+     *
+     * A freshly-mounted subtree is built inside a *detached* root element, so
+     * every descendant `appendChild`/`insertBefore` happens off-document and
+     * triggers zero layout/paint invalidation. The single mutation that actually
+     * connects the built subtree to the live document is deferred and collected
+     * here, then flushed once when the batch closes — collapsing O(nodes) reflows
+     * into O(1) per mount root.
+     */
+    this._pendingAttachments = [];
+    /**
+     * Depth of the currently open batching scopes. Re-entrant so that nested
+     * `beginBatch`/`endBatch` pairs flush exactly once, when the outermost scope
+     * closes.
+     */
+    this._batchDepth = 0;
     this._container = props.container;
   }
   get container() {
     return this._container;
+  }
+  /**
+   * `true` while a synchronous mount pass is batching live-DOM attachments.
+   * Interpreter handlers consult this to decide whether to attach an element
+   * immediately or hand the attachment to {@link deferAttach}.
+   */
+  get isBatching() {
+    return this._batchDepth > 0;
+  }
+  /**
+   * Opens a batching scope. Re-entrant: only the outermost matching
+   * {@link endBatch} flushes the deferred attachments, so a single mount pass
+   * connects its built subtree to the live DOM exactly once.
+   */
+  beginBatch() {
+    this._batchDepth++;
+  }
+  /**
+   * Registers a live-DOM attachment to run when the current batch flushes. If
+   * no batch is active the attachment runs immediately, preserving the original
+   * synchronous behaviour for updates that mount outside a batch.
+   *
+   * @param attach the DOM mutation that connects a built subtree to the document
+   */
+  deferAttach(attach) {
+    if (this._batchDepth > 0) {
+      this._pendingAttachments.push(attach);
+    } else {
+      attach();
+    }
+  }
+  /**
+   * Closes a batching scope. When the outermost scope closes, every deferred
+   * attachment runs in registration (document) order, connecting the built
+   * subtrees to the live DOM in a single pass.
+   */
+  endBatch() {
+    if (this._batchDepth === 0) return;
+    this._batchDepth--;
+    if (this._batchDepth > 0) return;
+    const pending = this._pendingAttachments;
+    this._pendingAttachments = [];
+    for (let i6 = 0; i6 < pending.length; i6++) {
+      pending[i6]();
+    }
+  }
+  /**
+   * Returns a `DocumentFragment` containing the parsed form of `html`, parsed
+   * once in the context of `hostTag` (so context-sensitive content such as
+   * table rows/cells parses correctly) and cached thereafter. Callers should
+   * `cloneNode(true)` the returned fragment rather than mutating it, so the
+   * cache stays reusable.
+   *
+   * @param hostTag the tag name of the element the markup will be injected into
+   * @param html    verbatim static-island inner markup
+   */
+  getStaticFragment(hostTag, html) {
+    const key = `${hostTag}\0${html}`;
+    let fragment = this._staticFragmentCache.get(key);
+    if (!fragment) {
+      const container = this._container.createElement(hostTag);
+      container.innerHTML = html;
+      fragment = this._container.createDocumentFragment();
+      while (container.firstChild) {
+        fragment.appendChild(container.firstChild);
+      }
+      this._staticFragmentCache.set(key, fragment);
+    }
+    return fragment;
   }
   getNodeElement(node) {
     if (typeof node === "string") {
@@ -13459,10 +12741,1549 @@ AreHTMLEngineContext = __decorateClass([
   })
 ], AreHTMLEngineContext);
 
+// src/engine/AreHTML.constants.ts
+var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+var SVG_ATTRIBUTE_NS = {
+  xlink: "http://www.w3.org/1999/xlink",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  xmlns: "http://www.w3.org/2000/xmlns/"
+};
+var VOID_ELEMENTS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+function isVoidElement(tagName) {
+  return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
+__name(isVoidElement, "isVoidElement");
+var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
+  "allowfullscreen",
+  "async",
+  "autofocus",
+  "autoplay",
+  "checked",
+  "controls",
+  "default",
+  "defer",
+  "disabled",
+  "formnovalidate",
+  "hidden",
+  "inert",
+  "ismap",
+  "itemscope",
+  "loop",
+  "multiple",
+  "muted",
+  "nomodule",
+  "novalidate",
+  "open",
+  "playsinline",
+  "readonly",
+  "required",
+  "reversed",
+  "selected"
+]);
+function isBooleanAttribute(name) {
+  return BOOLEAN_ATTRIBUTES.has(name.toLowerCase());
+}
+__name(isBooleanAttribute, "isBooleanAttribute");
+var IDL_FORM_PROPERTIES = {
+  INPUT: /* @__PURE__ */ new Set(["value", "checked", "indeterminate"]),
+  TEXTAREA: /* @__PURE__ */ new Set(["value"]),
+  SELECT: /* @__PURE__ */ new Set(["value"]),
+  OPTION: /* @__PURE__ */ new Set(["selected"])
+};
+function isIDLFormProperty(tagName, attrName) {
+  const set = IDL_FORM_PROPERTIES[tagName.toUpperCase()];
+  return !!set && set.has(attrName);
+}
+__name(isIDLFormProperty, "isIDLFormProperty");
+function normalizeClassValue(value) {
+  if (value === null || value === void 0 || value === false) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) {
+    return value.map(normalizeClassValue).filter(Boolean).join(" ");
+  }
+  if (typeof value === "object") {
+    const parts = [];
+    for (const key of Object.keys(value)) {
+      if (value[key]) parts.push(key);
+    }
+    return parts.join(" ");
+  }
+  return "";
+}
+__name(normalizeClassValue, "normalizeClassValue");
+function normalizeStyleValue(value) {
+  if (value === null || value === void 0 || value === false) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) {
+    return value.map(normalizeStyleValue).filter(Boolean).join("; ");
+  }
+  if (typeof value === "object") {
+    const parts = [];
+    for (const key of Object.keys(value)) {
+      const v6 = value[key];
+      if (v6 === null || v6 === void 0 || v6 === false) continue;
+      const kebab = key.replace(/[A-Z]/g, (m7) => "-" + m7.toLowerCase());
+      parts.push(`${kebab}: ${v6}`);
+    }
+    return parts.join("; ");
+  }
+  return "";
+}
+__name(normalizeStyleValue, "normalizeStyleValue");
+function parseEventName(raw) {
+  const [event, ...modifiers] = raw.split(".");
+  return { event, modifiers: new Set(modifiers) };
+}
+__name(parseEventName, "parseEventName");
+function toDOMString(value) {
+  if (value === null || value === void 0) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return "";
+  }
+}
+__name(toDOMString, "toDOMString");
+var STANDARD_HTML_TAGS = /* @__PURE__ */ new Set([
+  // root / sections
+  "html",
+  "body",
+  "header",
+  "footer",
+  "main",
+  "nav",
+  "section",
+  "article",
+  "aside",
+  "address",
+  "hgroup",
+  // headings
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  // grouping
+  "div",
+  "p",
+  "span",
+  "pre",
+  "blockquote",
+  "figure",
+  "figcaption",
+  "hr",
+  "br",
+  "wbr",
+  // lists
+  "ul",
+  "ol",
+  "li",
+  "dl",
+  "dt",
+  "dd",
+  "menu",
+  // text-level / phrasing
+  "a",
+  "b",
+  "i",
+  "u",
+  "s",
+  "em",
+  "strong",
+  "small",
+  "mark",
+  "abbr",
+  "cite",
+  "q",
+  "code",
+  "kbd",
+  "samp",
+  "var",
+  "sub",
+  "sup",
+  "time",
+  "data",
+  "dfn",
+  "bdi",
+  "bdo",
+  "ruby",
+  "rt",
+  "rp",
+  "del",
+  "ins",
+  // media / embedded (no special namespace handling needed)
+  "img",
+  "picture",
+  "source",
+  "figure",
+  "audio",
+  "video",
+  "track",
+  // tables
+  "table",
+  "caption",
+  "colgroup",
+  "col",
+  "thead",
+  "tbody",
+  "tfoot",
+  "tr",
+  "th",
+  "td",
+  // forms (display only — these still render fine from innerHTML)
+  "label",
+  "fieldset",
+  "legend",
+  "datalist",
+  "option",
+  "optgroup",
+  "output",
+  "progress",
+  "meter",
+  // interactive
+  "details",
+  "summary",
+  "dialog"
+]);
+function isStaticMarkup(inner) {
+  if (!inner) return false;
+  if (inner.indexOf("{{") !== -1) return false;
+  const n6 = inner.length;
+  let i6 = 0;
+  while (i6 < n6) {
+    const lt = inner.indexOf("<", i6);
+    if (lt === -1) break;
+    if (inner.startsWith("<!--", lt)) {
+      const end = inner.indexOf("-->", lt + 4);
+      if (end === -1) return false;
+      i6 = end + 3;
+      continue;
+    }
+    if (inner[lt + 1] === "/" || inner[lt + 1] === "!" || inner[lt + 1] === "?") {
+      const gt2 = inner.indexOf(">", lt);
+      if (gt2 === -1) return false;
+      i6 = gt2 + 1;
+      continue;
+    }
+    const nameMatch = /^<([a-zA-Z][a-zA-Z0-9-]*)/.exec(inner.slice(lt));
+    if (!nameMatch) {
+      i6 = lt + 1;
+      continue;
+    }
+    const tag = nameMatch[1].toLowerCase();
+    if (tag.indexOf("-") !== -1 || !STANDARD_HTML_TAGS.has(tag)) return false;
+    let j5 = lt + nameMatch[0].length;
+    let inSingle = false;
+    let inDouble = false;
+    let atNameBoundary = true;
+    let tagEnd = -1;
+    while (j5 < n6) {
+      const ch = inner[j5];
+      if (inDouble) {
+        if (ch === '"') inDouble = false;
+      } else if (inSingle) {
+        if (ch === "'") inSingle = false;
+      } else if (ch === '"') {
+        inDouble = true;
+        atNameBoundary = false;
+      } else if (ch === "'") {
+        inSingle = true;
+        atNameBoundary = false;
+      } else if (ch === ">") {
+        tagEnd = j5;
+        break;
+      } else if (ch === " " || ch === "	" || ch === "\n" || ch === "\r" || ch === "/") {
+        atNameBoundary = true;
+      } else {
+        if (atNameBoundary && (ch === "$" || ch === ":" || ch === "@")) {
+          return false;
+        }
+        atNameBoundary = false;
+      }
+      j5++;
+    }
+    if (tagEnd === -1) return false;
+    i6 = tagEnd + 1;
+  }
+  return true;
+}
+__name(isStaticMarkup, "isStaticMarkup");
+
+// src/engine/AreHTML.interpreter.ts
+var AreHTMLInterpreter = class extends AreInterpreter {
+  addElement(declaration, context, logger) {
+    try {
+      const node = declaration.owner;
+      let currentNode = node;
+      let parent = node.parent;
+      while (parent) {
+        if (context.getNodeElement(parent)) {
+          break;
+        }
+        currentNode = parent;
+        parent = parent.parent;
+      }
+      const tag = node.tag;
+      const isSVG = tag === "svg" || this.isInSVGContext(node);
+      if (parent) {
+        const mountPoint = context.getNodeElement(parent);
+        if (!mountPoint) {
+          throw new AreInterpreterError({
+            title: "Mount Point Not Found",
+            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+          });
+        }
+        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
+        context.setInstructionElement(declaration, element);
+        const attach = mountPoint.nodeType === Node.ELEMENT_NODE ? () => mountPoint.appendChild(element) : () => {
+          mountPoint.parentNode?.insertBefore(element, mountPoint);
+        };
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
+      } else {
+        const mountPoint = context.container.getElementById(node.id);
+        if (!mountPoint) {
+          throw new AreInterpreterError({
+            title: "Mount Point Not Found",
+            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+          });
+        }
+        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
+        context.setInstructionElement(declaration, element);
+        const attach = /* @__PURE__ */ __name(() => {
+          mountPoint.parentNode?.replaceChild(element, mountPoint);
+        }, "attach");
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
+      }
+      logger?.debug("green", `Element ${node.aseid.toString()} added to Context:`);
+    } catch (error) {
+      logger?.error(error);
+      throw error;
+    }
+  }
+  removeElement(declaration, context) {
+    const element = context.getElementByInstruction(declaration);
+    if (element && element.parentNode && element.isConnected) {
+      element.parentNode.removeChild(element);
+    }
+    context.removeInstructionElement(declaration);
+  }
+  addAttribute(mutation, context, store, syntax, directiveContext, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
+      });
+    }
+    const { name, content, evaluate } = mutation.payload;
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
+      ...directiveContext?.scope || {}
+    }) : content;
+    const el = element;
+    const lowerName = name.toLowerCase();
+    const colonIdx = name.indexOf(":");
+    if (colonIdx > 0) {
+      const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+      if (ns) {
+        el.setAttributeNS(ns, name, toDOMString(rawValue));
+        mutation.cache = toDOMString(rawValue);
+        return;
+      }
+    }
+    if (isBooleanAttribute(lowerName)) {
+      if (rawValue) {
+        el.setAttribute(lowerName, "");
+        try {
+          el[lowerName] = true;
+        } catch {
+        }
+      } else {
+        el.removeAttribute(lowerName);
+        try {
+          el[lowerName] = false;
+        } catch {
+        }
+      }
+      mutation.cache = rawValue ? "true" : "";
+      return;
+    }
+    if (isIDLFormProperty(el.tagName, name)) {
+      const propName = name === "value" ? "value" : name === "checked" ? "checked" : name === "selected" ? "selected" : name === "indeterminate" ? "indeterminate" : name;
+      try {
+        if (propName === "checked" || propName === "selected" || propName === "indeterminate") {
+          el[propName] = !!rawValue;
+        } else {
+          el[propName] = toDOMString(rawValue);
+        }
+      } catch {
+      }
+      if (propName !== "value") {
+        if (rawValue) el.setAttribute(name, "");
+        else el.removeAttribute(name);
+      } else {
+        el.setAttribute(name, toDOMString(rawValue));
+      }
+      mutation.cache = toDOMString(rawValue);
+      return;
+    }
+    if (lowerName === "class") {
+      const newValue = normalizeClassValue(rawValue);
+      if (mutation.cache === void 0) {
+        const existingValue = el.getAttribute("class");
+        const merged = existingValue ? `${existingValue} ${newValue}`.trim() : newValue;
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      } else {
+        const existingValue = el.getAttribute("class");
+        const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
+        const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
+        const newParts = newValue ? newValue.split(/\s+/).filter(Boolean) : [];
+        const merged = [...existingParts.filter((p5) => !oldParts.has(p5)), ...newParts].join(" ");
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      }
+      mutation.cache = newValue;
+      return;
+    }
+    if (lowerName === "style") {
+      const newValue = normalizeStyleValue(rawValue);
+      if (newValue) el.setAttribute("style", newValue);
+      else el.removeAttribute("style");
+      mutation.cache = newValue;
+      return;
+    }
+    const stringValue = toDOMString(rawValue);
+    if (stringValue === "" && evaluate && (rawValue === false || rawValue === null || rawValue === void 0)) {
+      el.removeAttribute(name);
+    } else {
+      el.setAttribute(name, stringValue);
+    }
+    mutation.cache = stringValue;
+  }
+  removeAttribute(mutation, context) {
+    try {
+      const element = context.getElementByInstruction(mutation.parent);
+      if (!element) return;
+      const { name } = mutation.payload;
+      if (name && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+        const colonIdx = name.indexOf(":");
+        if (colonIdx > 0) {
+          const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+          if (ns) {
+            element.removeAttributeNS(ns, name.slice(colonIdx + 1));
+          } else {
+            element.removeAttribute(name);
+          }
+        } else {
+          element.removeAttribute(name);
+        }
+      }
+    } catch (error) {
+      console.log("Error removing attribute:", error);
+    }
+  }
+  hideElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    mutation.cache = el.style.display;
+    el.style.display = "none";
+  }
+  showElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    if (!element.isConnected) return;
+    const el = element;
+    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
+  }
+  addEventListener(mutation, context, store, syntax, directiveContext, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before adding event listeners.`
+      });
+    }
+    const { event: eventName, modifiers } = parseEventName(mutation.payload.name);
+    const listenerOptions = {};
+    if (modifiers.has("capture")) listenerOptions.capture = true;
+    if (modifiers.has("once")) listenerOptions.once = true;
+    if (modifiers.has("passive")) listenerOptions.passive = true;
+    const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
+    let liveEvent = null;
+    const handlerScope = {};
+    for (const handler of handlers) {
+      const handlerFn = /* @__PURE__ */ __name((...args) => {
+        const event = new AreEvent(handler);
+        const effectiveArgs = args.length === 0 && liveEvent ? [liveEvent] : liveEvent ? [...args, liveEvent] : args;
+        event.set("args", effectiveArgs);
+        event.set("element", element);
+        event.set("instruction", mutation);
+        if (liveEvent) event.set("native", liveEvent);
+        mutation.owner.emit(event);
+      }, "handlerFn");
+      handlerScope[`$${handler}`] = handlerFn;
+    }
+    const callback = /* @__PURE__ */ __name((e) => {
+      try {
+        liveEvent = e;
+        if (modifiers.has("self") && e.target !== element) return;
+        if (modifiers.has("stop")) e.stopPropagation();
+        if (modifiers.has("prevent")) e.preventDefault();
+        if (e instanceof KeyboardEvent && modifiers.size > 0) {
+          const key = (e.key || "").toLowerCase();
+          const KEY_ALIASES = {
+            enter: ["enter"],
+            esc: ["escape"],
+            escape: ["escape"],
+            tab: ["tab"],
+            space: [" ", "spacebar"],
+            up: ["arrowup"],
+            down: ["arrowdown"],
+            left: ["arrowleft"],
+            right: ["arrowright"],
+            delete: ["delete", "backspace"]
+          };
+          const keyMods = [...modifiers].filter((m7) => m7 in KEY_ALIASES || m7 === "ctrl" || m7 === "alt" || m7 === "shift" || m7 === "meta");
+          if (keyMods.length > 0) {
+            const keyMatch = keyMods.some((m7) => {
+              if (m7 === "ctrl") return e.ctrlKey;
+              if (m7 === "alt") return e.altKey;
+              if (m7 === "shift") return e.shiftKey;
+              if (m7 === "meta") return e.metaKey;
+              const aliases = KEY_ALIASES[m7];
+              return aliases && aliases.includes(key);
+            });
+            if (!keyMatch) return;
+          }
+        }
+        context.startPerformance("event:" + eventName);
+        const result = syntax.evaluate(mutation.payload.handler, store, {
+          ...handlerScope,
+          $event: e,
+          ...directiveContext?.scope || {}
+        });
+        if (typeof result === "function") result(e);
+        context.endPerformance("event:" + eventName);
+      } catch (err) {
+        logger?.error(err);
+      } finally {
+        liveEvent = null;
+      }
+    }, "callback");
+    const useOptions = listenerOptions.capture || listenerOptions.once || listenerOptions.passive;
+    if (useOptions) {
+      element.addEventListener(eventName, callback, listenerOptions);
+    } else {
+      element.addEventListener(eventName, callback);
+    }
+    mutation.payload._callback = callback;
+    context.addListener(element, mutation.payload.name, callback);
+  }
+  removeEventListener(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element) return;
+    const { name } = mutation.payload;
+    const { event: eventName } = parseEventName(name);
+    const listener = mutation.payload._callback;
+    if (listener) {
+      if (element.isConnected) {
+        element.removeEventListener(eventName, listener);
+      }
+      context.removeListener(element, name, listener);
+      mutation.payload._callback = void 0;
+    }
+  }
+  addText(declaration, context, store, syntax, directiveContext, logger) {
+    const node = declaration.owner.parent;
+    const { content, evaluate } = declaration.payload;
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
+      ...directiveContext?.scope || {}
+    }) : content;
+    const value = toDOMString(rawValue);
+    if (!node) {
+      const textNode = context.container.createTextNode(value);
+      context.container.body.appendChild(textNode);
+      context.setInstructionElement(declaration, textNode);
+    } else {
+      const element = context.getNodeElement(node);
+      if (!element) {
+        throw new AreInterpreterError({
+          title: "Element Not Found",
+          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
+        });
+      }
+      const existingNode = context.getElementByInstruction(declaration);
+      if (existingNode) {
+        existingNode.textContent = value;
+      } else {
+        const textNode = context.container.createTextNode(value);
+        element.appendChild(textNode);
+        context.setInstructionElement(declaration, textNode);
+      }
+    }
+    logger?.debug("green", `Text ${node?.aseid.toString()} added to Context:`);
+  }
+  removeText(declaration, context) {
+    const element = context.getElementByInstruction(declaration);
+    if (!element) return;
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
+    context.removeInstructionElement(declaration);
+  }
+  addStaticHTML(mutation, context, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure the host element is rendered before materialising its static island.`
+      });
+    }
+    const el = element;
+    const { html } = mutation.payload;
+    el.textContent = "";
+    const fragment = context.getStaticFragment(el.tagName.toLowerCase(), html);
+    el.appendChild(fragment.cloneNode(true));
+    logger?.debug("green", `Static island materialised onto <${(mutation.owner.parent ?? mutation.owner)?.aseid?.toString?.()}>`);
+  }
+  removeStaticHTML(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (element && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+      element.textContent = "";
+    }
+  }
+  addComment(declaration, context, store, syntax, directiveContext, logger) {
+    const node = declaration.owner.parent;
+    const { content, evaluate } = declaration.payload;
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
+      ...directiveContext?.scope || {}
+    }) : content;
+    const value = toDOMString(rawValue);
+    if (!node) {
+      const commentNode = context.container.createComment(value);
+      context.container.body.appendChild(commentNode);
+      context.setInstructionElement(declaration, commentNode);
+    } else {
+      const element = context.getNodeElement(node);
+      if (!element) {
+        throw new AreInterpreterError({
+          title: "Element Not Found",
+          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
+        });
+      }
+      const existingNode = context.getElementByInstruction(declaration);
+      if (existingNode) {
+        existingNode.textContent = value;
+      } else {
+        const commentNode = context.container.createComment(value);
+        element.appendChild(commentNode);
+        context.setInstructionElement(declaration, commentNode);
+      }
+    }
+    logger?.debug("green", `Comment ${node?.aseid.toString()} added to Context:`);
+  }
+  removeComment(declaration, context) {
+    const element = context.getElementByInstruction(declaration);
+    if (!element) return;
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
+    context.removeInstructionElement(declaration);
+  }
+  addStyle(mutation, context, logger) {
+    try {
+      const { styles } = mutation.payload;
+      const styleId = `are-style-${String(mutation.aseid)}`;
+      const existing = context.getElementByInstruction(mutation);
+      if (existing) {
+        existing.textContent = styles;
+      } else {
+        const styleEl = context.container.createElement("style");
+        styleEl.setAttribute("data-are-id", styleId);
+        styleEl.textContent = styles;
+        (context.container.head ?? context.container.body).appendChild(styleEl);
+        context.setInstructionElement(mutation, styleEl);
+        logger?.debug("green", `Style injected for ${String(mutation.aseid)}`);
+      }
+    } catch (error) {
+      logger?.error(error);
+    }
+  }
+  removeStyle(mutation, context) {
+    const styleEl = context.getElementByInstruction(mutation);
+    if (styleEl?.parentNode) {
+      styleEl.parentNode.removeChild(styleEl);
+    }
+    context.removeInstructionElement(mutation);
+  }
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ── SVG helpers ───────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Returns true when any ancestor of the given node has the tag `svg`,
+   * meaning the node lives inside an SVG subtree and its DOM element must be
+   * created via createElementNS(SVG_NAMESPACE, tag).
+   */
+  isInSVGContext(node) {
+    let current = node.parent;
+    while (current) {
+      if (current.tag === "svg") return true;
+      if (current.tag === "foreignobject") return false;
+      current = current.parent;
+    }
+    return false;
+  }
+};
+__name(AreHTMLInterpreter, "AreHTMLInterpreter");
+__decorateClass([
+  R4.Define({
+    description: "Create an HTML element based on the provided declaration instruction. Handles both root-level mounting and child element creation based on the structural parent hierarchy."
+  }),
+  AreInterpreter.Apply(AreInstructionDefaultNames.Default),
+  AreInterpreter.Apply(AreHTMLInstructions.AddElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addElement", 1);
+__decorateClass([
+  R4.Define({
+    description: "Remove an HTML element that was created by a CreateElement declaration. Cleans up the DOM and the context index."
+  }),
+  AreInterpreter.Revert(AreInstructionDefaultNames.Default),
+  AreInterpreter.Revert(AreHTMLInstructions.AddElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeElement", 1);
+__decorateClass([
+  R4.Define({
+    description: "Add an attribute to an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddAttribute),
+  AreInterpreter.Update(AreHTMLInstructions.AddAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addAttribute", 1);
+__decorateClass([
+  R4.Define({
+    description: "Remove an attribute from an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeAttribute", 1);
+__decorateClass([
+  R4.Define({
+    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.HideElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "hideElement", 1);
+__decorateClass([
+  R4.Define({
+    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.HideElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "showElement", 1);
+__decorateClass([
+  R4.Define({
+    description: "Add an event listener to an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddListener),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addEventListener", 1);
+__decorateClass([
+  R4.Define({
+    description: "Remove an event listener from an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddListener),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeEventListener", 1);
+__decorateClass([
+  R4.Define({
+    description: "Add text content to an HTML element based on the provided declaration instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddText),
+  AreInterpreter.Update(AreHTMLInstructions.AddText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addText", 1);
+__decorateClass([
+  R4.Define({
+    description: "Remove text content from an HTML element based on the provided declaration instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeText", 1);
+__decorateClass([
+  R4.Define({
+    description: "Inject a static island's inner markup onto its host element in one pass via a cached, browser-parsed <template> clone. Decodes HTML entities natively."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStaticHTML),
+  AreInterpreter.Update(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addStaticHTML", 1);
+__decorateClass([
+  R4.Define({
+    description: "Clear a static island's injected markup from its host element on revert."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStaticHTML", 1);
+__decorateClass([
+  R4.Define({
+    description: "Add a comment node to the DOM based on the provided declaration instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddComment),
+  AreInterpreter.Update(AreHTMLInstructions.AddComment),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addComment", 1);
+__decorateClass([
+  R4.Define({
+    description: "Remove a comment node from the DOM based on the provided declaration instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddComment),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeComment", 1);
+__decorateClass([
+  R4.Define({
+    description: "Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStyle),
+  AreInterpreter.Update(AreHTMLInstructions.AddStyle),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addStyle", 1);
+__decorateClass([
+  R4.Define({
+    description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStyle),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStyle", 1);
+AreHTMLInterpreter = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "DOM interpreter for the HTML rendering pipeline. Extends AreInterpreter to apply and revert each ARE instruction type directly against the browser DOM \u2014 creating and removing elements, setting and removing attributes and event listeners, managing inline styles, and inserting text and comment nodes. Driven by the scene diff computed per render cycle."
+  })
+], AreHTMLInterpreter);
+
+// src/lib/AreHTMLAttribute/AreHTML.attribute.ts
+var AreHTMLAttribute = class extends AreAttribute {
+  get owner() {
+    return this.scope.issuer();
+  }
+};
+__name(AreHTMLAttribute, "AreHTMLAttribute");
+AreHTMLAttribute = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Base class for all typed HTML attributes in the ARE framework. Provides typed access to the owning AreHTMLNode via the scope injector so that attribute subclasses can inspect host-node properties and resolve store bindings during transformation, compilation, and lifecycle phases."
+  })
+], AreHTMLAttribute);
+
+// src/attributes/AreBinding.attribute.ts
+var AreBindingAttribute = class extends AreHTMLAttribute {
+  // get value(): string {
+  //     const [firstPart, ...pathPart] = this.content.split('.');
+  //     const primaryObject = this.owner.store.get(firstPart);
+  //     return AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join('.')) as string;
+  // }
+};
+__name(AreBindingAttribute, "AreBindingAttribute");
+AreBindingAttribute = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for two-way value bindings (: prefix). Marks that the attribute value should be resolved dynamically from the node store rather than used verbatim, enabling reactive updates whenever the underlying store value changes during a rendering cycle."
+  })
+], AreBindingAttribute);
+
+// src/attributes/AreDirective.attribute.ts
+var AreDirectiveAttribute = class extends AreHTMLAttribute {
+  /**
+   * Returns a custom directive component associated with this attribute, if available.
+   * 
+   * The method uses the attribute's name to resolve the corresponding directive component from the scope. It constructs the expected directive name by converting the attribute name to PascalCase and prefixing it with "AreDirective". If a matching directive component is found in the scope, it is returned; otherwise, the method returns undefined.
+   */
+  get component() {
+    const component = this.scope.resolve(`AreDirective${P.toPascalCase(this.name)}`);
+    return component;
+  }
+};
+__name(AreDirectiveAttribute, "AreDirectiveAttribute");
+AreDirectiveAttribute = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for directive invocations ($ prefix). Carries the resolved directive component class and a cloned template node. The associated directive uses these during its Compile phase to emit conditional or repeated instruction groups and to manage per-item or per-condition subscopes."
+  })
+], AreDirectiveAttribute);
+
+// src/attributes/AreEvent.attribute.ts
+var AreEventAttribute = class extends AreHTMLAttribute {
+};
+__name(AreEventAttribute, "AreEventAttribute");
+AreEventAttribute = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for DOM event listeners (@ prefix). Marks the attribute as an event binding \u2014 the compiler emits an AddListener instruction that attaches a handler expression resolved from the store to the specified event name on the host element."
+  })
+], AreEventAttribute);
+
+// src/attributes/AreStatic.attribute.ts
+var AreStaticAttribute = class extends AreHTMLAttribute {
+};
+__name(AreStaticAttribute, "AreStaticAttribute");
+AreStaticAttribute = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for plain static HTML attributes with no dynamic prefix. Its value is emitted verbatim via an AddAttribute instruction at compile time and does not participate in reactive update cycles."
+  })
+], AreStaticAttribute);
+
+// src/lib/AreStyle/AreStyle.context.ts
+var AreStyle = class extends H {
+  constructor(styles, aseid) {
+    super({
+      name: aseid ? aseid.toString() : "default-style"
+    });
+    this.styles = styles;
+  }
+};
+__name(AreStyle, "AreStyle");
+AreStyle = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Context fragment that holds the resolved CSS style rules string for a component scope. Populated during lifecycle initialisation and read by the compiler when emitting AddStyle instructions for inline styles declared on the component host element."
+  })
+], AreStyle);
+
+// src/lib/AreHTMLNode/AreHTMLNode.ts
+var AreHTMLNode = class extends AreNode {
+  /**
+   * Actual node type. 
+   * By default it's a tag name
+   */
+  get tag() {
+    return this.aseid.entity;
+  }
+  /**
+   * The verbatim inner markup captured when this node was identified as a
+   * static island, or `undefined` for ordinary (per-node) nodes.
+   */
+  get staticInnerHTML() {
+    return this._staticInnerHTML;
+  }
+  /**
+   * Whether this node is a static-island root (see `_staticInnerHTML`).
+   */
+  get isStaticIsland() {
+    return this._staticInnerHTML !== void 0;
+  }
+  /**
+   * Marks this node as a static-island root, capturing the verbatim inner
+   * markup to be materialised in one shot by the interpreter. Called by the
+   * tokenizer when the node's inner content is detected to be fully static.
+   */
+  markStatic(innerHTML) {
+    this._staticInnerHTML = innerHTML;
+  }
+  /**
+   * Deep-clone the node. Overridden to carry over the static-island marker
+   * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
+   * copied by the base AreNode.clone(). Without this, cloning a directive
+   * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
+   * would drop the captured inner markup and render an empty element. The
+   * base clone() recurses via each child's polymorphic clone(), so nested
+   * island children are preserved automatically through this override.
+   */
+  clone() {
+    const cloned = super.clone();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
+   * Clone the node while transferring its existing scope to the clone (used by
+   * the $if/$for directives to turn the original node into a lightweight group
+   * container). Overridden for the same reason as `clone()`: the static-island
+   * marker must survive so a directive applied to an island root keeps its
+   * inner markup.
+   */
+  cloneWithScope() {
+    const cloned = super.cloneWithScope();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
+    * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
+    * 
+    * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.
+    */
+  get staticAttributes() {
+    return this.scope.resolveFlatAll(AreStaticAttribute);
+  }
+  /**
+   * The binding attributes defined for the node, which are typically used to represent dynamic properties or characteristics of the node that can change based on the context or state. These attributes are usually defined in the template with a specific syntax (e.g., `:prop="value"` or `v-bind:prop="value"`) and are reactive, meaning that they will update automatically when the underlying data changes.
+   * 
+   * Example: For a node defined as `<div :class="dynamicClass">`, the binding attribute would be `:class="dynamicClass"`.
+   */
+  get bindings() {
+    return this.scope.resolveFlatAll(AreBindingAttribute);
+  }
+  /**
+   * The directive attributes defined for the node, which are typically used to represent special instructions or behaviors that should be applied to the node. These attributes are usually defined in the template with a specific syntax (e.g., `v-if="condition"` or `v-for="item in list"`) and are processed by the rendering engine to apply the corresponding logic or behavior to the node.
+   * 
+   * Example: For a node defined as `<div v-if="isVisible">`, the directive attribute would be `v-if="isVisible"`.
+   */
+  get directives() {
+    const directives = this.scope.resolveFlatAll(AreDirectiveAttribute);
+    return directives.filter((d4) => d4.component).sort((a4, b3) => {
+      const aMeta = _.meta(a4.component);
+      const bMeta = _.meta(b3.component);
+      const aPriority = aMeta.priority ?? 0;
+      const bPriority = bMeta.priority ?? 0;
+      return bPriority - aPriority;
+    });
+  }
+  /**
+   * The event attributes defined for the node, which are typically used to represent event listeners or handlers that should be attached to the node. These attributes are usually defined in the template with a specific syntax (e.g., `@click="handleClick"` or `v-on:click="handleClick"`) and are processed by the rendering engine to attach the corresponding event listeners to the node.
+   * 
+   * Example: For a node defined as `<button @click="handleClick">`, the event attribute would be `@click="handleClick"`.
+   */
+  get events() {
+    return this.scope.resolveFlatAll(AreEventAttribute);
+  }
+  /**
+   * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
+   */
+  get styles() {
+    return this.scope.resolveFlat(AreStyle);
+  }
+  /**
+   * Registers or updates the component-scoped CSS string for this node.
+   * Called by the @Are.Styles-decorated method on the associated component.
+   * A new AreStyle fragment is registered in scope on first call; subsequent
+   * calls update the existing fragment in-place.
+   */
+  setStyles(css) {
+    const existing = this.scope.resolveFlat(AreStyle);
+    if (existing) {
+      existing.styles = css;
+    } else {
+      this.scope.register(new AreStyle(css, this.aseid.toString()));
+    }
+  }
+};
+__name(AreHTMLNode, "AreHTMLNode");
+AreHTMLNode = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles."
+  })
+], AreHTMLNode);
+
+// src/nodes/AreInterpolation.ts
+var AreInterpolation = class extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-interpolation"
+      }
+    });
+  }
+};
+__name(AreInterpolation, "AreInterpolation");
+AreInterpolation = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Node type representing a reactive inline expression in the AreHTMLNode tree. Its content expression is resolved from the store at render time and kept live via an AddInterpolation instruction that updates the corresponding text node on each reactive cycle."
+  })
+], AreInterpolation);
+
+// src/nodes/AreText.ts
+var AreText = class extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-text"
+      }
+    });
+  }
+};
+__name(AreText, "AreText");
+AreText = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Node type representing a plain or partially-dynamic text segment in the AreHTMLNode tree. Emits an AddText instruction that sets or updates the corresponding DOM text node; the content may carry a store getter for any dynamic portion."
+  })
+], AreText);
+
+// src/nodes/AreComment.ts
+var AreComment = class extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-comment"
+      }
+    });
+  }
+};
+__name(AreComment, "AreComment");
+AreComment = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Node type representing a comment node in the AreHTMLNode tree. Used as a stable DOM anchor by structural directives such as $if and $for that swap rendered content in and out, ensuring the parent container always has a consistent insertion point."
+  })
+], AreComment);
+
+// src/nodes/AreComponent.ts
+var AreComponentNode = class extends AreHTMLNode {
+  /**
+   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
+   * 
+   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
+   * 
+   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
+   */
+  get component() {
+    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
+  }
+};
+__name(AreComponentNode, "AreComponentNode");
+AreComponentNode = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "AreComponentNode represents a node in the scene graph that corresponds to a component. It extends the base AreNode and includes additional properties and methods specific to component nodes, such as handling attributes, bindings, directives, events, styles, and interpolations associated with the component."
+  })
+], AreComponentNode);
+
+// src/nodes/AreRoot.ts
+var AreRootNode = class extends AreHTMLNode {
+  /**
+   * For the root node, we can default to a generic container element like <div> since it serves as the root of the component tree and does not correspond to a specific HTML tag defined in the markup. The actual content and structure of the root node will be determined by the child nodes and components that are rendered within it, allowing for flexibility in how the root node is used and what it contains.
+   */
+  get tag() {
+    return "div";
+  }
+  /**
+   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
+   * 
+   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
+   * 
+   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
+   */
+  get component() {
+    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
+  }
+};
+__name(AreRootNode, "AreRootNode");
+AreRootNode = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "AreRootNode represents the root node in the scene graph. It extends the base AreHTMLNode and includes additional properties and methods specific to the root node, such as handling the root element and its associated component."
+  })
+], AreRootNode);
+
+// src/engine/AreHTML.tokenizer.ts
+var AreHTMLTokenizer = class extends AreTokenizer {
+  constructor() {
+    super(...arguments);
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+  }
+  tokenize(node, context, logger) {
+    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
+    if (isStaticIsland) {
+      node.markStatic(node.content);
+    } else {
+      super.tokenize(node, context, logger);
+    }
+    context.startPerformance("attributeExtraction");
+    const attributes = this.extractAttributes(node.markup);
+    for (const attr of attributes) {
+      node.scope.register(attr);
+    }
+    context.endPerformance("attributeExtraction");
+  }
+  extractAttributes(markup) {
+    const withoutTag = markup.replace(/^<[a-zA-Z][a-zA-Z0-9-]*\s*/, "");
+    let inSingle = false;
+    let inDouble = false;
+    let endIdx = withoutTag.length;
+    for (let i6 = 0; i6 < withoutTag.length; i6++) {
+      const ch = withoutTag[i6];
+      if (ch === '"' && !inSingle) inDouble = !inDouble;
+      else if (ch === "'" && !inDouble) inSingle = !inSingle;
+      else if (ch === ">" && !inSingle && !inDouble) {
+        endIdx = i6;
+        break;
+      }
+    }
+    const attrString = withoutTag.slice(0, endIdx).replace(/\s*\/?\s*$/, "").trim();
+    const results = [];
+    for (const match of attrString.matchAll(this.ATTR_PATTERN)) {
+      const raw = match[0];
+      const full = match[1];
+      if (!full) continue;
+      const value = match[2] ?? match[3] ?? match[4] ?? "true";
+      const prefix = full[0];
+      const isSpecial = prefix === ":" || prefix === "@" || prefix === "$";
+      const name = isSpecial ? full.slice(1) : full;
+      const meta = { name, content: value, raw, prefix: isSpecial ? prefix : "" };
+      if (prefix === ":") results.push(new AreBindingAttribute(meta));
+      else if (prefix === "@") results.push(new AreEventAttribute(meta));
+      else if (prefix === "$") results.push(new AreDirectiveAttribute(meta));
+      else results.push(new AreStaticAttribute(meta));
+    }
+    return results;
+  }
+};
+__name(AreHTMLTokenizer, "AreHTMLTokenizer");
+__decorateClass([
+  N.Extend({
+    name: AreNodeFeatures.onTokenize,
+    scope: [AreComponentNode, AreRootNode]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLTokenizer.prototype, "tokenize", 1);
+AreHTMLTokenizer = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific tokenizer extending AreTokenizer. Parses raw HTML template strings into AreHTMLNode trees by scanning element tags and resolving directive ($), event (@), binding (:), and static attributes to their typed attribute classes, constructing AreComponentNode and AreRootNode instances where required."
+  })
+], AreHTMLTokenizer);
+
+// src/lib/AreDirective/AreDirective.constants.ts
+var AreDirectiveFeatures = {
+  /**
+   * Feature that should transform the tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   */
+  Transform: "_AreDirective_Transform",
+  /**
+   * Feature that should convert a directiveAttribute definition into a set of SceneInstructions to be rendered correctly
+   */
+  Compile: "_AreDirective_Compile",
+  /**
+   * Feature that should update the directiveAttribute based on the changes in the store or other dependencies. 
+   */
+  Update: "_AreDirective_Update"
+};
+
+// src/engine/AreHTML.lifecycle.ts
+var AreHTMLLifecycle = class extends AreLifecycle {
+  initComponent(node, scope, context, signalsContext, logger, ...args) {
+    if (node.component)
+      signalsContext?.subscribe(node);
+    super.init(node, scope, context, logger, ...args);
+  }
+  initRoot(node, scope, context, signalsContext, logger, ...args) {
+    signalsContext?.subscribe(node);
+    super.init(node, scope, context, logger, ...args);
+  }
+  initText(node, scope, context, logger, ...args) {
+    const scene = new AreScene(node.aseid);
+    scope.register(scene);
+  }
+  initInterpolation(node, scope, context, logger, ...args) {
+    const scene = new AreScene(node.aseid);
+    scope.register(scene);
+  }
+  mount(node, scene, logger, ...args) {
+    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    if (scene.isInactive) return;
+    const context = node.scope.resolve(AreHTMLEngineContext);
+    context?.beginBatch();
+    const afterMountQueue = [];
+    try {
+      node.interpret();
+      const stack = [];
+      for (let i6 = node.children.length - 1; i6 >= 0; i6--) {
+        stack.push({ node: node.children[i6], entered: false });
+      }
+      while (stack.length > 0) {
+        const frame = stack[stack.length - 1];
+        const current = frame.node;
+        if (frame.entered) {
+          stack.pop();
+          afterMountQueue.push(current);
+          continue;
+        }
+        frame.entered = true;
+        current.call(AreNodeFeatures.onBeforeMount, current.scope);
+        if (!current.scene.isInactive) {
+          current.interpret();
+          for (let i6 = current.children.length - 1; i6 >= 0; i6--) {
+            stack.push({ node: current.children[i6], entered: false });
+          }
+        }
+      }
+    } finally {
+      context?.endBatch();
+    }
+    for (let i6 = 0; i6 < afterMountQueue.length; i6++) {
+      const mounted = afterMountQueue[i6];
+      mounted.call(AreNodeFeatures.onAfterMount, mounted.scope);
+    }
+  }
+  updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
+    if (directive.component) {
+      feature.chain(directive.component, AreDirectiveFeatures.Update, directive.owner.scope);
+    } else {
+      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
+    }
+  }
+};
+__name(AreHTMLLifecycle, "AreHTMLLifecycle");
+__decorateClass([
+  AreLifecycle.Init(AreComponentNode),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initComponent", 1);
+__decorateClass([
+  AreLifecycle.Init(AreRootNode),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initRoot", 1);
+__decorateClass([
+  AreLifecycle.Init(AreText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initText", 1);
+__decorateClass([
+  AreLifecycle.Init(AreInterpolation),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initInterpolation", 1);
+__decorateClass([
+  N.Extend({
+    name: AreNodeFeatures.onMount,
+    scope: [AreHTMLNode]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "mount", 1);
+__decorateClass([
+  N.Extend({
+    name: AreAttributeFeatures.Update,
+    scope: [AreDirectiveAttribute]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
+AreHTMLLifecycle = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation."
+  })
+], AreHTMLLifecycle);
+
+// src/engine/AreHTML.transformer.ts
+var AreHTMLTransformer = class extends AreTransformer {
+  transformDirectiveAttribute(directive, store, feature, logger, ...args) {
+    store.watch(directive);
+    if (directive.component) {
+      feature.chain(directive.component, AreDirectiveFeatures.Transform, directive.owner.scope);
+    } else {
+      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
+    }
+    store.unwatch(directive);
+  }
+};
+__name(AreHTMLTransformer, "AreHTMLTransformer");
+__decorateClass([
+  N.Extend({
+    name: AreAttributeFeatures.Transform,
+    scope: [AreDirectiveAttribute]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLTransformer.prototype, "transformDirectiveAttribute", 1);
+AreHTMLTransformer = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation \u2014 sorting directives by declared priority and expanding compound directive expressions \u2014 so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission."
+  })
+], AreHTMLTransformer);
+
+// src/instructions/AddAttribute.instruction.ts
+var AddAttributeInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddAttribute, parent, props);
+    }
+  }
+};
+__name(AddAttributeInstruction, "AddAttributeInstruction");
+AddAttributeInstruction = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
+  })
+], AddAttributeInstruction);
+
+// src/instructions/AddText.instruction.ts
+var AddTextInstruction = class extends AreDeclaration {
+  constructor(props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddText, props);
+    }
+  }
+};
+__name(AddTextInstruction, "AddTextInstruction");
+AddTextInstruction = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
+  })
+], AddTextInstruction);
+
+// src/instructions/AddListener.instruction.ts
+var AddListenerInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddListener, parent, props);
+    }
+  }
+};
+__name(AddListenerInstruction, "AddListenerInstruction");
+AddListenerInstruction = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
+  })
+], AddListenerInstruction);
+
+// src/instructions/AddStyle.instruction.ts
+var AddStyleInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddStyle, parent, props);
+    }
+  }
+};
+__name(AddStyleInstruction, "AddStyleInstruction");
+AddStyleInstruction = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
+  })
+], AddStyleInstruction);
+
+// src/instructions/AddStaticHTML.instruction.ts
+var AddStaticHTMLInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddStaticHTML, parent, props);
+    }
+  }
+};
+__name(AddStaticHTMLInstruction, "AddStaticHTMLInstruction");
+AddStaticHTMLInstruction = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: 'Materialises a fully static subtree (a "static island") onto its parent element in a single pass via browser-parsed innerHTML / a cached <template> clone. Apply injects the markup; revert clears it. Decodes HTML entities (e.g. &nbsp;) for free.'
+  })
+], AddStaticHTMLInstruction);
+
 // src/engine/AreHTML.compiler.ts
 var AreHTMLCompiler = class extends AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
     super.compile(node, scene, logger, ...args);
+    if (node.isStaticIsland && scene.host) {
+      scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
+    }
     if (node.styles?.styles) {
       const host = scene.host;
       if (host) {
@@ -13634,870 +14455,6 @@ AreHTMLCompiler = __decorateClass([
     description: "HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments."
   })
 ], AreHTMLCompiler);
-
-// src/engine/AreHTML.interpreter.ts
-var AreHTMLInterpreter = class extends AreInterpreter {
-  addElement(declaration, context, logger) {
-    try {
-      const node = declaration.owner;
-      let currentNode = node;
-      let parent = node.parent;
-      while (parent) {
-        if (context.getNodeElement(parent)) {
-          break;
-        }
-        currentNode = parent;
-        parent = parent.parent;
-      }
-      const tag = node.tag;
-      const isSVG = tag === "svg" || this.isInSVGContext(node);
-      if (parent) {
-        const mountPoint = context.getNodeElement(parent);
-        if (!mountPoint) {
-          throw new AreInterpreterError({
-            title: "Mount Point Not Found",
-            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
-          });
-        }
-        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        if (mountPoint.nodeType === Node.ELEMENT_NODE) {
-          mountPoint.appendChild(element);
-        } else {
-          mountPoint.parentNode?.insertBefore(element, mountPoint);
-        }
-        context.setInstructionElement(declaration, element);
-      } else {
-        const mountPoint = context.container.getElementById(node.id);
-        if (!mountPoint) {
-          throw new AreInterpreterError({
-            title: "Mount Point Not Found",
-            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
-          });
-        }
-        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        mountPoint.parentNode?.replaceChild(element, mountPoint);
-        context.setInstructionElement(declaration, element);
-      }
-      logger?.debug("green", `Element ${node.aseid.toString()} added to Context:`);
-    } catch (error) {
-      logger?.error(error);
-      throw error;
-    }
-  }
-  removeElement(declaration, context) {
-    const element = context.getElementByInstruction(declaration);
-    if (element && element.parentNode) {
-      element.parentNode.removeChild(element);
-    }
-    context.removeInstructionElement(declaration);
-  }
-  addAttribute(mutation, context, store, syntax, directiveContext, logger) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element) {
-      throw new AreInterpreterError({
-        title: "Element Not Found",
-        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
-      });
-    }
-    const { name, content, evaluate } = mutation.payload;
-    const rawValue = evaluate ? syntax.evaluate(content, store, {
-      ...directiveContext?.scope || {}
-    }) : content;
-    const el = element;
-    const lowerName = name.toLowerCase();
-    const colonIdx = name.indexOf(":");
-    if (colonIdx > 0) {
-      const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
-      if (ns) {
-        el.setAttributeNS(ns, name, toDOMString(rawValue));
-        mutation.cache = toDOMString(rawValue);
-        return;
-      }
-    }
-    if (isBooleanAttribute(lowerName)) {
-      if (rawValue) {
-        el.setAttribute(lowerName, "");
-        try {
-          el[lowerName] = true;
-        } catch {
-        }
-      } else {
-        el.removeAttribute(lowerName);
-        try {
-          el[lowerName] = false;
-        } catch {
-        }
-      }
-      mutation.cache = rawValue ? "true" : "";
-      return;
-    }
-    if (isIDLFormProperty(el.tagName, name)) {
-      const propName = name === "value" ? "value" : name === "checked" ? "checked" : name === "selected" ? "selected" : name === "indeterminate" ? "indeterminate" : name;
-      try {
-        if (propName === "checked" || propName === "selected" || propName === "indeterminate") {
-          el[propName] = !!rawValue;
-        } else {
-          el[propName] = toDOMString(rawValue);
-        }
-      } catch {
-      }
-      if (propName !== "value") {
-        if (rawValue) el.setAttribute(name, "");
-        else el.removeAttribute(name);
-      } else {
-        el.setAttribute(name, toDOMString(rawValue));
-      }
-      mutation.cache = toDOMString(rawValue);
-      return;
-    }
-    if (lowerName === "class") {
-      const newValue = normalizeClassValue(rawValue);
-      if (mutation.cache === void 0) {
-        const existingValue = el.getAttribute("class");
-        const merged = existingValue ? `${existingValue} ${newValue}`.trim() : newValue;
-        if (merged) el.setAttribute("class", merged);
-        else el.removeAttribute("class");
-      } else {
-        const existingValue = el.getAttribute("class");
-        const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
-        const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
-        const newParts = newValue ? newValue.split(/\s+/).filter(Boolean) : [];
-        const merged = [...existingParts.filter((p5) => !oldParts.has(p5)), ...newParts].join(" ");
-        if (merged) el.setAttribute("class", merged);
-        else el.removeAttribute("class");
-      }
-      mutation.cache = newValue;
-      return;
-    }
-    if (lowerName === "style") {
-      const newValue = normalizeStyleValue(rawValue);
-      if (newValue) el.setAttribute("style", newValue);
-      else el.removeAttribute("style");
-      mutation.cache = newValue;
-      return;
-    }
-    const stringValue = toDOMString(rawValue);
-    if (stringValue === "" && evaluate && (rawValue === false || rawValue === null || rawValue === void 0)) {
-      el.removeAttribute(name);
-    } else {
-      el.setAttribute(name, stringValue);
-    }
-    mutation.cache = stringValue;
-  }
-  removeAttribute(mutation, context) {
-    try {
-      const element = context.getElementByInstruction(mutation.parent);
-      if (!element) return;
-      const { name } = mutation.payload;
-      if (name && element.nodeType === Node.ELEMENT_NODE) {
-        const colonIdx = name.indexOf(":");
-        if (colonIdx > 0) {
-          const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
-          if (ns) {
-            element.removeAttributeNS(ns, name.slice(colonIdx + 1));
-          } else {
-            element.removeAttribute(name);
-          }
-        } else {
-          element.removeAttribute(name);
-        }
-      }
-    } catch (error) {
-      console.log("Error removing attribute:", error);
-    }
-  }
-  hideElement(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
-    const el = element;
-    mutation.cache = el.style.display;
-    el.style.display = "none";
-  }
-  showElement(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
-    const el = element;
-    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
-  }
-  addEventListener(mutation, context, store, syntax, directiveContext, logger) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element) {
-      throw new AreInterpreterError({
-        title: "Element Not Found",
-        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before adding event listeners.`
-      });
-    }
-    const { event: eventName, modifiers } = parseEventName(mutation.payload.name);
-    const listenerOptions = {};
-    if (modifiers.has("capture")) listenerOptions.capture = true;
-    if (modifiers.has("once")) listenerOptions.once = true;
-    if (modifiers.has("passive")) listenerOptions.passive = true;
-    const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
-    let liveEvent = null;
-    const handlerScope = {};
-    for (const handler of handlers) {
-      const handlerFn = /* @__PURE__ */ __name((...args) => {
-        const event = new AreEvent(handler);
-        const effectiveArgs = args.length === 0 && liveEvent ? [liveEvent] : liveEvent ? [...args, liveEvent] : args;
-        event.set("args", effectiveArgs);
-        event.set("element", element);
-        event.set("instruction", mutation);
-        if (liveEvent) event.set("native", liveEvent);
-        mutation.owner.emit(event);
-      }, "handlerFn");
-      handlerScope[`$${handler}`] = handlerFn;
-    }
-    const callback = /* @__PURE__ */ __name((e) => {
-      try {
-        liveEvent = e;
-        if (modifiers.has("self") && e.target !== element) return;
-        if (modifiers.has("stop")) e.stopPropagation();
-        if (modifiers.has("prevent")) e.preventDefault();
-        if (e instanceof KeyboardEvent && modifiers.size > 0) {
-          const key = (e.key || "").toLowerCase();
-          const KEY_ALIASES = {
-            enter: ["enter"],
-            esc: ["escape"],
-            escape: ["escape"],
-            tab: ["tab"],
-            space: [" ", "spacebar"],
-            up: ["arrowup"],
-            down: ["arrowdown"],
-            left: ["arrowleft"],
-            right: ["arrowright"],
-            delete: ["delete", "backspace"]
-          };
-          const keyMods = [...modifiers].filter((m7) => m7 in KEY_ALIASES || m7 === "ctrl" || m7 === "alt" || m7 === "shift" || m7 === "meta");
-          if (keyMods.length > 0) {
-            const keyMatch = keyMods.some((m7) => {
-              if (m7 === "ctrl") return e.ctrlKey;
-              if (m7 === "alt") return e.altKey;
-              if (m7 === "shift") return e.shiftKey;
-              if (m7 === "meta") return e.metaKey;
-              const aliases = KEY_ALIASES[m7];
-              return aliases && aliases.includes(key);
-            });
-            if (!keyMatch) return;
-          }
-        }
-        context.startPerformance("event:" + eventName);
-        const result = syntax.evaluate(mutation.payload.handler, store, {
-          ...handlerScope,
-          $event: e,
-          ...directiveContext?.scope || {}
-        });
-        if (typeof result === "function") result(e);
-        context.endPerformance("event:" + eventName);
-      } catch (err) {
-        logger?.error(err);
-      } finally {
-        liveEvent = null;
-      }
-    }, "callback");
-    const useOptions = listenerOptions.capture || listenerOptions.once || listenerOptions.passive;
-    if (useOptions) {
-      element.addEventListener(eventName, callback, listenerOptions);
-    } else {
-      element.addEventListener(eventName, callback);
-    }
-    mutation.payload._callback = callback;
-    context.addListener(element, mutation.payload.name, callback);
-  }
-  removeEventListener(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element) return;
-    const { name } = mutation.payload;
-    const { event: eventName } = parseEventName(name);
-    const listener = mutation.payload._callback;
-    if (listener) {
-      element.removeEventListener(eventName, listener);
-      context.removeListener(element, name, listener);
-      mutation.payload._callback = void 0;
-    }
-  }
-  addText(declaration, context, store, syntax, directiveContext, logger) {
-    const node = declaration.owner.parent;
-    const { content, evaluate } = declaration.payload;
-    const rawValue = evaluate ? syntax.evaluate(content, store, {
-      ...directiveContext?.scope || {}
-    }) : content;
-    const value = toDOMString(rawValue);
-    if (!node) {
-      const textNode = context.container.createTextNode(value);
-      context.container.body.appendChild(textNode);
-      context.setInstructionElement(declaration, textNode);
-    } else {
-      const element = context.getNodeElement(node);
-      if (!element) {
-        throw new AreInterpreterError({
-          title: "Element Not Found",
-          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
-        });
-      }
-      const existingNode = context.getElementByInstruction(declaration);
-      if (existingNode) {
-        existingNode.textContent = value;
-      } else {
-        const textNode = context.container.createTextNode(value);
-        element.appendChild(textNode);
-        context.setInstructionElement(declaration, textNode);
-      }
-    }
-    logger?.debug("green", `Text ${node?.aseid.toString()} added to Context:`);
-  }
-  removeText(declaration, context) {
-    const element = context.getElementByInstruction(declaration);
-    if (!element) return;
-    element.parentNode?.removeChild(element);
-    context.removeInstructionElement(declaration);
-  }
-  addComment(declaration, context, store, syntax, directiveContext, logger) {
-    const node = declaration.owner.parent;
-    const { content, evaluate } = declaration.payload;
-    const rawValue = evaluate ? syntax.evaluate(content, store, {
-      ...directiveContext?.scope || {}
-    }) : content;
-    const value = toDOMString(rawValue);
-    if (!node) {
-      const commentNode = context.container.createComment(value);
-      context.container.body.appendChild(commentNode);
-      context.setInstructionElement(declaration, commentNode);
-    } else {
-      const element = context.getNodeElement(node);
-      if (!element) {
-        throw new AreInterpreterError({
-          title: "Element Not Found",
-          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
-        });
-      }
-      const existingNode = context.getElementByInstruction(declaration);
-      if (existingNode) {
-        existingNode.textContent = value;
-      } else {
-        const commentNode = context.container.createComment(value);
-        element.appendChild(commentNode);
-        context.setInstructionElement(declaration, commentNode);
-      }
-    }
-    logger?.debug("green", `Comment ${node?.aseid.toString()} added to Context:`);
-  }
-  removeComment(declaration, context) {
-    const element = context.getElementByInstruction(declaration);
-    if (!element) return;
-    element.parentNode?.removeChild(element);
-    context.removeInstructionElement(declaration);
-  }
-  addStyle(mutation, context, logger) {
-    try {
-      const { styles } = mutation.payload;
-      const styleId = `are-style-${String(mutation.aseid)}`;
-      const existing = context.getElementByInstruction(mutation);
-      if (existing) {
-        existing.textContent = styles;
-      } else {
-        const styleEl = context.container.createElement("style");
-        styleEl.setAttribute("data-are-id", styleId);
-        styleEl.textContent = styles;
-        (context.container.head ?? context.container.body).appendChild(styleEl);
-        context.setInstructionElement(mutation, styleEl);
-        logger?.debug("green", `Style injected for ${String(mutation.aseid)}`);
-      }
-    } catch (error) {
-      logger?.error(error);
-    }
-  }
-  removeStyle(mutation, context) {
-    const styleEl = context.getElementByInstruction(mutation);
-    if (styleEl?.parentNode) {
-      styleEl.parentNode.removeChild(styleEl);
-    }
-    context.removeInstructionElement(mutation);
-  }
-  // ─────────────────────────────────────────────────────────────────────────────
-  // ── SVG helpers ───────────────────────────────────────────────────────────────
-  // ─────────────────────────────────────────────────────────────────────────────
-  /**
-   * Returns true when any ancestor of the given node has the tag `svg`,
-   * meaning the node lives inside an SVG subtree and its DOM element must be
-   * created via createElementNS(SVG_NAMESPACE, tag).
-   */
-  isInSVGContext(node) {
-    let current = node.parent;
-    while (current) {
-      if (current.tag === "svg") return true;
-      if (current.tag === "foreignobject") return false;
-      current = current.parent;
-    }
-    return false;
-  }
-};
-__name(AreHTMLInterpreter, "AreHTMLInterpreter");
-__decorateClass([
-  R4.Define({
-    description: "Create an HTML element based on the provided declaration instruction. Handles both root-level mounting and child element creation based on the structural parent hierarchy."
-  }),
-  AreInterpreter.Apply(AreInstructionDefaultNames.Default),
-  AreInterpreter.Apply(AreHTMLInstructions.AddElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove an HTML element that was created by a CreateElement declaration. Cleans up the DOM and the context index."
-  }),
-  AreInterpreter.Revert(AreInstructionDefaultNames.Default),
-  AreInterpreter.Revert(AreHTMLInstructions.AddElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add an attribute to an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddAttribute),
-  AreInterpreter.Update(AreHTMLInstructions.AddAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addAttribute", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove an attribute from an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeAttribute", 1);
-__decorateClass([
-  R4.Define({
-    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.HideElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "hideElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.HideElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "showElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add an event listener to an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddListener),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addEventListener", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove an event listener from an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddListener),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeEventListener", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add text content to an HTML element based on the provided declaration instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddText),
-  AreInterpreter.Update(AreHTMLInstructions.AddText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addText", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove text content from an HTML element based on the provided declaration instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeText", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add a comment node to the DOM based on the provided declaration instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddComment),
-  AreInterpreter.Update(AreHTMLInstructions.AddComment),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addComment", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove a comment node from the DOM based on the provided declaration instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddComment),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeComment", 1);
-__decorateClass([
-  R4.Define({
-    description: "Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddStyle),
-  AreInterpreter.Update(AreHTMLInstructions.AddStyle),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addStyle", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddStyle),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeStyle", 1);
-AreHTMLInterpreter = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "DOM interpreter for the HTML rendering pipeline. Extends AreInterpreter to apply and revert each ARE instruction type directly against the browser DOM \u2014 creating and removing elements, setting and removing attributes and event listeners, managing inline styles, and inserting text and comment nodes. Driven by the scene diff computed per render cycle."
-  })
-], AreHTMLInterpreter);
-
-// src/engine/AreHTML.tokenizer.ts
-var AreHTMLTokenizer = class extends AreTokenizer {
-  constructor() {
-    super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
-  }
-  tokenize(node, context, logger) {
-    super.tokenize(node, context, logger);
-    context.startPerformance("attributeExtraction");
-    const attributes = this.extractAttributes(node.markup);
-    for (const attr of attributes) {
-      node.scope.register(attr);
-    }
-    context.endPerformance("attributeExtraction");
-  }
-  extractAttributes(markup) {
-    const withoutTag = markup.replace(/^<[a-zA-Z][a-zA-Z0-9-]*\s*/, "");
-    let inSingle = false;
-    let inDouble = false;
-    let endIdx = withoutTag.length;
-    for (let i6 = 0; i6 < withoutTag.length; i6++) {
-      const ch = withoutTag[i6];
-      if (ch === '"' && !inSingle) inDouble = !inDouble;
-      else if (ch === "'" && !inDouble) inSingle = !inSingle;
-      else if (ch === ">" && !inSingle && !inDouble) {
-        endIdx = i6;
-        break;
-      }
-    }
-    const attrString = withoutTag.slice(0, endIdx).replace(/\s*\/?\s*$/, "").trim();
-    const results = [];
-    for (const match of attrString.matchAll(this.ATTR_PATTERN)) {
-      const raw = match[0];
-      const full = match[1];
-      if (!full) continue;
-      const value = match[2] ?? match[3] ?? match[4] ?? "true";
-      const prefix = full[0];
-      const isSpecial = prefix === ":" || prefix === "@" || prefix === "$";
-      const name = isSpecial ? full.slice(1) : full;
-      const meta = { name, content: value, raw, prefix: isSpecial ? prefix : "" };
-      if (prefix === ":") results.push(new AreBindingAttribute(meta));
-      else if (prefix === "@") results.push(new AreEventAttribute(meta));
-      else if (prefix === "$") results.push(new AreDirectiveAttribute(meta));
-      else results.push(new AreStaticAttribute(meta));
-    }
-    return results;
-  }
-};
-__name(AreHTMLTokenizer, "AreHTMLTokenizer");
-__decorateClass([
-  N.Extend({
-    name: AreNodeFeatures.onTokenize,
-    scope: [AreComponentNode, AreRootNode]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLTokenizer.prototype, "tokenize", 1);
-AreHTMLTokenizer = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific tokenizer extending AreTokenizer. Parses raw HTML template strings into AreHTMLNode trees by scanning element tags and resolving directive ($), event (@), binding (:), and static attributes to their typed attribute classes, constructing AreComponentNode and AreRootNode instances where required."
-  })
-], AreHTMLTokenizer);
-
-// src/engine/AreHTML.lifecycle.ts
-var AreHTMLLifecycle = class extends AreLifecycle {
-  initComponent(node, scope, context, signalsContext, logger, ...args) {
-    if (node.component)
-      signalsContext?.subscribe(node);
-    super.init(node, scope, context, logger, ...args);
-  }
-  initRoot(node, scope, context, signalsContext, logger, ...args) {
-    signalsContext?.subscribe(node);
-    super.init(node, scope, context, logger, ...args);
-  }
-  initText(node, scope, context, logger, ...args) {
-    const scene = new AreScene(node.aseid);
-    scope.register(scene);
-  }
-  initInterpolation(node, scope, context, logger, ...args) {
-    const scene = new AreScene(node.aseid);
-    scope.register(scene);
-  }
-  mount(node, scene, logger, ...args) {
-    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
-    if (scene.isInactive) return;
-    node.interpret();
-    const stack = [];
-    for (let i6 = node.children.length - 1; i6 >= 0; i6--) {
-      stack.push({ node: node.children[i6], entered: false });
-    }
-    const step = /* @__PURE__ */ __name(() => {
-      const frame = stack[stack.length - 1];
-      const current = frame.node;
-      if (frame.entered) {
-        stack.pop();
-        current.call(AreNodeFeatures.onAfterMount, current.scope);
-        return;
-      }
-      frame.entered = true;
-      current.call(AreNodeFeatures.onBeforeMount, current.scope);
-      if (!current.scene.isInactive) {
-        current.interpret();
-        for (let i6 = current.children.length - 1; i6 >= 0; i6--) {
-          stack.push({ node: current.children[i6], entered: false });
-        }
-      }
-    }, "step");
-    const drive = /* @__PURE__ */ __name(() => {
-      const start = AreSchedulerHelper.now();
-      while (stack.length > 0) {
-        step();
-        if (stack.length > 0 && AreSchedulerHelper.now() - start >= AreHTMLLifecycle.MOUNT_BUDGET_MS) {
-          return new Promise((resolve, reject) => {
-            AreSchedulerHelper.scheduleMacrotask(() => {
-              try {
-                resolve(drive());
-              } catch (error) {
-                reject(error);
-              }
-            });
-          });
-        }
-      }
-    }, "drive");
-    return drive();
-  }
-  updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
-    if (directive.component) {
-      feature.chain(directive.component, AreDirectiveFeatures.Update, directive.owner.scope);
-    } else {
-      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
-    }
-  }
-};
-__name(AreHTMLLifecycle, "AreHTMLLifecycle");
-/**
- * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
- * mounting a large subtree we keep applying nodes until this much wall-clock
- * time has elapsed, then yield to the browser so it can paint and process
- * input before the next chunk. ~16ms targets a single animation frame.
- */
-AreHTMLLifecycle.MOUNT_BUDGET_MS = 16;
-__decorateClass([
-  AreLifecycle.Init(AreComponentNode),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(AreSignalsContext)),
-  __decorateParam(4, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initComponent", 1);
-__decorateClass([
-  AreLifecycle.Init(AreRootNode),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(AreSignalsContext)),
-  __decorateParam(4, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initRoot", 1);
-__decorateClass([
-  AreLifecycle.Init(AreText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initText", 1);
-__decorateClass([
-  AreLifecycle.Init(AreInterpolation),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initInterpolation", 1);
-__decorateClass([
-  N.Extend({
-    name: AreNodeFeatures.onMount,
-    scope: [AreHTMLNode]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "mount", 1);
-__decorateClass([
-  N.Extend({
-    name: AreAttributeFeatures.Update,
-    scope: [AreDirectiveAttribute]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(N)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
-AreHTMLLifecycle = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation."
-  })
-], AreHTMLLifecycle);
-
-// src/engine/AreHTML.transformer.ts
-var AreHTMLTransformer = class extends AreTransformer {
-  transformDirectiveAttribute(directive, store, feature, logger, ...args) {
-    store.watch(directive);
-    if (directive.component) {
-      feature.chain(directive.component, AreDirectiveFeatures.Transform, directive.owner.scope);
-    } else {
-      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
-    }
-    store.unwatch(directive);
-  }
-};
-__name(AreHTMLTransformer, "AreHTMLTransformer");
-__decorateClass([
-  N.Extend({
-    name: AreAttributeFeatures.Transform,
-    scope: [AreDirectiveAttribute]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(N)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLTransformer.prototype, "transformDirectiveAttribute", 1);
-AreHTMLTransformer = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation \u2014 sorting directives by declared priority and expanding compound directive expressions \u2014 so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission."
-  })
-], AreHTMLTransformer);
-
-// src/lib/AreRoot/AreRootCache.context.ts
-var AreRootCache = class extends H {
-  constructor(limit = 10) {
-    super({ name: "AreRootCache" });
-    /**
-     * rootId -> (component tag -> cache entry). The inner Map preserves
-     * insertion order which is used as the LRU recency order: the first key is
-     * the least-recently-used entry, the last key the most-recently-used.
-     */
-    this._cache = /* @__PURE__ */ new Map();
-    this._limit = Math.max(0, Math.floor(limit));
-  }
-  /**
-   * Maximum number of cached subtrees kept per root.
-   */
-  get limit() {
-    return this._limit;
-  }
-  bucket(rootId) {
-    let bucket = this._cache.get(rootId);
-    if (!bucket) {
-      bucket = /* @__PURE__ */ new Map();
-      this._cache.set(rootId, bucket);
-    }
-    return bucket;
-  }
-  /**
-   * Whether a subtree for the given component tag is currently cached.
-   */
-  has(rootId, tag) {
-    return this.bucket(rootId).has(tag);
-  }
-  /**
-   * Retrieve AND remove a cached subtree so it can become live again. Returns
-   * `undefined` on a cache miss.
-   */
-  take(rootId, tag) {
-    const bucket = this.bucket(rootId);
-    const entry = bucket.get(tag);
-    if (entry) {
-      bucket.delete(tag);
-    }
-    return entry;
-  }
-  /**
-   * Stash a detached subtree under the given component tag. Returns any entries
-   * that were evicted to honour the LRU limit (or replaced for the same tag) so
-   * the caller can `destroy()` them.
-   */
-  put(rootId, tag, entry) {
-    const bucket = this.bucket(rootId);
-    const evicted = [];
-    const existing = bucket.get(tag);
-    if (existing) {
-      bucket.delete(tag);
-      if (existing.node !== entry.node) {
-        evicted.push(existing);
-      }
-    }
-    bucket.set(tag, entry);
-    while (bucket.size > this._limit) {
-      const oldestKey = bucket.keys().next().value;
-      if (oldestKey === void 0) {
-        break;
-      }
-      const oldest = bucket.get(oldestKey);
-      bucket.delete(oldestKey);
-      evicted.push(oldest);
-    }
-    return evicted;
-  }
-  /**
-   * Remove and return every cached entry for a root (e.g. on teardown) so the
-   * caller can destroy them.
-   */
-  clear(rootId) {
-    const bucket = this._cache.get(rootId);
-    if (!bucket) {
-      return [];
-    }
-    const entries = [...bucket.values()];
-    bucket.clear();
-    this._cache.delete(rootId);
-    return entries;
-  }
-};
-__name(AreRootCache, "AreRootCache");
-AreRootCache = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreRootCache is a fragment that keeps a small per-root LRU of previously rendered are-root subtrees. When an are-root swaps the component it displays, the outgoing subtree is stashed here (unmounted + detached, but not destroyed) so that routing back to it can re-inject the preserved scene instantly instead of rebuilding from scratch."
-  })
-], AreRootCache);
 
 // src/engine/AreHTML.engine.ts
 var AreHTMLEngine = class extends AreEngine {
@@ -14682,735 +14639,988 @@ AreHTMLEngine = __decorateClass([
   })
 ], AreHTMLEngine);
 
-// src/lib/AreRoot/AreRoot.component.ts
-var AreRoot = class extends Are {
-  async template(root, logger, signalsContext, signalState) {
-    const rootId = root.id;
-    if (signalsContext && !signalsContext.hasRoot(rootId)) {
-      if (!root.content?.trim()) {
-        const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
-        const defaultComponent = defaultMatch?.[1];
-        if (defaultComponent) {
-          root.setContent(`<${defaultComponent}></${defaultComponent}>`);
-        }
-      }
-      return;
-    }
-    const initialVector = this.buildInitialVector(signalState);
-    const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
-    let componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : void 0;
-    if (!componentName) {
-      if (root.content?.trim()) {
-        return;
-      }
-    }
-    if (!componentName) {
-      const defaultComp = signalsContext?.getDefault(rootId);
-      if (defaultComp?.name) {
-        componentName = P.toKebabCase(defaultComp.name);
-      }
-    }
-    if (!componentName) {
-      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
-      componentName = defaultMatch?.[1];
-    }
-    if (!componentName) {
-      logger.warning('AreRoot: No component found for initial render. Provide body content, a route condition, or a "default" attribute.');
-      return;
-    }
-    root.setContent(`<${componentName}></${componentName}>`);
+// src/lib/AreDirective/AreDirective.meta.ts
+var _AreDirectiveMeta = class _AreDirectiveMeta extends z {
+  constructor() {
+    super(...arguments);
+    this.priority = 0;
   }
-  async onSignal(root, vector, logger, signalsContext, cache) {
-    const rootId = root.id;
-    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+};
+__name(_AreDirectiveMeta, "AreDirectiveMeta");
+var AreDirectiveMeta = _AreDirectiveMeta;
+
+// src/lib/AreDirective/AreDirective.component.ts
+var AreDirective = class extends O {
+  //==================================================================================
+  //======================== LIFECYCLE DECORATORS ====================================
+  //==================================================================================
+  /**
+   * Allows to define a compilation order for directives, which is necessary when we have multiple directives on the same node and we want to control the order of their compilation and application. The directive with the highest priority will be compiled and applied first, and the directive with the lowest priority will be compiled and applied last. This is important because some directives may depend on the output of other directives, so we need to ensure that they are compiled and applied in the correct order to avoid errors and ensure the expected behavior.
+   * 
+   * @param priority 
+   * @returns 
+   */
+  static Priority(priority) {
+    return function(target) {
+      const meta = _.meta(target);
+      meta.priority = priority;
+      return target;
+    };
+  }
+  /**
+   * Allows to define a custom method for transforming the AreNode tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   */
+  static get Transform() {
+    return (target, propertyKey, descriptor) => {
+      return N.Extend({
+        name: AreDirectiveFeatures.Transform,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Allows to define a custom method for compiling a directive attribute into a set of SceneInstructions. 
+   * Can be used at any component to extend this logic not only for a AreDirective inherited.
+   */
+  static get Compile() {
+    return (target, propertyKey, descriptor) => {
+      return N.Extend({
+        name: AreDirectiveFeatures.Compile,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Allows to define a custom method for updating a directive attribute based on changes in the store or other dependencies.
+   * Can be used at any component to extend this logic not only for a AreDirective inherited.
+   */
+  static get Update() {
+    return (target, propertyKey, descriptor) => {
+      return N.Extend({
+        name: AreDirectiveFeatures.Update,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Default transform method for directives, which can be overridden by specific directive implementations. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   * 
+   * @param attribute - The directive attribute to transform, which contains all the information about the directive as defined in the template (e.g. name, raw content, evaluated value, etc.)
+   * @param args - Additional arguments that may be required for the transformation process.
+   */
+  transform(attribute, ...args) {
+    const logger = _.scope(this).resolve(A_Logger);
+    if (logger) {
+      logger.warning(`No transforming logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+    }
+  }
+  compile(attribute, ...args) {
+    const logger = _.scope(this).resolve(A_Logger);
+    if (logger) {
+      logger.warning(`No compiling logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+    }
+  }
+  update(attribute, ...args) {
+    const logger = _.scope(this).resolve(A_Logger);
+    if (logger) {
+      logger.warning(`No update logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+    }
+  }
+};
+__name(AreDirective, "AreDirective");
+__decorateClass([
+  __decorateParam(0, Yt(te))
+], AreDirective.prototype, "transform", 1);
+__decorateClass([
+  N.Extend({
+    name: AreDirectiveFeatures.Compile,
+    scope: [AreDirective]
+  }),
+  __decorateParam(0, Yt(te))
+], AreDirective.prototype, "compile", 1);
+__decorateClass([
+  N.Extend({
+    name: AreDirectiveFeatures.Update,
+    scope: [AreDirective]
+  }),
+  __decorateParam(0, Yt(te))
+], AreDirective.prototype, "update", 1);
+AreDirective = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
+  }),
+  m.Define(AreDirectiveMeta)
+], AreDirective);
+
+// src/instructions/AddComment.instruction.ts
+var AddCommentInstruction = class extends AreDeclaration {
+  get content() {
+    return this.payload.content;
+  }
+  constructor(props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddComment, props);
+    }
+  }
+};
+__name(AddCommentInstruction, "AddCommentInstruction");
+AddCommentInstruction = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
+  })
+], AddCommentInstruction);
+
+// src/directives/AreDirectiveIf.directive.ts
+var AreDirectiveIf = class extends AreDirective {
+  transform(attribute, scope, store, scene, logger, ...args) {
+    logger.debug(`[Transform] directive $IF for <${attribute.owner.aseid.toString()}>`);
+    const node = attribute.owner;
+    const ifTemplate = node.cloneWithScope();
+    const ifAttr = ifTemplate.attributes.find((d4) => d4.name === attribute.name);
+    if (ifAttr) {
+      ifTemplate.scope.deregister(ifAttr);
+      node.scope.register(ifAttr);
+    }
+    node.init();
+    node.addChild(ifTemplate);
+    ifTemplate.scene.deactivate();
+    attribute.template = ifTemplate;
+  }
+  compile(attribute, store, scene, syntax, directiveContext, ...args) {
+    attribute.value = syntax.evaluate(attribute.content, store, {
+      ...directiveContext?.scope || {}
+    });
+    const hostInstruction = scene.host;
+    const commentIdentifier = ` --- if: ${attribute.template.id} --- `;
+    const declaration = new AddCommentInstruction({ content: commentIdentifier });
+    scene.setHost(declaration);
+    scene.planBefore(declaration, hostInstruction);
+    scene.unPlan(hostInstruction);
+    if (attribute.value)
+      attribute.template.scene.activate();
+    else
+      attribute.template.scene.deactivate();
+  }
+  update(attribute, store, scope, syntax, scene, ...args) {
+    const previous = !!attribute.value;
+    const next = !!syntax.evaluate(attribute.content, store);
+    attribute.value = next;
+    if (previous === next) return;
+    if (next) {
+      attribute.template.scene.activate();
+      attribute.template.mount();
+    } else {
+      attribute.template.unmount();
+      attribute.template.scene.deactivate();
+    }
+  }
+};
+__name(AreDirectiveIf, "AreDirectiveIf");
+__decorateClass([
+  AreDirective.Transform,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreScene)),
+  __decorateParam(4, Yt(A_Logger))
+], AreDirectiveIf.prototype, "transform", 1);
+__decorateClass([
+  AreDirective.Compile,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext))
+], AreDirectiveIf.prototype, "compile", 1);
+__decorateClass([
+  AreDirective.Update,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(R)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreScene))
+], AreDirectiveIf.prototype, "update", 1);
+AreDirectiveIf = __decorateClass([
+  R4.Define({
+    namespace: "a-are-html",
+    description: "Built-in $if directive. Conditionally renders a subtree based on a store expression. Replaces the target element with a stable comment anchor when the condition is false and restores the fully rendered subtree when it becomes true, preventing any leaking of the host element between states."
+  }),
+  AreDirective.Priority(2)
+], AreDirectiveIf);
+
+// src/helpers/AreScheduler.helper.ts
+var _AreSchedulerHelper = class _AreSchedulerHelper {
+  /**
+   * High-resolution wall-clock time in milliseconds. Uses `performance.now()`
+   * when available (monotonic, sub-millisecond), falling back to `Date.now()`.
+   */
+  static now() {
+    return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now();
+  }
+  /**
+   * Schedule `fn` to run on the next macrotask.
+   *
+   * `MessageChannel` yields a true macrotask without the ~4ms clamp that nested
+   * `setTimeout(0)` calls incur, so the browser can paint between chunks with
+   * minimal scheduling overhead. Falls back to `setTimeout` in non-DOM
+   * environments (e.g. tests / SSR).
+   */
+  static scheduleMacrotask(fn) {
+    if (typeof MessageChannel === "undefined") {
+      setTimeout(fn, 0);
       return;
     }
-    const renderTarget = this.matchComponent(rootId, vector, signalsContext);
-    const def = signalsContext?.getDefault(rootId);
-    const componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : def?.name ? P.toKebabCase(def.name) : void 0;
-    if (!componentName) {
-      for (const child of [...root.children]) {
-        this.stashChild(root, child, signalsContext, cache);
+    if (!this._channel) {
+      this._channel = new MessageChannel();
+      this._channel.port1.onmessage = () => {
+        const next = this._queue.shift();
+        if (next) next();
+      };
+    }
+    this._queue.push(fn);
+    this._channel.port2.postMessage(null);
+  }
+};
+__name(_AreSchedulerHelper, "AreSchedulerHelper");
+/** FIFO queue of callbacks waiting for their posted macrotask to fire. */
+_AreSchedulerHelper._queue = [];
+var AreSchedulerHelper = _AreSchedulerHelper;
+
+// src/directives/AreDirectiveFor.directive.ts
+var AreDirectiveFor = class extends AreDirective {
+  transform(attribute, scope, store, scene, logger, ...args) {
+    logger.debug(`[Transform] directive $FOR for <${attribute.owner.aseid.toString()}>`);
+    const node = attribute.owner;
+    const forTemplate = node.cloneWithScope();
+    const forAttr = forTemplate.attributes.find((d4) => d4.name === attribute.name);
+    if (forAttr) {
+      forTemplate.scope.deregister(forAttr);
+      node.scope.register(forAttr);
+    }
+    node.init();
+    attribute.template = forTemplate;
+    const { key, index, arrayExpr } = this.parseExpression(attribute.content);
+    const contextScope = attribute.owner.scope.resolve(AreDirectiveContext)?.scope || {};
+    const array = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
+    attribute.value = array;
+    for (let i6 = 0; i6 < array.length; i6++) {
+      this.spawnItemNode(attribute.template, attribute.owner, key, index, array[i6], i6);
+    }
+  }
+  compile(attribute, store, scene, ...args) {
+    const hostInstruction = scene.host;
+    const commentIdentifier = ` --- for: ${attribute.template.id} --- `;
+    const declaration = new AddCommentInstruction({ content: commentIdentifier });
+    scene.setHost(declaration);
+    scene.planBefore(declaration, hostInstruction);
+    scene.unPlan(hostInstruction);
+  }
+  update(attribute, store, scene, ...args) {
+    let state = AreDirectiveFor.renderState.get(attribute);
+    if (!state) {
+      state = { running: false, pending: false };
+      AreDirectiveFor.renderState.set(attribute, state);
+    }
+    if (state.running) {
+      state.pending = true;
+      return;
+    }
+    return this.performUpdate(attribute, store, scene, state);
+  }
+  /**
+   * Core of the `$for` update: re-diff the source array against the current
+   * children, reconcile reused/removed items, then mount the new ones (small
+   * lists synchronously, large lists time-sliced). Never called while another
+   * pass for the same `$for` is in flight (see `update`).
+   */
+  performUpdate(attribute, store, scene, state) {
+    const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
+    const owner = attribute.owner;
+    const contextScope = owner.scope.resolve(AreDirectiveContext)?.scope || {};
+    const newArray = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
+    const currentChildren = [...owner.children];
+    attribute.value = newArray;
+    const attached = this.isAttached(owner);
+    const computeKey = this.makeKeyFn(key, index, trackExpr);
+    const childByKey = /* @__PURE__ */ new Map();
+    const remaining = /* @__PURE__ */ new Set();
+    for (let i6 = 0; i6 < currentChildren.length; i6++) {
+      const child = currentChildren[i6];
+      const ctx = child.scope.resolveFlat(AreDirectiveContext);
+      const k4 = ctx ? computeKey(ctx.scope[key], ctx.scope[index || "index"]) : /* @__PURE__ */ Symbol("orphan");
+      childByKey.set(k4, child);
+      remaining.add(child);
+    }
+    const toCreate = [];
+    const finalByKey = /* @__PURE__ */ new Map();
+    const orderedKeys = new Array(newArray.length);
+    for (let i6 = 0; i6 < newArray.length; i6++) {
+      const item = newArray[i6];
+      const k4 = computeKey(item, i6);
+      orderedKeys[i6] = k4;
+      const existing = childByKey.get(k4);
+      if (existing) {
+        remaining.delete(existing);
+        finalByKey.set(k4, existing);
+        let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
+        if (!directiveContext) {
+          directiveContext = new AreDirectiveContext(existing.aseid);
+          existing.scope.register(directiveContext);
+        }
+        directiveContext.scope = {
+          ...directiveContext.scope,
+          [key]: item,
+          [index || "index"]: i6
+        };
+      } else {
+        toCreate.push({ item, idx: i6, key: k4 });
       }
-      root.setContent("");
-      return;
     }
-    const currentChild = root.children[0];
-    if (currentChild?.type === componentName) {
-      return;
+    for (const child of remaining) {
+      if (attached) child.unmount();
+      owner.removeChild(child);
     }
-    for (const child of [...root.children]) {
-      this.stashChild(root, child, signalsContext, cache);
-    }
-    root.setContent(`<${componentName}></${componentName}>`);
-    const cached = cache?.take(root.id, componentName);
-    if (cached) {
-      this.restoreChild(root, cached, signalsContext);
-      return;
-    }
-    root.tokenize();
-    for (let i6 = 0; i6 < root.children.length; i6++) {
-      const child = root.children[i6];
-      child.init();
-      const res = child.load();
-      if (res instanceof Promise) {
-        await res;
-      }
+    const createItem = /* @__PURE__ */ __name((desc) => {
+      const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
+      finalByKey.set(desc.key, child);
       child.transform();
       child.compile();
-      await child.mount();
+      if (attached) child.mount();
+    }, "createItem");
+    if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
+      for (const desc of toCreate) createItem(desc);
+      if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
+      return this.finishUpdate(attribute, store, scene, state);
     }
-  }
-  /**
-   * Resolves the component a vector should render for the given root, mirroring
-   * the priority used everywhere in the routing system:
-   *   1. Root-specific conditions registered on AreSignalsContext.
-   *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
-   *
-   * Passing the pool *into* the meta lookup is critical: without it, the first
-   * globally matching component wins and may belong to a different outlet
-   * (e.g. AisRequirementsPanel for the meta-outlet matching
-   * AisEditorCursorScope) — the pool check would then reject it and the outlet
-   * would fall back to its default, hiding a valid in-pool match (e.g.
-   * AisDiagramTab matching AisSetPrimaryDisplay).
-   *
-   * Returns `undefined` when nothing matches — callers decide whether to use a
-   * configured default, body content, or clear the outlet.
-   */
-  matchComponent(rootId, vector, signalsContext) {
-    if (!vector) return void 0;
-    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
-    if (!renderTarget) {
-      const signalsMeta = _.meta(AreSignals);
-      const pool = signalsContext?.getComponentById(rootId);
-      const metaTarget = signalsMeta?.findComponentByVector(
-        vector,
-        pool?.length ? pool : void 0,
-        rootId
-      );
-      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-        renderTarget = metaTarget;
-      }
-    }
-    return renderTarget;
-  }
-  /**
-   * Builds the vector used for the INITIAL render. It is seeded from the
-   * accumulated signal state (every signal dispatched on the bus so far) so a
-   * freshly-mounted outlet reflects the live application state immediately,
-   * not just on the next signal tick. The current URL route is appended when
-   * no AreRoute is already present in the state, so route-driven outlets still
-   * resolve on the very first paint (before AreRouteWatcher has dispatched).
-   */
-  buildInitialVector(signalState) {
-    const signals = [];
-    if (signalState) {
-      for (const signal of signalState.toVector()) {
-        if (signal) signals.push(signal);
-      }
-    }
-    if (!signals.some((signal) => signal instanceof AreRoute)) {
+    state.running = true;
+    let cursor = 0;
+    const processChunk = /* @__PURE__ */ __name(() => {
       try {
-        const currentRoute = AreRoute.default();
-        if (currentRoute) signals.push(currentRoute);
-      } catch {
+        const start = AreSchedulerHelper.now();
+        while (cursor < toCreate.length) {
+          createItem(toCreate[cursor]);
+          cursor++;
+          if (AreSchedulerHelper.now() - start >= AreDirectiveFor.CHUNK_BUDGET_MS) break;
+        }
+      } catch (error) {
+        state.running = false;
+        state.pending = false;
+        throw error;
       }
-    }
-    return new A_SignalVector(signals);
+      if (cursor < toCreate.length) {
+        return new Promise((resolve) => {
+          AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
+        });
+      }
+      if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
+      return this.finishUpdate(attribute, store, scene, state);
+    }, "processChunk");
+    return processChunk();
   }
   /**
-   * Detach a displayed child subtree from the outlet and stash it in the cache
-   * for fast re-injection later. The subtree is unmounted (its scene plan is
-   * preserved) and deregistered from the root scope, but NOT destroyed. The
-   * nodes that were subscribed to the signal bus are unsubscribed while cached
-   * so the detached DOM never reacts to signals, and recorded so they can be
-   * re-subscribed verbatim on restore.
+   * Repositions the item nodes' DOM elements so the rendered order matches the
+   * source array order. The keyed diff (steps 1–4) reuses existing nodes in
+   * place and mounts new ones at the end; without this pass a `prepend` or
+   * `shuffle` would leave reused rows where they were and pile new rows at the
+   * bottom. We walk the desired order RIGHT-TO-LEFT, keeping a `ref` pointer to
+   * the element each item must precede (starting at the `$for` anchor comment),
+   * and only call `insertBefore` when an element is not already in position —
+   * so a plain `append` (already-correct order) performs ZERO DOM moves.
+   */
+  reconcileOrder(owner, orderedKeys, finalByKey) {
+    const context = owner.scope.resolve(AreHTMLEngineContext);
+    if (!context) return;
+    const anchor = context.getNodeElement(owner);
+    if (!anchor || !anchor.parentNode) return;
+    const parent = anchor.parentNode;
+    let ref = anchor;
+    for (let i6 = orderedKeys.length - 1; i6 >= 0; i6--) {
+      const node = finalByKey.get(orderedKeys[i6]);
+      if (!node) continue;
+      const element = context.getNodeElement(node);
+      if (!element || element.parentNode !== parent) continue;
+      if (element.nextSibling !== ref) {
+        parent.insertBefore(element, ref);
+      }
+      ref = element;
+    }
+  }
+  /**
+   * Completes an update pass. If another update() arrived while a chunked
+   * render was streaming, run exactly one more pass now from the latest store
+   * value so the final DOM always reflects the most recent data.
+   */
+  finishUpdate(attribute, store, scene, state) {
+    state.running = false;
+    if (state.pending) {
+      state.pending = false;
+      return this.performUpdate(attribute, store, scene, state);
+    }
+  }
+  /**
+   * Walks the node's ancestor chain (inclusive) and reports whether the
+   * whole path is currently active — i.e. the subtree is actually rendered
+   * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
+   * condition is false) means the subtree is detached.
+   */
+  isAttached(node) {
+    let current = node;
+    while (current) {
+      if (current.scene?.isInactive) return false;
+      current = current.parent;
+    }
+    return true;
+  }
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Build a key-function that derives a stable identity from each item.
+   * If the user provided a `track <expr>` clause, evaluate it as a path on
+   * the item; otherwise fall back to the item identity (reference equality).
+   */
+  makeKeyFn(key, index, trackExpr) {
+    if (!trackExpr) {
+      return (item, i6) => item ?? i6;
+    }
+    const path = trackExpr.startsWith(key + ".") ? trackExpr.slice(key.length + 1) : trackExpr;
+    return (item, i6) => {
+      if (item == null) return i6;
+      if (path === key || path === "$index") return path === "$index" ? i6 : item;
+      const parts = path.split(".");
+      let v6 = item;
+      for (const p5 of parts) {
+        if (v6 == null) return i6;
+        v6 = v6[p5];
+      }
+      return v6 ?? i6;
+    };
+  }
+  /**
+   * Parses the $for expression string into its constituent parts.
    *
-   * When no cache is available, or the LRU evicts an entry, the affected
-   * subtree is fully destroyed.
+   * Supported formats:
+   *   item in items
+   *   item, index in items
+   *   (item, index) in items
+   *   item in filter(items)
+   *   item, index in filter(items, 'active')
+   *   item in items track item.id
+   *   (item, i) in items track item.id
    */
-  stashChild(root, child, signalsContext, cache) {
-    const tag = child.type;
-    child.unmount();
-    const subscribers = signalsContext ? this.collectSubscribers(child, signalsContext) : [];
-    for (const node of subscribers) {
-      signalsContext?.unsubscribe(node);
-    }
-    root.removeChild(child);
-    if (!cache) {
-      void child.destroy();
-      return;
-    }
-    const evicted = cache.put(root.id, tag, { node: child, subscribers });
-    for (const entry of evicted) {
-      void entry.node.destroy();
-    }
-  }
-  /**
-   * Re-attach a cached subtree to the outlet and re-mount it from its preserved
-   * scene plan, re-subscribing exactly the nodes that were subscribed before it
-   * was cached.
-   */
-  restoreChild(root, entry, signalsContext) {
-    const child = entry.node;
-    root.addChild(child);
-    for (const node of entry.subscribers) {
-      signalsContext?.subscribe(node);
-    }
-    child.mount();
-  }
-  /**
-   * Walk a subtree and collect the nodes currently registered as signal
-   * subscribers. Mirrors the subscription performed at init time in
-   * AreHTMLLifecycle (component nodes and root nodes) without depending on the
-   * concrete node classes — it simply intersects the subtree with the live
-   * subscriber registry.
-   */
-  collectSubscribers(node, signalsContext) {
-    const result = [];
-    const queue = [node];
-    while (queue.length > 0) {
-      const current = queue.shift();
-      if (signalsContext.subscribers.has(current)) {
-        result.push(current);
+  parseExpression(content) {
+    let trackExpr;
+    const trackIdx = content.search(/\s+track\s+/);
+    let body = content;
+    if (trackIdx !== -1) {
+      const m7 = content.slice(trackIdx).match(/\s+track\s+(.+)$/);
+      if (m7) {
+        trackExpr = m7[1].trim();
+        body = content.slice(0, trackIdx).trim();
       }
-      queue.push(...current.children);
     }
+    const inIndex = body.lastIndexOf(" in ");
+    const keyAndIndex = body.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
+    const arrayExpr = body.slice(inIndex + 4).trim();
+    const keyParts = keyAndIndex.split(",").map((p5) => p5.trim());
+    return {
+      key: keyParts[0],
+      index: keyParts[1] || void 0,
+      arrayExpr,
+      trackExpr
+    };
+  }
+  /**
+   * Resolves the array expression against the store.
+   * Supports both plain key lookups and function-call expressions:
+   *   items          → store.get('items')
+   *   filter(items)  → store.get('filter')(store.get('items'))
+   *
+   * `contextScope` carries item-scoped variables introduced by an enclosing
+   * directive (e.g. the `row` of an outer `$for`). It is consulted BEFORE the
+   * store so a nested `$for="cell in row.cells"` resolves `row` from the
+   * parent iteration instead of looking for a (non-existent) top-level store
+   * key. Leading identifiers not present in the context fall back to the store.
+   */
+  resolveArray(store, arrayExpr, fullContent, contextScope = {}) {
+    const getRoot = /* @__PURE__ */ __name((rawKey) => {
+      const k4 = rawKey.replace(/\?$/, "");
+      return k4 in contextScope ? contextScope[k4] : store.get(k4);
+    }, "getRoot");
+    let result;
+    const callMatch = arrayExpr.match(/^([^(]+)\((.+)\)$/);
+    if (callMatch) {
+      const fnName = callMatch[1].trim();
+      const fn = getRoot(fnName);
+      if (typeof fn !== "function")
+        throw new AreCompilerError({
+          title: 'Invalid "for" Directive Function',
+          description: `The expression "${fnName}" in the "for" directive does not resolve to a function in the store. Received: ${typeof fn}`
+        });
+      const rawArgs = callMatch[2].split(",").map((a4) => a4.trim());
+      const resolvedArgs = rawArgs.map((arg) => {
+        if (arg.startsWith("'") && arg.endsWith("'")) return arg.slice(1, -1);
+        if (arg.startsWith('"') && arg.endsWith('"')) return arg.slice(1, -1);
+        if (!isNaN(Number(arg))) return Number(arg);
+        const stripped = arg.replace(/\?$/, "");
+        if (stripped.includes(".")) {
+          const parts = stripped.split(".").map((p5) => p5.replace(/\?$/, ""));
+          let val = getRoot(parts[0]);
+          for (let j5 = 1; j5 < parts.length; j5++) {
+            if (val == null) return void 0;
+            val = val[parts[j5]];
+          }
+          return val ?? void 0;
+        }
+        return getRoot(stripped);
+      });
+      result = fn(...resolvedArgs);
+    } else if (arrayExpr.includes(".")) {
+      const parts = arrayExpr.split(".").map((p5) => p5.replace(/\?$/, ""));
+      result = getRoot(parts[0]);
+      for (let i6 = 1; i6 < parts.length; i6++) {
+        if (result == null) break;
+        result = result[parts[i6]];
+      }
+    } else {
+      result = getRoot(arrayExpr);
+    }
+    if (result == null) return [];
+    if (!Array.isArray(result))
+      throw new AreCompilerError({
+        title: 'Invalid "for" Directive Value',
+        description: `The "for" directive expects an array but got ${typeof result}. Expression: "${fullContent}". Received: ${JSON.stringify(result)}`
+      });
     return result;
   }
-};
-__name(AreRoot, "AreRoot");
-__decorateClass([
-  Are.Template,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_Logger)),
-  __decorateParam(2, Yt(AreSignalsContext)),
-  __decorateParam(3, Yt(A_SignalState))
-], AreRoot.prototype, "template", 1);
-__decorateClass([
-  Are.Signal,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_SignalVector)),
-  __decorateParam(2, Yt(A_Logger)),
-  __decorateParam(3, Yt(AreSignalsContext)),
-  __decorateParam(4, Yt(AreRootCache))
-], AreRoot.prototype, "onSignal", 1);
-AreRoot = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
-  })
-], AreRoot);
-
-// src/lib/AreRouteWatcher/AreRouteWatcher.component.ts
-var AreRouteWatcher = class extends O {
-  constructor() {
-    super();
-    this.handlers = /* @__PURE__ */ new Set();
-    this.current = new URL(window.location.href);
-    // ── Listeners ─────────────────────────────────────────────────────────────
-    this.onPopState = /* @__PURE__ */ __name(() => {
-      this.notify();
-    }, "onPopState");
-    this.onHashChange = /* @__PURE__ */ __name(() => {
-      this.notify();
-    }, "onHashChange");
-    this.onURLChange = /* @__PURE__ */ __name(() => {
-      this.notify();
-    }, "onURLChange");
-    this.patchHistory();
-    this.attachListeners();
-  }
-  // ── Public ────────────────────────────────────────────────────────────────
-  onChange(handler) {
-    this.handlers.add(handler);
-    return () => this.handlers.delete(handler);
-  }
-  get url() {
-    return this.current;
-  }
-  destroy() {
-    window.removeEventListener("popstate", this.onPopState);
-    window.removeEventListener("hashchange", this.onHashChange);
-    window.removeEventListener("urlchange", this.onURLChange);
-    this.handlers.clear();
-  }
-  attachListeners() {
-    window.addEventListener("popstate", this.onPopState);
-    window.addEventListener("hashchange", this.onHashChange);
-    window.addEventListener("urlchange", this.onURLChange);
-  }
-  // ── Patch pushState / replaceState ────────────────────────────────────────
-  patchHistory() {
-    const patch = /* @__PURE__ */ __name((original) => function(...args) {
-      original.apply(this, args);
-      window.dispatchEvent(new Event("urlchange"));
-    }, "patch");
-    history.pushState = patch(history.pushState);
-    history.replaceState = patch(history.replaceState);
-  }
-  // ── Notify ────────────────────────────────────────────────────────────────
-  notify() {
-    const next = new URL(window.location.href);
-    if (next.href === this.current.href) return;
-    this.current = next;
-    for (const handler of this.handlers) {
-      handler(this.current);
+  /**
+   * Creates a single item node from the template, registers it as a child of
+   * the owner, initialises it, injects item-scoped store values, and activates
+   * its scene so the mount/compile cycle will include it.
+   *
+   * NOTE: This method does NOT call compile() or mount() — the caller is
+   * responsible for doing so when the main lifecycle cycle won't cover it
+   * (i.e. during update, but not during the initial compile phase).
+   */
+  spawnItemNode(template, owner, key, index, item, i6) {
+    const itemNode = template.clone();
+    owner.addChild(itemNode);
+    const queue = [itemNode];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      current.init();
+      queue.push(...current.children);
     }
+    let directiveContext = itemNode.scope.resolveFlat(AreDirectiveContext);
+    if (!directiveContext) {
+      directiveContext = new AreDirectiveContext(itemNode.aseid);
+      itemNode.scope.register(directiveContext);
+    }
+    directiveContext.scope = {
+      ...directiveContext.scope,
+      [key]: item,
+      [index || "index"]: i6
+    };
+    itemNode.scene.activate();
+    return itemNode;
   }
 };
-__name(AreRouteWatcher, "AreRouteWatcher");
-AreRouteWatcher = __decorateClass([
+__name(AreDirectiveFor, "AreDirectiveFor");
+/**
+ * Lists whose number of NEW item nodes is at or below this threshold render
+ * fully synchronously — byte-for-byte the previous behavior. Typical UIs
+ * (menus, small tables) are therefore completely unaffected; only genuinely
+ * large lists pay the (tiny) scheduling cost to keep the main thread responsive.
+ */
+AreDirectiveFor.SYNC_THRESHOLD = 100;
+/**
+ * Per-chunk time budget (ms). During a large-list render we mount item nodes
+ * until this much time has elapsed, then yield to the browser so it can paint
+ * and process input before the next chunk. ~16ms targets one animation frame.
+ */
+AreDirectiveFor.CHUNK_BUDGET_MS = 16;
+/**
+ * Per-attribute serialization state. A new update() that arrives while a
+ * chunked render of the SAME `$for` is still in flight does NOT start a second
+ * concurrent pass (which could interleave mutations on the shared children
+ * list); instead it marks `pending` and the in-flight run re-runs once more
+ * with the latest data when it finishes. This guarantees the children list is
+ * only ever mutated by one pass at a time and the final state always reflects
+ * the most recent store value.
+ */
+AreDirectiveFor.renderState = /* @__PURE__ */ new WeakMap();
+__decorateClass([
+  AreDirective.Transform,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreScene)),
+  __decorateParam(4, Yt(A_Logger))
+], AreDirectiveFor.prototype, "transform", 1);
+__decorateClass([
+  AreDirective.Compile,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene))
+], AreDirectiveFor.prototype, "compile", 1);
+__decorateClass([
+  AreDirective.Update,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene))
+], AreDirectiveFor.prototype, "update", 1);
+AreDirectiveFor = __decorateClass([
   R4.Define({
     namespace: "a-are-html",
-    description: "AreRouteWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework."
-  })
-], AreRouteWatcher);
+    description: "Built-in $for directive. Iterates over an array expression resolved from the store and renders a cloned template fragment per item, managing per-item subscopes and comment-node anchors. Supports keyed diffing via an optional track clause to minimise DOM mutations on collection updates."
+  }),
+  AreDirective.Priority(1)
+], AreDirectiveFor);
 
-// examples/signal-routing/src/components/AppShell.component.ts
-var _AppShell = class _AppShell extends Are {
+// examples/for-perf/src/components/PerfApp.component.ts
+var _PerfApp = class _PerfApp extends Are {
   template(node) {
     node.setContent(`
-            <div class="app-shell">
-                <nav-bar></nav-bar>
-                <main class="app-main">
-                    <are-root id="page-outlet"><home-page></home-page></are-root>
-                </main>
+            <div class="app">
+                <perf-header></perf-header>
+                <perf-stats></perf-stats>
+                <perf-controls></perf-controls>
+                <perf-grid></perf-grid>
             </div>
         `);
   }
-  styles(node) {
-    node.setStyles(`
-            .app-shell {
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;
-                background: #09090b;
-                color: #f4f4f5;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            }
-            .app-main {
-                flex: 1;
-            }
-        `);
+  data(store) {
+    store.set({
+      appName: "ARE $for Performance Lab"
+    });
   }
 };
-__name(_AppShell, "AppShell");
+__name(_PerfApp, "PerfApp");
 __decorateClass([
   Are.Template,
   __decorateParam(0, Yt(te))
-], _AppShell.prototype, "template", 1);
+], _PerfApp.prototype, "template", 1);
 __decorateClass([
-  Are.Styles,
-  __decorateParam(0, Yt(te))
-], _AppShell.prototype, "styles", 1);
-var AppShell = _AppShell;
+  Are.Data,
+  __decorateParam(0, Yt(AreStore))
+], _PerfApp.prototype, "data", 1);
+var PerfApp = _PerfApp;
 
-// examples/signal-routing/src/components/NavBar.component.ts
-var _NavBar = class _NavBar extends Are {
+// examples/for-perf/src/components/PerfHeader.component.ts
+var _PerfHeader = class _PerfHeader extends Are {
   template(node) {
     node.setContent(`
-            <nav class="navbar">
-                <div class="navbar-brand">ARE \xB7 Signal Router</div>
-                <ul class="navbar-links">
-                    <li><a href="/" @click="$navigate('/')">Home</a></li>
-                    <li><a href="/about" @click="$navigate('/about')">About</a></li>
-                    <li><a href="/settings" @click="$navigate('/settings')">Settings</a></li>
-                </ul>
-            </nav>
+            <header class="header">
+                <div class="brand">
+                    <span class="logo">\u25A6</span>
+                    <span class="title">{{title}}</span>
+                </div>
+                <span class="subtitle">{{subtitle}}</span>
+            </header>
         `);
   }
-  styles(node) {
-    node.setStyles(`
-            .navbar {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 32px;
-                height: 56px;
-                background: #18181b;
-                border-bottom: 1px solid #27272a;
-                position: sticky;
-                top: 0;
-                z-index: 100;
-            }
-            .navbar-brand {
-                font-size: 16px;
-                font-weight: 700;
-                color: #a78bfa;
-                letter-spacing: -0.02em;
-            }
-            .navbar-links {
-                list-style: none;
-                display: flex;
-                gap: 8px;
-                margin: 0;
-                padding: 0;
-            }
-            .navbar-links a {
-                display: inline-block;
-                padding: 6px 16px;
-                border-radius: 6px;
-                text-decoration: none;
-                color: #a1a1aa;
-                font-size: 14px;
-                font-weight: 500;
-                transition: background 0.15s, color 0.15s;
-            }
-            .navbar-links a:hover {
-                background: #27272a;
-                color: #f4f4f5;
-            }
-        `);
-  }
-  navigate(event, bus) {
-    const e = event.get("native");
-    e?.preventDefault();
-    const path = event.get("args")?.[0] ?? "/";
-    history.pushState({}, "", path);
-    bus.next(new AreRoute(path));
-  }
-  async onSignal(root, vector, store, signalsContext) {
-    const rootId = root.id;
-    console.log(`NavBar received signal: ${vector.toString()} for rootId: ${rootId}`, root, signalsContext);
+  data(store) {
+    store.set({
+      title: "ARE $for Performance Lab",
+      subtitle: "Open DevTools console \u2014 logger is at debug, perf metrics are printed on every action"
+    });
   }
 };
-__name(_NavBar, "NavBar");
+__name(_PerfHeader, "PerfHeader");
 __decorateClass([
   Are.Template,
   __decorateParam(0, Yt(te))
-], _NavBar.prototype, "template", 1);
+], _PerfHeader.prototype, "template", 1);
 __decorateClass([
-  Are.Styles,
-  __decorateParam(0, Yt(te))
-], _NavBar.prototype, "styles", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(AreEvent)),
-  __decorateParam(1, Yt(A_SignalBus))
-], _NavBar.prototype, "navigate", 1);
-__decorateClass([
-  Are.Signal,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_SignalVector)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSignalsContext))
-], _NavBar.prototype, "onSignal", 1);
-var NavBar = _NavBar;
+  Are.Data,
+  __decorateParam(0, Yt(AreStore))
+], _PerfHeader.prototype, "data", 1);
+var PerfHeader = _PerfHeader;
 
-// examples/signal-routing/src/components/HomePage.component.ts
-var HomePage = class extends Are {
+// examples/for-perf/src/components/PerfControls.component.ts
+var _PerfControls = class _PerfControls extends Are {
   template(node) {
     node.setContent(`
-            <section class="page page-home">
-                <div class="page-hero">
-                    <h1 class="page-title">Welcome to Signal Routing</h1>
-                    <p class="page-subtitle">
-                        This page is rendered because the current route matched <code>/</code>.<br/>
-                        Navigate using the links above \u2014 no full page reload, just signals.
-                    </p>
-                </div>
-                <div class="card-grid">
-                    <div class="card">
-                        <div class="card-icon">\u26A1</div>
-                        <h3>Signal-based</h3>
-                        <p>Route changes emit an <code>AreRoute</code> signal on the bus. <code>AreRoot</code> responds and swaps the active component.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">\u{1F500}</div>
-                        <h3>Zero reload</h3>
-                        <p>No browser navigation occurs. <code>history.pushState</code> keeps the URL bar in sync so deep-links and back/forward still work.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">\u{1F9E9}</div>
-                        <h3>Component-level</h3>
-                        <p>Each page is a plain <code>Are</code> component. Register it in <code>AreSignalsContext</code> and the router does the rest.</p>
-                    </div>
-                </div>
+            <section class="hint">
+                <span class="hint-icon">\u2139</span>
+                <span class="hint-text">{{hint}}</span>
             </section>
         `);
   }
-  styles(node) {
-    node.setStyles(`
-            .page { padding: 48px 40px; max-width: 960px; margin: 0 auto; }
-            .page-hero { margin-bottom: 40px; }
-            .page-title { font-size: 32px; font-weight: 800; color: #f4f4f5; margin-bottom: 12px; }
-            .page-subtitle { font-size: 16px; color: #a1a1aa; line-height: 1.7; }
-            .page-subtitle code { background: #27272a; padding: 2px 6px; border-radius: 4px; color: #a78bfa; font-size: 13px; }
-            .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-            .card { background: #1c1c1f; border: 1px solid #27272a; border-radius: 12px; padding: 24px; }
-            .card-icon { font-size: 28px; margin-bottom: 12px; }
-            .card h3 { font-size: 16px; font-weight: 600; color: #f4f4f5; margin-bottom: 8px; }
-            .card p { font-size: 14px; color: #71717a; line-height: 1.6; }
-            .card p code { background: #27272a; padding: 1px 5px; border-radius: 3px; color: #a78bfa; font-size: 12px; }
-        `);
-  }
-  async onSignal(root, vector, store, signalsContext) {
-    const rootId = root.id;
-    console.log(`HomePage received signal: ${vector.toString()} for rootId: ${rootId}`, root, signalsContext);
+  data(store) {
+    store.set({
+      hint: "Each button below mutates the store; the $for directive re-renders synchronously and the timing is logged."
+    });
   }
 };
-__name(HomePage, "HomePage");
+__name(_PerfControls, "PerfControls");
 __decorateClass([
   Are.Template,
   __decorateParam(0, Yt(te))
-], HomePage.prototype, "template", 1);
+], _PerfControls.prototype, "template", 1);
 __decorateClass([
-  Are.Styles,
-  __decorateParam(0, Yt(te))
-], HomePage.prototype, "styles", 1);
-__decorateClass([
-  Are.Signal,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_SignalVector)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSignalsContext))
-], HomePage.prototype, "onSignal", 1);
-HomePage = __decorateClass([
-  Are.Condition([new AreRoute("/")])
-], HomePage);
+  Are.Data,
+  __decorateParam(0, Yt(AreStore))
+], _PerfControls.prototype, "data", 1);
+var PerfControls = _PerfControls;
 
-// examples/signal-routing/src/components/AboutPage.component.ts
-var AboutPage = class extends Are {
+// examples/for-perf/src/components/PerfStats.component.ts
+var _PerfStats = class _PerfStats extends Are {
   template(node) {
     node.setContent(`
-            <section class="page page-about">
-                <h1 class="page-title">About this example</h1>
-                <p class="page-subtitle">
-                    This example demonstrates signal-based SPA routing using the ARE framework.
-                </p>
-
-                <div class="about-block">
-                    <h2>How it works</h2>
-                    <ol class="steps">
-                        <li>
-                            <strong>Signal emitted</strong> \u2014 clicking a nav link calls
-                            <code>bus.emit(new AreRoute('/about'))</code> and updates the browser
-                            URL via <code>history.pushState</code>.
-                        </li>
-                        <li>
-                            <strong>AreRoot reacts</strong> \u2014 the root node is subscribed to the
-                            signal bus. When the vector matches a registered condition it replaces
-                            its inner content with the mapped component.
-                        </li>
-                        <li>
-                            <strong>Page renders</strong> \u2014 the new component goes through the normal
-                            ARE lifecycle: <code>@Are.Template</code> \u2192 <code>@Are.Data</code> \u2192
-                            <code>@Are.Styles</code> \u2192 mount.
-                        </li>
-                    </ol>
-                </div>
-
-                <div class="about-block">
-                    <h2>Key pieces</h2>
-                    <table class="info-table">
-                        <tr><th>AreRoute(path)</th><td>Signal carrying the new URL path.</td></tr>
-                        <tr><th>AreRouteWatcher</th><td>Listens to popstate / pushState and re-emits the signal on browser back/forward.</td></tr>
-                        <tr><th>AreSignalsContext</th><td>Fragment that maps (rootId, signal vector) \u2192 component class.</td></tr>
-                        <tr><th>A_SignalState</th><td>Persists the last emitted signal so a fresh page load still routes correctly.</td></tr>
-                    </table>
-                </div>
-            </section>
-        `);
-  }
-  styles(node) {
-    node.setStyles(`
-            .page { padding: 48px 40px; max-width: 860px; margin: 0 auto; }
-            .page-title { font-size: 32px; font-weight: 800; color: #f4f4f5; margin-bottom: 12px; }
-            .page-subtitle { font-size: 16px; color: #a1a1aa; line-height: 1.7; margin-bottom: 36px; }
-            .about-block { margin-bottom: 40px; }
-            .about-block h2 { font-size: 18px; font-weight: 700; color: #e4e4e7; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #27272a; }
-            .steps { padding-left: 24px; color: #a1a1aa; line-height: 2; font-size: 14px; }
-            .steps li { margin-bottom: 8px; }
-            .steps strong { color: #e4e4e7; }
-            .steps code, .info-table code { background: #27272a; padding: 1px 6px; border-radius: 4px; color: #a78bfa; font-size: 12px; }
-            .info-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-            .info-table tr { border-bottom: 1px solid #27272a; }
-            .info-table th { text-align: left; padding: 10px 12px; color: #a78bfa; font-weight: 600; width: 200px; }
-            .info-table td { padding: 10px 12px; color: #a1a1aa; }
-        `);
-  }
-};
-__name(AboutPage, "AboutPage");
-__decorateClass([
-  Are.Template,
-  __decorateParam(0, Yt(te))
-], AboutPage.prototype, "template", 1);
-__decorateClass([
-  Are.Styles,
-  __decorateParam(0, Yt(te))
-], AboutPage.prototype, "styles", 1);
-AboutPage = __decorateClass([
-  Are.Condition([new AreRoute("/about")])
-], AboutPage);
-
-// examples/signal-routing/src/components/SettingsPage.component.ts
-var SettingsPage = class extends Are {
-  template(node) {
-    node.setContent(`
-            <section class="page page-settings">
-                <h1 class="page-title">Settings</h1>
-                <p class="page-subtitle">Preferences are stored in the component's local store.</p>
-
-                <div class="settings-group">
-                    <h2>Appearance</h2>
-                    <label class="setting-row">
-                        <span>Dark mode</span>
-                        <input type="checkbox" checked disabled />
-                    </label>
-                    <label class="setting-row">
-                        <span>Compact layout</span>
-                        <input type="checkbox" @change="$toggleCompact" />
-                    </label>
-                </div>
-
-                <div class="settings-group">
-                    <h2>Directive demo \xB7 <code>$show</code> vs <code>$if</code></h2>
-                    <p class="hint">
-                        Type something into both boxes below, then toggle <strong>Compact layout</strong>
-                        twice. Both panels react to the same <code>compact</code> store flag, but:
-                    </p>
-
-                    <div class="demo-panel demo-show" $show="!compact">
-                        <span class="demo-tag">$show</span>
-                        <p>
-                            Toggled with <code>$show</code> \u2014 I stay <strong>mounted</strong> and only my
-                            inline <code>display</code> flips. Your text below <strong>survives</strong>
-                            the toggle because the DOM node is never destroyed.
-                        </p>
-                        <input type="text" placeholder="Scratch text (survives toggle)\u2026" />
-                    </div>
-
-                    <div class="demo-panel demo-if" $if="!compact">
-                        <span class="demo-tag">$if</span>
-                        <p>
-                            Toggled with <code>$if</code> \u2014 I am <strong>unmounted</strong> and rebuilt
-                            each time I reappear. Your text below is <strong>wiped</strong> on every toggle.
-                        </p>
-                        <input type="text" placeholder="Scratch text (lost on toggle)\u2026" />
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <h2>Display name</h2>
-                    <div class="input-row">
-                        <input
-                            id="display-name"
-                            type="text"
-                            placeholder="Enter your name\u2026"
-                            @input="$onNameInput"
-                        />
-                        <span class="preview">Preview: <strong>{{displayName}}</strong></span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <h2>Routing state</h2>
-                    <p class="hint">
-                        Current route is held in <code>A_SignalState</code> so refreshing the page
-                        at <code>/settings</code> still lands here \u2014 no extra server config needed.
-                    </p>
+            <section class="legend">
+                <div class="legend-card" $for="card in cards track card.key">
+                    <span class="legend-key">{{card.key}}</span>
+                    <span class="legend-label">{{card.label}}</span>
                 </div>
             </section>
         `);
   }
   data(store) {
-    store.set({ displayName: "Guest", compact: false });
-  }
-  styles(node) {
-    node.setStyles(`
-            .page { padding: 48px 40px; max-width: 720px; margin: 0 auto; }
-            .page-title { font-size: 32px; font-weight: 800; color: #f4f4f5; margin-bottom: 12px; }
-            .page-subtitle { font-size: 15px; color: #a1a1aa; margin-bottom: 36px; }
-            .settings-group { margin-bottom: 36px; }
-            .settings-group h2 { font-size: 15px; font-weight: 700; color: #e4e4e7; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #27272a; }
-            .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; color: #a1a1aa; font-size: 14px; cursor: pointer; }
-            .input-row { display: flex; align-items: center; gap: 16px; }
-            .input-row input[type="text"] { background: #1c1c1f; border: 1px solid #3f3f46; border-radius: 8px; color: #f4f4f5; padding: 8px 14px; font-size: 14px; outline: none; width: 260px; }
-            .input-row input[type="text"]:focus { border-color: #a78bfa; }
-            .preview { font-size: 14px; color: #71717a; }
-            .preview strong { color: #a78bfa; }
-            .hint { font-size: 13px; color: #71717a; line-height: 1.7; }
-            .hint code { background: #27272a; padding: 1px 6px; border-radius: 4px; color: #a78bfa; font-size: 12px; }
-            .settings-group h2 code { background: #27272a; padding: 1px 6px; border-radius: 4px; color: #a78bfa; font-size: 12px; font-weight: 600; }
-            .demo-panel { position: relative; background: #1c1c1f; border: 1px solid #27272a; border-radius: 10px; padding: 18px 18px 18px 20px; margin-top: 14px; }
-            .demo-panel p { font-size: 13px; color: #a1a1aa; line-height: 1.7; margin: 0 0 12px; }
-            .demo-panel p code { background: #27272a; padding: 1px 5px; border-radius: 3px; color: #a78bfa; font-size: 12px; }
-            .demo-panel strong { color: #e4e4e7; }
-            .demo-panel input[type="text"] { background: #131316; border: 1px solid #3f3f46; border-radius: 8px; color: #f4f4f5; padding: 8px 14px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; }
-            .demo-panel input[type="text"]:focus { border-color: #a78bfa; }
-            .demo-tag { display: inline-block; font-family: monospace; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-bottom: 10px; }
-            .demo-show { border-left: 3px solid #34d399; }
-            .demo-show .demo-tag { background: rgba(52, 211, 153, 0.12); color: #34d399; }
-            .demo-if { border-left: 3px solid #f59e0b; }
-            .demo-if .demo-tag { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
-        `);
-  }
-  onNameInput(store, event) {
-    const el = event.get("native")?.target;
-    store.set("displayName", el?.value || "Guest");
-  }
-  toggleCompact(store, event) {
-    const el = event.get("native")?.target;
-    store.set("compact", el?.checked ?? false);
+    store.set({
+      cards: [
+        { key: "render", label: "Replace the whole list" },
+        { key: "append", label: "Add rows at the end" },
+        { key: "prepend", label: "Add rows at the start" },
+        { key: "shuffle", label: "Reorder existing rows" },
+        { key: "update", label: "Mutate every row in place" }
+      ]
+    });
   }
 };
-__name(SettingsPage, "SettingsPage");
+__name(_PerfStats, "PerfStats");
 __decorateClass([
   Are.Template,
   __decorateParam(0, Yt(te))
-], SettingsPage.prototype, "template", 1);
+], _PerfStats.prototype, "template", 1);
 __decorateClass([
   Are.Data,
   __decorateParam(0, Yt(AreStore))
-], SettingsPage.prototype, "data", 1);
-__decorateClass([
-  Are.Styles,
-  __decorateParam(0, Yt(te))
-], SettingsPage.prototype, "styles", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(AreStore)),
-  __decorateParam(1, Yt(AreEvent))
-], SettingsPage.prototype, "onNameInput", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(AreStore)),
-  __decorateParam(1, Yt(AreEvent))
-], SettingsPage.prototype, "toggleCompact", 1);
-SettingsPage = __decorateClass([
-  Are.Condition([new AreRoute("/settings")])
-], SettingsPage);
+], _PerfStats.prototype, "data", 1);
+var PerfStats = _PerfStats;
 
-// examples/signal-routing/src/concept.ts
+// examples/for-perf/src/components/PerfGrid.component.ts
+var STATUSES = ["ok", "warn", "error", "idle"];
+var ROW_SEQ = 0;
+function makeCells(rowId) {
+  const cells = [];
+  for (let c3 = 0; c3 < 4; c3++) {
+    cells.push({ id: `${rowId}:${c3}`, v: Math.floor(Math.random() * 1e3) });
+  }
+  return cells;
+}
+__name(makeCells, "makeCells");
+function makeRows(count) {
+  const rows = [];
+  for (let i6 = 0; i6 < count; i6++) {
+    const id = ++ROW_SEQ;
+    rows.push({
+      id,
+      label: `Row ${id}`,
+      status: STATUSES[id % STATUSES.length],
+      value: Math.floor(Math.random() * 1e4),
+      active: id % 7 === 0,
+      cells: makeCells(id)
+    });
+  }
+  return rows;
+}
+__name(makeRows, "makeRows");
+function commit(action, rows, context, store, logger) {
+  const label = `$for: ${action}`;
+  console.group(`%c${label}`, "color:#7c3aed;font-weight:bold");
+  const t0 = performance.now();
+  context.startPerformance(label);
+  store.set("rows", rows);
+  store.set("count", rows.length);
+  context.endPerformance(label);
+  const wall = (performance.now() - t0).toFixed(2);
+  store.set("lastAction", action);
+  store.set("lastWall", wall);
+  logger.debug(`${label} | rows=${rows.length} | wall=${wall}ms`);
+  logger.info(`${label} done in ${wall}ms`, ...context.performance);
+  console.log("%cWall time:", "font-weight:bold", `${wall} ms`);
+  console.log("%cEngine performance:", "font-weight:bold");
+  context.performance.forEach((line) => console.log("  " + line));
+  console.log("%cScene stats:", "font-weight:bold");
+  context.stats.forEach((line) => console.log("  " + line));
+  console.groupEnd();
+}
+__name(commit, "commit");
+var _PerfGrid = class _PerfGrid extends Are {
+  template(node) {
+    node.setContent(`
+            <section class="grid-panel">
+                <div class="toolbar">
+                    <button class="btn" @click="$render(100)">Render 100</button>
+                    <button class="btn" @click="$render(1000)">Render 1000</button>
+                    <button class="btn" @click="$render(5000)">Render 5000</button>
+                    <span class="sep"></span>
+                    <button class="btn" @click="$append(100)">Append 100</button>
+                    <button class="btn" @click="$prepend(100)">Prepend 100</button>
+                    <button class="btn" @click="$shuffle()">Shuffle</button>
+                    <button class="btn" @click="$updateInPlace()">Update in place</button>
+                    <button class="btn btn-danger" @click="$clear()">Clear</button>
+                </div>
+
+                <div class="meta">
+                    <span class="pill">Rows: {{count}}</span>
+                    <span class="pill">Last action: {{lastAction}}</span>
+                    <span class="pill">Wall time: {{lastWall}} ms</span>
+                </div>
+
+                <div class="empty" $if="count == 0">No rows. Pick a "Render N" button to start.</div>
+
+                <div class="grid">
+                    <div class="row" $for="row in rows track row.id" :class="row.active ? 'row-active' : ''">
+                        <span class="row-id">#{{row.id}}</span>
+                        <span class="row-label">{{row.label}}</span>
+                        <span class="badge" :class="'badge-' + row.status">{{row.status}}</span>
+                        <span class="star" $if="row.active">\u2605</span>
+                        <span class="cells">
+                            <span class="cell" $for="cell in row.cells track cell.id">{{cell.v}}</span>
+                        </span>
+                        <span class="row-value">{{row.value}}</span>
+                    </div>
+                </div>
+            </section>
+        `);
+  }
+  data(store) {
+    const initial = makeRows(25);
+    store.set({
+      rows: initial,
+      count: initial.length,
+      lastAction: "initial",
+      lastWall: "0.00"
+    });
+  }
+  render(node, event, context, store, logger) {
+    const n6 = Number(event.get("args")?.[0]) || 100;
+    const rows = makeRows(n6);
+    commit(`Render ${n6}`, rows, context, store, logger);
+  }
+  append(node, event, context, store, logger) {
+    const n6 = Number(event.get("args")?.[0]) || 100;
+    const rows = (store.get("rows") || []).concat(makeRows(n6));
+    commit(`Append ${n6}`, rows, context, store, logger);
+  }
+  prepend(node, event, context, store, logger) {
+    const n6 = Number(event.get("args")?.[0]) || 100;
+    const rows = makeRows(n6).concat(store.get("rows") || []);
+    commit(`Prepend ${n6}`, rows, context, store, logger);
+  }
+  shuffle(node, event, context, store, logger) {
+    const rows = (store.get("rows") || []).slice();
+    for (let i6 = rows.length - 1; i6 > 0; i6--) {
+      const j5 = Math.floor(Math.random() * (i6 + 1));
+      [rows[i6], rows[j5]] = [rows[j5], rows[i6]];
+    }
+    commit("Shuffle", rows, context, store, logger);
+  }
+  updateInPlace(node, event, context, store, logger) {
+    const rows = (store.get("rows") || []).map((row) => ({
+      ...row,
+      value: Math.floor(Math.random() * 1e4),
+      status: STATUSES[Math.floor(Math.random() * STATUSES.length)],
+      cells: makeCells(row.id)
+    }));
+    commit("Update in place", rows, context, store, logger);
+  }
+  clear(node, event, context, store, logger) {
+    commit("Clear", [], context, store, logger);
+  }
+};
+__name(_PerfGrid, "PerfGrid");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, Yt(te))
+], _PerfGrid.prototype, "template", 1);
+__decorateClass([
+  Are.Data,
+  __decorateParam(0, Yt(AreStore))
+], _PerfGrid.prototype, "data", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
+], _PerfGrid.prototype, "render", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
+], _PerfGrid.prototype, "append", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
+], _PerfGrid.prototype, "prepend", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
+], _PerfGrid.prototype, "shuffle", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
+], _PerfGrid.prototype, "updateInPlace", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreEvent)),
+  __decorateParam(2, Yt(AreContext)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(A_Logger))
+], _PerfGrid.prototype, "clear", 1);
+var PerfGrid = _PerfGrid;
+
+// examples/for-perf/src/concept.ts
 (async () => {
   try {
-    const signalsContext = new AreSignalsContext({
-      "page-outlet": {
-        default: HomePage,
-        pool: [HomePage, AboutPage, SettingsPage],
-        // Route conditions are registered via @Are.Condition decorators
-        // on each page component — no explicit conditions needed here.
-        conditions: []
-      }
-    });
     const container = new AreContainer({
-      name: "ARE Signal Routing",
+      name: "ARE For-Perf",
       components: [
-        // ── Pages ────────────────────────────────────────────────
-        AppShell,
-        NavBar,
-        HomePage,
-        AboutPage,
-        SettingsPage,
-        // ── Directives ───────────────────────────────────────────
+        // ----------------------------------
+        // UI Components 
+        // ----------------------------------
+        PerfApp,
+        PerfHeader,
+        PerfControls,
+        PerfStats,
+        PerfGrid,
+        // ----------------------------------
+        // Directives 
+        // ----------------------------------
         AreDirectiveIf,
         AreDirectiveFor,
-        AreDirectiveShow,
-        // ── Engine ───────────────────────────────────────────────
+        // ----------------------------------
+        // Engine Components 
+        // ----------------------------------
         A_SignalBus,
+        // ----------------------------------
+        // Addons 
+        // ----------------------------------
         AreRoot,
-        AreRouteWatcher,
         ConfigReader,
         AreHTMLEngine,
         A_Logger
@@ -15420,32 +15630,32 @@ SettingsPage = __decorateClass([
         AreRoute
       ],
       fragments: [
-        // Persist the current route so a hard refresh on /about still
-        // renders the correct page.  Both AreInit AND AreRouteSignal
-        // must be in this structure — if either is missing, state.has()
-        // returns false and the bus silently drops the signal.
-        new A_SignalState([AreInit, AreRoute]),
-        signalsContext,
-        new AreHTMLEngineContext({ container: document }),
+        new A_SignalState([AreRoute]),
+        new AreHTMLEngineContext({
+          container: document
+        }),
         new A_Config({
           defaults: {
-            [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "info"
+            [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "error"
           }
         })
       ]
     });
     const concept = new ct({
-      name: "adaas-are-example-signal-routing",
-      fragments: [
-        new A_Config({
-          variables: ["CONFIG_VERBOSE", "DEV_MODE"],
-          defaults: { CONFIG_VERBOSE: true, DEV_MODE: true }
-        })
-      ],
+      name: "adaas-are-example-for-perf",
+      fragments: [new A_Config({
+        variables: ["CONFIG_VERBOSE", "DEV_MODE"],
+        defaults: {
+          CONFIG_VERBOSE: true,
+          DEV_MODE: true
+        }
+      })],
       components: [A_Logger, ConfigReader, A_Polyfill],
       containers: [container]
     });
+    console.log("Building Concept...");
     await concept.load();
+    console.log("\u2713 Concept loaded successfully.");
     await concept.start();
   } catch (error) {
     const logger = _.root.resolve(A_Logger);

@@ -1,7 +1,7 @@
 import { A_Feature } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreTransformer, AreStore } from '@adaas/are';
-import { b as AreDirectiveAttribute } from '../AreBinding.attribute-Bm5LlOyE.js';
+import { b as AreDirectiveAttribute } from '../AreBinding.attribute-GpT-5Qmf.js';
 import '../lib/AreStyle/AreStyle.context.js';
 
 declare class AreHTMLTransformer extends AreTransformer {

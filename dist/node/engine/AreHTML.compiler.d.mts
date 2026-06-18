@@ -1,7 +1,7 @@
 import { A_Feature } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreCompiler, AreScene, AreStore, AreSyntax } from '@adaas/are';
-import { e as AreHTMLNode, f as AreStaticAttribute, b as AreDirectiveAttribute, c as AreEventAttribute, A as AreBindingAttribute } from '../AreBinding.attribute-doUvtOjc.mjs';
+import { e as AreHTMLNode, f as AreStaticAttribute, b as AreDirectiveAttribute, c as AreEventAttribute, A as AreBindingAttribute } from '../AreBinding.attribute-BWzEIw6H.mjs';
 import { AreInterpolation } from '../nodes/AreInterpolation.mjs';
 import { AreText } from '../nodes/AreText.mjs';
 import '../lib/AreStyle/AreStyle.context.mjs';

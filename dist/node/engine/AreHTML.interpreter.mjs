@@ -32,12 +32,15 @@ let AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        if (mountPoint.nodeType === Node.ELEMENT_NODE) {
-          mountPoint.appendChild(element);
-        } else {
-          mountPoint.parentNode?.insertBefore(element, mountPoint);
-        }
         context.setInstructionElement(declaration, element);
+        const attach = mountPoint.nodeType === Node.ELEMENT_NODE ? () => mountPoint.appendChild(element) : () => {
+          mountPoint.parentNode?.insertBefore(element, mountPoint);
+        };
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
       } else {
         const mountPoint = context.container.getElementById(node.id);
         if (!mountPoint) {
@@ -47,8 +50,15 @@ let AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
+        const attach = () => {
+          mountPoint.parentNode?.replaceChild(element, mountPoint);
+        };
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
       }
       logger?.debug("green", `Element ${node.aseid.toString()} added to Context:`);
     } catch (error) {
@@ -58,7 +68,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   }
   removeElement(declaration, context) {
     const element = context.getElementByInstruction(declaration);
-    if (element && element.parentNode) {
+    if (element && element.parentNode && element.isConnected) {
       element.parentNode.removeChild(element);
     }
     context.removeInstructionElement(declaration);
@@ -161,7 +171,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
       const element = context.getElementByInstruction(mutation.parent);
       if (!element) return;
       const { name } = mutation.payload;
-      if (name && element.nodeType === Node.ELEMENT_NODE) {
+      if (name && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
         const colonIdx = name.indexOf(":");
         if (colonIdx > 0) {
           const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
@@ -188,6 +198,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   showElement(mutation, context) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    if (!element.isConnected) return;
     const el = element;
     el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
   }
@@ -282,7 +293,9 @@ let AreHTMLInterpreter = class extends AreInterpreter {
     const { event: eventName } = parseEventName(name);
     const listener = mutation.payload._callback;
     if (listener) {
-      element.removeEventListener(eventName, listener);
+      if (element.isConnected) {
+        element.removeEventListener(eventName, listener);
+      }
       context.removeListener(element, name, listener);
       mutation.payload._callback = void 0;
     }
@@ -320,8 +333,31 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   removeText(declaration, context) {
     const element = context.getElementByInstruction(declaration);
     if (!element) return;
-    element.parentNode?.removeChild(element);
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
     context.removeInstructionElement(declaration);
+  }
+  addStaticHTML(mutation, context, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure the host element is rendered before materialising its static island.`
+      });
+    }
+    const el = element;
+    const { html } = mutation.payload;
+    el.textContent = "";
+    const fragment = context.getStaticFragment(el.tagName.toLowerCase(), html);
+    el.appendChild(fragment.cloneNode(true));
+    logger?.debug("green", `Static island materialised onto <${(mutation.owner.parent ?? mutation.owner)?.aseid?.toString?.()}>`);
+  }
+  removeStaticHTML(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (element && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+      element.textContent = "";
+    }
   }
   addComment(declaration, context, store, syntax, directiveContext, logger) {
     const node = declaration.owner.parent;
@@ -356,7 +392,9 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   removeComment(declaration, context) {
     const element = context.getElementByInstruction(declaration);
     if (!element) return;
-    element.parentNode?.removeChild(element);
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
     context.removeInstructionElement(declaration);
   }
   addStyle(mutation, context, logger) {
@@ -500,6 +538,24 @@ __decorateClass([
   __decorateParam(0, A_Inject(A_Caller)),
   __decorateParam(1, A_Inject(AreHTMLEngineContext))
 ], AreHTMLInterpreter.prototype, "removeText", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Inject a static island's inner markup onto its host element in one pass via a cached, browser-parsed <template> clone. Decodes HTML entities natively."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStaticHTML),
+  AreInterpreter.Update(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLInterpreter.prototype, "addStaticHTML", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Clear a static island's injected markup from its host element on revert."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStaticHTML", 1);
 __decorateClass([
   A_Frame.Define({
     description: "Add a comment node to the DOM based on the provided declaration instruction."

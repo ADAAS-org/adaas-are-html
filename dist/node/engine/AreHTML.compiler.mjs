@@ -14,11 +14,15 @@ import { AddAttributeInstruction } from '@adaas/are-html/instructions/AddAttribu
 import { AddTextInstruction } from '@adaas/are-html/instructions/AddText.instruction';
 import { AddListenerInstruction } from '@adaas/are-html/instructions/AddListener.instruction';
 import { AddStyleInstruction } from '@adaas/are-html/instructions/AddStyle.instruction';
+import { AddStaticHTMLInstruction } from '@adaas/are-html/instructions/AddStaticHTML.instruction';
 import { AreHTMLNode } from '@adaas/are-html/node';
 
 let AreHTMLCompiler = class extends AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
     super.compile(node, scene, logger, ...args);
+    if (node.isStaticIsland && scene.host) {
+      scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
+    }
     if (node.styles?.styles) {
       const host = scene.host;
       if (host) {

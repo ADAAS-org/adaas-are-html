@@ -21,6 +21,7 @@ export * from './instructions/AddAttribute.instruction';
 export * from './instructions/AddElement.instruction';
 export * from './instructions/AddInterpolation.instruction';
 export * from './instructions/AddListener.instruction';
+export * from './instructions/AddStaticHTML.instruction';
 export * from './instructions/AddStyle.instruction';
 export * from './instructions/AddText.instruction';
 export * from './instructions/HideElement.instruction';

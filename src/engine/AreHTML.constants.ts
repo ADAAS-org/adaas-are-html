@@ -181,3 +181,145 @@ export function toDOMString(value: any): string {
 }
 
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ── Static-island detection ──────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Standard HTML element names that are safe to materialise wholesale via
+ * `innerHTML` / a cached `<template>` clone.
+ *
+ * The set is intentionally an allow-list of plain HTML flow/phrasing/table/list
+ * /form-display tags. Anything NOT in this set — custom elements, registered
+ * ARE components (resolved by PascalCase tag), and SVG/MathML elements — is
+ * excluded so those subtrees keep flowing through the normal per-node pipeline
+ * (SVG needs createElementNS; components need their own lifecycle).
+ */
+export const STANDARD_HTML_TAGS = new Set<string>([
+    // root / sections
+    'html', 'body', 'header', 'footer', 'main', 'nav', 'section', 'article',
+    'aside', 'address', 'hgroup',
+    // headings
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    // grouping
+    'div', 'p', 'span', 'pre', 'blockquote', 'figure', 'figcaption',
+    'hr', 'br', 'wbr',
+    // lists
+    'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'menu',
+    // text-level / phrasing
+    'a', 'b', 'i', 'u', 's', 'em', 'strong', 'small', 'mark', 'abbr', 'cite',
+    'q', 'code', 'kbd', 'samp', 'var', 'sub', 'sup', 'time', 'data', 'dfn',
+    'bdi', 'bdo', 'ruby', 'rt', 'rp', 'del', 'ins',
+    // media / embedded (no special namespace handling needed)
+    'img', 'picture', 'source', 'figure', 'audio', 'video', 'track',
+    // tables
+    'table', 'caption', 'colgroup', 'col', 'thead', 'tbody', 'tfoot',
+    'tr', 'th', 'td',
+    // forms (display only — these still render fine from innerHTML)
+    'label', 'fieldset', 'legend', 'datalist', 'option', 'optgroup', 'output',
+    'progress', 'meter',
+    // interactive
+    'details', 'summary', 'dialog',
+]);
+
+/**
+ * Detects whether an inner-markup string is a fully *static island* — i.e. it
+ * contains no ARE-reactive constructs and therefore can be rendered in one shot
+ * (browser-parsed `innerHTML` / cached `<template>` clone) instead of being
+ * exploded into one AreNode per element/text/interpolation.
+ *
+ * A subtree is static iff it contains:
+ *   1. no `{{ }}` interpolations, and
+ *   2. no dynamic attributes (`$`-directive / `:`-binding / `@`-event), and
+ *   3. only standard HTML tags (no custom elements, ARE components or SVG).
+ *
+ * The scanner is quote-aware so a `:` / `@` / `$` inside an attribute *value*
+ * (e.g. `href="http://…"`, `style="color:red"`) is never mistaken for a
+ * dynamic-attribute prefix. The detector is deliberately conservative: any
+ * ambiguity resolves to `false` (skip the optimisation, keep the safe path).
+ *
+ * NOTE: pure-text content (no tags at all) is also considered static — this is
+ * what lets `&nbsp;`, `&amp;`, `&#160;` and friends decode correctly, since the
+ * browser HTML parser handles entities that hand-built text nodes do not.
+ */
+export function isStaticMarkup(inner: string): boolean {
+    if (!inner) return false;
+    // 1. interpolations make the subtree dynamic
+    if (inner.indexOf('{{') !== -1) return false;
+
+    const n = inner.length;
+    let i = 0;
+
+    while (i < n) {
+        const lt = inner.indexOf('<', i);
+        if (lt === -1) break; // remaining content is plain text — safe
+
+        // HTML comment — inert, skip over it
+        if (inner.startsWith('<!--', lt)) {
+            const end = inner.indexOf('-->', lt + 4);
+            if (end === -1) return false; // malformed
+            i = end + 3;
+            continue;
+        }
+
+        // closing tag, doctype or processing instruction — skip to its '>'
+        if (inner[lt + 1] === '/' || inner[lt + 1] === '!' || inner[lt + 1] === '?') {
+            const gt = inner.indexOf('>', lt);
+            if (gt === -1) return false;
+            i = gt + 1;
+            continue;
+        }
+
+        // opening tag — extract the tag name
+        const nameMatch = /^<([a-zA-Z][a-zA-Z0-9-]*)/.exec(inner.slice(lt));
+        if (!nameMatch) { i = lt + 1; continue; }
+
+        const tag = nameMatch[1].toLowerCase();
+        // custom element / ARE component / non-standard (incl. SVG) → not static
+        if (tag.indexOf('-') !== -1 || !STANDARD_HTML_TAGS.has(tag)) return false;
+
+        // walk the opening tag (quote-aware) to find its closing '>' and inspect
+        // attribute-name boundaries for dynamic prefixes
+        let j = lt + nameMatch[0].length;
+        let inSingle = false;
+        let inDouble = false;
+        let atNameBoundary = true; // true right after whitespace / '/' inside a tag
+        let tagEnd = -1;
+
+        while (j < n) {
+            const ch = inner[j];
+
+            if (inDouble) {
+                if (ch === '"') inDouble = false;
+            } else if (inSingle) {
+                if (ch === "'") inSingle = false;
+            } else if (ch === '"') {
+                inDouble = true;
+                atNameBoundary = false;
+            } else if (ch === "'") {
+                inSingle = true;
+                atNameBoundary = false;
+            } else if (ch === '>') {
+                tagEnd = j;
+                break;
+            } else if (ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r' || ch === '/') {
+                atNameBoundary = true;
+            } else {
+                // a dynamic-attribute prefix only counts when it STARTS an
+                // attribute name (i.e. sits at a name boundary, outside quotes)
+                if (atNameBoundary && (ch === '$' || ch === ':' || ch === '@')) {
+                    return false;
+                }
+                atNameBoundary = false;
+            }
+            j++;
+        }
+
+        if (tagEnd === -1) return false; // unterminated tag — bail to safe path
+        i = tagEnd + 1;
+    }
+
+    return true;
+}
+
+

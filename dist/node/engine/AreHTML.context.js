@@ -52,10 +52,108 @@ exports.AreHTMLEngineContext = class AreHTMLEngineContext extends are.AreContext
        */
       elementListeners: /* @__PURE__ */ new WeakMap()
     };
+    /**
+     * Parsed-fragment cache for static islands (see AddStaticHTMLInstruction).
+     *
+     * Keyed by `hostTag\u0000markup`, each entry holds a `DocumentFragment` whose
+     * children were parsed by the browser exactly once — in the *correct element
+     * context* (the host tag), so table fragments (`<tr>`, `<td>`, …) and other
+     * context-sensitive content parse correctly. Repeated static islands with
+     * identical markup (e.g. list rows, reused components) clone the pre-parsed
+     * fragment instead of re-parsing the HTML string on every mount — turning an
+     * O(parse) operation into an O(clone) one.
+     */
+    this._staticFragmentCache = /* @__PURE__ */ new Map();
+    /**
+     * Live-DOM attachments deferred while a mount pass is batching.
+     *
+     * A freshly-mounted subtree is built inside a *detached* root element, so
+     * every descendant `appendChild`/`insertBefore` happens off-document and
+     * triggers zero layout/paint invalidation. The single mutation that actually
+     * connects the built subtree to the live document is deferred and collected
+     * here, then flushed once when the batch closes — collapsing O(nodes) reflows
+     * into O(1) per mount root.
+     */
+    this._pendingAttachments = [];
+    /**
+     * Depth of the currently open batching scopes. Re-entrant so that nested
+     * `beginBatch`/`endBatch` pairs flush exactly once, when the outermost scope
+     * closes.
+     */
+    this._batchDepth = 0;
     this._container = props.container;
   }
   get container() {
     return this._container;
+  }
+  /**
+   * `true` while a synchronous mount pass is batching live-DOM attachments.
+   * Interpreter handlers consult this to decide whether to attach an element
+   * immediately or hand the attachment to {@link deferAttach}.
+   */
+  get isBatching() {
+    return this._batchDepth > 0;
+  }
+  /**
+   * Opens a batching scope. Re-entrant: only the outermost matching
+   * {@link endBatch} flushes the deferred attachments, so a single mount pass
+   * connects its built subtree to the live DOM exactly once.
+   */
+  beginBatch() {
+    this._batchDepth++;
+  }
+  /**
+   * Registers a live-DOM attachment to run when the current batch flushes. If
+   * no batch is active the attachment runs immediately, preserving the original
+   * synchronous behaviour for updates that mount outside a batch.
+   *
+   * @param attach the DOM mutation that connects a built subtree to the document
+   */
+  deferAttach(attach) {
+    if (this._batchDepth > 0) {
+      this._pendingAttachments.push(attach);
+    } else {
+      attach();
+    }
+  }
+  /**
+   * Closes a batching scope. When the outermost scope closes, every deferred
+   * attachment runs in registration (document) order, connecting the built
+   * subtrees to the live DOM in a single pass.
+   */
+  endBatch() {
+    if (this._batchDepth === 0) return;
+    this._batchDepth--;
+    if (this._batchDepth > 0) return;
+    const pending = this._pendingAttachments;
+    this._pendingAttachments = [];
+    for (let i = 0; i < pending.length; i++) {
+      pending[i]();
+    }
+  }
+  /**
+   * Returns a `DocumentFragment` containing the parsed form of `html`, parsed
+   * once in the context of `hostTag` (so context-sensitive content such as
+   * table rows/cells parses correctly) and cached thereafter. Callers should
+   * `cloneNode(true)` the returned fragment rather than mutating it, so the
+   * cache stays reusable.
+   *
+   * @param hostTag the tag name of the element the markup will be injected into
+   * @param html    verbatim static-island inner markup
+   */
+  getStaticFragment(hostTag, html) {
+    const key = `${hostTag}\0${html}`;
+    let fragment = this._staticFragmentCache.get(key);
+    if (!fragment) {
+      const container = this._container.createElement(hostTag);
+      container.innerHTML = html;
+      fragment = this._container.createDocumentFragment();
+      while (container.firstChild) {
+        fragment.appendChild(container.firstChild);
+      }
+      this._staticFragmentCache.set(key, fragment);
+    }
+    return fragment;
   }
   getNodeElement(node) {
     if (typeof node === "string") {

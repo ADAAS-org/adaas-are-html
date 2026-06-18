@@ -8,6 +8,8 @@ import { AreEventAttribute } from "@adaas/are-html/attributes/AreEvent.attribute
 import { AreBindingAttribute } from "@adaas/are-html/attributes/AreBinding.attribute";
 import { AreStaticAttribute } from "@adaas/are-html/attributes/AreStatic.attribute";
 import { AreHTMLAttribute } from "../lib/AreHTMLAttribute/AreHTML.attribute";
+import { AreHTMLNode } from "../lib/AreHTMLNode/AreHTMLNode";
+import { isStaticMarkup } from "./AreHTML.constants";
 import { A_Frame } from "@adaas/a-frame/core";
 
 
@@ -30,7 +32,34 @@ export class AreHTMLTokenizer extends AreTokenizer {
         @A_Inject(A_Logger) logger?: A_Logger
     ): void {
 
-        super.tokenize(node, context, logger);
+        /**
+         * Static-island fast path.
+         *
+         * When a node's entire inner subtree is fully static — no `{{ }}`
+         * interpolations, no dynamic (`$`/`:`/`@`) attributes and only standard
+         * HTML tags — we skip exploding it into one child AreNode per element /
+         * text run and instead capture the inner markup verbatim. The interpreter
+         * later materialises it in a single pass (browser-parsed innerHTML /
+         * cached `<template>` clone), which:
+         *   - eliminates N node + scope + scene + instruction allocations,
+         *   - collapses N isolated DOM mutations into one, and
+         *   - decodes HTML entities (e.g. `&nbsp;`) for free.
+         *
+         * Routing outlets (AreRootNode) are intentionally excluded — they own
+         * their content dynamically. The node's OWN attributes are still
+         * extracted below, so a dynamic attribute on the island root itself
+         * (e.g. `<div :class="x"> …static… </div>`) keeps working.
+         */
+        const isStaticIsland =
+            node instanceof AreComponentNode &&
+            !!node.content &&
+            isStaticMarkup(node.content);
+
+        if (isStaticIsland) {
+            (node as AreHTMLNode).markStatic(node.content);
+        } else {
+            super.tokenize(node, context, logger);
+        }
 
         context.startPerformance('attributeExtraction');
 

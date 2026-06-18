@@ -160,9 +160,9 @@ export class AreRoot extends Are {
             child.transform();
 
             child.compile();
-            // The HTML engine time-slices large initial mounts; await so a heavy
-            // routed component renders in yielding chunks instead of freezing the
-            // main thread on first entry. Small subtrees resolve synchronously.
+            // The initial mount is atomic (synchronous): the routed subtree is
+            // rendered in one uninterrupted pass so no update can observe a
+            // partially mounted tree. The await is a harmless no-op here.
             await child.mount();
         }
     }

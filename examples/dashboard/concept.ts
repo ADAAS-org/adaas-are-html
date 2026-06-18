@@ -33,7 +33,7 @@ import { A_Config, ENVConfigReader } from "@adaas/a-utils/a-config";
             fragments: [
                 new A_Config({
                     defaults: {
-                        PORT: 8080,
+                        PORT: 8089,
                         CONFIG_VERBOSE: true,
                         DEV_MODE: true
                     }

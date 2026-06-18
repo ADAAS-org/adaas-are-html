@@ -44,8 +44,74 @@ declare class AreHTMLEngineContext extends AreContext {
      * The root container for the HTML engine, which can be either a Document or a ShadowRoot. This is where the engine will mount the generated DOM elements. The context uses this container to manage the relationship between AreNodes, instructions, and their corresponding DOM elements, allowing for efficient updates and cleanups as the application state changes.
      */
     protected _container: Document;
+    /**
+     * Parsed-fragment cache for static islands (see AddStaticHTMLInstruction).
+     *
+     * Keyed by `hostTag\u0000markup`, each entry holds a `DocumentFragment` whose
+     * children were parsed by the browser exactly once — in the *correct element
+     * context* (the host tag), so table fragments (`<tr>`, `<td>`, …) and other
+     * context-sensitive content parse correctly. Repeated static islands with
+     * identical markup (e.g. list rows, reused components) clone the pre-parsed
+     * fragment instead of re-parsing the HTML string on every mount — turning an
+     * O(parse) operation into an O(clone) one.
+     */
+    protected _staticFragmentCache: Map<string, DocumentFragment>;
+    /**
+     * Live-DOM attachments deferred while a mount pass is batching.
+     *
+     * A freshly-mounted subtree is built inside a *detached* root element, so
+     * every descendant `appendChild`/`insertBefore` happens off-document and
+     * triggers zero layout/paint invalidation. The single mutation that actually
+     * connects the built subtree to the live document is deferred and collected
+     * here, then flushed once when the batch closes — collapsing O(nodes) reflows
+     * into O(1) per mount root.
+     */
+    protected _pendingAttachments: Array<() => void>;
+    /**
+     * Depth of the currently open batching scopes. Re-entrant so that nested
+     * `beginBatch`/`endBatch` pairs flush exactly once, when the outermost scope
+     * closes.
+     */
+    protected _batchDepth: number;
     constructor(props: Partial<AreHTMLContextConstructor>);
     get container(): Document;
+    /**
+     * `true` while a synchronous mount pass is batching live-DOM attachments.
+     * Interpreter handlers consult this to decide whether to attach an element
+     * immediately or hand the attachment to {@link deferAttach}.
+     */
+    get isBatching(): boolean;
+    /**
+     * Opens a batching scope. Re-entrant: only the outermost matching
+     * {@link endBatch} flushes the deferred attachments, so a single mount pass
+     * connects its built subtree to the live DOM exactly once.
+     */
+    beginBatch(): void;
+    /**
+     * Registers a live-DOM attachment to run when the current batch flushes. If
+     * no batch is active the attachment runs immediately, preserving the original
+     * synchronous behaviour for updates that mount outside a batch.
+     *
+     * @param attach the DOM mutation that connects a built subtree to the document
+     */
+    deferAttach(attach: () => void): void;
+    /**
+     * Closes a batching scope. When the outermost scope closes, every deferred
+     * attachment runs in registration (document) order, connecting the built
+     * subtrees to the live DOM in a single pass.
+     */
+    endBatch(): void;
+    /**
+     * Returns a `DocumentFragment` containing the parsed form of `html`, parsed
+     * once in the context of `hostTag` (so context-sensitive content such as
+     * table rows/cells parses correctly) and cached thereafter. Callers should
+     * `cloneNode(true)` the returned fragment rather than mutating it, so the
+     * cache stays reusable.
+     *
+     * @param hostTag the tag name of the element the markup will be injected into
+     * @param html    verbatim static-island inner markup
+     */
+    getStaticFragment(hostTag: string, html: string): DocumentFragment;
     /**
      * Retrieves the DOM element associated with a given AreNode. This method looks up the node's ASEID in the nodeToHostElements map to find the corresponding DOM element. If the node is not found, it returns undefined. This allows the engine to efficiently access and manipulate the DOM elements that correspond to specific nodes in the AreNode tree, enabling dynamic updates and interactions based on the application state.
      *

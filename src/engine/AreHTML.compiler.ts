@@ -13,6 +13,7 @@ import { AddAttributeInstruction} from "@adaas/are-html/instructions/AddAttribut
 import { AddTextInstruction} from "@adaas/are-html/instructions/AddText.instruction";
 import { AddListenerInstruction} from "@adaas/are-html/instructions/AddListener.instruction";
 import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
+import { AddStaticHTMLInstruction } from "@adaas/are-html/instructions/AddStaticHTML.instruction";
 import { AreHTMLNode } from "@adaas/are-html/node";
 
 
@@ -38,6 +39,18 @@ export class AreHTMLCompiler extends AreCompiler {
         ...args: any[]
     ): void {
         super.compile(node, scene, logger, ...args);
+
+        /**
+         * Static-island materialisation. When the tokenizer flagged this node as
+         * a static island its inner subtree was never exploded into child nodes,
+         * so there is nothing for the base compiler to walk. Emit a single
+         * AddStaticHTML instruction carrying the captured inner markup; the
+         * interpreter injects it onto the host element in one pass (and decodes
+         * HTML entities for free).
+         */
+        if (node.isStaticIsland && scene.host) {
+            scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML! }));
+        }
 
         if (node.styles?.styles) {
             const host = scene.host;

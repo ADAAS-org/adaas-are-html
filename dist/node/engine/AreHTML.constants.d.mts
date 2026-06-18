@@ -66,5 +66,37 @@ declare const LISTENER_OPTION_MODIFIERS: Set<string>;
  * Avoids "undefined"/"null"/"[object Object]" leaks into the DOM.
  */
 declare function toDOMString(value: any): string;
+/**
+ * Standard HTML element names that are safe to materialise wholesale via
+ * `innerHTML` / a cached `<template>` clone.
+ *
+ * The set is intentionally an allow-list of plain HTML flow/phrasing/table/list
+ * /form-display tags. Anything NOT in this set — custom elements, registered
+ * ARE components (resolved by PascalCase tag), and SVG/MathML elements — is
+ * excluded so those subtrees keep flowing through the normal per-node pipeline
+ * (SVG needs createElementNS; components need their own lifecycle).
+ */
+declare const STANDARD_HTML_TAGS: Set<string>;
+/**
+ * Detects whether an inner-markup string is a fully *static island* — i.e. it
+ * contains no ARE-reactive constructs and therefore can be rendered in one shot
+ * (browser-parsed `innerHTML` / cached `<template>` clone) instead of being
+ * exploded into one AreNode per element/text/interpolation.
+ *
+ * A subtree is static iff it contains:
+ *   1. no `{{ }}` interpolations, and
+ *   2. no dynamic attributes (`$`-directive / `:`-binding / `@`-event), and
+ *   3. only standard HTML tags (no custom elements, ARE components or SVG).
+ *
+ * The scanner is quote-aware so a `:` / `@` / `$` inside an attribute *value*
+ * (e.g. `href="http://…"`, `style="color:red"`) is never mistaken for a
+ * dynamic-attribute prefix. The detector is deliberately conservative: any
+ * ambiguity resolves to `false` (skip the optimisation, keep the safe path).
+ *
+ * NOTE: pure-text content (no tags at all) is also considered static — this is
+ * what lets `&nbsp;`, `&amp;`, `&#160;` and friends decode correctly, since the
+ * browser HTML parser handles entities that hand-built text nodes do not.
+ */
+declare function isStaticMarkup(inner: string): boolean;
 
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

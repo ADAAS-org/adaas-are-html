@@ -28,6 +28,14 @@ type AreHtmlAddStyleInstructionPayload = {
     /** Full CSS string to inject as a <style> block scoped to the component. Applied to the document head and reverted on unmount. */
     styles: string;
 };
+type AreHtmlAddStaticHTMLInstructionPayload = {
+    /**
+     * Verbatim inner markup of a static island, materialised on the parent
+     * element in a single pass (browser-parsed `innerHTML` / cached `<template>`
+     * clone). Decodes HTML entities (e.g. `&nbsp;`) for free via the parser.
+     */
+    html: string;
+};
 type AreHtmlHideInstructionPayload = {
     /**
      * Optional explicit display value to restore when the element becomes
@@ -49,4 +57,4 @@ type AreHtmlAddInterpolationInstructionPayload = {
     content: (...args: any[]) => string;
 };
 
-export type { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload };
+export type { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStaticHTMLInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload };

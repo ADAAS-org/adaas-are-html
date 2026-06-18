@@ -12,6 +12,7 @@ var AddAttribute_instruction = require('./instructions/AddAttribute.instruction'
 var AddElement_instruction = require('./instructions/AddElement.instruction');
 var AddInterpolation_instruction = require('./instructions/AddInterpolation.instruction');
 var AddListener_instruction = require('./instructions/AddListener.instruction');
+var AddStaticHTML_instruction = require('./instructions/AddStaticHTML.instruction');
 var AddStyle_instruction = require('./instructions/AddStyle.instruction');
 var AddText_instruction = require('./instructions/AddText.instruction');
 var HideElement_instruction = require('./instructions/HideElement.instruction');
@@ -117,6 +118,12 @@ Object.keys(AddListener_instruction).forEach(function (k) {
 	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
 		enumerable: true,
 		get: function () { return AddListener_instruction[k]; }
+	});
+});
+Object.keys(AddStaticHTML_instruction).forEach(function (k) {
+	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
+		enumerable: true,
+		get: function () { return AddStaticHTML_instruction[k]; }
 	});
 });
 Object.keys(AddStyle_instruction).forEach(function (k) {

@@ -1,6 +1,6 @@
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreTokenizer, AreNode, AreContext } from '@adaas/are';
-import { d as AreHTMLAttribute } from '../AreBinding.attribute-doUvtOjc.mjs';
+import { d as AreHTMLAttribute } from '../AreBinding.attribute-BWzEIw6H.mjs';
 import '@adaas/a-concept';
 import '../lib/AreStyle/AreStyle.context.mjs';
 

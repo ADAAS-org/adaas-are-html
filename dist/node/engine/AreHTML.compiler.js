@@ -15,6 +15,7 @@ var AddAttribute_instruction = require('@adaas/are-html/instructions/AddAttribut
 var AddText_instruction = require('@adaas/are-html/instructions/AddText.instruction');
 var AddListener_instruction = require('@adaas/are-html/instructions/AddListener.instruction');
 var AddStyle_instruction = require('@adaas/are-html/instructions/AddStyle.instruction');
+var AddStaticHTML_instruction = require('@adaas/are-html/instructions/AddStaticHTML.instruction');
 var node = require('@adaas/are-html/node');
 
 var __defProp = Object.defineProperty;
@@ -31,6 +32,9 @@ var __decorateParam = (index, decorator) => (target, key) => decorator(target, k
 exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
     super.compile(node, scene, logger, ...args);
+    if (node.isStaticIsland && scene.host) {
+      scene.plan(new AddStaticHTML_instruction.AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
+    }
     if (node.styles?.styles) {
       const host = scene.host;
       if (host) {

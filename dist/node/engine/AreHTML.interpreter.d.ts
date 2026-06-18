@@ -6,6 +6,7 @@ import { AddElementInstruction } from '../instructions/AddElement.instruction.js
 import { AddListenerInstruction } from '../instructions/AddListener.instruction.js';
 import { AddTextInstruction } from '../instructions/AddText.instruction.js';
 import { AddStyleInstruction } from '../instructions/AddStyle.instruction.js';
+import { AddStaticHTMLInstruction } from '../instructions/AddStaticHTML.instruction.js';
 import { HideElementInstruction } from '../instructions/HideElement.instruction.js';
 import { AreDirectiveContext } from '../lib/AreDirective/AreDirective.context.js';
 import { AreHTMLEngineContext } from './AreHTML.context.js';
@@ -25,6 +26,8 @@ declare class AreHTMLInterpreter extends AreInterpreter {
     removeEventListener(mutation: AddListenerInstruction, context: AreHTMLEngineContext): void;
     addText(declaration: AddTextInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeText(declaration: AddTextInstruction, context: AreHTMLEngineContext): void;
+    addStaticHTML(mutation: AddStaticHTMLInstruction, context: AreHTMLEngineContext, logger?: A_Logger): void;
+    removeStaticHTML(mutation: AddStaticHTMLInstruction, context: AreHTMLEngineContext): void;
     addComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, logger?: A_Logger): void;
     removeComment(declaration: AddCommentInstruction, context: AreHTMLEngineContext): void;
     addStyle(mutation: AddStyleInstruction, context: AreHTMLEngineContext, logger?: A_Logger): void;

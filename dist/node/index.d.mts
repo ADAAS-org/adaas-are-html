@@ -1,4 +1,4 @@
-export { A as AreBindingAttribute, a as AreDirective, b as AreDirectiveAttribute, c as AreEventAttribute, d as AreHTMLAttribute, e as AreHTMLNode, f as AreStaticAttribute } from './AreBinding.attribute-doUvtOjc.mjs';
+export { A as AreBindingAttribute, a as AreDirective, b as AreDirectiveAttribute, c as AreEventAttribute, d as AreHTMLAttribute, e as AreHTMLNode, f as AreStaticAttribute } from './AreBinding.attribute-BWzEIw6H.mjs';
 export { AreDirectiveFor } from './directives/AreDirectiveFor.directive.mjs';
 export { AreDirectiveIf } from './directives/AreDirectiveIf.directive.mjs';
 export { AreDirectiveShow } from './directives/AreDirectiveShow.directive.mjs';
@@ -6,18 +6,19 @@ export { AddAttributeInstruction } from './instructions/AddAttribute.instruction
 export { AddElementInstruction } from './instructions/AddElement.instruction.mjs';
 export { AddInterpolationInstruction } from './instructions/AddInterpolation.instruction.mjs';
 export { AddListenerInstruction } from './instructions/AddListener.instruction.mjs';
+export { AddStaticHTMLInstruction } from './instructions/AddStaticHTML.instruction.mjs';
 export { AddStyleInstruction } from './instructions/AddStyle.instruction.mjs';
 export { AddTextInstruction } from './instructions/AddText.instruction.mjs';
 export { HideElementInstruction } from './instructions/HideElement.instruction.mjs';
 export { AreHTMLInstructions } from './instructions/AreHTML.instructions.constants.mjs';
-export { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload } from './instructions/AreHTML.instructions.types.mjs';
+export { AreHtmlAddAttributeInstructionPayload, AreHtmlAddCommentInstructionPayload, AreHtmlAddElementInstructionPayload, AreHtmlAddInterpolationInstructionPayload, AreHtmlAddListenerInstructionPayload, AreHtmlAddStaticHTMLInstructionPayload, AreHtmlAddStyleInstructionPayload, AreHtmlAddTextInstructionPayload, AreHtmlHideInstructionPayload } from './instructions/AreHTML.instructions.types.mjs';
 export { AreComment } from './nodes/AreComment.mjs';
 export { AreComponentNode } from './nodes/AreComponent.mjs';
 export { AreInterpolation } from './nodes/AreInterpolation.mjs';
 export { AreRootNode } from './nodes/AreRoot.mjs';
 export { AreText } from './nodes/AreText.mjs';
 export { AreRoute } from './signals/AreRoute.signal.mjs';
-export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, ParsedEventName, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString } from './engine/AreHTML.constants.mjs';
+export { BOOLEAN_ATTRIBUTES, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, ParsedEventName, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString } from './engine/AreHTML.constants.mjs';
 export { AreHTMLEngineContext } from './engine/AreHTML.context.mjs';
 export { AreHTMLContextConstructor } from './engine/AreHTML.types.mjs';
 export { AreHTMLCompiler } from './engine/AreHTML.compiler.mjs';

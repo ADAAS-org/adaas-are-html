@@ -10,7 +10,6 @@ import { AreDirectiveFeatures } from "@adaas/are-html/directive/AreDirective.con
 import { AreHTMLEngineContext } from "./AreHTML.context";
 import { AreHTMLNode } from "../lib/AreHTMLNode/AreHTMLNode";
 import { A_Frame } from "@adaas/a-frame/core";
-import { AreSchedulerHelper } from "@adaas/are-html/helpers/AreScheduler.helper";
 
 
 @A_Frame.Define({
@@ -18,14 +17,6 @@ import { AreSchedulerHelper } from "@adaas/are-html/helpers/AreScheduler.helper"
     description: 'HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation.'
 })
 export class AreHTMLLifecycle extends AreLifecycle {
-
-    /**
-     * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
-     * mounting a large subtree we keep applying nodes until this much wall-clock
-     * time has elapsed, then yield to the browser so it can paint and process
-     * input before the next chunk. ~16ms targets a single animation frame.
-     */
-    private static readonly MOUNT_BUDGET_MS = 16;
 
     @AreLifecycle.Init(AreComponentNode)
     initComponent(
@@ -112,83 +103,99 @@ export class AreHTMLLifecycle extends AreLifecycle {
         if (scene.isInactive) return;
 
         /**
-         * 1. Render the root of this mount itself.
+         * Open a batching scope for the whole (synchronous) mount pass. Every
+         * element created below is built into a *detached* root and attached to
+         * the live DOM only when the batch flushes — turning O(nodes) reflows into
+         * a single one per mount root. `try/finally` guarantees the batch closes
+         * (and the depth counter stays balanced) even if interpretation throws.
+         *
+         * The context is resolved from the node's scope (the scope the onMount
+         * feature runs in) so the override keeps the base `mount` signature.
          */
-        node.interpret();
+        const context = node.scope.resolve<AreHTMLEngineContext>(AreHTMLEngineContext);
+
+        context?.beginBatch();
 
         /**
-         * 2. Walk the descendant subtree iteratively with an explicit enter/exit
-         *    stack so we can TIME-SLICE the work. The previous implementation
-         *    recursed via `child.mount()`, which fires onBeforeMount → onMount
-         *    (interpret + recurse) → onAfterMount per node and runs the whole tree
-         *    in one synchronous, un-yielding block. For large initial trees that
-         *    froze the main thread on first page load.
-         *
-         *    We replicate the exact per-node hook ordering:
-         *      - enter  → onBeforeMount, then (if active) interpret + queue children
-         *      - exit   → onAfterMount (fires AFTER the node's whole subtree, i.e.
-         *                 post-order, matching the recursive `node.mount()` contract)
-         *
-         *    Small trees complete entirely within a single time budget and the
-         *    handler returns `void` synchronously — a true fast-path with NO
-         *    behavioural change for typical UIs. Only genuinely large trees exceed
-         *    the budget, at which point we yield a macrotask (letting the browser
-         *    paint / stay responsive) and resume the remaining work, returning a
-         *    Promise that resolves when the whole subtree is mounted.
+         * `onAfterMount` must observe the node already connected to the live
+         * document (consumer components may measure layout / focus there). Since
+         * the subtree is built off-document and attached only when the batch
+         * flushes, we collect the post-order `onAfterMount` targets here and fire
+         * them once the flush has connected everything.
          */
-        interface MountFrame { node: AreHTMLNode; entered: boolean; }
+        const afterMountQueue: AreHTMLNode[] = [];
 
-        const stack: MountFrame[] = [];
-        for (let i = node.children.length - 1; i >= 0; i--) {
-            stack.push({ node: node.children[i] as AreHTMLNode, entered: false });
+        try {
+            /**
+             * 1. Render the root of this mount itself.
+             */
+            node.interpret();
+
+            /**
+             * 2. Walk the descendant subtree iteratively with an explicit enter/exit
+             *    stack. We keep the iterative (non-recursive) shape — it is cheaper
+             *    than deep recursion and gives us a single, clear place that owns the
+             *    per-node hook ordering:
+             *      - enter  → onBeforeMount, then (if active) interpret + queue children
+             *      - exit   → onAfterMount (fires AFTER the node's whole subtree, i.e.
+             *                 post-order, matching the recursive `node.mount()` contract)
+             *
+             * [!] The initial mount is intentionally ATOMIC (fully synchronous). It
+             *     does NOT time-slice / yield. Yielding mid-walk exposes a partially
+             *     mounted tree to the event loop: any update dispatched during a gap
+             *     (signal-driven re-render, async data load, etc.) interprets a node
+             *     whose parent has not been mounted yet — producing
+             *     `mount-point-not-found` and out-of-order DOM. The whole page must
+             *     therefore appear in the DOM in one uninterrupted pass. Heavy lists
+             *     are sliced at the source instead (see AreDirectiveFor), where the
+             *     batching is reentrancy-safe.
+             */
+            interface MountFrame { node: AreHTMLNode; entered: boolean; }
+
+            const stack: MountFrame[] = [];
+            for (let i = node.children.length - 1; i >= 0; i--) {
+                stack.push({ node: node.children[i] as AreHTMLNode, entered: false });
+            }
+
+            while (stack.length > 0) {
+                const frame = stack[stack.length - 1];
+                const current = frame.node;
+
+                if (frame.entered) {
+                    // Post-order exit: the whole subtree below `current` is mounted.
+                    // Defer the onAfterMount hook until after the batch flush so the
+                    // node is connected to the live DOM when it runs.
+                    stack.pop();
+                    afterMountQueue.push(current);
+                    continue;
+                }
+
+                frame.entered = true;
+
+                // onBeforeMount always fires (even for inactive nodes), matching the
+                // recursive AreNode.mount() semantics.
+                current.call(AreNodeFeatures.onBeforeMount, current.scope);
+
+                if (!current.scene.isInactive) {
+                    current.interpret();
+                    // Push children in reverse so they pop in document order.
+                    for (let i = current.children.length - 1; i >= 0; i--) {
+                        stack.push({ node: current.children[i] as AreHTMLNode, entered: false });
+                    }
+                }
+            }
+        } finally {
+            // Flush the deferred attachments — the fully built subtree lands in the
+            // live DOM in a single pass.
+            context?.endBatch();
         }
 
-        const step = (): void => {
-            const frame = stack[stack.length - 1];
-            const current = frame.node;
-
-            if (frame.entered) {
-                // Post-order exit: the whole subtree below `current` is mounted.
-                stack.pop();
-                current.call(AreNodeFeatures.onAfterMount, current.scope);
-                return;
-            }
-
-            frame.entered = true;
-
-            // onBeforeMount always fires (even for inactive nodes), matching the
-            // recursive AreNode.mount() semantics.
-            current.call(AreNodeFeatures.onBeforeMount, current.scope);
-
-            if (!current.scene.isInactive) {
-                current.interpret();
-                // Push children in reverse so they pop in document order.
-                for (let i = current.children.length - 1; i >= 0; i--) {
-                    stack.push({ node: current.children[i] as AreHTMLNode, entered: false });
-                }
-            }
-        };
-
-        const drive = (): void | Promise<void> => {
-            const start = AreSchedulerHelper.now();
-            while (stack.length > 0) {
-                step();
-                if (stack.length > 0 && AreSchedulerHelper.now() - start >= AreHTMLLifecycle.MOUNT_BUDGET_MS) {
-                    // Budget exhausted with work remaining — yield, then resume.
-                    return new Promise<void>((resolve, reject) => {
-                        AreSchedulerHelper.scheduleMacrotask(() => {
-                            try {
-                                resolve(drive());
-                            } catch (error) {
-                                reject(error);
-                            }
-                        });
-                    });
-                }
-            }
-        };
-
-        return drive();
+        // The subtree is now connected; fire onAfterMount in the original
+        // post-order, each with its node live in the document.
+        for (let i = 0; i < afterMountQueue.length; i++) {
+            const mounted = afterMountQueue[i];
+            mounted.call(AreNodeFeatures.onAfterMount, mounted.scope);
+        }
     }
 
 

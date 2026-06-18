@@ -208,6 +208,7 @@ var AreHTMLInstructions = {
   AddListener: "_AreHTML_AddListener",
   AddInterpolation: "_AreHTML_AddInterpolation",
   AddComment: "_AreHTML_AddComment",
+  AddStaticHTML: "_AreHTML_AddStaticHTML",
   HideElement: "_AreHTML_HideElement"
 };
 
@@ -272,6 +273,279 @@ var AreSchedulerHelper = class {
 };
 /** FIFO queue of callbacks waiting for their posted macrotask to fire. */
 AreSchedulerHelper._queue = [];
+var AreHTMLEngineContext = class extends AreContext {
+  constructor(props) {
+    super(props.container?.body.innerHTML || props.source || "");
+    /**
+     * Index structure mapping:
+     * 
+     *        Node                ->       Group ID        ->  Element
+     * -----------------------------------------------------------------------------------
+     *  | - Attribute             |   group: string       |   Node
+     *  | - Directive (e.g. for)  |                       |   Node
+     */
+    this.index = {
+      /**
+       * 1 AreNode = 1 Dom Node
+       * 
+       * uses ASEID
+       */
+      nodeToHostElements: /* @__PURE__ */ new Map(),
+      /**
+       * 1 Group Instruction = MANY Dom Nodes (e.g. for loop)
+       * 
+       * uses ASEID
+       */
+      groupToElements: /* @__PURE__ */ new Map(),
+      /**
+       * 1 Dom Node = 1 Instruction 
+       * 
+       * uses ASEID
+       */
+      elementToInstruction: /* @__PURE__ */ new WeakMap(),
+      /**
+       * 1 Instruction = 1 Dom Node (for CreateElement instructions, for example)
+       * 
+       * uses ASEID
+       */
+      instructionToElement: /* @__PURE__ */ new Map(),
+      /**
+       * Event listeners attached to elements, used for proper cleanup when reverting instructions. Maps a DOM element to a map of event names and their corresponding listeners, allowing the engine to track which listeners are attached to which elements and remove them when necessary (e.g., when an instruction is reverted).
+       */
+      elementListeners: /* @__PURE__ */ new WeakMap()
+    };
+    /**
+     * Parsed-fragment cache for static islands (see AddStaticHTMLInstruction).
+     *
+     * Keyed by `hostTag\u0000markup`, each entry holds a `DocumentFragment` whose
+     * children were parsed by the browser exactly once — in the *correct element
+     * context* (the host tag), so table fragments (`<tr>`, `<td>`, …) and other
+     * context-sensitive content parse correctly. Repeated static islands with
+     * identical markup (e.g. list rows, reused components) clone the pre-parsed
+     * fragment instead of re-parsing the HTML string on every mount — turning an
+     * O(parse) operation into an O(clone) one.
+     */
+    this._staticFragmentCache = /* @__PURE__ */ new Map();
+    /**
+     * Live-DOM attachments deferred while a mount pass is batching.
+     *
+     * A freshly-mounted subtree is built inside a *detached* root element, so
+     * every descendant `appendChild`/`insertBefore` happens off-document and
+     * triggers zero layout/paint invalidation. The single mutation that actually
+     * connects the built subtree to the live document is deferred and collected
+     * here, then flushed once when the batch closes — collapsing O(nodes) reflows
+     * into O(1) per mount root.
+     */
+    this._pendingAttachments = [];
+    /**
+     * Depth of the currently open batching scopes. Re-entrant so that nested
+     * `beginBatch`/`endBatch` pairs flush exactly once, when the outermost scope
+     * closes.
+     */
+    this._batchDepth = 0;
+    this._container = props.container;
+  }
+  get container() {
+    return this._container;
+  }
+  /**
+   * `true` while a synchronous mount pass is batching live-DOM attachments.
+   * Interpreter handlers consult this to decide whether to attach an element
+   * immediately or hand the attachment to {@link deferAttach}.
+   */
+  get isBatching() {
+    return this._batchDepth > 0;
+  }
+  /**
+   * Opens a batching scope. Re-entrant: only the outermost matching
+   * {@link endBatch} flushes the deferred attachments, so a single mount pass
+   * connects its built subtree to the live DOM exactly once.
+   */
+  beginBatch() {
+    this._batchDepth++;
+  }
+  /**
+   * Registers a live-DOM attachment to run when the current batch flushes. If
+   * no batch is active the attachment runs immediately, preserving the original
+   * synchronous behaviour for updates that mount outside a batch.
+   *
+   * @param attach the DOM mutation that connects a built subtree to the document
+   */
+  deferAttach(attach) {
+    if (this._batchDepth > 0) {
+      this._pendingAttachments.push(attach);
+    } else {
+      attach();
+    }
+  }
+  /**
+   * Closes a batching scope. When the outermost scope closes, every deferred
+   * attachment runs in registration (document) order, connecting the built
+   * subtrees to the live DOM in a single pass.
+   */
+  endBatch() {
+    if (this._batchDepth === 0) return;
+    this._batchDepth--;
+    if (this._batchDepth > 0) return;
+    const pending = this._pendingAttachments;
+    this._pendingAttachments = [];
+    for (let i = 0; i < pending.length; i++) {
+      pending[i]();
+    }
+  }
+  /**
+   * Returns a `DocumentFragment` containing the parsed form of `html`, parsed
+   * once in the context of `hostTag` (so context-sensitive content such as
+   * table rows/cells parses correctly) and cached thereafter. Callers should
+   * `cloneNode(true)` the returned fragment rather than mutating it, so the
+   * cache stays reusable.
+   *
+   * @param hostTag the tag name of the element the markup will be injected into
+   * @param html    verbatim static-island inner markup
+   */
+  getStaticFragment(hostTag, html) {
+    const key = `${hostTag}\0${html}`;
+    let fragment = this._staticFragmentCache.get(key);
+    if (!fragment) {
+      const container = this._container.createElement(hostTag);
+      container.innerHTML = html;
+      fragment = this._container.createDocumentFragment();
+      while (container.firstChild) {
+        fragment.appendChild(container.firstChild);
+      }
+      this._staticFragmentCache.set(key, fragment);
+    }
+    return fragment;
+  }
+  getNodeElement(node) {
+    if (typeof node === "string") {
+      return this.index.nodeToHostElements.get(node);
+    } else {
+      return this.index.nodeToHostElements.get(node.aseid.toString());
+    }
+  }
+  /**
+   * Associates a DOM element with a given instruction and its owner node. This method updates the context's index to map the instruction's ASEID to the provided DOM element, and also maps the element back to the instruction's ASEID for reverse lookup. If the instruction has an owner node, it also maps the node's ASEID to the element. Additionally, if the instruction belongs to a group, it adds the element to the set of elements associated with that group. This indexing allows the engine to efficiently manage and update DOM elements based on instructions and their corresponding nodes, enabling dynamic rendering and interaction in response to application state changes.
+   * 
+   * @param instruction 
+   * @param element 
+   */
+  setInstructionElement(instruction, element) {
+    const node = instruction.owner;
+    this.index.instructionToElement.set(instruction.aseid.toString(), element);
+    this.index.elementToInstruction.set(element, instruction.aseid.toString());
+    if (node && instruction instanceof AreDeclaration) {
+      this.index.nodeToHostElements.set(node.aseid.toString(), element);
+    }
+    if (instruction.group) {
+      const groupId = instruction.group;
+      if (!this.index.groupToElements.has(groupId)) {
+        this.index.groupToElements.set(groupId, /* @__PURE__ */ new Set());
+      }
+      this.index.groupToElements.get(groupId).add(element);
+    }
+  }
+  getElementByInstruction(instruction) {
+    if (typeof instruction === "string") {
+      return this.index.instructionToElement.get(instruction);
+    } else {
+      return this.index.instructionToElement.get(instruction.aseid.toString());
+    }
+  }
+  /**
+   * Removes the association between a given instruction and its corresponding DOM element. This method looks up the instruction's ASEID to find the associated DOM element, and if found, it deletes the mapping from both instructionToElement and elementToInstruction. If the instruction has an owner node, it also removes the mapping from nodeToHostElements. Additionally, if the instruction belongs to a group, it removes the element from the set of elements associated with that group, and if the group has no more elements, it deletes the group from the index. This cleanup is essential for maintaining an accurate and efficient mapping of instructions to DOM elements, especially when instructions are reverted or when nodes are removed from the DOM.
+   * 
+   * @param instruction 
+   */
+  removeInstructionElement(instruction) {
+    const element = this.index.instructionToElement.get(instruction.aseid.toString());
+    if (element) {
+      this.index.instructionToElement.delete(instruction.aseid.toString());
+      this.index.elementToInstruction.delete(element);
+      const node = instruction.owner;
+      if (node && instruction instanceof AreDeclaration) {
+        this.index.nodeToHostElements.delete(node.aseid.toString());
+      }
+      if (instruction.group) {
+        const groupId = instruction.group;
+        const groupElements = this.index.groupToElements.get(groupId);
+        if (groupElements) {
+          groupElements.delete(element);
+          if (groupElements.size === 0) {
+            this.index.groupToElements.delete(groupId);
+          }
+        }
+      }
+    }
+  }
+  getElementsByGroup(instruction) {
+    if (typeof instruction === "string") {
+      return this.index.groupToElements.get(instruction);
+    } else {
+      return this.index.groupToElements.get(instruction.aseid.toString());
+    }
+  }
+  /**
+   * Adds an event listener to a specific DOM element and keeps track of it in the context's index for proper cleanup later. This method takes a DOM element, an event name, and a listener function or object, and stores this information in the elementListeners map. This allows the engine to efficiently manage event listeners attached to dynamically created elements, ensuring that they can be removed when the associated instructions are reverted or when nodes are removed from the DOM, preventing memory leaks and unintended behavior.
+   * 
+   * @param element 
+   * @param eventName 
+   * @param listener 
+   */
+  addListener(element, eventName, listener) {
+    if (!this.index.elementListeners.has(element)) {
+      this.index.elementListeners.set(element, /* @__PURE__ */ new Map());
+    }
+    const byEvent = this.index.elementListeners.get(element);
+    if (!byEvent.has(eventName)) {
+      byEvent.set(eventName, /* @__PURE__ */ new Set());
+    }
+    byEvent.get(eventName).add(listener);
+  }
+  /**
+   * Retrieves the event listener associated with a specific DOM element and event name from the context's index. This method looks up the element in the elementListeners map and then retrieves the listener for the specified event name. If no listener is found for the given element and event, it returns undefined. This allows the engine to efficiently access and manage event listeners that have been attached to dynamically created elements, enabling proper cleanup when instructions are reverted or when nodes are removed from the DOM.
+   * 
+   * @param element 
+   * @param eventName 
+   * @returns 
+   */
+  getListener(element, eventName) {
+    const set = this.index.elementListeners.get(element)?.get(eventName);
+    if (!set || set.size === 0) return void 0;
+    return set.values().next().value;
+  }
+  /**
+   * Returns all listeners registered for a given element + event name.
+   */
+  getListeners(element, eventName) {
+    return this.index.elementListeners.get(element)?.get(eventName);
+  }
+  /**
+   * Removes an event listener from a specific DOM element and updates the context's index accordingly. This method looks up the element in the elementListeners map and deletes the listener for the specified event name. This is typically called when an instruction is reverted or when a node is removed from the DOM, ensuring that any attached event listeners are properly cleaned up to prevent memory leaks and unintended behavior.
+   * 
+   * @param element 
+   * @param eventName 
+   */
+  removeListener(element, eventName, listener) {
+    const byEvent = this.index.elementListeners.get(element);
+    if (!byEvent) return;
+    if (listener) {
+      const set = byEvent.get(eventName);
+      if (set) {
+        set.delete(listener);
+        if (set.size === 0) byEvent.delete(eventName);
+      }
+    } else {
+      byEvent.delete(eventName);
+    }
+  }
+};
+AreHTMLEngineContext = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Runtime index for the HTML rendering engine. Maps each AreNode and instruction ASEID to its corresponding DOM element so that apply and revert handlers on interpreter instructions can look up their DOM node in O(1). Tracks root-element mounts and maintains the group-level index used by structural directives."
+  })
+], AreHTMLEngineContext);
 
 // src/directives/AreDirectiveFor.directive.ts
 var AreDirectiveFor = class extends AreDirective {
@@ -287,7 +561,8 @@ var AreDirectiveFor = class extends AreDirective {
     node.init();
     attribute.template = forTemplate;
     const { key, index, arrayExpr } = this.parseExpression(attribute.content);
-    const array = this.resolveArray(store, arrayExpr, attribute.content);
+    const contextScope = attribute.owner.scope.resolve(AreDirectiveContext)?.scope || {};
+    const array = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
     attribute.value = array;
     for (let i = 0; i < array.length; i++) {
       this.spawnItemNode(attribute.template, attribute.owner, key, index, array[i], i);
@@ -321,8 +596,9 @@ var AreDirectiveFor = class extends AreDirective {
    */
   performUpdate(attribute, store, scene, state) {
     const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
-    const newArray = this.resolveArray(store, arrayExpr, attribute.content);
     const owner = attribute.owner;
+    const contextScope = owner.scope.resolve(AreDirectiveContext)?.scope || {};
+    const newArray = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
     const currentChildren = [...owner.children];
     attribute.value = newArray;
     const attached = this.isAttached(owner);
@@ -337,12 +613,16 @@ var AreDirectiveFor = class extends AreDirective {
       remaining.add(child);
     }
     const toCreate = [];
+    const finalByKey = /* @__PURE__ */ new Map();
+    const orderedKeys = new Array(newArray.length);
     for (let i = 0; i < newArray.length; i++) {
       const item = newArray[i];
       const k = computeKey(item, i);
+      orderedKeys[i] = k;
       const existing = childByKey.get(k);
       if (existing) {
         remaining.delete(existing);
+        finalByKey.set(k, existing);
         let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
         if (!directiveContext) {
           directiveContext = new AreDirectiveContext(existing.aseid);
@@ -354,7 +634,7 @@ var AreDirectiveFor = class extends AreDirective {
           [index || "index"]: i
         };
       } else {
-        toCreate.push({ item, idx: i });
+        toCreate.push({ item, idx: i, key: k });
       }
     }
     for (const child of remaining) {
@@ -363,12 +643,14 @@ var AreDirectiveFor = class extends AreDirective {
     }
     const createItem = (desc) => {
       const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
+      finalByKey.set(desc.key, child);
       child.transform();
       child.compile();
       if (attached) child.mount();
     };
     if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
       for (const desc of toCreate) createItem(desc);
+      if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
       return this.finishUpdate(attribute, store, scene, state);
     }
     state.running = true;
@@ -391,9 +673,38 @@ var AreDirectiveFor = class extends AreDirective {
           AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
         });
       }
+      if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
       return this.finishUpdate(attribute, store, scene, state);
     };
     return processChunk();
+  }
+  /**
+   * Repositions the item nodes' DOM elements so the rendered order matches the
+   * source array order. The keyed diff (steps 1–4) reuses existing nodes in
+   * place and mounts new ones at the end; without this pass a `prepend` or
+   * `shuffle` would leave reused rows where they were and pile new rows at the
+   * bottom. We walk the desired order RIGHT-TO-LEFT, keeping a `ref` pointer to
+   * the element each item must precede (starting at the `$for` anchor comment),
+   * and only call `insertBefore` when an element is not already in position —
+   * so a plain `append` (already-correct order) performs ZERO DOM moves.
+   */
+  reconcileOrder(owner, orderedKeys, finalByKey) {
+    const context = owner.scope.resolve(AreHTMLEngineContext);
+    if (!context) return;
+    const anchor = context.getNodeElement(owner);
+    if (!anchor || !anchor.parentNode) return;
+    const parent = anchor.parentNode;
+    let ref = anchor;
+    for (let i = orderedKeys.length - 1; i >= 0; i--) {
+      const node = finalByKey.get(orderedKeys[i]);
+      if (!node) continue;
+      const element = context.getNodeElement(node);
+      if (!element || element.parentNode !== parent) continue;
+      if (element.nextSibling !== ref) {
+        parent.insertBefore(element, ref);
+      }
+      ref = element;
+    }
   }
   /**
    * Completes an update pass. If another update() arrived while a chunked
@@ -485,13 +796,23 @@ var AreDirectiveFor = class extends AreDirective {
    * Supports both plain key lookups and function-call expressions:
    *   items          → store.get('items')
    *   filter(items)  → store.get('filter')(store.get('items'))
+   *
+   * `contextScope` carries item-scoped variables introduced by an enclosing
+   * directive (e.g. the `row` of an outer `$for`). It is consulted BEFORE the
+   * store so a nested `$for="cell in row.cells"` resolves `row` from the
+   * parent iteration instead of looking for a (non-existent) top-level store
+   * key. Leading identifiers not present in the context fall back to the store.
    */
-  resolveArray(store, arrayExpr, fullContent) {
+  resolveArray(store, arrayExpr, fullContent, contextScope = {}) {
+    const getRoot = (rawKey) => {
+      const k = rawKey.replace(/\?$/, "");
+      return k in contextScope ? contextScope[k] : store.get(k);
+    };
     let result;
     const callMatch = arrayExpr.match(/^([^(]+)\((.+)\)$/);
     if (callMatch) {
       const fnName = callMatch[1].trim();
-      const fn = store.get(fnName);
+      const fn = getRoot(fnName);
       if (typeof fn !== "function")
         throw new AreCompilerError({
           title: 'Invalid "for" Directive Function',
@@ -505,25 +826,25 @@ var AreDirectiveFor = class extends AreDirective {
         const stripped = arg.replace(/\?$/, "");
         if (stripped.includes(".")) {
           const parts = stripped.split(".").map((p) => p.replace(/\?$/, ""));
-          let val = store.get(parts[0]);
+          let val = getRoot(parts[0]);
           for (let j = 1; j < parts.length; j++) {
             if (val == null) return void 0;
             val = val[parts[j]];
           }
           return val ?? void 0;
         }
-        return store.get(stripped);
+        return getRoot(stripped);
       });
       result = fn(...resolvedArgs);
     } else if (arrayExpr.includes(".")) {
       const parts = arrayExpr.split(".").map((p) => p.replace(/\?$/, ""));
-      result = store.get(parts[0]);
+      result = getRoot(parts[0]);
       for (let i = 1; i < parts.length; i++) {
         if (result == null) break;
         result = result[parts[i]];
       }
     } else {
-      result = store.get(arrayExpr.replace(/\?$/, ""));
+      result = getRoot(arrayExpr);
     }
     if (result == null) return [];
     if (!Array.isArray(result))
@@ -823,6 +1144,21 @@ AddListenerInstruction = __decorateClass([
     description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
   })
 ], AddListenerInstruction);
+var AddStaticHTMLInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddStaticHTML, parent, props);
+    }
+  }
+};
+AddStaticHTMLInstruction = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: 'Materialises a fully static subtree (a "static island") onto its parent element in a single pass via browser-parsed innerHTML / a cached <template> clone. Apply injects the markup; revert clears it. Decodes HTML entities (e.g. &nbsp;) for free.'
+  })
+], AddStaticHTMLInstruction);
 var AddStyleInstruction = class extends AreMutation {
   constructor(parent, props) {
     if ("aseid" in props) {
@@ -876,6 +1212,57 @@ var AreHTMLNode = class extends AreNode {
    */
   get tag() {
     return this.aseid.entity;
+  }
+  /**
+   * The verbatim inner markup captured when this node was identified as a
+   * static island, or `undefined` for ordinary (per-node) nodes.
+   */
+  get staticInnerHTML() {
+    return this._staticInnerHTML;
+  }
+  /**
+   * Whether this node is a static-island root (see `_staticInnerHTML`).
+   */
+  get isStaticIsland() {
+    return this._staticInnerHTML !== void 0;
+  }
+  /**
+   * Marks this node as a static-island root, capturing the verbatim inner
+   * markup to be materialised in one shot by the interpreter. Called by the
+   * tokenizer when the node's inner content is detected to be fully static.
+   */
+  markStatic(innerHTML) {
+    this._staticInnerHTML = innerHTML;
+  }
+  /**
+   * Deep-clone the node. Overridden to carry over the static-island marker
+   * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
+   * copied by the base AreNode.clone(). Without this, cloning a directive
+   * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
+   * would drop the captured inner markup and render an empty element. The
+   * base clone() recurses via each child's polymorphic clone(), so nested
+   * island children are preserved automatically through this override.
+   */
+  clone() {
+    const cloned = super.clone();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
+   * Clone the node while transferring its existing scope to the clone (used by
+   * the $if/$for directives to turn the original node into a lightweight group
+   * container). Overridden for the same reason as `clone()`: the static-island
+   * marker must survive so a directive applied to an island root keeps its
+   * inner markup.
+   */
+  cloneWithScope() {
+    const cloned = super.cloneWithScope();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
   }
   /**
     * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
@@ -1175,184 +1562,176 @@ function toDOMString(value) {
     return "";
   }
 }
-var AreHTMLEngineContext = class extends AreContext {
-  constructor(props) {
-    super(props.container?.body.innerHTML || props.source || "");
-    /**
-     * Index structure mapping:
-     * 
-     *        Node                ->       Group ID        ->  Element
-     * -----------------------------------------------------------------------------------
-     *  | - Attribute             |   group: string       |   Node
-     *  | - Directive (e.g. for)  |                       |   Node
-     */
-    this.index = {
-      /**
-       * 1 AreNode = 1 Dom Node
-       * 
-       * uses ASEID
-       */
-      nodeToHostElements: /* @__PURE__ */ new Map(),
-      /**
-       * 1 Group Instruction = MANY Dom Nodes (e.g. for loop)
-       * 
-       * uses ASEID
-       */
-      groupToElements: /* @__PURE__ */ new Map(),
-      /**
-       * 1 Dom Node = 1 Instruction 
-       * 
-       * uses ASEID
-       */
-      elementToInstruction: /* @__PURE__ */ new WeakMap(),
-      /**
-       * 1 Instruction = 1 Dom Node (for CreateElement instructions, for example)
-       * 
-       * uses ASEID
-       */
-      instructionToElement: /* @__PURE__ */ new Map(),
-      /**
-       * Event listeners attached to elements, used for proper cleanup when reverting instructions. Maps a DOM element to a map of event names and their corresponding listeners, allowing the engine to track which listeners are attached to which elements and remove them when necessary (e.g., when an instruction is reverted).
-       */
-      elementListeners: /* @__PURE__ */ new WeakMap()
-    };
-    this._container = props.container;
-  }
-  get container() {
-    return this._container;
-  }
-  getNodeElement(node) {
-    if (typeof node === "string") {
-      return this.index.nodeToHostElements.get(node);
-    } else {
-      return this.index.nodeToHostElements.get(node.aseid.toString());
+var STANDARD_HTML_TAGS = /* @__PURE__ */ new Set([
+  // root / sections
+  "html",
+  "body",
+  "header",
+  "footer",
+  "main",
+  "nav",
+  "section",
+  "article",
+  "aside",
+  "address",
+  "hgroup",
+  // headings
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  // grouping
+  "div",
+  "p",
+  "span",
+  "pre",
+  "blockquote",
+  "figure",
+  "figcaption",
+  "hr",
+  "br",
+  "wbr",
+  // lists
+  "ul",
+  "ol",
+  "li",
+  "dl",
+  "dt",
+  "dd",
+  "menu",
+  // text-level / phrasing
+  "a",
+  "b",
+  "i",
+  "u",
+  "s",
+  "em",
+  "strong",
+  "small",
+  "mark",
+  "abbr",
+  "cite",
+  "q",
+  "code",
+  "kbd",
+  "samp",
+  "var",
+  "sub",
+  "sup",
+  "time",
+  "data",
+  "dfn",
+  "bdi",
+  "bdo",
+  "ruby",
+  "rt",
+  "rp",
+  "del",
+  "ins",
+  // media / embedded (no special namespace handling needed)
+  "img",
+  "picture",
+  "source",
+  "figure",
+  "audio",
+  "video",
+  "track",
+  // tables
+  "table",
+  "caption",
+  "colgroup",
+  "col",
+  "thead",
+  "tbody",
+  "tfoot",
+  "tr",
+  "th",
+  "td",
+  // forms (display only — these still render fine from innerHTML)
+  "label",
+  "fieldset",
+  "legend",
+  "datalist",
+  "option",
+  "optgroup",
+  "output",
+  "progress",
+  "meter",
+  // interactive
+  "details",
+  "summary",
+  "dialog"
+]);
+function isStaticMarkup(inner) {
+  if (!inner) return false;
+  if (inner.indexOf("{{") !== -1) return false;
+  const n = inner.length;
+  let i = 0;
+  while (i < n) {
+    const lt = inner.indexOf("<", i);
+    if (lt === -1) break;
+    if (inner.startsWith("<!--", lt)) {
+      const end = inner.indexOf("-->", lt + 4);
+      if (end === -1) return false;
+      i = end + 3;
+      continue;
     }
-  }
-  /**
-   * Associates a DOM element with a given instruction and its owner node. This method updates the context's index to map the instruction's ASEID to the provided DOM element, and also maps the element back to the instruction's ASEID for reverse lookup. If the instruction has an owner node, it also maps the node's ASEID to the element. Additionally, if the instruction belongs to a group, it adds the element to the set of elements associated with that group. This indexing allows the engine to efficiently manage and update DOM elements based on instructions and their corresponding nodes, enabling dynamic rendering and interaction in response to application state changes.
-   * 
-   * @param instruction 
-   * @param element 
-   */
-  setInstructionElement(instruction, element) {
-    const node = instruction.owner;
-    this.index.instructionToElement.set(instruction.aseid.toString(), element);
-    this.index.elementToInstruction.set(element, instruction.aseid.toString());
-    if (node && instruction instanceof AreDeclaration) {
-      this.index.nodeToHostElements.set(node.aseid.toString(), element);
+    if (inner[lt + 1] === "/" || inner[lt + 1] === "!" || inner[lt + 1] === "?") {
+      const gt = inner.indexOf(">", lt);
+      if (gt === -1) return false;
+      i = gt + 1;
+      continue;
     }
-    if (instruction.group) {
-      const groupId = instruction.group;
-      if (!this.index.groupToElements.has(groupId)) {
-        this.index.groupToElements.set(groupId, /* @__PURE__ */ new Set());
-      }
-      this.index.groupToElements.get(groupId).add(element);
+    const nameMatch = /^<([a-zA-Z][a-zA-Z0-9-]*)/.exec(inner.slice(lt));
+    if (!nameMatch) {
+      i = lt + 1;
+      continue;
     }
-  }
-  getElementByInstruction(instruction) {
-    if (typeof instruction === "string") {
-      return this.index.instructionToElement.get(instruction);
-    } else {
-      return this.index.instructionToElement.get(instruction.aseid.toString());
-    }
-  }
-  /**
-   * Removes the association between a given instruction and its corresponding DOM element. This method looks up the instruction's ASEID to find the associated DOM element, and if found, it deletes the mapping from both instructionToElement and elementToInstruction. If the instruction has an owner node, it also removes the mapping from nodeToHostElements. Additionally, if the instruction belongs to a group, it removes the element from the set of elements associated with that group, and if the group has no more elements, it deletes the group from the index. This cleanup is essential for maintaining an accurate and efficient mapping of instructions to DOM elements, especially when instructions are reverted or when nodes are removed from the DOM.
-   * 
-   * @param instruction 
-   */
-  removeInstructionElement(instruction) {
-    const element = this.index.instructionToElement.get(instruction.aseid.toString());
-    if (element) {
-      this.index.instructionToElement.delete(instruction.aseid.toString());
-      this.index.elementToInstruction.delete(element);
-      const node = instruction.owner;
-      if (node && instruction instanceof AreDeclaration) {
-        this.index.nodeToHostElements.delete(node.aseid.toString());
-      }
-      if (instruction.group) {
-        const groupId = instruction.group;
-        const groupElements = this.index.groupToElements.get(groupId);
-        if (groupElements) {
-          groupElements.delete(element);
-          if (groupElements.size === 0) {
-            this.index.groupToElements.delete(groupId);
-          }
+    const tag = nameMatch[1].toLowerCase();
+    if (tag.indexOf("-") !== -1 || !STANDARD_HTML_TAGS.has(tag)) return false;
+    let j = lt + nameMatch[0].length;
+    let inSingle = false;
+    let inDouble = false;
+    let atNameBoundary = true;
+    let tagEnd = -1;
+    while (j < n) {
+      const ch = inner[j];
+      if (inDouble) {
+        if (ch === '"') inDouble = false;
+      } else if (inSingle) {
+        if (ch === "'") inSingle = false;
+      } else if (ch === '"') {
+        inDouble = true;
+        atNameBoundary = false;
+      } else if (ch === "'") {
+        inSingle = true;
+        atNameBoundary = false;
+      } else if (ch === ">") {
+        tagEnd = j;
+        break;
+      } else if (ch === " " || ch === "	" || ch === "\n" || ch === "\r" || ch === "/") {
+        atNameBoundary = true;
+      } else {
+        if (atNameBoundary && (ch === "$" || ch === ":" || ch === "@")) {
+          return false;
         }
+        atNameBoundary = false;
       }
+      j++;
     }
+    if (tagEnd === -1) return false;
+    i = tagEnd + 1;
   }
-  getElementsByGroup(instruction) {
-    if (typeof instruction === "string") {
-      return this.index.groupToElements.get(instruction);
-    } else {
-      return this.index.groupToElements.get(instruction.aseid.toString());
-    }
-  }
-  /**
-   * Adds an event listener to a specific DOM element and keeps track of it in the context's index for proper cleanup later. This method takes a DOM element, an event name, and a listener function or object, and stores this information in the elementListeners map. This allows the engine to efficiently manage event listeners attached to dynamically created elements, ensuring that they can be removed when the associated instructions are reverted or when nodes are removed from the DOM, preventing memory leaks and unintended behavior.
-   * 
-   * @param element 
-   * @param eventName 
-   * @param listener 
-   */
-  addListener(element, eventName, listener) {
-    if (!this.index.elementListeners.has(element)) {
-      this.index.elementListeners.set(element, /* @__PURE__ */ new Map());
-    }
-    const byEvent = this.index.elementListeners.get(element);
-    if (!byEvent.has(eventName)) {
-      byEvent.set(eventName, /* @__PURE__ */ new Set());
-    }
-    byEvent.get(eventName).add(listener);
-  }
-  /**
-   * Retrieves the event listener associated with a specific DOM element and event name from the context's index. This method looks up the element in the elementListeners map and then retrieves the listener for the specified event name. If no listener is found for the given element and event, it returns undefined. This allows the engine to efficiently access and manage event listeners that have been attached to dynamically created elements, enabling proper cleanup when instructions are reverted or when nodes are removed from the DOM.
-   * 
-   * @param element 
-   * @param eventName 
-   * @returns 
-   */
-  getListener(element, eventName) {
-    const set = this.index.elementListeners.get(element)?.get(eventName);
-    if (!set || set.size === 0) return void 0;
-    return set.values().next().value;
-  }
-  /**
-   * Returns all listeners registered for a given element + event name.
-   */
-  getListeners(element, eventName) {
-    return this.index.elementListeners.get(element)?.get(eventName);
-  }
-  /**
-   * Removes an event listener from a specific DOM element and updates the context's index accordingly. This method looks up the element in the elementListeners map and deletes the listener for the specified event name. This is typically called when an instruction is reverted or when a node is removed from the DOM, ensuring that any attached event listeners are properly cleaned up to prevent memory leaks and unintended behavior.
-   * 
-   * @param element 
-   * @param eventName 
-   */
-  removeListener(element, eventName, listener) {
-    const byEvent = this.index.elementListeners.get(element);
-    if (!byEvent) return;
-    if (listener) {
-      const set = byEvent.get(eventName);
-      if (set) {
-        set.delete(listener);
-        if (set.size === 0) byEvent.delete(eventName);
-      }
-    } else {
-      byEvent.delete(eventName);
-    }
-  }
-};
-AreHTMLEngineContext = __decorateClass([
-  A_Frame.Define({
-    namespace: "a-are-html",
-    description: "Runtime index for the HTML rendering engine. Maps each AreNode and instruction ASEID to its corresponding DOM element so that apply and revert handlers on interpreter instructions can look up their DOM node in O(1). Tracks root-element mounts and maintains the group-level index used by structural directives."
-  })
-], AreHTMLEngineContext);
+  return true;
+}
 var AreHTMLCompiler = class extends AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
     super.compile(node, scene, logger, ...args);
+    if (node.isStaticIsland && scene.host) {
+      scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
+    }
     if (node.styles?.styles) {
       const host = scene.host;
       if (host) {
@@ -1547,12 +1926,15 @@ var AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        if (mountPoint.nodeType === Node.ELEMENT_NODE) {
-          mountPoint.appendChild(element);
-        } else {
-          mountPoint.parentNode?.insertBefore(element, mountPoint);
-        }
         context.setInstructionElement(declaration, element);
+        const attach = mountPoint.nodeType === Node.ELEMENT_NODE ? () => mountPoint.appendChild(element) : () => {
+          mountPoint.parentNode?.insertBefore(element, mountPoint);
+        };
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
       } else {
         const mountPoint = context.container.getElementById(node.id);
         if (!mountPoint) {
@@ -1562,8 +1944,15 @@ var AreHTMLInterpreter = class extends AreInterpreter {
           });
         }
         const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        mountPoint.parentNode?.replaceChild(element, mountPoint);
         context.setInstructionElement(declaration, element);
+        const attach = () => {
+          mountPoint.parentNode?.replaceChild(element, mountPoint);
+        };
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
       }
       logger?.debug("green", `Element ${node.aseid.toString()} added to Context:`);
     } catch (error) {
@@ -1573,7 +1962,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
   }
   removeElement(declaration, context) {
     const element = context.getElementByInstruction(declaration);
-    if (element && element.parentNode) {
+    if (element && element.parentNode && element.isConnected) {
       element.parentNode.removeChild(element);
     }
     context.removeInstructionElement(declaration);
@@ -1676,7 +2065,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
       const element = context.getElementByInstruction(mutation.parent);
       if (!element) return;
       const { name } = mutation.payload;
-      if (name && element.nodeType === Node.ELEMENT_NODE) {
+      if (name && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
         const colonIdx = name.indexOf(":");
         if (colonIdx > 0) {
           const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
@@ -1703,6 +2092,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
   showElement(mutation, context) {
     const element = context.getElementByInstruction(mutation.parent);
     if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    if (!element.isConnected) return;
     const el = element;
     el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
   }
@@ -1797,7 +2187,9 @@ var AreHTMLInterpreter = class extends AreInterpreter {
     const { event: eventName } = parseEventName(name);
     const listener = mutation.payload._callback;
     if (listener) {
-      element.removeEventListener(eventName, listener);
+      if (element.isConnected) {
+        element.removeEventListener(eventName, listener);
+      }
       context.removeListener(element, name, listener);
       mutation.payload._callback = void 0;
     }
@@ -1835,8 +2227,31 @@ var AreHTMLInterpreter = class extends AreInterpreter {
   removeText(declaration, context) {
     const element = context.getElementByInstruction(declaration);
     if (!element) return;
-    element.parentNode?.removeChild(element);
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
     context.removeInstructionElement(declaration);
+  }
+  addStaticHTML(mutation, context, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure the host element is rendered before materialising its static island.`
+      });
+    }
+    const el = element;
+    const { html } = mutation.payload;
+    el.textContent = "";
+    const fragment = context.getStaticFragment(el.tagName.toLowerCase(), html);
+    el.appendChild(fragment.cloneNode(true));
+    logger?.debug("green", `Static island materialised onto <${(mutation.owner.parent ?? mutation.owner)?.aseid?.toString?.()}>`);
+  }
+  removeStaticHTML(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (element && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+      element.textContent = "";
+    }
   }
   addComment(declaration, context, store, syntax, directiveContext, logger) {
     const node = declaration.owner.parent;
@@ -1871,7 +2286,9 @@ var AreHTMLInterpreter = class extends AreInterpreter {
   removeComment(declaration, context) {
     const element = context.getElementByInstruction(declaration);
     if (!element) return;
-    element.parentNode?.removeChild(element);
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
     context.removeInstructionElement(declaration);
   }
   addStyle(mutation, context, logger) {
@@ -2017,6 +2434,24 @@ __decorateClass([
 ], AreHTMLInterpreter.prototype, "removeText", 1);
 __decorateClass([
   A_Frame.Define({
+    description: "Inject a static island's inner markup onto its host element in one pass via a cached, browser-parsed <template> clone. Decodes HTML entities natively."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStaticHTML),
+  AreInterpreter.Update(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext)),
+  __decorateParam(2, A_Inject(A_Logger))
+], AreHTMLInterpreter.prototype, "addStaticHTML", 1);
+__decorateClass([
+  A_Frame.Define({
+    description: "Clear a static island's injected markup from its host element on revert."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStaticHTML", 1);
+__decorateClass([
+  A_Frame.Define({
     description: "Add a comment node to the DOM based on the provided declaration instruction."
   }),
   AreInterpreter.Apply(AreHTMLInstructions.AddComment),
@@ -2066,7 +2501,12 @@ var AreHTMLTokenizer = class extends AreTokenizer {
     this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
-    super.tokenize(node, context, logger);
+    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
+    if (isStaticIsland) {
+      node.markStatic(node.content);
+    } else {
+      super.tokenize(node, context, logger);
+    }
     context.startPerformance("attributeExtraction");
     const attributes = this.extractAttributes(node.markup);
     for (const attr of attributes) {
@@ -2143,46 +2583,39 @@ var AreHTMLLifecycle = class extends AreLifecycle {
   mount(node, scene, logger, ...args) {
     logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
     if (scene.isInactive) return;
-    node.interpret();
-    const stack = [];
-    for (let i = node.children.length - 1; i >= 0; i--) {
-      stack.push({ node: node.children[i], entered: false });
-    }
-    const step = () => {
-      const frame = stack[stack.length - 1];
-      const current = frame.node;
-      if (frame.entered) {
-        stack.pop();
-        current.call(AreNodeFeatures.onAfterMount, current.scope);
-        return;
+    const context = node.scope.resolve(AreHTMLEngineContext);
+    context?.beginBatch();
+    const afterMountQueue = [];
+    try {
+      node.interpret();
+      const stack = [];
+      for (let i = node.children.length - 1; i >= 0; i--) {
+        stack.push({ node: node.children[i], entered: false });
       }
-      frame.entered = true;
-      current.call(AreNodeFeatures.onBeforeMount, current.scope);
-      if (!current.scene.isInactive) {
-        current.interpret();
-        for (let i = current.children.length - 1; i >= 0; i--) {
-          stack.push({ node: current.children[i], entered: false });
-        }
-      }
-    };
-    const drive = () => {
-      const start = AreSchedulerHelper.now();
       while (stack.length > 0) {
-        step();
-        if (stack.length > 0 && AreSchedulerHelper.now() - start >= AreHTMLLifecycle.MOUNT_BUDGET_MS) {
-          return new Promise((resolve, reject) => {
-            AreSchedulerHelper.scheduleMacrotask(() => {
-              try {
-                resolve(drive());
-              } catch (error) {
-                reject(error);
-              }
-            });
-          });
+        const frame = stack[stack.length - 1];
+        const current = frame.node;
+        if (frame.entered) {
+          stack.pop();
+          afterMountQueue.push(current);
+          continue;
+        }
+        frame.entered = true;
+        current.call(AreNodeFeatures.onBeforeMount, current.scope);
+        if (!current.scene.isInactive) {
+          current.interpret();
+          for (let i = current.children.length - 1; i >= 0; i--) {
+            stack.push({ node: current.children[i], entered: false });
+          }
         }
       }
-    };
-    return drive();
+    } finally {
+      context?.endBatch();
+    }
+    for (let i = 0; i < afterMountQueue.length; i++) {
+      const mounted = afterMountQueue[i];
+      mounted.call(AreNodeFeatures.onAfterMount, mounted.scope);
+    }
   }
   updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
     if (directive.component) {
@@ -2192,13 +2625,6 @@ var AreHTMLLifecycle = class extends AreLifecycle {
     }
   }
 };
-/**
- * Per-chunk time budget (ms) for the time-sliced initial mount walk. While
- * mounting a large subtree we keep applying nodes until this much wall-clock
- * time has elapsed, then yield to the browser so it can paint and process
- * input before the next chunk. ~16ms targets a single animation frame.
- */
-AreHTMLLifecycle.MOUNT_BUDGET_MS = 16;
 __decorateClass([
   AreLifecycle.Init(AreComponentNode),
   __decorateParam(0, A_Inject(A_Caller)),
@@ -2834,6 +3260,6 @@ AreRouteWatcher = __decorateClass([
   })
 ], AreRouteWatcher);
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootCache, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStaticHTMLInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootCache, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

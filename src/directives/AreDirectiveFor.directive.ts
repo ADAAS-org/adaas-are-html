@@ -8,6 +8,7 @@ import { AreHTMLNode } from "@adaas/are-html/node";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 import { A_Frame } from "@adaas/a-frame/core";
 import { AreSchedulerHelper } from "@adaas/are-html/helpers/AreScheduler.helper";
+import { AreHTMLEngineContext } from "@adaas/are-html/context";
 
 
 type AreForExpression = {
@@ -109,7 +110,12 @@ export class AreDirectiveFor extends AreDirective {
          * Parse the $for expression and evaluate the source array.
          */
         const { key, index, arrayExpr } = this.parseExpression(attribute.content);
-        const array = this.resolveArray(store, arrayExpr, attribute.content);
+        // Item-scoped variables from an enclosing directive (e.g. the `row` of an
+        // outer `$for`) so a nested `$for="cell in row.cells"` resolves correctly.
+        // Use resolve() (not resolveFlat) so the ENCLOSING item's context — which
+        // lives on an ancestor scope, not on this directive's own node — is found.
+        const contextScope = attribute.owner.scope.resolve(AreDirectiveContext)?.scope || {};
+        const array = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
 
         attribute.value = array;
 
@@ -193,9 +199,12 @@ export class AreDirectiveFor extends AreDirective {
          * Re-evaluate the source array.
          */
         const { key, index, arrayExpr, trackExpr } = this.parseExpression(attribute.content);
-        const newArray = this.resolveArray(store, arrayExpr, attribute.content);
-
         const owner = attribute.owner;
+        // Item-scoped variables from an enclosing directive (see transform()).
+        // resolve() walks ancestor scopes to find the enclosing item's context.
+        const contextScope = owner.scope.resolve(AreDirectiveContext)?.scope || {};
+        const newArray = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
+
         const currentChildren = [...owner.children] as AreHTMLNode[];
 
         attribute.value = newArray;
@@ -239,15 +248,25 @@ export class AreDirectiveFor extends AreDirective {
         // render, so it is deferred into the time-sliced loop below alongside
         // transform/compile/mount. Existing (keyed) children are reconciled in
         // place synchronously — that is cheap and keeps reused rows stable.
-        const toCreate: Array<{ item: any; idx: number }> = [];
+        const toCreate: Array<{ item: any; idx: number; key: any }> = [];
+
+        // Final identity → node map covering BOTH reused and newly created item
+        // nodes, plus the desired key order. After all items are mounted these
+        // drive the DOM reorder pass (step 5) so the rendered order always
+        // matches the source array — making prepend / shuffle / arbitrary
+        // reorders move existing rows instead of only appending at the end.
+        const finalByKey = new Map<any, AreHTMLNode>();
+        const orderedKeys: any[] = new Array(newArray.length);
 
         for (let i = 0; i < newArray.length; i++) {
             const item = newArray[i];
             const k = computeKey(item, i);
+            orderedKeys[i] = k;
             const existing = childByKey.get(k);
 
             if (existing) {
                 remaining.delete(existing);
+                finalByKey.set(k, existing);
 
                 let directiveContext = existing.scope.resolveFlat(AreDirectiveContext);
                 if (!directiveContext) {
@@ -260,7 +279,7 @@ export class AreDirectiveFor extends AreDirective {
                     [index || 'index']: i,
                 };
             } else {
-                toCreate.push({ item, idx: i });
+                toCreate.push({ item, idx: i, key: k });
             }
         }
 
@@ -274,12 +293,13 @@ export class AreDirectiveFor extends AreDirective {
         }
 
         // ── 4. Create + mount the new item nodes. ───────────────────────────
-        // `spawnItemNode` appends to `owner.children` immediately, so iterating
-        // `toCreate` in source order preserves list order (reused children keep
-        // their positions, new rows are appended in order) — identical to the
-        // previous synchronous behavior.
-        const createItem = (desc: { item: any; idx: number }) => {
+        // `spawnItemNode` appends to `owner.children` immediately; new rows are
+        // therefore mounted at the end (just before the anchor comment). The
+        // reorder pass (step 5) then moves any out-of-position node so the final
+        // DOM order matches the source array.
+        const createItem = (desc: { item: any; idx: number; key: any }) => {
             const child = this.spawnItemNode(attribute.template!, owner, key, index, desc.item, desc.idx);
+            finalByKey.set(desc.key, child);
             child.transform();
             child.compile();
             // While detached, stop after compile: the item's instructions are
@@ -292,6 +312,8 @@ export class AreDirectiveFor extends AreDirective {
         // Small lists → fully synchronous, identical to the previous behavior.
         if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
             for (const desc of toCreate) createItem(desc);
+            // ── 5. Reorder live DOM to match the source array order ──────────
+            if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
             return this.finishUpdate(attribute, store, scene, state);
         }
 
@@ -325,11 +347,54 @@ export class AreDirectiveFor extends AreDirective {
                 });
             }
 
+            // ── 5. Reorder live DOM to match the source array order ──────────
+            if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
             return this.finishUpdate(attribute, store, scene, state);
         };
 
         return processChunk();
     }
+
+    /**
+     * Repositions the item nodes' DOM elements so the rendered order matches the
+     * source array order. The keyed diff (steps 1–4) reuses existing nodes in
+     * place and mounts new ones at the end; without this pass a `prepend` or
+     * `shuffle` would leave reused rows where they were and pile new rows at the
+     * bottom. We walk the desired order RIGHT-TO-LEFT, keeping a `ref` pointer to
+     * the element each item must precede (starting at the `$for` anchor comment),
+     * and only call `insertBefore` when an element is not already in position —
+     * so a plain `append` (already-correct order) performs ZERO DOM moves.
+     */
+    private reconcileOrder(
+        owner: AreHTMLNode,
+        orderedKeys: any[],
+        finalByKey: Map<any, AreHTMLNode>,
+    ): void {
+        const context = owner.scope.resolve<AreHTMLEngineContext>(AreHTMLEngineContext);
+        if (!context) return;
+
+        const anchor = context.getNodeElement(owner);
+        if (!anchor || !anchor.parentNode) return;
+
+        const parent = anchor.parentNode;
+        let ref: Node = anchor;
+
+        for (let i = orderedKeys.length - 1; i >= 0; i--) {
+            const node = finalByKey.get(orderedKeys[i]);
+            if (!node) continue;
+
+            const element = context.getNodeElement(node);
+            // Element may be missing if the item is still detached/unmounted.
+            if (!element || element.parentNode !== parent) continue;
+
+            // Already immediately before `ref` — no move needed.
+            if (element.nextSibling !== ref) {
+                parent.insertBefore(element, ref);
+            }
+            ref = element;
+        }
+    }
+
 
     /**
      * Completes an update pass. If another update() arrived while a chunked
@@ -441,14 +506,32 @@ export class AreDirectiveFor extends AreDirective {
      * Supports both plain key lookups and function-call expressions:
      *   items          → store.get('items')
      *   filter(items)  → store.get('filter')(store.get('items'))
+     *
+     * `contextScope` carries item-scoped variables introduced by an enclosing
+     * directive (e.g. the `row` of an outer `$for`). It is consulted BEFORE the
+     * store so a nested `$for="cell in row.cells"` resolves `row` from the
+     * parent iteration instead of looking for a (non-existent) top-level store
+     * key. Leading identifiers not present in the context fall back to the store.
      */
-    private resolveArray(store: AreStore, arrayExpr: string, fullContent: string): any[] {
+    private resolveArray(
+        store: AreStore,
+        arrayExpr: string,
+        fullContent: string,
+        contextScope: Record<string, any> = {},
+    ): any[] {
+        // Resolve a leading identifier from the directive context first, then
+        // the store — mirrors how bindings/interpolations evaluate scoped vars.
+        const getRoot = (rawKey: string): any => {
+            const k = rawKey.replace(/\?$/, '');
+            return (k in contextScope) ? contextScope[k] : store.get(k as any);
+        };
+
         let result: any;
         const callMatch = arrayExpr.match(/^([^(]+)\((.+)\)$/);
 
         if (callMatch) {
             const fnName = callMatch[1].trim();
-            const fn = store.get(fnName as any);
+            const fn = getRoot(fnName);
 
             if (typeof fn !== 'function')
                 throw new AreCompilerError({
@@ -465,14 +548,14 @@ export class AreDirectiveFor extends AreDirective {
                 const stripped = arg.replace(/\?$/, '');
                 if (stripped.includes('.')) {
                     const parts = stripped.split('.').map(p => p.replace(/\?$/, ''));
-                    let val: any = store.get(parts[0] as any);
+                    let val: any = getRoot(parts[0]);
                     for (let j = 1; j < parts.length; j++) {
                         if (val == null) return undefined;
                         val = val[parts[j]];
                     }
                     return val ?? undefined;
                 }
-                return store.get(stripped as any);
+                return getRoot(stripped);
             });
 
             result = (fn as Function)(...resolvedArgs);
@@ -481,13 +564,13 @@ export class AreDirectiveFor extends AreDirective {
             // Strip optional-chaining `?` suffix from each segment so that
             // `record?.keywords` resolves the same as `record.keywords`.
             const parts = arrayExpr.split('.').map(p => p.replace(/\?$/, ''));
-            result = store.get(parts[0] as any);
+            result = getRoot(parts[0]);
             for (let i = 1; i < parts.length; i++) {
                 if (result == null) break;
                 result = result[parts[i]];
             }
         } else {
-            result = store.get(arrayExpr.replace(/\?$/, '') as any);
+            result = getRoot(arrayExpr);
         }
 
         // null / undefined from optional-chaining expressions (e.g. `record?.keywords`)
