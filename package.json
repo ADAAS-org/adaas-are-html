@@ -1,6 +1,6 @@
 {
   "name": "@adaas/are-html",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "A-Concept Rendering Engine (ARE) is a powerful rendering engine designed to work seamlessly with the A-Concept framework. This library provides an HTML engine implementation of ARE, enabling developers to create dynamic and interactive user interfaces for web applications using standard HTML syntax.",
   "keywords": [
     "a-concept",
