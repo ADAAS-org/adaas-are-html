@@ -96,9 +96,7 @@ export class AreDirectiveIf extends AreDirective {
          * 1. Extract the value from the store based on the attribute content
          *    (which is the path to the value in the store)
          */
-        attribute.value = syntax.evaluate(attribute.content, store, {
-            ...(directiveContext?.scope || {}),
-        });
+        attribute.value = this.evaluateCondition(syntax, attribute, store, directiveContext);
 
         /**
          * 2. If the value is falsy, remove the node from the scene by planning a RemoveElement instruction.
@@ -127,6 +125,7 @@ export class AreDirectiveIf extends AreDirective {
         @A_Inject(A_Scope) scope: A_Scope,
         @A_Inject(AreSyntax) syntax: AreSyntax,
         @A_Inject(AreScene) scene: AreScene,
+        @A_Inject(AreDirectiveContext) directiveContext?: AreDirectiveContext,
         ...args: any[]
     ): void {
         /**
@@ -134,7 +133,7 @@ export class AreDirectiveIf extends AreDirective {
          *    (which is the path to the value in the store)
          */
         const previous = !!attribute.value;
-        const next = !!syntax.evaluate(attribute.content, store);
+        const next = this.evaluateCondition(syntax, attribute, store, directiveContext);
         attribute.value = next;
 
         // Skip when truthiness has not changed — avoids redundant mount/unmount.
@@ -146,6 +145,36 @@ export class AreDirectiveIf extends AreDirective {
         } else {
             attribute.template!.unmount();
             attribute.template!.scene.deactivate();
+        }
+    }
+
+    /**
+     * Evaluates the `$if` condition defensively.
+     *
+     * A condition can reference data that is momentarily unavailable — most
+     * commonly a nested `$if` (e.g. `$if="selected.fields.length"`) living
+     * inside a parent `$if="selected"` whose object has just become `null`.
+     * Because the nested directive is still subscribed to the store, its
+     * update fires on that same change and the raw expression would throw
+     * `Cannot read properties of null`, crashing the whole update pipeline.
+     *
+     * Treating an evaluation error as `false` is the correct contract for a
+     * conditional: if the condition cannot be resolved, the subtree simply
+     * stays hidden until the referenced data is present again (at which point
+     * the parent `$if` re-activates and re-evaluates this one).
+     */
+    private evaluateCondition(
+        syntax: AreSyntax,
+        attribute: AreDirectiveAttribute,
+        store: AreStore,
+        directiveContext?: AreDirectiveContext,
+    ): boolean {
+        try {
+            return !!syntax.evaluate(attribute.content, store, {
+                ...(directiveContext?.scope || {}),
+            });
+        } catch {
+            return false;
         }
     }
 

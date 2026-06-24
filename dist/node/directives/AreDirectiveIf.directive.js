@@ -35,9 +35,7 @@ exports.AreDirectiveIf = class AreDirectiveIf extends AreDirective_component.Are
     attribute.template = ifTemplate;
   }
   compile(attribute, store, scene, syntax, directiveContext, ...args) {
-    attribute.value = syntax.evaluate(attribute.content, store, {
-      ...directiveContext?.scope || {}
-    });
+    attribute.value = this.evaluateCondition(syntax, attribute, store, directiveContext);
     const hostInstruction = scene.host;
     const commentIdentifier = ` --- if: ${attribute.template.id} --- `;
     const declaration = new AddComment_instruction.AddCommentInstruction({ content: commentIdentifier });
@@ -49,9 +47,9 @@ exports.AreDirectiveIf = class AreDirectiveIf extends AreDirective_component.Are
     else
       attribute.template.scene.deactivate();
   }
-  update(attribute, store, scope, syntax, scene, ...args) {
+  update(attribute, store, scope, syntax, scene, directiveContext, ...args) {
     const previous = !!attribute.value;
-    const next = !!syntax.evaluate(attribute.content, store);
+    const next = this.evaluateCondition(syntax, attribute, store, directiveContext);
     attribute.value = next;
     if (previous === next) return;
     if (next) {
@@ -60,6 +58,30 @@ exports.AreDirectiveIf = class AreDirectiveIf extends AreDirective_component.Are
     } else {
       attribute.template.unmount();
       attribute.template.scene.deactivate();
+    }
+  }
+  /**
+   * Evaluates the `$if` condition defensively.
+   *
+   * A condition can reference data that is momentarily unavailable — most
+   * commonly a nested `$if` (e.g. `$if="selected.fields.length"`) living
+   * inside a parent `$if="selected"` whose object has just become `null`.
+   * Because the nested directive is still subscribed to the store, its
+   * update fires on that same change and the raw expression would throw
+   * `Cannot read properties of null`, crashing the whole update pipeline.
+   *
+   * Treating an evaluation error as `false` is the correct contract for a
+   * conditional: if the condition cannot be resolved, the subtree simply
+   * stays hidden until the referenced data is present again (at which point
+   * the parent `$if` re-activates and re-evaluates this one).
+   */
+  evaluateCondition(syntax, attribute, store, directiveContext) {
+    try {
+      return !!syntax.evaluate(attribute.content, store, {
+        ...directiveContext?.scope || {}
+      });
+    } catch {
+      return false;
     }
   }
 };
@@ -85,7 +107,8 @@ __decorateClass([
   __decorateParam(1, aConcept.A_Inject(are.AreStore)),
   __decorateParam(2, aConcept.A_Inject(aConcept.A_Scope)),
   __decorateParam(3, aConcept.A_Inject(are.AreSyntax)),
-  __decorateParam(4, aConcept.A_Inject(are.AreScene))
+  __decorateParam(4, aConcept.A_Inject(are.AreScene)),
+  __decorateParam(5, aConcept.A_Inject(AreDirective_context.AreDirectiveContext))
 ], exports.AreDirectiveIf.prototype, "update", 1);
 exports.AreDirectiveIf = __decorateClass([
   core.A_Frame.Define({

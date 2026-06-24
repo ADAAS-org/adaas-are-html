@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARE · OS Desktop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { background: #050410; color: #f5f5f7; overflow: hidden; }
+
+    /* The mount root is a real block-level container. */
+    are-root { display: block; height: 100%; }
+
+    /*
+     * ARE wraps every component (and interpolated text) in a custom tag. Left
+     * as the default `display: inline`, those wrappers — and the empty
+     * <are-text> whitespace nodes between siblings — would become the actual
+     * fl/grid items and break layout. `display: contents` makes each wrapper's
+     * box disappear while keeping its children in the parent's flow.
+     */
+    os-desktop, menu-bar, app-stage, os-hud, os-dock, os-launchpad,
+    app-window, marketing-app, post-editor, post-preview,
+    gantt-app, gantt-toolbar, gantt-chart, are-text { display: contents; }
+  </style>
+</head>
+<body>
+  <!-- Outer ARE root renders the persistent OS shell (desktop + dock + bars). -->
+  <are-root id="os"><os-desktop></os-desktop></are-root>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

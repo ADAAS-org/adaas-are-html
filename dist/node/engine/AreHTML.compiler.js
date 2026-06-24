@@ -17,6 +17,7 @@ var AddListener_instruction = require('@adaas/are-html/instructions/AddListener.
 var AddStyle_instruction = require('@adaas/are-html/instructions/AddStyle.instruction');
 var AddStaticHTML_instruction = require('@adaas/are-html/instructions/AddStaticHTML.instruction');
 var node = require('@adaas/are-html/node');
+var AreDirective_context = require('@adaas/are-html/directive/AreDirective.context');
 
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -92,7 +93,7 @@ exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
       handler: attribute.content
     }));
   }
-  compileBindingAttribute(attribute, scene, parentStore, store, syntax, ...args) {
+  compileBindingAttribute(attribute, scene, parentStore, store, syntax, directiveContext, ...args) {
     if (!scene.host)
       throw new are.AreCompilerError({
         title: "Scene Host Not Found",
@@ -128,11 +129,12 @@ exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
         }
         return value;
       };
+      const directiveScope = () => directiveContext?.scope ?? {};
       const watcher = {
         update: () => {
           try {
             parentStore.watch(watcher);
-            const next = coerce(syntax.evaluate(attribute.content, parentStore));
+            const next = coerce(syntax.evaluate(attribute.content, parentStore, directiveScope()));
             parentStore.unwatch(watcher);
             store.set(propName, next);
           } catch (e) {
@@ -141,7 +143,7 @@ exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
         }
       };
       parentStore.watch(watcher);
-      const initial = coerce(syntax.evaluate(attribute.content, parentStore));
+      const initial = coerce(syntax.evaluate(attribute.content, parentStore, directiveScope()));
       parentStore.unwatch(watcher);
       store.set(propName, initial);
       return;
@@ -197,7 +199,8 @@ __decorateClass([
   __decorateParam(2, aConcept.A_Dependency.Parent()),
   __decorateParam(2, aConcept.A_Inject(are.AreStore)),
   __decorateParam(3, aConcept.A_Inject(are.AreStore)),
-  __decorateParam(4, aConcept.A_Inject(are.AreSyntax))
+  __decorateParam(4, aConcept.A_Inject(are.AreSyntax)),
+  __decorateParam(5, aConcept.A_Inject(AreDirective_context.AreDirectiveContext))
 ], exports.AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
 exports.AreHTMLCompiler = __decorateClass([
   core.A_Frame.Define({

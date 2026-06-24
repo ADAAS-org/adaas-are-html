@@ -4,7 +4,9 @@ import { AreCompiler, AreScene, AreStore, AreSyntax } from '@adaas/are';
 import { e as AreHTMLNode, f as AreStaticAttribute, b as AreDirectiveAttribute, c as AreEventAttribute, A as AreBindingAttribute } from '../AreBinding.attribute-GpT-5Qmf.js';
 import { AreInterpolation } from '../nodes/AreInterpolation.js';
 import { AreText } from '../nodes/AreText.js';
+import { AreDirectiveContext } from '../lib/AreDirective/AreDirective.context.js';
 import '../lib/AreStyle/AreStyle.context.js';
+import '@adaas/a-utils/a-execution';
 
 declare class AreHTMLCompiler extends AreCompiler {
     /**
@@ -28,7 +30,7 @@ declare class AreHTMLCompiler extends AreCompiler {
     compileStaticAttribute(attribute: AreStaticAttribute, scene: AreScene, ...args: any[]): void;
     compileDirectiveAttribute(directive: AreDirectiveAttribute, store: AreStore, feature: A_Feature, logger?: A_Logger, ...args: any[]): void;
     compileEventAttribute(attribute: AreEventAttribute, scene: AreScene, ...args: any[]): void;
-    compileBindingAttribute(attribute: AreBindingAttribute, scene: AreScene, parentStore: AreStore, store: AreStore, syntax: AreSyntax, ...args: any[]): void;
+    compileBindingAttribute(attribute: AreBindingAttribute, scene: AreScene, parentStore: AreStore, store: AreStore, syntax: AreSyntax, directiveContext?: AreDirectiveContext, ...args: any[]): void;
 }
 
 export { AreHTMLCompiler };

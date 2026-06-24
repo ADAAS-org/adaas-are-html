@@ -15,6 +15,7 @@ import { AddListenerInstruction} from "@adaas/are-html/instructions/AddListener.
 import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
 import { AddStaticHTMLInstruction } from "@adaas/are-html/instructions/AddStaticHTML.instruction";
 import { AreHTMLNode } from "@adaas/are-html/node";
+import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 
 
 
@@ -219,6 +220,7 @@ export class AreHTMLCompiler extends AreCompiler {
         @A_Inject(AreStore) parentStore: AreStore,
         @A_Inject(AreStore) store: AreStore,
         @A_Inject(AreSyntax) syntax: AreSyntax,
+        @A_Inject(AreDirectiveContext) directiveContext?: AreDirectiveContext,
         ...args: any[]
     ) {
         if (!scene.host)
@@ -262,13 +264,21 @@ export class AreHTMLCompiler extends AreCompiler {
                 return value;
             };
 
+            // Item-scoped variables from an enclosing directive (the `item`/`index`
+            // of a `$for`, or any scope a `$if` merged in) so a prop binding like
+            // `:title="item.name"` resolves the loop variable — checked BEFORE the
+            // store, exactly like plain attribute bindings do in the interpreter.
+            // Read `.scope` lazily inside each evaluation so keyed `$for` updates
+            // that reassign the context's scope are always reflected.
+            const directiveScope = () => directiveContext?.scope ?? {};
+
             // The watcher entity below is registered against parentStore so that
             // updates to the bound expression in the parent flow into the child store.
             const watcher = {
                 update: () => {
                     try {
                         parentStore.watch(watcher);
-                        const next = coerce(syntax.evaluate(attribute.content, parentStore));
+                        const next = coerce(syntax.evaluate(attribute.content, parentStore, directiveScope()));
                         parentStore.unwatch(watcher);
                         store.set(propName!, next);
                     } catch (e) {
@@ -279,7 +289,7 @@ export class AreHTMLCompiler extends AreCompiler {
 
             // Initial read with watch active so dependencies are recorded.
             parentStore.watch(watcher);
-            const initial = coerce(syntax.evaluate(attribute.content, parentStore));
+            const initial = coerce(syntax.evaluate(attribute.content, parentStore, directiveScope()));
             parentStore.unwatch(watcher);
 
             store.set(propName, initial);

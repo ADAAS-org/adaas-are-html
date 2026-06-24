@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARE · Lazy Loading</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #09090b; color: #f4f4f5; }
+
+    /* The mount root is a real block-level container. */
+    are-root { display: block; }
+
+    /*
+     * ARE wraps every component (and interpolated text) in a custom tag:
+     *   <app-shell><div class="shell">…  ·  <nav-bar><aside class="nav">…
+     * Left as default `display: inline`, those wrappers — and the empty
+     * whitespace <are-text> nodes between siblings — become the actual
+     * grid/flex items, so layout lands on the wrapper instead of the styled
+     * inner element and stray <are-text> items break the grid columns.
+     *
+     * `display: contents` makes each wrapper's box disappear while keeping its
+     * children in the parent's flow, so `.shell`'s grid sees `.nav` and `main`
+     * directly, and empty <are-text> nodes contribute nothing.
+     */
+    app-shell, nav-bar, lazy-outlet, are-text,
+    home-page, about-page, settings-page, reports-page { display: contents; }
+  </style>
+</head>
+<body>
+  <!-- Outer ARE root: renders the persistent AppShell (nav + dynamic outlet). -->
+  <are-root id="app"><app-shell></app-shell></are-root>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

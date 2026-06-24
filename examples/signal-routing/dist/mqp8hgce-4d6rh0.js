@@ -13,11 +13,11 @@ var __decorateParam = (index, decorator) => (target, key) => decorator(target, k
 
 // node_modules/@adaas/a-concept/dist/browser/index.mjs
 var gt = Object.defineProperty;
-var p = /* @__PURE__ */ __name((u2, e) => gt(u2, "name", { value: e, configurable: true }), "p");
+var p = /* @__PURE__ */ __name((u3, e2) => gt(u3, "name", { value: e2, configurable: true }), "p");
 var _a;
 var De = (_a = class {
-  constructor(e = {}) {
-    this._name = e.name || this.constructor.name;
+  constructor(e2 = {}) {
+    this._name = e2.name || this.constructor.name;
   }
   get name() {
     return this._name;
@@ -31,41 +31,41 @@ var H = De;
 var yt = ((o3) => (o3.INITIALIZED = "INITIALIZED", o3.PROCESSING = "PROCESSING", o3.COMPLETED = "COMPLETED", o3.INTERRUPTED = "INTERRUPTED", o3.FAILED = "FAILED", o3))(yt || {});
 var _a2;
 var Ne = (_a2 = class {
-  static toUpperSnakeCase(e) {
-    return e.trim().replace(/([a-z])([A-Z])/g, "$1_$2").replace(/[^a-zA-Z0-9]+/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "").toUpperCase();
+  static toUpperSnakeCase(e2) {
+    return e2.trim().replace(/([a-z])([A-Z])/g, "$1_$2").replace(/[^a-zA-Z0-9]+/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "").toUpperCase();
   }
-  static toCamelCase(e) {
-    return e.trim().replace(/[^a-zA-Z0-9]+/g, " ").split(" ").filter(Boolean).map((t4, r8) => r8 === 0 ? t4.toLowerCase() : t4.charAt(0).toUpperCase() + t4.slice(1).toLowerCase()).join("");
+  static toCamelCase(e2) {
+    return e2.trim().replace(/[^a-zA-Z0-9]+/g, " ").split(" ").filter(Boolean).map((t4, r9) => r9 === 0 ? t4.toLowerCase() : t4.charAt(0).toUpperCase() + t4.slice(1).toLowerCase()).join("");
   }
-  static toPascalCase(e) {
-    return e.trim().replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[^a-zA-Z0-9]+/g, " ").split(" ").filter(Boolean).map((t4) => t4.charAt(0).toUpperCase() + t4.slice(1).toLowerCase()).join("");
+  static toPascalCase(e2) {
+    return e2.trim().replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[^a-zA-Z0-9]+/g, " ").split(" ").filter(Boolean).map((t4) => t4.charAt(0).toUpperCase() + t4.slice(1).toLowerCase()).join("");
   }
-  static toKebabCase(e) {
-    return e.replace(/[^a-zA-Z0-9]+/g, " ").replace(/([a-z0-9])([A-Z])/g, "$1 $2").trim().replace(/\s+/g, "-").toLowerCase();
+  static toKebabCase(e2) {
+    return e2.replace(/[^a-zA-Z0-9]+/g, " ").replace(/([a-z0-9])([A-Z])/g, "$1 $2").trim().replace(/\s+/g, "-").toLowerCase();
   }
 }, __name(_a2, "Ne"), _a2);
 p(Ne, "A_FormatterHelper");
 var P = Ne;
 var _a3;
 var Me = (_a3 = class {
-  static generateTimeId(e = { timestamp: /* @__PURE__ */ new Date(), random: Math.random().toString(36).slice(2, 8) }) {
-    let t4 = e.timestamp.getTime().toString(36), r8 = e.random;
-    return `${t4}-${r8}`;
+  static generateTimeId(e2 = { timestamp: /* @__PURE__ */ new Date(), random: Math.random().toString(36).slice(2, 8) }) {
+    let t4 = e2.timestamp.getTime().toString(36), r9 = e2.random;
+    return `${t4}-${r9}`;
   }
-  static parseTimeId(e) {
-    let [t4, r8] = e.split("-");
-    return { timestamp: new Date(parseInt(t4, 36)), random: r8 };
+  static parseTimeId(e2) {
+    let [t4, r9] = e2.split("-");
+    return { timestamp: new Date(parseInt(t4, 36)), random: r9 };
   }
-  static formatWithLeadingZeros(e, t4 = 10) {
-    return String(e).padStart(t4 + 1, "0").slice(-t4);
+  static formatWithLeadingZeros(e2, t4 = 10) {
+    return String(e2).padStart(t4 + 1, "0").slice(-t4);
   }
-  static removeLeadingZeros(e) {
-    return String(Number(e));
+  static removeLeadingZeros(e2) {
+    return String(Number(e2));
   }
-  static hashString(e) {
-    let t4 = 0, r8, n6;
-    if (e.length === 0) return t4.toString();
-    for (r8 = 0; r8 < e.length; r8++) n6 = e.charCodeAt(r8), t4 = (t4 << 5) - t4 + n6, t4 |= 0;
+  static hashString(e2) {
+    let t4 = 0, r9, n7;
+    if (e2.length === 0) return t4.toString();
+    for (r9 = 0; r9 < e2.length; r9++) n7 = e2.charCodeAt(r9), t4 = (t4 << 5) - t4 + n7, t4 |= 0;
     return t4.toString();
   }
 }, __name(_a3, "Me"), _a3);
@@ -73,47 +73,47 @@ p(Me, "A_IdentityHelper");
 var G = Me;
 var _a4;
 var ue = (_a4 = class {
-  static isString(e) {
-    return typeof e == "string" || e instanceof String;
+  static isString(e2) {
+    return typeof e2 == "string" || e2 instanceof String;
   }
-  static isNumber(e) {
-    return typeof e == "number" && isFinite(e);
+  static isNumber(e2) {
+    return typeof e2 == "number" && isFinite(e2);
   }
-  static isBoolean(e) {
-    return typeof e == "boolean";
+  static isBoolean(e2) {
+    return typeof e2 == "boolean";
   }
-  static isObject(e) {
-    return e !== null && typeof e == "object" && !Array.isArray(e);
+  static isObject(e2) {
+    return e2 !== null && typeof e2 == "object" && !Array.isArray(e2);
   }
-  static isArray(e) {
-    return Array.isArray(e);
+  static isArray(e2) {
+    return Array.isArray(e2);
   }
-  static isErrorConstructorType(e) {
-    return !!e && _a4.isObject(e) && !(e instanceof Error) && "title" in e;
+  static isErrorConstructorType(e2) {
+    return !!e2 && _a4.isObject(e2) && !(e2 instanceof Error) && "title" in e2;
   }
-  static isErrorSerializedType(e) {
-    return !!e && _a4.isObject(e) && !(e instanceof Error) && "aseid" in e && _a4.isString(e.aseid);
+  static isErrorSerializedType(e2) {
+    return !!e2 && _a4.isObject(e2) && !(e2 instanceof Error) && "aseid" in e2 && _a4.isString(e2.aseid);
   }
-  static isScopeInstance(e) {
-    return !!e && typeof e == "object" && "name" in e && "aseid" in e;
+  static isScopeInstance(e2) {
+    return !!e2 && typeof e2 == "object" && "name" in e2 && "aseid" in e2;
   }
 }, __name(_a4, "ue"), _a4);
 p(ue, "A_BasicTypeGuards");
 var I = ue;
 var _a5;
 var k = (_a5 = class {
-  static isASEID(e) {
-    return this.regexp.test(e);
+  static isASEID(e2) {
+    return this.regexp.test(e2);
   }
-  static compare(e, t4) {
-    if (!e || !t4) return false;
-    if (I.isString(e) && this.isASEID(e) === false) throw new Error(`Invalid ASEID format provided: ${e}`);
+  static compare(e2, t4) {
+    if (!e2 || !t4) return false;
+    if (I.isString(e2) && this.isASEID(e2) === false) throw new Error(`Invalid ASEID format provided: ${e2}`);
     if (I.isString(t4) && this.isASEID(t4) === false) throw new Error(`Invalid ASEID format provided: ${t4}`);
-    let r8 = e instanceof _a5 ? e : new _a5(e), n6 = t4 instanceof _a5 ? t4 : new _a5(t4);
-    return r8.toString() === n6.toString();
+    let r9 = e2 instanceof _a5 ? e2 : new _a5(e2), n7 = t4 instanceof _a5 ? t4 : new _a5(t4);
+    return r9.toString() === n7.toString();
   }
-  constructor(e) {
-    this.verifyInput(e), this.getInitializer(e).call(this, e);
+  constructor(e2) {
+    this.verifyInput(e2), this.getInitializer(e2).call(this, e2);
   }
   get concept() {
     return this._concept || _.concept;
@@ -136,22 +136,22 @@ var k = (_a5 = class {
   get hash() {
     return G.hashString(this.toString());
   }
-  getInitializer(e) {
+  getInitializer(e2) {
     switch (true) {
-      case I.isString(e):
+      case I.isString(e2):
         return this.fromString;
-      case I.isObject(e):
+      case I.isObject(e2):
         return this.fromObject;
       default:
         throw new Error("Invalid parameters provided to ASEID constructor");
     }
   }
-  fromString(e) {
-    let [t4, r8, n6] = e.split("@"), [o3, s4, a4] = r8.split(":"), c3 = a4.includes(".") ? a4.split(".")[0] : void 0, l5 = a4.includes(".") ? a4.split(".")[1] : a4;
-    this._concept = t4 || _.root.name, this._scope = o3 || _.root.name, this._entity = s4, this._id = l5, this._version = n6, this._shard = c3;
+  fromString(e2) {
+    let [t4, r9, n7] = e2.split("@"), [o3, s4, a4] = r9.split(":"), c3 = a4.includes(".") ? a4.split(".")[0] : void 0, l4 = a4.includes(".") ? a4.split(".")[1] : a4;
+    this._concept = t4 || _.root.name, this._scope = o3 || _.root.name, this._entity = s4, this._id = l4, this._version = n7, this._shard = c3;
   }
-  fromObject(e) {
-    this._concept = e.concept ? _a5.isASEID(e.concept) ? new _a5(e.concept).id : e.concept : _.concept, this._scope = e.scope ? I.isNumber(e.scope) ? G.formatWithLeadingZeros(e.scope) : _a5.isASEID(e.scope) ? new _a5(e.scope).id : e.scope : _.root.name, this._entity = e.entity, this._id = I.isNumber(e.id) ? G.formatWithLeadingZeros(e.id) : e.id, this._version = e.version, this._shard = e.shard;
+  fromObject(e2) {
+    this._concept = e2.concept ? _a5.isASEID(e2.concept) ? new _a5(e2.concept).id : e2.concept : _.concept, this._scope = e2.scope ? I.isNumber(e2.scope) ? G.formatWithLeadingZeros(e2.scope) : _a5.isASEID(e2.scope) ? new _a5(e2.scope).id : e2.scope : _.root.name, this._entity = e2.entity, this._id = I.isNumber(e2.id) ? G.formatWithLeadingZeros(e2.id) : e2.id, this._version = e2.version, this._shard = e2.shard;
   }
   toString() {
     return `${this.concept}@${this.scope}:${this.entity}:${this.shard ? this.shard + "." + this.id : this.id}${this.version ? "@" + this.version : ""}`;
@@ -159,13 +159,13 @@ var k = (_a5 = class {
   toJSON() {
     return { concept: this._concept, scope: this._scope, entity: this._entity, id: this._id, version: this._version, shard: this._shard };
   }
-  verifyInput(e) {
+  verifyInput(e2) {
     switch (true) {
-      case (I.isString(e) && !_a5.isASEID(e)):
+      case (I.isString(e2) && !_a5.isASEID(e2)):
         throw new Error("Invalid ASEID format provided");
-      case (I.isObject(e) && !e.id):
+      case (I.isObject(e2) && !e2.id):
         throw new Error("ASEID id is required");
-      case (I.isObject(e) && !e.entity):
+      case (I.isObject(e2) && !e2.entity):
         throw new Error("ASEID entity is required");
     }
   }
@@ -194,11 +194,11 @@ var Oe = (_a6 = class {
   static get A_ERROR_DEFAULT_DESCRIPTION() {
     return "If you see this error please let us know.";
   }
-  static get(e) {
-    return this[e];
+  static get(e2) {
+    return this[e2];
   }
-  static set(e, t4) {
-    this[e] = t4;
+  static set(e2, t4) {
+    this[e2] = t4;
   }
   static getAll() {
     return {};
@@ -231,27 +231,27 @@ var ke = (_a7 = class extends Pe {
   static get A_ERROR_DEFAULT_DESCRIPTION() {
     return window.__A_CONCEPT_ENVIRONMENT_ENV__?.A_ERROR_DEFAULT_DESCRIPTION || super.A_ERROR_DEFAULT_DESCRIPTION;
   }
-  static get(e) {
-    return window.__A_CONCEPT_ENVIRONMENT_ENV__?.[e] || this[e];
+  static get(e2) {
+    return window.__A_CONCEPT_ENVIRONMENT_ENV__?.[e2] || this[e2];
   }
-  static set(e, t4) {
-    window.__A_CONCEPT_ENVIRONMENT_ENV__ || (window.__A_CONCEPT_ENVIRONMENT_ENV__ = {}), window.__A_CONCEPT_ENVIRONMENT_ENV__[e] = t4;
+  static set(e2, t4) {
+    window.__A_CONCEPT_ENVIRONMENT_ENV__ || (window.__A_CONCEPT_ENVIRONMENT_ENV__ = {}), window.__A_CONCEPT_ENVIRONMENT_ENV__[e2] = t4;
   }
   static getAll() {
-    let e = {};
+    let e2 = {};
     return window.__A_CONCEPT_ENVIRONMENT_ENV__ && Object.keys(window.__A_CONCEPT_ENVIRONMENT_ENV__).forEach((t4) => {
-      e[t4] = window.__A_CONCEPT_ENVIRONMENT_ENV__[t4];
+      e2[t4] = window.__A_CONCEPT_ENVIRONMENT_ENV__[t4];
     }), Re.forEach((t4) => {
-      e[t4] = this.get(t4);
-    }), e;
+      e2[t4] = this.get(t4);
+    }), e2;
   }
   static getAllKeys() {
-    let e = /* @__PURE__ */ new Set();
+    let e2 = /* @__PURE__ */ new Set();
     return window.__A_CONCEPT_ENVIRONMENT_ENV__ && Object.keys(window.__A_CONCEPT_ENVIRONMENT_ENV__).forEach((t4) => {
-      e.add(t4);
+      e2.add(t4);
     }), Re.forEach((t4) => {
-      e.add(t4);
-    }), Array.from(e);
+      e2.add(t4);
+    }), Array.from(e2);
   }
 }, __name(_a7, "ke"), _a7);
 p(ke, "A_CONCEPT_ENV");
@@ -267,32 +267,32 @@ var j = (_a8 = class extends Error {
   static get scope() {
     return _.root.name;
   }
-  constructor(e, t4) {
+  constructor(e2, t4) {
     switch (true) {
-      case e instanceof _a8:
-        return e;
-      case e instanceof Error:
-        super(e.message);
+      case e2 instanceof _a8:
+        return e2;
+      case e2 instanceof Error:
+        super(e2.message);
         break;
-      case I.isErrorSerializedType(e):
-        super(e.message);
+      case I.isErrorSerializedType(e2):
+        super(e2.message);
         break;
-      case (I.isErrorConstructorType(e) && "description" in e):
-        super(`[${e.title}]: ${e.description}`);
+      case (I.isErrorConstructorType(e2) && "description" in e2):
+        super(`[${e2.title}]: ${e2.description}`);
         break;
-      case (I.isErrorConstructorType(e) && !("description" in e)):
-        super(e.title);
+      case (I.isErrorConstructorType(e2) && !("description" in e2)):
+        super(e2.title);
         break;
-      case (I.isString(e) && !t4):
-        super(e);
+      case (I.isString(e2) && !t4):
+        super(e2);
         break;
-      case (I.isString(e) && !!t4):
-        super(`[${e}]: ${t4}`);
+      case (I.isString(e2) && !!t4):
+        super(`[${e2}]: ${t4}`);
         break;
       default:
         super("An unknown error occurred.");
     }
-    this.getInitializer(e, t4).call(this, e, t4);
+    this.getInitializer(e2, t4).call(this, e2, t4);
   }
   get aseid() {
     return this._aseid;
@@ -322,83 +322,83 @@ var j = (_a8 = class extends Error {
     return this._originalError;
   }
   get rootCause() {
-    let e = this._originalError;
-    if (e) {
-      for (; e instanceof _a8 && e.originalError !== void 0; ) e = e.originalError;
-      return e;
+    let e2 = this._originalError;
+    if (e2) {
+      for (; e2 instanceof _a8 && e2.originalError !== void 0; ) e2 = e2.originalError;
+      return e2;
     }
   }
   get chain() {
-    let e = [this], t4 = this._originalError;
-    for (; t4 && (e.push(t4), t4 instanceof _a8); ) t4 = t4.originalError;
-    return e;
+    let e2 = [this], t4 = this._originalError;
+    for (; t4 && (e2.push(t4), t4 instanceof _a8); ) t4 = t4.originalError;
+    return e2;
   }
-  getInitializer(e, t4) {
+  getInitializer(e2, t4) {
     switch (true) {
-      case (I.isString(e) && !t4):
+      case (I.isString(e2) && !t4):
         return this.fromMessage;
-      case (I.isString(e) && !!t4):
+      case (I.isString(e2) && !!t4):
         return this.fromTitle;
-      case e instanceof Error:
+      case e2 instanceof Error:
         return this.fromError;
-      case I.isErrorSerializedType(e):
+      case I.isErrorSerializedType(e2):
         return this.fromJSON;
-      case I.isErrorConstructorType(e):
+      case I.isErrorConstructorType(e2):
         return this.fromConstructor;
       default:
         throw new _a8(de.VALIDATION_ERROR, "Invalid parameters provided to A_Error constructor");
     }
   }
-  fromError(e) {
-    this._title = de.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._originalError = e, this.appendCausedByStack();
+  fromError(e2) {
+    this._title = de.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._originalError = e2, this.appendCausedByStack();
   }
-  fromMessage(e) {
+  fromMessage(e2) {
     this._title = de.UNEXPECTED_ERROR, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._link = void 0, this._originalError = void 0;
   }
-  fromJSON(e) {
-    this._aseid = new w(e.aseid), super.message = e.message, this._title = e.title, this._code = e.code, this._scope = e.scope, this._description = e.description;
-    let t4 = e.originalError;
+  fromJSON(e2) {
+    this._aseid = new w(e2.aseid), super.message = e2.message, this._title = e2.title, this._code = e2.code, this._scope = e2.scope, this._description = e2.description;
+    let t4 = e2.originalError;
     if (t4 == null) this._originalError = void 0;
     else if (typeof t4 == "string") this._originalError = new _a8(t4);
     else if (typeof t4 == "object" && "aseid" in t4 && "title" in t4) this._originalError = new _a8(t4);
     else if (typeof t4 == "object" && ("message" in t4 || "name" in t4)) {
-      let r8 = new Error(t4.message ?? "");
-      t4.name && (r8.name = t4.name), t4.stack && (r8.stack = t4.stack), this._originalError = r8;
+      let r9 = new Error(t4.message ?? "");
+      t4.name && (r9.name = t4.name), t4.stack && (r9.stack = t4.stack), this._originalError = r9;
     } else this._originalError = t4;
-    this._link = e.link;
+    this._link = e2.link;
   }
-  fromTitle(e, t4) {
-    this.validateTitle(e), this._title = e, this._description = t4, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._link = void 0, this._originalError = void 0;
+  fromTitle(e2, t4) {
+    this.validateTitle(e2), this._title = e2, this._description = t4, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._link = void 0, this._originalError = void 0;
   }
-  fromConstructor(e) {
-    this.validateTitle(e.title), this._title = e.title, this._code = e.code, this._scope = e.scope ? I.isScopeInstance(e.scope) ? e.scope.name : e.scope : void 0, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._description = e.description, this._link = e.link, this._originalError = e.originalError, this.appendCausedByStack();
+  fromConstructor(e2) {
+    this.validateTitle(e2.title), this._title = e2.title, this._code = e2.code, this._scope = e2.scope ? I.isScopeInstance(e2.scope) ? e2.scope.name : e2.scope : void 0, this._aseid = new w({ concept: this.constructor.concept, scope: this._scope || this.constructor.scope, entity: this.constructor.entity, id: this.code }), this._description = e2.description, this._link = e2.link, this._originalError = e2.originalError, this.appendCausedByStack();
   }
   appendCausedByStack() {
-    let e = this._originalError;
-    if (!e) return;
-    let t4 = typeof e.stack == "string" ? e.stack : void 0;
+    let e2 = this._originalError;
+    if (!e2) return;
+    let t4 = typeof e2.stack == "string" ? e2.stack : void 0;
     if (!t4) return;
-    let r8 = typeof this.stack == "string" ? this.stack : void 0;
-    r8 && (r8.includes(t4) || (this.stack = `${r8}
+    let r9 = typeof this.stack == "string" ? this.stack : void 0;
+    r9 && (r9.includes(t4) || (this.stack = `${r9}
 Caused by: ${t4}`));
   }
   toJSON() {
     return { aseid: this.aseid.toString(), title: this.title, code: this.code, type: this.type, message: this.message, link: this.link, scope: this.scope, description: this.description, originalError: this.serializeOriginalError(this._originalError) };
   }
-  serializeOriginalError(e) {
-    if (e != null) {
-      if (e instanceof _a8) return e.toJSON();
-      if (e instanceof Error) return { name: e.name, message: e.message, stack: e.stack };
+  serializeOriginalError(e2) {
+    if (e2 != null) {
+      if (e2 instanceof _a8) return e2.toJSON();
+      if (e2 instanceof Error) return { name: e2.name, message: e2.message, stack: e2.stack };
       try {
-        return JSON.stringify(e), e;
+        return JSON.stringify(e2), e2;
       } catch {
-        return String(e);
+        return String(e2);
       }
     }
   }
-  validateTitle(e) {
-    if (e.length > 60) throw new _a8(de.VALIDATION_ERROR, "A-Error title exceeds 60 characters limit.");
-    if (e.length === 0) throw new _a8(de.VALIDATION_ERROR, "A-Error title cannot be empty.");
+  validateTitle(e2) {
+    if (e2.length > 60) throw new _a8(de.VALIDATION_ERROR, "A-Error title exceeds 60 characters limit.");
+    if (e2.length === 0) throw new _a8(de.VALIDATION_ERROR, "A-Error title cannot be empty.");
   }
 }, __name(_a8, "j"), _a8);
 p(j, "A_Error");
@@ -408,7 +408,7 @@ var Ie = (_a9 = class extends b {
 }, __name(_a9, "Ie"), _a9);
 p(Ie, "A_EntityError"), Ie.ValidationError = "A-Entity Validation Error";
 var Ae = Ie;
-var ft = ((n6) => (n6.EXTENSIONS = "a-component-extensions", n6.FEATURES = "a-component-features", n6.ABSTRACTIONS = "a-component-abstractions", n6.INJECTIONS = "a-component-injections", n6))(ft || {});
+var ft = ((n7) => (n7.EXTENSIONS = "a-component-extensions", n7.FEATURES = "a-component-features", n7.ABSTRACTIONS = "a-component-abstractions", n7.INJECTIONS = "a-component-injections", n7))(ft || {});
 var be = { SAVE: "_A_Entity__Save", DESTROY: "_A_Entity__Destroy", LOAD: "_A_Entity__Load" };
 var _a10;
 var je = (_a10 = class {
@@ -421,58 +421,58 @@ var je = (_a10 = class {
   static get scope() {
     return _.root.name;
   }
-  constructor(e) {
-    this.getInitializer(e).call(this, e);
+  constructor(e2) {
+    this.getInitializer(e2).call(this, e2);
   }
   get id() {
     return this.aseid.id;
   }
-  isStringASEID(e) {
-    return typeof e == "string" && w.isASEID(e);
+  isStringASEID(e2) {
+    return typeof e2 == "string" && w.isASEID(e2);
   }
-  isASEIDInstance(e) {
-    return e instanceof w;
+  isASEIDInstance(e2) {
+    return e2 instanceof w;
   }
-  isSerializedObject(e) {
-    return !!e && typeof e == "object" && "aseid" in e;
+  isSerializedObject(e2) {
+    return !!e2 && typeof e2 == "object" && "aseid" in e2;
   }
-  isConstructorProps(e) {
-    return !!e && typeof e == "object" && !("aseid" in e);
+  isConstructorProps(e2) {
+    return !!e2 && typeof e2 == "object" && !("aseid" in e2);
   }
-  getInitializer(e) {
-    if (!e) return this.fromUndefined;
-    if (this.isStringASEID(e)) return this.fromASEID;
-    if (this.isASEIDInstance(e)) return this.fromASEID;
-    if (this.isSerializedObject(e)) return this.fromJSON;
-    if (this.isConstructorProps(e)) return this.fromNew;
+  getInitializer(e2) {
+    if (!e2) return this.fromUndefined;
+    if (this.isStringASEID(e2)) return this.fromASEID;
+    if (this.isASEIDInstance(e2)) return this.fromASEID;
+    if (this.isSerializedObject(e2)) return this.fromJSON;
+    if (this.isConstructorProps(e2)) return this.fromNew;
     throw new Ae(Ae.ValidationError, "Unable to determine A-Entity constructor initialization method. Please check the provided parameters.");
   }
-  generateASEID(e) {
-    return new w({ concept: e?.concept || this.constructor.concept, scope: e?.scope || this.constructor.scope, entity: e?.entity || this.constructor.entity, id: e?.id || G.generateTimeId() });
+  generateASEID(e2) {
+    return new w({ concept: e2?.concept || this.constructor.concept, scope: e2?.scope || this.constructor.scope, entity: e2?.entity || this.constructor.entity, id: e2?.id || G.generateTimeId() });
   }
-  call(e, t4) {
-    return new N({ name: e, component: this, scope: t4 }).process(t4);
+  call(e2, t4) {
+    return new N({ name: e2, component: this, scope: t4 }).process(t4);
   }
-  load(e) {
-    return this.call(be.LOAD, e);
+  load(e2) {
+    return this.call(be.LOAD, e2);
   }
-  destroy(e) {
-    return this.call(be.DESTROY, e);
+  destroy(e2) {
+    return this.call(be.DESTROY, e2);
   }
-  save(e) {
-    return this.call(be.SAVE, e);
+  save(e2) {
+    return this.call(be.SAVE, e2);
   }
-  fromASEID(e) {
-    e instanceof w ? this.aseid = e : this.aseid = new w(e);
+  fromASEID(e2) {
+    e2 instanceof w ? this.aseid = e2 : this.aseid = new w(e2);
   }
   fromUndefined() {
     this.aseid = this.generateASEID();
   }
-  fromNew(e) {
+  fromNew(e2) {
     this.aseid = this.generateASEID();
   }
-  fromJSON(e) {
-    this.aseid = new w(e.aseid);
+  fromJSON(e2) {
+    this.aseid = new w(e2.aseid);
   }
   toJSON() {
     return { aseid: this.aseid.toString() };
@@ -483,9 +483,9 @@ var je = (_a10 = class {
 }, __name(_a10, "je"), _a10);
 p(je, "A_Entity");
 var D = je;
-function $e(u2) {
-  return function(e) {
-    return _.setMeta(e, new u2()), e;
+function $e(u3) {
+  return function(e2) {
+    return _.setMeta(e2, new u3()), e2;
   };
 }
 __name($e, "$e");
@@ -495,52 +495,52 @@ var Ye = (_a11 = class {
   constructor() {
     this.meta = /* @__PURE__ */ new Map();
   }
-  static Define(e) {
-    return $e(e);
+  static Define(e2) {
+    return $e(e2);
   }
   [Symbol.iterator]() {
-    let e = this.meta.entries();
-    return { next: p(() => e.next(), "next") };
+    let e2 = this.meta.entries();
+    return { next: p(() => e2.next(), "next") };
   }
-  from(e) {
-    return this.meta = new Map(e.meta), this;
+  from(e2) {
+    return this.meta = new Map(e2.meta), this;
   }
   clone() {
-    let e = this.constructor, t4 = new e();
+    let e2 = this.constructor, t4 = new e2();
     return t4.meta = new Map(this.meta), t4;
   }
-  set(e, t4) {
-    let r8 = this.meta.get(e) || Array.isArray(t4) ? [] : t4 instanceof Map ? /* @__PURE__ */ new Map() : {};
-    this.meta.get(e) || Array.isArray(t4) ? [...r8] : t4 instanceof Map ? new Map(r8) : { ...r8 };
-    this.meta.set(e, t4);
+  set(e2, t4) {
+    let r9 = this.meta.get(e2) || Array.isArray(t4) ? [] : t4 instanceof Map ? /* @__PURE__ */ new Map() : {};
+    this.meta.get(e2) || Array.isArray(t4) ? [...r9] : t4 instanceof Map ? new Map(r9) : { ...r9 };
+    this.meta.set(e2, t4);
   }
-  get(e) {
-    return this.meta.get(e);
+  get(e2) {
+    return this.meta.get(e2);
   }
-  delete(e) {
-    return this.meta.delete(e);
+  delete(e2) {
+    return this.meta.delete(e2);
   }
   size() {
     return this.meta.size;
   }
-  convertToRegExp(e) {
-    if (e instanceof RegExp) return e;
+  convertToRegExp(e2) {
+    if (e2 instanceof RegExp) return e2;
     this._regExpCache || (this._regExpCache = /* @__PURE__ */ new Map());
-    let t4 = this._regExpCache.get(e);
-    return t4 || (t4 = new RegExp(e), this._regExpCache.set(e, t4)), t4;
+    let t4 = this._regExpCache.get(e2);
+    return t4 || (t4 = new RegExp(e2), this._regExpCache.set(e2, t4)), t4;
   }
-  find(e) {
+  find(e2) {
     let t4 = [];
-    for (let [r8, n6] of this.meta.entries()) this.convertToRegExp(String(r8)).test(e) && t4.push([r8, n6]);
+    for (let [r9, n7] of this.meta.entries()) this.convertToRegExp(String(r9)).test(e2) && t4.push([r9, n7]);
     return t4;
   }
-  findByRegex(e) {
+  findByRegex(e2) {
     let t4 = [];
-    for (let [r8, n6] of this.meta.entries()) e.test(String(r8)) && t4.push([r8, n6]);
+    for (let [r9, n7] of this.meta.entries()) e2.test(String(r9)) && t4.push([r9, n7]);
     return t4;
   }
-  has(e) {
-    return this.meta.has(e);
+  has(e2) {
+    return this.meta.has(e2);
   }
   entries() {
     return this.meta.entries();
@@ -551,28 +551,28 @@ var Ye = (_a11 = class {
   toArray() {
     return Array.from(this.meta.entries());
   }
-  recursiveToJSON(e) {
+  recursiveToJSON(e2) {
     switch (true) {
-      case e instanceof _a11:
-        return e.toJSON();
-      case e instanceof Map:
+      case e2 instanceof _a11:
+        return e2.toJSON();
+      case e2 instanceof Map:
         let t4 = {};
-        for (let [n6, o3] of e.entries()) t4[String(n6)] = this.recursiveToJSON(o3);
+        for (let [n7, o3] of e2.entries()) t4[String(n7)] = this.recursiveToJSON(o3);
         return t4;
-      case Array.isArray(e):
-        return e.map((n6) => this.recursiveToJSON(n6));
-      case (!!e && typeof e == "object"):
-        let r8 = {};
-        for (let [n6, o3] of Object.entries(e)) r8[n6] = this.recursiveToJSON(o3);
-        return r8;
+      case Array.isArray(e2):
+        return e2.map((n7) => this.recursiveToJSON(n7));
+      case (!!e2 && typeof e2 == "object"):
+        let r9 = {};
+        for (let [n7, o3] of Object.entries(e2)) r9[n7] = this.recursiveToJSON(o3);
+        return r9;
       default:
-        return e;
+        return e2;
     }
   }
   toJSON() {
-    let e = {};
-    for (let [t4, r8] of this.meta.entries()) e[String(t4)] = this.recursiveToJSON(r8);
-    return e;
+    let e2 = {};
+    for (let [t4, r9] of this.meta.entries()) e2[String(t4)] = this.recursiveToJSON(r9);
+    return e2;
   }
 }, __name(_a11, "Ye"), _a11);
 p(Ye, "A_Meta");
@@ -582,8 +582,8 @@ var Le = (_a12 = class extends m {
   features() {
     return this.get("a-component-features")?.toArray().map(([, t4]) => t4) || [];
   }
-  injections(e) {
-    return this.get("a-component-injections")?.get(e) || [];
+  injections(e2) {
+    return this.get("a-component-injections")?.get(e2) || [];
   }
 }, __name(_a12, "Le"), _a12);
 p(Le, "A_EntityMeta");
@@ -596,36 +596,36 @@ var ze = (_a13 = class {
   get scope() {
     return _.scope(this);
   }
-  constructor(e = {}) {
-    this.config = e, _.allocate(this, this.config);
+  constructor(e2 = {}) {
+    this.config = e2, _.allocate(this, this.config);
   }
-  async call(e, t4) {
-    return await new N({ name: e, component: this }).process(t4);
+  async call(e2, t4) {
+    return await new N({ name: e2, component: this }).process(t4);
   }
 }, __name(_a13, "ze"), _a13);
 p(ze, "A_Container");
 var K = ze;
-var Et = ((n6) => (n6.FEATURES = "a-container-features", n6.INJECTIONS = "a-container-injections", n6.ABSTRACTIONS = "a-container-abstractions", n6.EXTENSIONS = "a-container-extensions", n6))(Et || {});
+var Et = ((n7) => (n7.FEATURES = "a-container-features", n7.INJECTIONS = "a-container-injections", n7.ABSTRACTIONS = "a-container-abstractions", n7.EXTENSIONS = "a-container-extensions", n7))(Et || {});
 var _a14;
 var Ve = (_a14 = class extends m {
-  injections(e) {
-    return this.get("a-container-injections")?.get(e) || [];
+  injections(e2) {
+    return this.get("a-container-injections")?.get(e2) || [];
   }
   features() {
     return this.get("a-container-features")?.toArray().map(([, t4]) => t4) || [];
   }
-  abstractions(e) {
-    let t4 = [], r8 = this.get("a-container-abstractions"), n6 = this.get("a-container-injections");
-    return r8?.find(`CONCEPT_ABSTRACTION::${e}`).forEach(([o3, s4]) => {
+  abstractions(e2) {
+    let t4 = [], r9 = this.get("a-container-abstractions"), n7 = this.get("a-container-injections");
+    return r9?.find(`CONCEPT_ABSTRACTION::${e2}`).forEach(([o3, s4]) => {
       s4.forEach((a4) => {
-        let c3 = n6?.get(a4.handler) || [];
+        let c3 = n7?.get(a4.handler) || [];
         t4.push({ ...a4, args: c3 });
       });
     }), t4;
   }
-  extensions(e) {
+  extensions(e2) {
     let t4 = [];
-    return this.get("a-container-extensions")?.find(e).forEach(([n6, o3]) => {
+    return this.get("a-container-extensions")?.find(e2).forEach(([n7, o3]) => {
       o3.forEach((s4) => {
         t4.push({ name: s4.name, handler: s4.handler, behavior: s4.behavior, before: s4.before || "", after: s4.after || "", throwOnError: s4.throwOnError || true, override: "" });
       });
@@ -636,10 +636,10 @@ p(Ve, "A_ContainerMeta");
 var Q = Ve;
 var _a15;
 var ee = (_a15 = class extends b {
-  fromConstructor(e) {
-    super.fromConstructor(e), this.stage = e.stage, this.featureName = e.featureName ?? e.stage?.feature?.name, this.stageName = e.stageName ?? e.stage?.name;
-    let t4 = e.stage?.definition;
-    this.handler = e.handler ?? t4?.handler, this.component = e.component ?? t4?.dependency?.target?.name ?? t4?.dependency?.name;
+  fromConstructor(e2) {
+    super.fromConstructor(e2), this.stage = e2.stage, this.featureName = e2.featureName ?? e2.stage?.feature?.name, this.stageName = e2.stageName ?? e2.stage?.name;
+    let t4 = e2.stage?.definition;
+    this.handler = e2.handler ?? t4?.handler, this.component = e2.component ?? t4?.dependency?.target?.name ?? t4?.dependency?.name;
   }
   toJSON() {
     return { ...super.toJSON(), featureName: this.featureName, stageName: this.stageName, handler: this.handler, component: this.component };
@@ -656,121 +656,121 @@ var Tt = /* @__PURE__ */ new WeakMap();
 var _a17;
 var Se = (_a17 = class {
   static resolve() {
-    return new Promise((e) => e());
+    return new Promise((e2) => e2());
   }
-  static isInheritedFrom(e, t4) {
-    let r8 = e;
-    for (; r8; ) {
-      if (r8 === t4) return true;
-      r8 = Object.getPrototypeOf(r8);
+  static isInheritedFrom(e2, t4) {
+    let r9 = e2;
+    for (; r9; ) {
+      if (r9 === t4) return true;
+      r9 = Object.getPrototypeOf(r9);
     }
     return false;
   }
-  static getParentClasses(e) {
-    let t4 = Object.getPrototypeOf(typeof e == "function" ? e : e.constructor), r8 = [];
-    for (; t4 && t4 !== Function.prototype; ) r8.push(t4), t4 = Object.getPrototypeOf(t4);
-    return r8;
+  static getParentClasses(e2) {
+    let t4 = Object.getPrototypeOf(typeof e2 == "function" ? e2 : e2.constructor), r9 = [];
+    for (; t4 && t4 !== Function.prototype; ) r9.push(t4), t4 = Object.getPrototypeOf(t4);
+    return r9;
   }
-  static getClassInheritanceChain(e) {
-    let t4 = Object.getPrototypeOf(typeof e == "function" ? e : e.constructor), r8 = typeof e == "function" ? [e] : [e.constructor];
-    for (; t4 && t4 !== Function.prototype; ) r8.push(t4), t4 = Object.getPrototypeOf(t4);
-    return r8;
+  static getClassInheritanceChain(e2) {
+    let t4 = Object.getPrototypeOf(typeof e2 == "function" ? e2 : e2.constructor), r9 = typeof e2 == "function" ? [e2] : [e2.constructor];
+    for (; t4 && t4 !== Function.prototype; ) r9.push(t4), t4 = Object.getPrototypeOf(t4);
+    return r9;
   }
-  static getParentClass(e) {
-    return Object.getPrototypeOf(e);
+  static getParentClass(e2) {
+    return Object.getPrototypeOf(e2);
   }
-  static omitProperties(e, t4) {
-    let r8 = JSON.parse(JSON.stringify(e));
-    function n6(o3, s4) {
+  static omitProperties(e2, t4) {
+    let r9 = JSON.parse(JSON.stringify(e2));
+    function n7(o3, s4) {
       let a4 = s4[0];
-      s4.length === 1 ? delete o3[a4] : o3[a4] !== void 0 && typeof o3[a4] == "object" && n6(o3[a4], s4.slice(1));
+      s4.length === 1 ? delete o3[a4] : o3[a4] !== void 0 && typeof o3[a4] == "object" && n7(o3[a4], s4.slice(1));
     }
-    __name(n6, "n");
-    return p(n6, "removeProperties"), t4.forEach((o3) => {
+    __name(n7, "n");
+    return p(n7, "removeProperties"), t4.forEach((o3) => {
       let s4 = o3.split(".");
-      n6(r8, s4);
-    }), r8;
+      n7(r9, s4);
+    }), r9;
   }
-  static isObject(e) {
-    return e !== null && typeof e == "object" && !Array.isArray(e);
+  static isObject(e2) {
+    return e2 !== null && typeof e2 == "object" && !Array.isArray(e2);
   }
-  static deepMerge(e, t4, r8 = /* @__PURE__ */ new Map()) {
-    if (this.isObject(e) && this.isObject(t4)) for (let n6 in t4) this.isObject(t4[n6]) ? (e[n6] || (e[n6] = {}), r8.has(t4[n6]) ? e[n6] = r8.get(t4[n6]) : (r8.set(t4[n6], {}), this.deepMerge(e[n6], t4[n6], r8))) : e[n6] = t4[n6];
-    return e;
+  static deepMerge(e2, t4, r9 = /* @__PURE__ */ new Map()) {
+    if (this.isObject(e2) && this.isObject(t4)) for (let n7 in t4) this.isObject(t4[n7]) ? (e2[n7] || (e2[n7] = {}), r9.has(t4[n7]) ? e2[n7] = r9.get(t4[n7]) : (r9.set(t4[n7], {}), this.deepMerge(e2[n7], t4[n7], r9))) : e2[n7] = t4[n7];
+    return e2;
   }
-  static deepClone(e) {
-    if (e == null || typeof e != "object") return e;
-    if (e instanceof Date) return new Date(e.getTime());
-    if (Array.isArray(e)) return e.map((t4) => this.deepClone(t4));
-    if (typeof e == "function") return e;
-    if (e instanceof Object) {
+  static deepClone(e2) {
+    if (e2 == null || typeof e2 != "object") return e2;
+    if (e2 instanceof Date) return new Date(e2.getTime());
+    if (Array.isArray(e2)) return e2.map((t4) => this.deepClone(t4));
+    if (typeof e2 == "function") return e2;
+    if (e2 instanceof Object) {
       let t4 = {};
-      for (let r8 in e) e.hasOwnProperty(r8) && (t4[r8] = this.deepClone(e[r8]));
+      for (let r9 in e2) e2.hasOwnProperty(r9) && (t4[r9] = this.deepClone(e2[r9]));
       return t4;
     }
     throw new Error("Unable to clone the object. Unsupported type.");
   }
-  static deepCloneAndMerge(e, t4) {
-    if (t4 == null && e == null) return e;
-    if (e == null && t4) return this.deepClone(t4);
-    if (typeof e != "object") return e;
-    if (e instanceof Date) return new Date(e.getTime());
-    if (Array.isArray(e)) return e.map((r8) => this.deepCloneAndMerge(r8, t4));
-    if (typeof e == "function") return e;
-    if (e instanceof Object) {
-      let r8 = {};
-      for (let n6 in e) t4[n6] !== null && t4[n6] !== void 0 ? r8[n6] = this.deepCloneAndMerge(e[n6], t4[n6]) : r8[n6] = this.deepClone(e[n6]);
-      for (let n6 in t4) e[n6] !== void 0 && e[n6] !== null ? r8[n6] = this.deepCloneAndMerge(e[n6], t4[n6]) : r8[n6] = this.deepClone(t4[n6]);
-      return r8;
+  static deepCloneAndMerge(e2, t4) {
+    if (t4 == null && e2 == null) return e2;
+    if (e2 == null && t4) return this.deepClone(t4);
+    if (typeof e2 != "object") return e2;
+    if (e2 instanceof Date) return new Date(e2.getTime());
+    if (Array.isArray(e2)) return e2.map((r9) => this.deepCloneAndMerge(r9, t4));
+    if (typeof e2 == "function") return e2;
+    if (e2 instanceof Object) {
+      let r9 = {};
+      for (let n7 in e2) t4[n7] !== null && t4[n7] !== void 0 ? r9[n7] = this.deepCloneAndMerge(e2[n7], t4[n7]) : r9[n7] = this.deepClone(e2[n7]);
+      for (let n7 in t4) e2[n7] !== void 0 && e2[n7] !== null ? r9[n7] = this.deepCloneAndMerge(e2[n7], t4[n7]) : r9[n7] = this.deepClone(t4[n7]);
+      return r9;
     }
     throw new Error("Unable to clone the object. Unsupported type.");
   }
-  static getComponentName(e) {
-    if (e != null && !Array.isArray(e) && (typeof e == "object" || typeof e == "function")) {
-      let t4 = Tt.get(e);
+  static getComponentName(e2) {
+    if (e2 != null && !Array.isArray(e2) && (typeof e2 == "object" || typeof e2 == "function")) {
+      let t4 = Tt.get(e2);
       if (t4 !== void 0) return t4;
-      let r8 = _a17._computeComponentName(e);
-      return Tt.set(e, r8), r8;
+      let r9 = _a17._computeComponentName(e2);
+      return Tt.set(e2, r9), r9;
     }
-    return _a17._computeComponentName(e);
+    return _a17._computeComponentName(e2);
   }
-  static _computeComponentName(e) {
-    let t4 = "Unknown", r8 = "Anonymous";
-    if (e == null) return t4;
-    if (typeof e == "string") return e || t4;
-    if (typeof e == "symbol") try {
-      return e.toString();
+  static _computeComponentName(e2) {
+    let t4 = "Unknown", r9 = "Anonymous";
+    if (e2 == null) return t4;
+    if (typeof e2 == "string") return e2 || t4;
+    if (typeof e2 == "symbol") try {
+      return e2.toString();
     } catch {
       return t4;
     }
-    if (Array.isArray(e)) return e.length === 0 ? t4 : this.getComponentName(e[0]);
-    if (typeof e == "function") {
-      let n6 = e;
-      if (n6.displayName) return String(n6.displayName);
-      if (n6.name) return String(n6.name);
-      if (n6.constructor && n6.constructor.name) return String(n6.constructor.name);
+    if (Array.isArray(e2)) return e2.length === 0 ? t4 : this.getComponentName(e2[0]);
+    if (typeof e2 == "function") {
+      let n7 = e2;
+      if (n7.displayName) return String(n7.displayName);
+      if (n7.name) return String(n7.name);
+      if (n7.constructor && n7.constructor.name) return String(n7.constructor.name);
       try {
-        let s4 = Function.prototype.toString.call(e).match(/^(?:class\s+([A-Za-z0-9_$]+)|function\s+([A-Za-z0-9_$]+)|([A-Za-z0-9_$]+)\s*=>)/);
-        if (s4) return s4[1] || s4[2] || s4[3] || r8;
+        let s4 = Function.prototype.toString.call(e2).match(/^(?:class\s+([A-Za-z0-9_$]+)|function\s+([A-Za-z0-9_$]+)|([A-Za-z0-9_$]+)\s*=>)/);
+        if (s4) return s4[1] || s4[2] || s4[3] || r9;
       } catch {
       }
-      return r8;
+      return r9;
     }
-    if (typeof e == "object") {
-      let n6 = e;
-      if (n6.type) return this.getComponentName(n6.type);
-      if (n6.displayName) return String(n6.displayName);
-      if (n6.name) return String(n6.name);
-      if (n6.constructor && n6.constructor.name && n6.constructor.name !== "Object") return String(n6.constructor.name);
+    if (typeof e2 == "object") {
+      let n7 = e2;
+      if (n7.type) return this.getComponentName(n7.type);
+      if (n7.displayName) return String(n7.displayName);
+      if (n7.name) return String(n7.name);
+      if (n7.constructor && n7.constructor.name && n7.constructor.name !== "Object") return String(n7.constructor.name);
       try {
-        let o3 = n6.toString();
+        let o3 = n7.toString();
         if (typeof o3 == "string" && o3 !== "[object Object]") return o3;
       } catch {
       }
-      return r8;
+      return r9;
     }
     try {
-      return String(e);
+      return String(e2);
     } catch {
       return t4;
     }
@@ -785,14 +785,14 @@ p(we, "A_CallerError"), we.CallerInitializationError = "Unable to initialize A-C
 var me = we;
 var _a19;
 var Je = (_a19 = class {
-  constructor(e) {
-    this.validateParams(e), this._component = e;
+  constructor(e2) {
+    this.validateParams(e2), this._component = e2;
   }
   get component() {
     return this._component;
   }
-  validateParams(e) {
-    if (!i.isAllowedForFeatureCall(e)) throw new me(`[${me.CallerInitializationError}]: Invalid A-Caller component provided of type: ${typeof e} with value: ${JSON.stringify(e).slice(0, 100)}...`);
+  validateParams(e2) {
+    if (!i.isAllowedForFeatureCall(e2)) throw new me(`[${me.CallerInitializationError}]: Invalid A-Caller component provided of type: ${typeof e2} with value: ${JSON.stringify(e2).slice(0, 100)}...`);
   }
 }, __name(_a19, "Je"), _a19);
 p(Je, "A_Caller");
@@ -802,143 +802,143 @@ var re = (_a20 = class extends b {
 }, __name(_a20, "re"), _a20);
 p(re, "A_DependencyError"), re.InvalidDependencyTarget = "Invalid Dependency Target", re.InvalidLoadTarget = "Invalid Load Target", re.InvalidLoadPath = "Invalid Load Path", re.InvalidDefaultTarget = "Invalid Default Target", re.ResolutionParametersError = "Dependency Resolution Parameters Error";
 var C = re;
-function Ke(...u2) {
-  return function(e, t4, r8) {
-    let n6 = A.getComponentName(e);
-    if (!i.isTargetAvailableForInjection(e)) throw new C(C.InvalidDefaultTarget, `A-Default cannot be used on the target of type ${typeof e} (${n6})`);
+function Ke(...u3) {
+  return function(e2, t4, r9) {
+    let n7 = A.getComponentName(e2);
+    if (!i.isTargetAvailableForInjection(e2)) throw new C(C.InvalidDefaultTarget, `A-Default cannot be used on the target of type ${typeof e2} (${n7})`);
     let o3 = t4 ? String(t4) : "constructor", s4;
     switch (true) {
-      case (i.isComponentConstructor(e) || i.isComponentInstance(e)):
+      case (i.isComponentConstructor(e2) || i.isComponentInstance(e2)):
         s4 = "a-component-injections";
         break;
-      case i.isContainerInstance(e):
+      case i.isContainerInstance(e2):
         s4 = "a-container-injections";
         break;
-      case i.isEntityInstance(e):
+      case i.isEntityInstance(e2):
         s4 = "a-component-injections";
         break;
     }
-    let a4 = _.meta(e).get(s4), c3 = a4 ? a4.clone() : new m(), l5 = c3.get(o3) ? [...c3.get(o3)] : [];
-    l5[r8].resolutionStrategy = { create: true, args: u2 }, c3.set(o3, l5), _.meta(e).set(s4, c3);
+    let a4 = _.meta(e2).get(s4), c3 = a4 ? a4.clone() : new m(), l4 = c3.get(o3) ? [...c3.get(o3)] : [];
+    l4[r9].resolutionStrategy = { create: true, args: u3 }, c3.set(o3, l4), _.meta(e2).set(s4, c3);
   };
 }
 __name(Ke, "Ke");
 p(Ke, "A_Dependency_Default");
 function qe() {
-  return function(u2, e, t4) {
-    let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u2} (${r8})`);
-    let n6 = e ? String(e) : "constructor", o3;
+  return function(u3, e2, t4) {
+    let r9 = A.getComponentName(u3);
+    if (!i.isTargetAvailableForInjection(u3)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u3} (${r9})`);
+    let n7 = e2 ? String(e2) : "constructor", o3;
     switch (true) {
-      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
+      case (i.isComponentConstructor(u3) || i.isComponentInstance(u3)):
         o3 = "a-component-injections";
         break;
-      case i.isContainerInstance(u2):
+      case i.isContainerInstance(u3):
         o3 = "a-container-injections";
         break;
-      case i.isEntityInstance(u2):
+      case i.isEntityInstance(u3):
         o3 = "a-component-injections";
         break;
     }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { flat: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let s4 = _.meta(u3).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n7) ? [...a4.get(n7)] : [];
+    c3[t4].resolutionStrategy = { flat: true }, a4.set(n7, c3), _.meta(u3).set(o3, a4);
   };
 }
 __name(qe, "qe");
 p(qe, "A_Dependency_Flat");
 function Be() {
-  return function(u2, e, t4) {
-    let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidLoadTarget, `A-Load cannot be used on the target of type ${typeof u2} (${r8})`);
-    let n6 = e ? String(e) : "constructor", o3;
+  return function(u3, e2, t4) {
+    let r9 = A.getComponentName(u3);
+    if (!i.isTargetAvailableForInjection(u3)) throw new C(C.InvalidLoadTarget, `A-Load cannot be used on the target of type ${typeof u3} (${r9})`);
+    let n7 = e2 ? String(e2) : "constructor", o3;
     switch (true) {
-      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
+      case (i.isComponentConstructor(u3) || i.isComponentInstance(u3)):
         o3 = "a-component-injections";
         break;
-      case i.isContainerInstance(u2):
+      case i.isContainerInstance(u3):
         o3 = "a-container-injections";
         break;
-      case i.isEntityInstance(u2):
+      case i.isEntityInstance(u3):
         o3 = "a-component-injections";
         break;
     }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { load: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let s4 = _.meta(u3).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n7) ? [...a4.get(n7)] : [];
+    c3[t4].resolutionStrategy = { load: true }, a4.set(n7, c3), _.meta(u3).set(o3, a4);
   };
 }
 __name(Be, "Be");
 p(Be, "A_Dependency_Load");
-function We(u2 = -1) {
-  return function(e, t4, r8) {
-    let n6 = A.getComponentName(e);
-    if (!i.isTargetAvailableForInjection(e)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof e} (${n6})`);
+function We(u3 = -1) {
+  return function(e2, t4, r9) {
+    let n7 = A.getComponentName(e2);
+    if (!i.isTargetAvailableForInjection(e2)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof e2} (${n7})`);
     let o3 = t4 ? String(t4) : "constructor", s4;
     switch (true) {
-      case (i.isComponentConstructor(e) || i.isComponentInstance(e)):
+      case (i.isComponentConstructor(e2) || i.isComponentInstance(e2)):
         s4 = "a-component-injections";
         break;
-      case i.isContainerInstance(e):
+      case i.isContainerInstance(e2):
         s4 = "a-container-injections";
         break;
-      case i.isEntityInstance(e):
+      case i.isEntityInstance(e2):
         s4 = "a-component-injections";
         break;
     }
-    let a4 = _.meta(e).get(s4), c3 = a4 ? a4.clone() : new m(), l5 = c3.get(o3) ? [...c3.get(o3)] : [];
-    l5[r8].resolutionStrategy = { parent: u2 }, c3.set(o3, l5), _.meta(e).set(s4, c3);
+    let a4 = _.meta(e2).get(s4), c3 = a4 ? a4.clone() : new m(), l4 = c3.get(o3) ? [...c3.get(o3)] : [];
+    l4[r9].resolutionStrategy = { parent: u3 }, c3.set(o3, l4), _.meta(e2).set(s4, c3);
   };
 }
 __name(We, "We");
 p(We, "A_Dependency_Parent");
 function He() {
-  return function(u2, e, t4) {
-    let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u2} (${r8})`);
-    let n6 = e ? String(e) : "constructor", o3;
+  return function(u3, e2, t4) {
+    let r9 = A.getComponentName(u3);
+    if (!i.isTargetAvailableForInjection(u3)) throw new C(C.InvalidDependencyTarget, `A-Dependency cannot be used on the target of type ${typeof u3} (${r9})`);
+    let n7 = e2 ? String(e2) : "constructor", o3;
     switch (true) {
-      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
+      case (i.isComponentConstructor(u3) || i.isComponentInstance(u3)):
         o3 = "a-component-injections";
         break;
-      case i.isContainerInstance(u2):
+      case i.isContainerInstance(u3):
         o3 = "a-container-injections";
         break;
-      case i.isEntityInstance(u2):
+      case i.isEntityInstance(u3):
         o3 = "a-component-injections";
         break;
     }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { require: true }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let s4 = _.meta(u3).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n7) ? [...a4.get(n7)] : [];
+    c3[t4].resolutionStrategy = { require: true }, a4.set(n7, c3), _.meta(u3).set(o3, a4);
   };
 }
 __name(He, "He");
 p(He, "A_Dependency_Require");
 function Ge() {
-  return function(u2, e, t4) {
-    let r8 = A.getComponentName(u2);
-    if (!i.isTargetAvailableForInjection(u2)) throw new C(C.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof u2} (${r8})`);
-    let n6 = e ? String(e) : "constructor", o3;
+  return function(u3, e2, t4) {
+    let r9 = A.getComponentName(u3);
+    if (!i.isTargetAvailableForInjection(u3)) throw new C(C.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof u3} (${r9})`);
+    let n7 = e2 ? String(e2) : "constructor", o3;
     switch (true) {
-      case (i.isComponentConstructor(u2) || i.isComponentInstance(u2)):
+      case (i.isComponentConstructor(u3) || i.isComponentInstance(u3)):
         o3 = "a-component-injections";
         break;
-      case i.isContainerInstance(u2):
+      case i.isContainerInstance(u3):
         o3 = "a-container-injections";
         break;
-      case i.isEntityInstance(u2):
+      case i.isEntityInstance(u3):
         o3 = "a-component-injections";
         break;
     }
-    let s4 = _.meta(u2).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n6) ? [...a4.get(n6)] : [];
-    c3[t4].resolutionStrategy = { pagination: { ...c3[t4].resolutionStrategy.pagination, count: -1 } }, a4.set(n6, c3), _.meta(u2).set(o3, a4);
+    let s4 = _.meta(u3).get(o3), a4 = s4 ? s4.clone() : new m(), c3 = a4.get(n7) ? [...a4.get(n7)] : [];
+    c3[t4].resolutionStrategy = { pagination: { ...c3[t4].resolutionStrategy.pagination, count: -1 } }, a4.set(n7, c3), _.meta(u3).set(o3, a4);
   };
 }
 __name(Ge, "Ge");
 p(Ge, "A_Dependency_All");
-function Ze(u2, e) {
-  return function(t4, r8, n6) {
+function Ze(u3, e2) {
+  return function(t4, r9, n7) {
     let o3 = A.getComponentName(t4);
     if (!i.isTargetAvailableForInjection(t4)) throw new C(C.InvalidDependencyTarget, `A-All cannot be used on the target of type ${typeof t4} (${o3})`);
-    let s4 = r8 ? String(r8) : "constructor", a4;
+    let s4 = r9 ? String(r9) : "constructor", a4;
     switch (true) {
       case (i.isComponentConstructor(t4) || i.isComponentInstance(t4)):
         a4 = "a-component-injections";
@@ -950,18 +950,18 @@ function Ze(u2, e) {
         a4 = "a-component-injections";
         break;
     }
-    let c3 = _.meta(t4).get(a4), l5 = c3 ? c3.clone() : new m(), f4 = l5.get(s4) ? [...l5.get(s4)] : [];
-    f4[n6].resolutionStrategy = { query: { ...f4[n6].resolutionStrategy.query, ...u2 }, pagination: { ...f4[n6].resolutionStrategy.pagination, ...e } }, l5.set(s4, f4), _.meta(t4).set(a4, l5);
+    let c3 = _.meta(t4).get(a4), l4 = c3 ? c3.clone() : new m(), f4 = l4.get(s4) ? [...l4.get(s4)] : [];
+    f4[n7].resolutionStrategy = { query: { ...f4[n7].resolutionStrategy.query, ...u3 }, pagination: { ...f4[n7].resolutionStrategy.pagination, ...e2 } }, l4.set(s4, f4), _.meta(t4).set(a4, l4);
   };
 }
 __name(Ze, "Ze");
 p(Ze, "A_Dependency_Query");
 var _a21;
 var Xe = (_a21 = class {
-  constructor(e, t4) {
+  constructor(e2, t4) {
     this._defaultPagination = { count: 1, from: "start" };
     this._defaultResolutionStrategy = { require: false, load: false, parent: 0, flat: false, create: false, args: [], query: {}, pagination: this._defaultPagination };
-    this._name = typeof e == "string" ? e : A.getComponentName(e), this._target = typeof e == "string" ? void 0 : e, this.resolutionStrategy = t4 || {}, this.initCheck();
+    this._name = typeof e2 == "string" ? e2 : A.getComponentName(e2), this._target = typeof e2 == "string" ? void 0 : e2, this.resolutionStrategy = t4 || {}, this.initCheck();
   }
   static get Required() {
     return He;
@@ -1020,8 +1020,8 @@ var Xe = (_a21 = class {
   get resolutionStrategy() {
     return this._resolutionStrategy;
   }
-  set resolutionStrategy(e) {
-    this._resolutionStrategy = { ...this._defaultResolutionStrategy, ...this._resolutionStrategy, ...e, pagination: { ...this._defaultPagination, ...(this._resolutionStrategy || {}).pagination, ...e.pagination || {} } };
+  set resolutionStrategy(e2) {
+    this._resolutionStrategy = { ...this._defaultResolutionStrategy, ...this._resolutionStrategy, ...e2, pagination: { ...this._defaultPagination, ...(this._resolutionStrategy || {}).pagination, ...e2.pagination || {} } };
   }
   initCheck() {
     if (!this._resolutionStrategy) throw new C(C.ResolutionParametersError, `Resolution strategy parameters are not provided for dependency: ${this._name}`);
@@ -1035,190 +1035,190 @@ p(Xe, "A_Dependency");
 var M = Xe;
 var _a22;
 var h = (_a22 = class {
-  static isString(e) {
-    return typeof e == "string" || e instanceof String;
+  static isString(e2) {
+    return typeof e2 == "string" || e2 instanceof String;
   }
-  static isNumber(e) {
-    return typeof e == "number" && isFinite(e);
+  static isNumber(e2) {
+    return typeof e2 == "number" && isFinite(e2);
   }
-  static isBoolean(e) {
-    return typeof e == "boolean";
+  static isBoolean(e2) {
+    return typeof e2 == "boolean";
   }
-  static isArray(e) {
-    return Array.isArray(e);
+  static isArray(e2) {
+    return Array.isArray(e2);
   }
-  static isObject(e) {
-    return e && typeof e == "object" && !Array.isArray(e);
+  static isObject(e2) {
+    return e2 && typeof e2 == "object" && !Array.isArray(e2);
   }
-  static isFunction(e) {
-    return typeof e == "function";
+  static isFunction(e2) {
+    return typeof e2 == "function";
   }
-  static isUndefined(e) {
-    return typeof e > "u";
+  static isUndefined(e2) {
+    return typeof e2 > "u";
   }
-  static isRegExp(e) {
-    return e instanceof RegExp;
+  static isRegExp(e2) {
+    return e2 instanceof RegExp;
   }
-  static isContainerConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, K);
+  static isContainerConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, K);
   }
-  static isComponentConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, O);
+  static isComponentConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, O);
   }
-  static isFragmentConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, H);
+  static isFragmentConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, H);
   }
-  static isEntityConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, D);
+  static isEntityConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, D);
   }
-  static isScopeConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, R);
+  static isScopeConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, R);
   }
-  static isErrorConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, Error);
+  static isErrorConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, Error);
   }
-  static isFeatureConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, N);
+  static isFeatureConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, N);
   }
-  static isCallerConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, te);
+  static isCallerConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, te);
   }
-  static isDependencyConstructor(e) {
-    return typeof e == "function" && A.isInheritedFrom(e, M);
+  static isDependencyConstructor(e2) {
+    return typeof e2 == "function" && A.isInheritedFrom(e2, M);
   }
-  static isDependencyInstance(e) {
-    return e instanceof M;
+  static isDependencyInstance(e2) {
+    return e2 instanceof M;
   }
-  static isContainerInstance(e) {
-    return e instanceof K;
+  static isContainerInstance(e2) {
+    return e2 instanceof K;
   }
-  static isComponentInstance(e) {
-    return e instanceof O;
+  static isComponentInstance(e2) {
+    return e2 instanceof O;
   }
-  static isFeatureInstance(e) {
-    return e instanceof N;
+  static isFeatureInstance(e2) {
+    return e2 instanceof N;
   }
-  static isFragmentInstance(e) {
-    return e instanceof H;
+  static isFragmentInstance(e2) {
+    return e2 instanceof H;
   }
-  static isEntityInstance(e) {
-    return e instanceof D;
+  static isEntityInstance(e2) {
+    return e2 instanceof D;
   }
-  static isScopeInstance(e) {
-    return e instanceof R;
+  static isScopeInstance(e2) {
+    return e2 instanceof R;
   }
-  static isErrorInstance(e) {
-    return e instanceof Error;
+  static isErrorInstance(e2) {
+    return e2 instanceof Error;
   }
-  static isComponentMetaInstance(e) {
-    return e instanceof z;
+  static isComponentMetaInstance(e2) {
+    return e2 instanceof z;
   }
-  static isContainerMetaInstance(e) {
-    return e instanceof Q;
+  static isContainerMetaInstance(e2) {
+    return e2 instanceof Q;
   }
-  static isEntityMetaInstance(e) {
-    return e instanceof X;
+  static isEntityMetaInstance(e2) {
+    return e2 instanceof X;
   }
-  static hasASEID(e) {
-    return e && typeof e == "object" && "aseid" in e && (_a22.isEntityInstance(e) || _a22.isErrorInstance(e));
+  static hasASEID(e2) {
+    return e2 && typeof e2 == "object" && "aseid" in e2 && (_a22.isEntityInstance(e2) || _a22.isErrorInstance(e2));
   }
-  static isConstructorAllowedForScopeAllocation(e) {
-    return _a22.isContainerConstructor(e) || _a22.isFeatureConstructor(e);
+  static isConstructorAllowedForScopeAllocation(e2) {
+    return _a22.isContainerConstructor(e2) || _a22.isFeatureConstructor(e2);
   }
-  static isInstanceAllowedForScopeAllocation(e) {
-    return _a22.isContainerInstance(e) || _a22.isFeatureInstance(e);
+  static isInstanceAllowedForScopeAllocation(e2) {
+    return _a22.isContainerInstance(e2) || _a22.isFeatureInstance(e2);
   }
-  static isConstructorAvailableForAbstraction(e) {
-    return _a22.isContainerInstance(e) || _a22.isComponentInstance(e);
+  static isConstructorAvailableForAbstraction(e2) {
+    return _a22.isContainerInstance(e2) || _a22.isComponentInstance(e2);
   }
-  static isTargetAvailableForInjection(e) {
-    return _a22.isComponentConstructor(e) || _a22.isComponentInstance(e) || _a22.isContainerInstance(e) || _a22.isEntityInstance(e);
+  static isTargetAvailableForInjection(e2) {
+    return _a22.isComponentConstructor(e2) || _a22.isComponentInstance(e2) || _a22.isContainerInstance(e2) || _a22.isEntityInstance(e2);
   }
-  static isAllowedForFeatureCall(e) {
-    return _a22.isContainerInstance(e) || _a22.isComponentInstance(e) || _a22.isEntityInstance(e);
+  static isAllowedForFeatureCall(e2) {
+    return _a22.isContainerInstance(e2) || _a22.isComponentInstance(e2) || _a22.isEntityInstance(e2);
   }
-  static isAllowedForFeatureDefinition(e) {
-    return _a22.isContainerInstance(e) || _a22.isComponentInstance(e) || _a22.isEntityInstance(e);
+  static isAllowedForFeatureDefinition(e2) {
+    return _a22.isContainerInstance(e2) || _a22.isComponentInstance(e2) || _a22.isEntityInstance(e2);
   }
-  static isAllowedForFeatureExtension(e) {
-    return _a22.isComponentInstance(e) || _a22.isContainerInstance(e) || _a22.isEntityInstance(e);
+  static isAllowedForFeatureExtension(e2) {
+    return _a22.isComponentInstance(e2) || _a22.isContainerInstance(e2) || _a22.isEntityInstance(e2);
   }
-  static isAllowedForAbstractionDefinition(e) {
-    return _a22.isContainerInstance(e) || _a22.isComponentInstance(e);
+  static isAllowedForAbstractionDefinition(e2) {
+    return _a22.isContainerInstance(e2) || _a22.isComponentInstance(e2);
   }
-  static isAllowedForDependencyDefaultCreation(e) {
-    return _a22.isFragmentConstructor(e) || A.isInheritedFrom(e, H) || _a22.isEntityConstructor(e) || A.isInheritedFrom(e, D);
+  static isAllowedForDependencyDefaultCreation(e2) {
+    return _a22.isFragmentConstructor(e2) || A.isInheritedFrom(e2, H) || _a22.isEntityConstructor(e2) || A.isInheritedFrom(e2, D);
   }
-  static isErrorConstructorType(e) {
-    return !!e && _a22.isObject(e) && !(e instanceof Error) && "title" in e;
+  static isErrorConstructorType(e2) {
+    return !!e2 && _a22.isObject(e2) && !(e2 instanceof Error) && "title" in e2;
   }
-  static isErrorSerializedType(e) {
-    return !!e && _a22.isObject(e) && !(e instanceof Error) && "aseid" in e && w.isASEID(e.aseid);
+  static isErrorSerializedType(e2) {
+    return !!e2 && _a22.isObject(e2) && !(e2 instanceof Error) && "aseid" in e2 && w.isASEID(e2.aseid);
   }
-  static isPromiseInstance(e) {
-    return e instanceof Promise;
+  static isPromiseInstance(e2) {
+    return e2 instanceof Promise;
   }
 }, __name(_a22, "h"), _a22);
 p(h, "A_TypeGuards");
 var i = h;
-function Qe(u2 = {}) {
-  return function(e, t4, r8) {
-    let n6 = A.getComponentName(e);
-    if (!i.isAllowedForFeatureDefinition(e)) throw new S(S.FeatureDefinitionError, `A-Feature cannot be defined on the ${n6} level`);
-    let o3 = _.meta(e.constructor), s4;
+function Qe(u3 = {}) {
+  return function(e2, t4, r9) {
+    let n7 = A.getComponentName(e2);
+    if (!i.isAllowedForFeatureDefinition(e2)) throw new S(S.FeatureDefinitionError, `A-Feature cannot be defined on the ${n7} level`);
+    let o3 = _.meta(e2.constructor), s4;
     switch (true) {
-      case i.isEntityInstance(e):
+      case i.isEntityInstance(e2):
         s4 = "a-component-features";
         break;
-      case i.isContainerInstance(e):
+      case i.isContainerInstance(e2):
         s4 = "a-container-features";
         break;
-      case i.isComponentInstance(e):
+      case i.isComponentInstance(e2):
         s4 = "a-component-features";
         break;
     }
-    let a4 = o3.get(s4) || new m(), c3 = u2.name || t4, l5 = u2.invoke || false;
-    a4.set(t4, { name: `${e.constructor.name}.${c3}`, handler: t4, invoke: l5, template: u2.template && u2.template.length ? u2.template.map((g5) => ({ ...g5, before: g5.before || "", after: g5.after || "", behavior: g5.behavior || "sync", throwOnError: true, override: g5.override || "" })) : [] }), _.meta(e.constructor).set(s4, a4);
-    let f4 = r8.value;
-    return r8.value = function(...g5) {
-      if (l5) f4.apply(this, g5);
+    let a4 = o3.get(s4) || new m(), c3 = u3.name || t4, l4 = u3.invoke || false;
+    a4.set(t4, { name: `${e2.constructor.name}.${c3}`, handler: t4, invoke: l4, template: u3.template && u3.template.length ? u3.template.map((g5) => ({ ...g5, before: g5.before || "", after: g5.after || "", behavior: g5.behavior || "sync", throwOnError: true, override: g5.override || "" })) : [] }), _.meta(e2.constructor).set(s4, a4);
+    let f4 = r9.value;
+    return r9.value = function(...g5) {
+      if (l4) f4.apply(this, g5);
       else return f4.apply(this, g5);
-      if (typeof this.call == "function" && l5) return this.call(c3);
-    }, r8;
+      if (typeof this.call == "function" && l4) return this.call(c3);
+    }, r9;
   };
 }
 __name(Qe, "Qe");
 p(Qe, "A_Feature_Define");
-function et(u2) {
-  return function(e, t4, r8) {
-    let n6 = A.getComponentName(e);
-    if (!i.isAllowedForFeatureExtension(e)) throw new S(S.FeatureExtensionError, `A-Feature-Extend cannot be applied on the ${n6} level`);
-    let o3, s4 = "sync", a4 = "", c3 = "", l5 = "", f4 = [], g5 = [], v6 = true, L2;
+function et(u3) {
+  return function(e2, t4, r9) {
+    let n7 = A.getComponentName(e2);
+    if (!i.isAllowedForFeatureExtension(e2)) throw new S(S.FeatureExtensionError, `A-Feature-Extend cannot be applied on the ${n7} level`);
+    let o3, s4 = "sync", a4 = "", c3 = "", l4 = "", f4 = [], g5 = [], v7 = true, L2;
     switch (true) {
-      case i.isEntityInstance(e):
+      case i.isEntityInstance(e2):
         L2 = "a-component-extensions";
         break;
-      case i.isContainerInstance(e):
+      case i.isContainerInstance(e2):
         L2 = "a-container-extensions";
         break;
-      case i.isComponentInstance(e):
+      case i.isComponentInstance(e2):
         L2 = "a-component-extensions";
         break;
     }
     switch (true) {
-      case i.isRegExp(u2):
-        o3 = u2;
+      case i.isRegExp(u3):
+        o3 = u3;
         break;
-      case (!!u2 && typeof u2 == "object"):
-        Array.isArray(u2.scope) ? f4 = u2.scope : u2.scope && typeof u2.scope == "object" && (Array.isArray(u2.scope.include) && (f4 = u2.scope.include), Array.isArray(u2.scope.exclude) && (g5 = u2.scope.exclude)), o3 = Ct(u2, f4, g5, t4), s4 = u2.behavior || s4, v6 = u2.throwOnError !== void 0 ? u2.throwOnError : v6, a4 = i.isArray(u2.before) ? new RegExp(`^${u2.before.join("|").replace(/\./g, "\\.")}$`).source : u2.before instanceof RegExp ? u2.before.source : "", c3 = i.isArray(u2.after) ? new RegExp(`^${u2.after.join("|").replace(/\./g, "\\.")}$`).source : u2.after instanceof RegExp ? u2.after.source : "", l5 = i.isArray(u2.override) ? new RegExp(`^${u2.override.join("|").replace(/\./g, "\\.")}$`).source : u2.override instanceof RegExp ? u2.override.source : "";
+      case (!!u3 && typeof u3 == "object"):
+        Array.isArray(u3.scope) ? f4 = u3.scope : u3.scope && typeof u3.scope == "object" && (Array.isArray(u3.scope.include) && (f4 = u3.scope.include), Array.isArray(u3.scope.exclude) && (g5 = u3.scope.exclude)), o3 = Ct(u3, f4, g5, t4), s4 = u3.behavior || s4, v7 = u3.throwOnError !== void 0 ? u3.throwOnError : v7, a4 = i.isArray(u3.before) ? new RegExp(`^${u3.before.join("|").replace(/\./g, "\\.")}$`).source : u3.before instanceof RegExp ? u3.before.source : "", c3 = i.isArray(u3.after) ? new RegExp(`^${u3.after.join("|").replace(/\./g, "\\.")}$`).source : u3.after instanceof RegExp ? u3.after.source : "", l4 = i.isArray(u3.override) ? new RegExp(`^${u3.override.join("|").replace(/\./g, "\\.")}$`).source : u3.override instanceof RegExp ? u3.override.source : "";
         break;
       default:
         o3 = new RegExp(`^.*${t4.replace(/\./g, "\\.")}$`);
         break;
     }
-    let ce = _.meta(e).get(L2), ye = _.meta(e), B3 = ye.get(L2) ? new m().from(ye.get(L2)) : new m();
+    let ce = _.meta(e2).get(L2), ye = _.meta(e2), B3 = ye.get(L2) ? new m().from(ye.get(L2)) : new m();
     if (ce && ce.size() && ce.has(t4) && ce.get(t4).invoke) throw new S(S.FeatureExtensionError, `A-Feature-Extend cannot be used on the method "${t4}" because it is already defined as a Feature with "invoke" set to true. Please remove the A-Feature-Extend decorator or set "invoke" to false in the A-Feature decorator.`);
-    let Z2 = [...B3.get(o3.source) || []], lt = u2 && typeof u2 == "object" && !i.isRegExp(u2) && u2.name || t4;
+    let Z2 = [...B3.get(o3.source) || []], lt = u3 && typeof u3 == "object" && !i.isRegExp(u3) && u3.name || t4;
     for (let [V2, ie] of B3.entries()) {
       let Te = ie.findIndex((pe) => pe.handler === t4);
       if (V2 !== o3.source && Te !== -1) {
@@ -1226,14 +1226,14 @@ function et(u2) {
         (U ? U[1] : null) === lt && (ie.splice(Te, 1), ie.length === 0 ? B3.delete(V2) : B3.set(V2, ie));
       }
     }
-    let E3 = Z2.findIndex((V2) => V2.handler === t4), y2 = { name: o3.source, handler: t4, behavior: s4, before: a4, after: c3, throwOnError: v6, override: l5 };
-    E3 !== -1 ? Z2[E3] = y2 : Z2.push(y2), B3.set(o3.source, Z2), _.meta(e).set(L2, B3);
+    let E3 = Z2.findIndex((V2) => V2.handler === t4), y2 = { name: o3.source, handler: t4, behavior: s4, before: a4, after: c3, throwOnError: v7, override: l4 };
+    E3 !== -1 ? Z2[E3] = y2 : Z2.push(y2), B3.set(o3.source, Z2), _.meta(e2).set(L2, B3);
   };
 }
 __name(et, "et");
 p(et, "A_Feature_Extend");
-function Ct(u2, e, t4, r8) {
-  let n6 = e.length ? `(${e.map((a4) => a4.name).join("|")})` : ".*", o3 = t4.length ? `(?!${t4.map((a4) => a4.name).join("|")})` : "", s4 = u2.scope ? `^${o3}${n6}\\.${u2.name || r8}$` : `.*\\.${u2.name || r8}$`;
+function Ct(u3, e2, t4, r9) {
+  let n7 = e2.length ? `(${e2.map((a4) => a4.name).join("|")})` : ".*", o3 = t4.length ? `(?!${t4.map((a4) => a4.name).join("|")})` : "", s4 = u3.scope ? `^${o3}${n7}\\.${u3.name || r9}$` : `.*\\.${u3.name || r9}$`;
   return new RegExp(s4);
 }
 __name(Ct, "Ct");
@@ -1249,9 +1249,9 @@ p(xe, "A_StageError"), xe.ArgumentsResolutionError = "A-Stage Arguments Resoluti
 var $ = xe;
 var _a24;
 var tt = (_a24 = class {
-  constructor(e, t4) {
+  constructor(e2, t4) {
     this._status = "INITIALIZED";
-    this._feature = e, this._definition = t4;
+    this._feature = e2, this._definition = t4;
   }
   get name() {
     return this.toString();
@@ -1271,74 +1271,74 @@ var tt = (_a24 = class {
   get error() {
     return this._error;
   }
-  getStepArgs(e, t4) {
-    let r8 = t4.dependency.target || e.resolveConstructor(t4.dependency.name), n6 = this._feature.caller?.component;
-    return _.meta(r8).injections(t4.handler).map((o3) => {
+  getStepArgs(e2, t4) {
+    let r9 = t4.dependency.target || e2.resolveConstructor(t4.dependency.name), n7 = this._feature.caller?.component;
+    return _.meta(r9).injections(t4.handler).map((o3) => {
       switch (true) {
         case i.isCallerConstructor(o3.target):
           return this._feature.caller.component;
         case i.isFeatureConstructor(o3.target):
           return this._feature;
         default: {
-          if (n6 && this.isCallerOfDependency(n6, o3.target)) return n6;
+          if (n7 && this.isCallerOfDependency(n7, o3.target)) return n7;
           try {
-            return e.resolve(o3);
+            return e2.resolve(o3);
           } catch (s4) {
             let a4 = o3.target?.name ?? o3?.name ?? "<unknown>";
-            throw new $({ title: $.ArgumentsResolutionError, description: `Failed to resolve @A_Inject(${a4}) for handler '${t4.handler}' in stage ${this.name} (scope: ${e.name}).`, originalError: s4 });
+            throw new $({ title: $.ArgumentsResolutionError, description: `Failed to resolve @A_Inject(${a4}) for handler '${t4.handler}' in stage ${this.name} (scope: ${e2.name}).`, originalError: s4 });
           }
         }
       }
     });
   }
-  isCallerOfDependency(e, t4) {
-    if (!e || !t4 || typeof t4 != "function") return false;
-    if (e.constructor === t4) return true;
+  isCallerOfDependency(e2, t4) {
+    if (!e2 || !t4 || typeof t4 != "function") return false;
+    if (e2.constructor === t4) return true;
     try {
-      return e instanceof t4;
+      return e2 instanceof t4;
     } catch {
       return false;
     }
   }
-  getStepComponent(e, t4) {
-    let { dependency: r8, handler: n6 } = t4, o3 = this._feature.caller?.component;
-    if (o3 && this.isCallerOfDependency(o3, r8.target)) {
-      if (!o3[n6]) throw new $($.CompileError, `Handler ${n6} not found in ${o3.constructor.name}`);
+  getStepComponent(e2, t4) {
+    let { dependency: r9, handler: n7 } = t4, o3 = this._feature.caller?.component;
+    if (o3 && this.isCallerOfDependency(o3, r9.target)) {
+      if (!o3[n7]) throw new $($.CompileError, `Handler ${n7} not found in ${o3.constructor.name}`);
       return o3;
     }
-    let s4 = e.resolve(r8) || this.feature.scope.resolve(r8);
+    let s4 = e2.resolve(r9) || this.feature.scope.resolve(r9);
     if (!s4) {
-      let a4 = r8.target;
+      let a4 = r9.target;
       if (a4 && i.isEntityConstructor(a4)) return;
-      throw new $($.CompileError, `Unable to resolve component ${r8.name} from scope ${e.name}`);
+      throw new $($.CompileError, `Unable to resolve component ${r9.name} from scope ${e2.name}`);
     }
-    if (!s4[n6]) throw new $($.CompileError, `Handler ${n6} not found in ${s4.constructor.name}`);
+    if (!s4[n7]) throw new $($.CompileError, `Handler ${n7} not found in ${s4.constructor.name}`);
     return s4;
   }
-  callStepHandler(e, t4) {
-    let r8 = this.getStepComponent(t4, e);
-    if (!r8) return;
-    let n6 = this.getStepArgs(t4, e);
-    return { component: r8, method: e.handler, params: n6 };
+  callStepHandler(e2, t4) {
+    let r9 = this.getStepComponent(t4, e2);
+    if (!r9) return;
+    let n7 = this.getStepArgs(t4, e2);
+    return { component: r9, method: e2.handler, params: n7 };
   }
   skip() {
     this._status = "SKIPPED";
   }
-  process(e) {
-    let t4 = i.isScopeInstance(e) ? e : this._feature.scope;
+  process(e2) {
+    let t4 = i.isScopeInstance(e2) ? e2 : this._feature.scope;
     if (!this.isProcessed) {
       this._status = "PROCESSING";
-      let r8 = this.callStepHandler(this._definition, t4);
-      if (!r8) {
+      let r9 = this.callStepHandler(this._definition, t4);
+      if (!r9) {
         this.skip();
         return;
       }
-      let { component: n6, method: o3, params: s4 } = r8, a4 = n6[o3](...s4);
-      if (i.isPromiseInstance(a4)) return new Promise(async (c3, l5) => {
+      let { component: n7, method: o3, params: s4 } = r9, a4 = n7[o3](...s4);
+      if (i.isPromiseInstance(a4)) return new Promise(async (c3, l4) => {
         try {
           return await a4, this.completed(), c3();
         } catch (f4) {
-          return this.failed(f4), this._definition.throwOnError ? c3() : l5(f4);
+          return this.failed(f4), this._definition.throwOnError ? c3() : l4(f4);
         }
       });
       this.completed();
@@ -1347,8 +1347,8 @@ var tt = (_a24 = class {
   completed() {
     this._status = "COMPLETED";
   }
-  failed(e) {
-    this._error = e instanceof b ? e : new b(e), this._status = "FAILED";
+  failed(e2) {
+    this._error = e2 instanceof b ? e2 : new b(e2), this._status = "FAILED";
   }
   toJSON() {
     return { name: this.name, status: this.status };
@@ -1365,68 +1365,68 @@ var Fe = (_a25 = class extends b {
 p(Fe, "A_StepManagerError"), Fe.CircularDependencyError = "A-StepManager Circular Dependency Error";
 var _a26;
 var rt = (_a26 = class {
-  constructor(e) {
+  constructor(e2) {
     this._uniqueIdMap = /* @__PURE__ */ new Map();
     this._isBuilt = false;
-    this.entities = this.prepareSteps(e), this.graph = /* @__PURE__ */ new Map(), this.visited = /* @__PURE__ */ new Set(), this.tempMark = /* @__PURE__ */ new Set(), this.sortedEntities = [], this.assignUniqueIds();
+    this.entities = this.prepareSteps(e2), this.graph = /* @__PURE__ */ new Map(), this.visited = /* @__PURE__ */ new Set(), this.tempMark = /* @__PURE__ */ new Set(), this.sortedEntities = [], this.assignUniqueIds();
   }
-  prepareSteps(e) {
-    return e.map((t4) => ({ ...t4, behavior: t4.behavior || "sync", before: t4.before || "", after: t4.after || "", override: t4.override || "", throwOnError: false }));
+  prepareSteps(e2) {
+    return e2.map((t4) => ({ ...t4, behavior: t4.behavior || "sync", before: t4.before || "", after: t4.after || "", override: t4.override || "", throwOnError: false }));
   }
-  baseID(e) {
-    return `${e.dependency.name}.${e.handler}`;
+  baseID(e2) {
+    return `${e2.dependency.name}.${e2.handler}`;
   }
-  ID(e) {
-    return this._uniqueIdMap.get(e) || this.baseID(e);
+  ID(e2) {
+    return this._uniqueIdMap.get(e2) || this.baseID(e2);
   }
   assignUniqueIds() {
-    let e = /* @__PURE__ */ new Map();
-    for (let r8 of this.entities) {
-      let n6 = this.baseID(r8);
-      e.set(n6, (e.get(n6) || 0) + 1);
+    let e2 = /* @__PURE__ */ new Map();
+    for (let r9 of this.entities) {
+      let n7 = this.baseID(r9);
+      e2.set(n7, (e2.get(n7) || 0) + 1);
     }
     let t4 = /* @__PURE__ */ new Map();
-    for (let r8 of this.entities) {
-      let n6 = this.baseID(r8);
-      if (e.get(n6) > 1) {
-        let o3 = t4.get(n6) || 0;
-        this._uniqueIdMap.set(r8, `${n6}#${o3}`), t4.set(n6, o3 + 1);
-      } else this._uniqueIdMap.set(r8, n6);
+    for (let r9 of this.entities) {
+      let n7 = this.baseID(r9);
+      if (e2.get(n7) > 1) {
+        let o3 = t4.get(n7) || 0;
+        this._uniqueIdMap.set(r9, `${n7}#${o3}`), t4.set(n7, o3 + 1);
+      } else this._uniqueIdMap.set(r9, n7);
     }
   }
   buildGraph() {
-    this._isBuilt || (this._isBuilt = true, this.entities = this.entities.filter((e, t4, r8) => !r8.some((n6, o3) => {
-      if (t4 === o3 || !n6.override) return false;
-      let s4 = new RegExp(n6.override);
-      return s4.test(this.baseID(e)) || s4.test(e.handler);
-    })), this._uniqueIdMap.clear(), this.assignUniqueIds(), this.entities.forEach((e) => this.graph.set(this.ID(e), /* @__PURE__ */ new Set())), this.entities.forEach((e) => {
-      let t4 = this.ID(e);
-      e.before && this.matchEntities(t4, e.before).forEach((n6) => {
-        this.graph.has(n6) || this.graph.set(n6, /* @__PURE__ */ new Set()), this.graph.get(n6).add(t4);
-      }), e.after && this.matchEntities(t4, e.after).forEach((n6) => {
-        this.graph.has(t4) || this.graph.set(t4, /* @__PURE__ */ new Set()), this.graph.get(t4).add(n6);
+    this._isBuilt || (this._isBuilt = true, this.entities = this.entities.filter((e2, t4, r9) => !r9.some((n7, o3) => {
+      if (t4 === o3 || !n7.override) return false;
+      let s4 = new RegExp(n7.override);
+      return s4.test(this.baseID(e2)) || s4.test(e2.handler);
+    })), this._uniqueIdMap.clear(), this.assignUniqueIds(), this.entities.forEach((e2) => this.graph.set(this.ID(e2), /* @__PURE__ */ new Set())), this.entities.forEach((e2) => {
+      let t4 = this.ID(e2);
+      e2.before && this.matchEntities(t4, e2.before).forEach((n7) => {
+        this.graph.has(n7) || this.graph.set(n7, /* @__PURE__ */ new Set()), this.graph.get(n7).add(t4);
+      }), e2.after && this.matchEntities(t4, e2.after).forEach((n7) => {
+        this.graph.has(t4) || this.graph.set(t4, /* @__PURE__ */ new Set()), this.graph.get(t4).add(n7);
       });
     }));
   }
-  matchEntities(e, t4) {
-    let r8 = new RegExp(t4);
-    return this.entities.filter((n6) => r8.test(this.baseID(n6)) && this.ID(n6) !== e).map((n6) => this.ID(n6));
+  matchEntities(e2, t4) {
+    let r9 = new RegExp(t4);
+    return this.entities.filter((n7) => r9.test(this.baseID(n7)) && this.ID(n7) !== e2).map((n7) => this.ID(n7));
   }
-  visit(e) {
-    this.tempMark.has(e) || this.visited.has(e) || (this.tempMark.add(e), (this.graph.get(e) || []).forEach((t4) => this.visit(t4)), this.tempMark.delete(e), this.visited.add(e), this.sortedEntities.push(e));
+  visit(e2) {
+    this.tempMark.has(e2) || this.visited.has(e2) || (this.tempMark.add(e2), (this.graph.get(e2) || []).forEach((t4) => this.visit(t4)), this.tempMark.delete(e2), this.visited.add(e2), this.sortedEntities.push(e2));
   }
   toSortedArray() {
-    return this.buildGraph(), this.entities.forEach((e) => {
-      this.visited.has(this.ID(e)) || this.visit(this.ID(e));
+    return this.buildGraph(), this.entities.forEach((e2) => {
+      this.visited.has(this.ID(e2)) || this.visit(this.ID(e2));
     }), this.sortedEntities;
   }
   toSortedSteps() {
-    return this.toSortedArray().map((t4) => this.entities.find((r8) => this.ID(r8) === t4));
+    return this.toSortedArray().map((t4) => this.entities.find((r9) => this.ID(r9) === t4));
   }
-  toStages(e) {
-    return this.toSortedArray().map((r8) => {
-      let n6 = this.entities.find((o3) => this.ID(o3) === r8);
-      return new ne(e, n6);
+  toStages(e2) {
+    return this.toSortedArray().map((r9) => {
+      let n7 = this.entities.find((o3) => this.ID(o3) === r9);
+      return new ne(e2, n7);
     });
   }
 }, __name(_a26, "rt"), _a26);
@@ -1434,12 +1434,12 @@ p(rt, "A_StepsManager");
 var Ee = rt;
 var _a27;
 var he = (_a27 = class {
-  constructor(e) {
+  constructor(e2) {
     this._stages = [];
     this._index = 0;
     this._state = "INITIALIZED";
     this._scopeAllocated = false;
-    this.validateParams(e), this.getInitializer(e).call(this, e);
+    this.validateParams(e2), this.getInitializer(e2).call(this, e2);
   }
   static get Define() {
     return Qe;
@@ -1480,104 +1480,104 @@ var he = (_a27 = class {
   [Symbol.iterator]() {
     return { next: p(() => this.isDone ? (this._current = void 0, { value: void 0, done: true }) : (this._current = this._stages[this._index], this._index++, { value: this._current, done: false }), "next") };
   }
-  validateParams(e) {
-    if (!e || typeof e != "object") throw new S(S.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e} with value: ${JSON.stringify(e)?.slice(0, 100)}...`);
+  validateParams(e2) {
+    if (!e2 || typeof e2 != "object") throw new S(S.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e2} with value: ${JSON.stringify(e2)?.slice(0, 100)}...`);
   }
-  getInitializer(e) {
+  getInitializer(e2) {
     switch (true) {
-      case !("template" in e):
+      case !("template" in e2):
         return this.fromComponent;
-      case "template" in e:
+      case "template" in e2:
         return this.fromTemplate;
       default:
-        throw new S(S.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e} with value: ${JSON.stringify(e)?.slice(0, 100)}...`);
+        throw new S(S.FeatureInitializationError, `Invalid A-Feature initialization parameters of type: ${typeof e2} with value: ${JSON.stringify(e2)?.slice(0, 100)}...`);
     }
   }
-  fromTemplate(e) {
-    if (!e.template || !Array.isArray(e.template)) throw new S(S.FeatureInitializationError, `Invalid A-Feature template provided of type: ${typeof e.template} with value: ${JSON.stringify(e.template)?.slice(0, 100)}...`);
-    if (!e.component && (!e.scope || !(e.scope instanceof R))) throw new S(S.FeatureInitializationError, `Invalid A-Feature scope provided of type: ${typeof e.scope} with value: ${JSON.stringify(e.scope)?.slice(0, 100)}...`);
-    this._name = e.name;
-    let t4, r8 = e.scope;
+  fromTemplate(e2) {
+    if (!e2.template || !Array.isArray(e2.template)) throw new S(S.FeatureInitializationError, `Invalid A-Feature template provided of type: ${typeof e2.template} with value: ${JSON.stringify(e2.template)?.slice(0, 100)}...`);
+    if (!e2.component && (!e2.scope || !(e2.scope instanceof R))) throw new S(S.FeatureInitializationError, `Invalid A-Feature scope provided of type: ${typeof e2.scope} with value: ${JSON.stringify(e2.scope)?.slice(0, 100)}...`);
+    this._name = e2.name;
+    let t4, r9 = e2.scope;
     try {
-      e.component && (t4 = _.scope(e.component));
+      e2.component && (t4 = _.scope(e2.component));
     } catch (o3) {
-      if (!r8) throw o3;
+      if (!r9) throw o3;
     }
-    t4 && r8 && !r8.isInheritedFrom(t4) && r8.inherit(t4), this._caller = new te(e.component || new O()), this._effectiveScope = t4 || r8;
-    let n6 = _.getSortedStepsFor(e.template);
-    n6 || (this._SM = new Ee(e.template), n6 = this._SM.toSortedSteps(), _.setSortedStepsFor(e.template, n6)), this._stages = n6.map((o3) => new ne(this, o3)), this._current = this._stages[0];
+    t4 && r9 && !r9.isInheritedFrom(t4) && r9.inherit(t4), this._caller = new te(e2.component || new O()), this._effectiveScope = t4 || r9;
+    let n7 = _.getSortedStepsFor(e2.template);
+    n7 || (this._SM = new Ee(e2.template), n7 = this._SM.toSortedSteps(), _.setSortedStepsFor(e2.template, n7)), this._stages = n7.map((o3) => new ne(this, o3)), this._current = this._stages[0];
   }
-  fromComponent(e) {
-    if (!e.component || !i.isAllowedForFeatureDefinition(e.component)) throw new S(S.FeatureInitializationError, `Invalid A-Feature component provided of type: ${typeof e.component} with value: ${JSON.stringify(e.component)?.slice(0, 100)}...`);
-    this._name = e.name;
-    let t4, r8 = e.scope;
+  fromComponent(e2) {
+    if (!e2.component || !i.isAllowedForFeatureDefinition(e2.component)) throw new S(S.FeatureInitializationError, `Invalid A-Feature component provided of type: ${typeof e2.component} with value: ${JSON.stringify(e2.component)?.slice(0, 100)}...`);
+    this._name = e2.name;
+    let t4, r9 = e2.scope;
     try {
-      t4 = _.scope(e.component);
+      t4 = _.scope(e2.component);
     } catch (a4) {
-      if (!r8) throw a4;
+      if (!r9) throw a4;
     }
-    t4 && r8 && !r8.isInheritedFrom(t4) && r8.inherit(t4), this._caller = new te(e.component);
-    let n6 = t4 || r8, o3 = _.featureTemplate(this._name, this._caller.component, n6), s4 = _.getSortedStepsFor(o3);
-    s4 || (this._SM = new Ee(o3), s4 = this._SM.toSortedSteps(), _.setSortedStepsFor(o3, s4)), this._effectiveScope = n6, this._stages = s4.map((a4) => new ne(this, a4)), this._current = this._stages[0];
+    t4 && r9 && !r9.isInheritedFrom(t4) && r9.inherit(t4), this._caller = new te(e2.component);
+    let n7 = t4 || r9, o3 = _.featureTemplate(this._name, this._caller.component, n7), s4 = _.getSortedStepsFor(o3);
+    s4 || (this._SM = new Ee(o3), s4 = this._SM.toSortedSteps(), _.setSortedStepsFor(o3, s4)), this._effectiveScope = n7, this._stages = s4.map((a4) => new ne(this, a4)), this._current = this._stages[0];
   }
-  process(e) {
+  process(e2) {
     try {
       if (this.isProcessed) return;
       this._state = "PROCESSING";
       for (let t4 of this) {
         if (this.state === "INTERRUPTED") return;
-        let r8;
+        let r9;
         try {
-          r8 = t4.process(e);
-        } catch (n6) {
-          throw this.createStageError(n6, t4);
+          r9 = t4.process(e2);
+        } catch (n7) {
+          throw this.createStageError(n7, t4);
         }
-        if (i.isPromiseInstance(r8)) return r8.then(() => {
-          if (this.state !== "INTERRUPTED") return this.processRemainingStagesAsync(e);
-        }).catch((n6) => {
-          throw this.createStageError(n6, t4);
+        if (i.isPromiseInstance(r9)) return r9.then(() => {
+          if (this.state !== "INTERRUPTED") return this.processRemainingStagesAsync(e2);
+        }).catch((n7) => {
+          throw this.createStageError(n7, t4);
         });
       }
       this.state !== "INTERRUPTED" && this.completed();
     } catch (t4) {
-      let r8 = t4 instanceof S ? t4 : new S({ title: S.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${this.stage?.name || "N/A"}.`, stage: this.stage, originalError: t4 });
-      throw this.failed(r8);
+      let r9 = t4 instanceof S ? t4 : new S({ title: S.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${this.stage?.name || "N/A"}.`, stage: this.stage, originalError: t4 });
+      throw this.failed(r9);
     }
   }
-  async processRemainingStagesAsync(e) {
+  async processRemainingStagesAsync(e2) {
     for (let t4 of this) {
       if (this.state === "INTERRUPTED") return;
       try {
-        let r8 = t4.process(e);
-        i.isPromiseInstance(r8) && await r8;
-      } catch (r8) {
-        throw this.createStageError(r8, t4);
+        let r9 = t4.process(e2);
+        i.isPromiseInstance(r9) && await r9;
+      } catch (r9) {
+        throw this.createStageError(r9, t4);
       }
     }
     this.state !== "INTERRUPTED" && this.completed();
   }
-  createStageError(e, t4) {
-    let r8 = e instanceof S ? e : new S({ title: S.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${t4.name}.`, stage: t4, originalError: e });
-    return this.failed(r8), r8;
+  createStageError(e2, t4) {
+    let r9 = e2 instanceof S ? e2 : new S({ title: S.FeatureProcessingError, description: `An error occurred while processing the A-Feature: ${this.name}. Failed at stage: ${t4.name}.`, stage: t4, originalError: e2 });
+    return this.failed(r9), r9;
   }
-  next(e) {
-    let t4 = this._stages.indexOf(e);
+  next(e2) {
+    let t4 = this._stages.indexOf(e2);
     this._index = t4 + 1, this._index >= this._stages.length && this.completed();
   }
   completed() {
     this.isProcessed || this.state !== "INTERRUPTED" && (this._state = "COMPLETED", this._scopeAllocated && this.scope.destroy());
   }
-  failed(e) {
-    return this.isProcessed ? this._error : (this._state = "FAILED", this._error = e, this._scopeAllocated && this.scope.destroy(), this._error);
+  failed(e2) {
+    return this.isProcessed ? this._error : (this._state = "FAILED", this._error = e2, this._scopeAllocated && this.scope.destroy(), this._error);
   }
-  interrupt(e) {
+  interrupt(e2) {
     if (this.isProcessed) return this._error;
     switch (this._state = "INTERRUPTED", true) {
-      case i.isString(e):
-        this._error = new _e({ title: S.Interruption, description: e, stage: this.stage });
+      case i.isString(e2):
+        this._error = new _e({ title: S.Interruption, description: e2, stage: this.stage });
         break;
-      case i.isErrorInstance(e):
-        this._error = new _e({ code: S.Interruption, title: e.title || "Feature Interrupted", description: e.description || e.message, stage: this.stage, originalError: e });
+      case i.isErrorInstance(e2):
+        this._error = new _e({ code: S.Interruption, title: e2.title || "Feature Interrupted", description: e2.description || e2.message, stage: this.stage, originalError: e2 });
         break;
       default:
         this._error = new _e(S.Interruption, "Feature was interrupted");
@@ -1585,12 +1585,12 @@ var he = (_a27 = class {
     }
     return this._scopeAllocated && this.scope.destroy(), this._error;
   }
-  chain(e, t4, r8) {
-    let n6, o3;
-    e instanceof _a27 ? (n6 = e, o3 = t4 instanceof R ? t4 : void 0) : (n6 = new _a27({ name: t4, component: e }), o3 = r8 instanceof R ? r8 : void 0);
+  chain(e2, t4, r9) {
+    let n7, o3;
+    e2 instanceof _a27 ? (n7 = e2, o3 = t4 instanceof R ? t4 : void 0) : (n7 = new _a27({ name: t4, component: e2 }), o3 = r9 instanceof R ? r9 : void 0);
     let s4 = o3 || this.scope;
-    n6._caller = this._caller;
-    let a4 = n6.process(s4);
+    n7._caller = this._caller;
+    let a4 = n7.process(s4);
     return i.isPromiseInstance(a4) ? a4.catch((c3) => {
       throw c3;
     }) : a4;
@@ -1603,22 +1603,22 @@ p(he, "A_Feature");
 var N = he;
 var _a28;
 var nt = (_a28 = class {
-  call(e, t4) {
-    let r8 = new N({ name: e, component: this });
-    if (r8.size !== 0) return r8.process(t4);
+  call(e2, t4) {
+    let r9 = new N({ name: e2, component: this });
+    if (r9.size !== 0) return r9.process(t4);
   }
 }, __name(_a28, "nt"), _a28);
 p(nt, "A_Component");
 var O = nt;
-var ot = ((n6) => (n6.EXTENSIONS = "a-component-extensions", n6.FEATURES = "a-component-features", n6.INJECTIONS = "a-component-injections", n6.ABSTRACTIONS = "a-component-abstractions", n6))(ot || {});
+var ot = ((n7) => (n7.EXTENSIONS = "a-component-extensions", n7.FEATURES = "a-component-features", n7.INJECTIONS = "a-component-injections", n7.ABSTRACTIONS = "a-component-abstractions", n7))(ot || {});
 var _a29;
 var st = (_a29 = class extends m {
-  injections(e) {
-    return this.get("a-component-injections")?.get(e) || [];
+  injections(e2) {
+    return this.get("a-component-injections")?.get(e2) || [];
   }
-  extensions(e) {
+  extensions(e2) {
     let t4 = [];
-    return this.get("a-component-extensions")?.find(e).forEach(([n6, o3]) => {
+    return this.get("a-component-extensions")?.find(e2).forEach(([n7, o3]) => {
       o3.forEach((s4) => {
         t4.push({ name: s4.name, handler: s4.handler, behavior: s4.behavior, before: s4.before || "", after: s4.after || "", throwOnError: s4.throwOnError || true, override: s4.override || "" });
       });
@@ -1627,11 +1627,11 @@ var st = (_a29 = class extends m {
   features() {
     return this.get("a-component-features")?.toArray().map(([, t4]) => t4) || [];
   }
-  abstractions(e) {
-    let t4 = [], r8 = this.get("a-component-abstractions"), n6 = this.get("a-component-injections");
-    return r8?.find(`CONCEPT_ABSTRACTION::${e}`).forEach(([o3, s4]) => {
+  abstractions(e2) {
+    let t4 = [], r9 = this.get("a-component-abstractions"), n7 = this.get("a-component-injections");
+    return r9?.find(`CONCEPT_ABSTRACTION::${e2}`).forEach(([o3, s4]) => {
       s4.forEach((a4) => {
-        let c3 = n6?.get(a4.handler) || [];
+        let c3 = n7?.get(a4.handler) || [];
         t4.push({ ...a4, args: c3 });
       });
     }), t4;
@@ -1643,7 +1643,7 @@ var St = /* @__PURE__ */ new Set();
 var ht = /* @__PURE__ */ new Set();
 var _a30;
 var it = (_a30 = class {
-  constructor(e, t4) {
+  constructor(e2, t4) {
     this._meta = new m();
     this._version = 0;
     this._resolveConstructorCache = /* @__PURE__ */ new Map();
@@ -1661,7 +1661,7 @@ var it = (_a30 = class {
     this._fragments = /* @__PURE__ */ new Map();
     this._imports = /* @__PURE__ */ new Set();
     this._subscribers = /* @__PURE__ */ new Set();
-    this.getInitializer(e).call(this, e, t4);
+    this.getInitializer(e2).call(this, e2, t4);
   }
   get name() {
     return this._name;
@@ -1685,8 +1685,8 @@ var it = (_a30 = class {
     return this._version;
   }
   get fingerprint() {
-    let e = this._cachedAggVersion;
-    return e === void 0 && (St.clear(), e = this.aggregateVersion(St), this._cachedAggVersion = e), this._cachedFingerprint !== void 0 && this._cachedFingerprintVersion === e ? this._cachedFingerprint : (ht.clear(), this._cachedFingerprint = this.computeFingerprint(ht), this._cachedFingerprintVersion = e, this._cachedFingerprint);
+    let e2 = this._cachedAggVersion;
+    return e2 === void 0 && (St.clear(), e2 = this.aggregateVersion(St), this._cachedAggVersion = e2), this._cachedFingerprint !== void 0 && this._cachedFingerprintVersion === e2 ? this._cachedFingerprint : (ht.clear(), this._cachedFingerprint = this.computeFingerprint(ht), this._cachedFingerprintVersion = e2, this._cachedFingerprint);
   }
   get entities() {
     return Array.from(this._entities.values());
@@ -1707,39 +1707,39 @@ var it = (_a30 = class {
     return this._parent;
   }
   bumpVersion() {
-    if (this._version++, this._resolveConstructorCache.clear(), this._resolveCache.clear(), this._resolveFlatAllCache.clear(), this._resolveAllCache.clear(), this._cachedFingerprint = void 0, this._cachedAggVersion = void 0, this._subscribers.size !== 0) for (let e of this._subscribers) {
-      let t4 = e.deref();
+    if (this._version++, this._resolveConstructorCache.clear(), this._resolveCache.clear(), this._resolveFlatAllCache.clear(), this._resolveAllCache.clear(), this._cachedFingerprint = void 0, this._cachedAggVersion = void 0, this._subscribers.size !== 0) for (let e2 of this._subscribers) {
+      let t4 = e2.deref();
       if (!t4) {
-        this._subscribers.delete(e);
+        this._subscribers.delete(e2);
         continue;
       }
       t4.bumpVersion();
     }
   }
-  _addSubscriber(e) {
-    if (this._subscriberTokens || (this._subscriberTokens = /* @__PURE__ */ new WeakMap()), this._subscriberTokens.has(e)) return;
-    let t4 = new WeakRef(e);
-    this._subscribers.add(t4), this._subscriberTokens.set(e, t4);
+  _addSubscriber(e2) {
+    if (this._subscriberTokens || (this._subscriberTokens = /* @__PURE__ */ new WeakMap()), this._subscriberTokens.has(e2)) return;
+    let t4 = new WeakRef(e2);
+    this._subscribers.add(t4), this._subscriberTokens.set(e2, t4);
   }
-  _removeSubscriber(e) {
+  _removeSubscriber(e2) {
     let t4 = this._subscriberTokens;
     if (!t4) return;
-    let r8 = t4.get(e);
-    r8 && (this._subscribers.delete(r8), t4.delete(e));
+    let r9 = t4.get(e2);
+    r9 && (this._subscribers.delete(r9), t4.delete(e2));
   }
-  aggregateVersion(e) {
-    if (e.has(this)) return 0;
-    e.add(this);
+  aggregateVersion(e2) {
+    if (e2.has(this)) return 0;
+    e2.add(this);
     let t4 = this._version;
-    this._parent && (t4 += this._parent.aggregateVersion(e));
-    for (let r8 of this._imports) t4 += r8.aggregateVersion(e);
+    this._parent && (t4 += this._parent.aggregateVersion(e2));
+    for (let r9 of this._imports) t4 += r9.aggregateVersion(e2);
     return t4;
   }
-  computeFingerprint(e) {
-    if (e.has(this)) return "~circular~";
-    e.add(this);
+  computeFingerprint(e2) {
+    if (e2.has(this)) return "~circular~";
+    e2.add(this);
     let t4 = [];
-    if (t4.push("P:" + (this._parent ? this._parent.computeFingerprint(e) : "-")), this._allowedComponents.size) {
+    if (t4.push("P:" + (this._parent ? this._parent.computeFingerprint(e2) : "-")), this._allowedComponents.size) {
       let o3 = Array.from(this._allowedComponents).map((s4) => s4.name).sort();
       t4.push("AC:" + o3.join(","));
     } else t4.push("AC:");
@@ -1756,530 +1756,530 @@ var it = (_a30 = class {
       t4.push("AR:" + o3.join(","));
     } else t4.push("AR:");
     if (this._imports.size) {
-      let o3 = Array.from(this._imports).map((s4) => s4.computeFingerprint(e)).sort();
+      let o3 = Array.from(this._imports).map((s4) => s4.computeFingerprint(e2)).sort();
       t4.push("I:" + o3.join(","));
     } else t4.push("I:");
-    let r8 = t4.join("|"), n6 = 5381;
-    for (let o3 = 0; o3 < r8.length; o3++) n6 = (n6 << 5) + n6 + r8.charCodeAt(o3) | 0;
-    return (n6 >>> 0).toString(16);
+    let r9 = t4.join("|"), n7 = 5381;
+    for (let o3 = 0; o3 < r9.length; o3++) n7 = (n7 << 5) + n7 + r9.charCodeAt(o3) | 0;
+    return (n7 >>> 0).toString(16);
   }
   *parents() {
-    let e = this._parent;
-    for (; e; ) yield e, e = e._parent;
+    let e2 = this._parent;
+    for (; e2; ) yield e2, e2 = e2._parent;
   }
-  parentOffset(e) {
+  parentOffset(e2) {
     let t4 = this;
-    for (; e <= -1 && t4; ) t4 = t4.parent, e++;
+    for (; e2 <= -1 && t4; ) t4 = t4.parent, e2++;
     return t4;
   }
-  getInitializer(e, t4) {
+  getInitializer(e2, t4) {
     switch (true) {
-      case (!e && !t4):
+      case (!e2 && !t4):
         return this.defaultInitialized;
-      case !!e:
+      case !!e2:
         return this.defaultInitialized;
       default:
         throw new T(T.ConstructorError, "Invalid parameters provided to A_Scope constructor");
     }
   }
-  defaultInitialized(e = {}, t4 = {}) {
-    this._name = e.name || this.constructor.name, this.initComponents(e.components), this.initErrors(e.errors), this.initFragments(e.fragments), this.initEntities(e.entities), this.initMeta(e.meta), t4.parent && (this._parent = t4.parent, t4.parent._addSubscriber(this));
+  defaultInitialized(e2 = {}, t4 = {}) {
+    this._name = e2.name || this.constructor.name, this.initComponents(e2.components), this.initErrors(e2.errors), this.initFragments(e2.fragments), this.initEntities(e2.entities), this.initMeta(e2.meta), t4.parent && (this._parent = t4.parent, t4.parent._addSubscriber(this));
   }
-  initComponents(e) {
-    e?.forEach(this.register.bind(this));
+  initComponents(e2) {
+    e2?.forEach(this.register.bind(this));
   }
-  initErrors(e) {
-    e?.forEach(this.register.bind(this));
+  initErrors(e2) {
+    e2?.forEach(this.register.bind(this));
   }
-  initEntities(e) {
-    e?.forEach((t4) => this.register(t4));
+  initEntities(e2) {
+    e2?.forEach((t4) => this.register(t4));
   }
-  initFragments(e) {
-    e?.forEach(this.register.bind(this));
+  initFragments(e2) {
+    e2?.forEach(this.register.bind(this));
   }
-  initMeta(e) {
-    e && Object.entries(e).forEach(([t4, r8]) => {
-      this._meta.set(t4, r8);
+  initMeta(e2) {
+    e2 && Object.entries(e2).forEach(([t4, r9]) => {
+      this._meta.set(t4, r9);
     });
   }
   destroy() {
-    this._components.forEach((e) => _.deregister(e)), this._fragments.forEach((e) => _.deregister(e)), this._entities.forEach((e) => _.deregister(e)), this._components.clear(), this._errors.clear(), this._fragments.clear(), this._entities.clear(), this._allowedComponents.clear(), this._allowedFragments.clear(), this._allowedEntities.clear(), this._allowedErrors.clear();
-    for (let e of this._imports) e._removeSubscriber(this);
+    this._components.forEach((e2) => _.deregister(e2)), this._fragments.forEach((e2) => _.deregister(e2)), this._entities.forEach((e2) => _.deregister(e2)), this._components.clear(), this._errors.clear(), this._fragments.clear(), this._entities.clear(), this._allowedComponents.clear(), this._allowedFragments.clear(), this._allowedEntities.clear(), this._allowedErrors.clear();
+    for (let e2 of this._imports) e2._removeSubscriber(this);
     if (this._imports.clear(), this._parent && (this._parent._removeSubscriber(this), this._parent = void 0), this._subscribers.size > 0) {
-      for (let e of this._subscribers) {
-        let t4 = e.deref();
+      for (let e2 of this._subscribers) {
+        let t4 = e2.deref();
         t4 && (t4._parent === this && (t4._parent = void 0), t4._imports.has(this) && t4._imports.delete(this), t4.bumpVersion());
       }
       this._subscribers.clear();
     }
     this.issuer() && _.deallocate(this), this.bumpVersion();
   }
-  get(e) {
-    return this._meta.get(e);
+  get(e2) {
+    return this._meta.get(e2);
   }
-  set(e, t4) {
-    this._meta.set(e, t4);
+  set(e2, t4) {
+    this._meta.set(e2, t4);
   }
   issuer() {
     return _.issuer(this);
   }
-  inherit(e) {
-    if (!e) throw new T(T.InitializationError, "Invalid parent scope provided");
-    if (e === this) throw new T(T.CircularInheritanceError, `Unable to inherit scope ${this.name} from itself`);
-    if (e === this._parent) return this;
-    let t4 = this.checkCircularInheritance(e);
-    if (t4) throw new T(T.CircularInheritanceError, `Circular inheritance detected: ${[...t4, e.name].join(" -> ")}`);
-    return this._parent && this._parent._removeSubscriber(this), this._parent = e, e._addSubscriber(this), this.bumpVersion(), this;
+  inherit(e2) {
+    if (!e2) throw new T(T.InitializationError, "Invalid parent scope provided");
+    if (e2 === this) throw new T(T.CircularInheritanceError, `Unable to inherit scope ${this.name} from itself`);
+    if (e2 === this._parent) return this;
+    let t4 = this.checkCircularInheritance(e2);
+    if (t4) throw new T(T.CircularInheritanceError, `Circular inheritance detected: ${[...t4, e2.name].join(" -> ")}`);
+    return this._parent && this._parent._removeSubscriber(this), this._parent = e2, e2._addSubscriber(this), this.bumpVersion(), this;
   }
-  import(...e) {
-    return e.forEach((t4) => {
+  import(...e2) {
+    return e2.forEach((t4) => {
       if (t4 === this) throw new T(T.CircularImportError, `Unable to import scope ${this.name} into itself`);
       this._imports.has(t4) || (this._imports.add(t4), t4._addSubscriber(this), this.bumpVersion());
     }), this;
   }
-  deimport(...e) {
-    return e.forEach((t4) => {
+  deimport(...e2) {
+    return e2.forEach((t4) => {
       this._imports.has(t4) && (this._imports.delete(t4), t4._removeSubscriber(this), this.bumpVersion());
     }), this;
   }
-  has(e) {
-    let t4 = this.hasFlat(e);
+  has(e2) {
+    let t4 = this.hasFlat(e2);
     if (!t4 && this._parent) try {
-      return this._parent.has(e);
+      return this._parent.has(e2);
     } catch {
       return false;
     }
     return t4;
   }
-  hasFlat(e) {
+  hasFlat(e2) {
     let t4 = false;
     switch (true) {
-      case i.isScopeConstructor(e):
+      case i.isScopeConstructor(e2):
         return true;
-      case i.isString(e): {
-        Array.from(this.allowedComponents).find((a4) => a4.name === e) && (t4 = true), Array.from(this.allowedFragments).find((a4) => a4.name === e) && (t4 = true), Array.from(this.allowedEntities).find((a4) => a4.name === e) && (t4 = true), Array.from(this.allowedErrors).find((a4) => a4.name === e) && (t4 = true);
+      case i.isString(e2): {
+        Array.from(this.allowedComponents).find((a4) => a4.name === e2) && (t4 = true), Array.from(this.allowedFragments).find((a4) => a4.name === e2) && (t4 = true), Array.from(this.allowedEntities).find((a4) => a4.name === e2) && (t4 = true), Array.from(this.allowedErrors).find((a4) => a4.name === e2) && (t4 = true);
         break;
       }
-      case i.isComponentConstructor(e): {
-        t4 = this.isAllowedComponent(e) || !!_.findDescendantIn(e, this.allowedComponents);
+      case i.isComponentConstructor(e2): {
+        t4 = this.isAllowedComponent(e2) || !!_.findDescendantIn(e2, this.allowedComponents);
         break;
       }
-      case i.isEntityConstructor(e): {
-        t4 = this.isAllowedEntity(e) || !!_.findDescendantIn(e, this.allowedEntities);
+      case i.isEntityConstructor(e2): {
+        t4 = this.isAllowedEntity(e2) || !!_.findDescendantIn(e2, this.allowedEntities);
         break;
       }
-      case i.isFragmentConstructor(e): {
-        t4 = this.isAllowedFragment(e) || !!_.findDescendantIn(e, this.allowedFragments);
+      case i.isFragmentConstructor(e2): {
+        t4 = this.isAllowedFragment(e2) || !!_.findDescendantIn(e2, this.allowedFragments);
         break;
       }
-      case i.isErrorConstructor(e): {
-        t4 = this.isAllowedError(e) || !!_.findDescendantIn(e, this.allowedErrors);
+      case i.isErrorConstructor(e2): {
+        t4 = this.isAllowedError(e2) || !!_.findDescendantIn(e2, this.allowedErrors);
         break;
       }
-      case (this.issuer() && (this.issuer().constructor === e || _.isIndexedInheritedFrom(this.issuer().constructor, e))): {
+      case (this.issuer() && (this.issuer().constructor === e2 || _.isIndexedInheritedFrom(this.issuer().constructor, e2))): {
         t4 = true;
         break;
       }
     }
     return t4;
   }
-  resolveDependency(e) {
-    let t4 = [], r8 = this.parentOffset(e.parent) || this;
+  resolveDependency(e2) {
+    let t4 = [], r9 = this.parentOffset(e2.parent) || this;
     switch (true) {
-      case (e.flat && !e.all): {
-        let l5 = r8.resolveFlatOnce(e.target || e.name);
-        l5 && (t4 = [l5]);
+      case (e2.flat && !e2.all): {
+        let l4 = r9.resolveFlatOnce(e2.target || e2.name);
+        l4 && (t4 = [l4]);
         break;
       }
-      case (e.flat && e.all): {
-        t4 = r8.resolveFlatAll(e.target || e.name);
+      case (e2.flat && e2.all): {
+        t4 = r9.resolveFlatAll(e2.target || e2.name);
         break;
       }
-      case (!e.flat && !e.all): {
-        let l5 = r8.resolveOnce(e.target || e.name);
-        l5 && (t4 = [l5]);
+      case (!e2.flat && !e2.all): {
+        let l4 = r9.resolveOnce(e2.target || e2.name);
+        l4 && (t4 = [l4]);
         break;
       }
-      case (!e.flat && e.all): {
-        t4 = r8.resolveAll(e.target || e.name);
+      case (!e2.flat && e2.all): {
+        t4 = r9.resolveAll(e2.target || e2.name);
         break;
       }
       default:
         t4 = [];
     }
-    if (e.create && !t4.length && i.isAllowedForDependencyDefaultCreation(e.target)) {
-      let l5 = new e.target(...e.args);
-      r8.register(l5), t4.push(l5);
+    if (e2.create && !t4.length && i.isAllowedForDependencyDefaultCreation(e2.target)) {
+      let l4 = new e2.target(...e2.args);
+      r9.register(l4), t4.push(l4);
     }
-    if (e.require && !t4.length) throw new T(T.ResolutionError, `Dependency ${e.name} is required but could not be resolved in scope ${r8.name}`);
-    e.query.aseid ? t4 = t4.filter((l5) => i.hasASEID(l5) && w.compare(l5.aseid, e.query.aseid)) : Object.keys(e.query).length > 0 && (t4 = t4.filter((l5) => {
-      let f4 = e.query;
-      return f4 ? Object.entries(f4).every(([g5, v6]) => l5[g5] === v6) : true;
+    if (e2.require && !t4.length) throw new T(T.ResolutionError, `Dependency ${e2.name} is required but could not be resolved in scope ${r9.name}`);
+    e2.query.aseid ? t4 = t4.filter((l4) => i.hasASEID(l4) && w.compare(l4.aseid, e2.query.aseid)) : Object.keys(e2.query).length > 0 && (t4 = t4.filter((l4) => {
+      let f4 = e2.query;
+      return f4 ? Object.entries(f4).every(([g5, v7]) => l4[g5] === v7) : true;
     }));
-    let n6 = e.pagination.count, o3 = e.pagination.from, s4 = o3 === "end" ? n6 === -1 ? 0 : Math.max(t4.length - n6, 0) : 0, a4 = o3 === "end" || n6 === -1 ? t4.length : Math.min(n6, t4.length), c3 = t4.slice(s4, a4);
-    return n6 === -1 ? c3 : c3.length === 1 ? c3[0] : c3.length ? c3 : void 0;
+    let n7 = e2.pagination.count, o3 = e2.pagination.from, s4 = o3 === "end" ? n7 === -1 ? 0 : Math.max(t4.length - n7, 0) : 0, a4 = o3 === "end" || n7 === -1 ? t4.length : Math.min(n7, t4.length), c3 = t4.slice(s4, a4);
+    return n7 === -1 ? c3 : c3.length === 1 ? c3[0] : c3.length ? c3 : void 0;
   }
-  resolveConstructor(e) {
+  resolveConstructor(e2) {
     switch (true) {
-      case i.isComponentConstructor(e):
-        return _.findDescendantIn(e, this.allowedComponents);
-      case i.isEntityConstructor(e):
-        return _.findDescendantIn(e, this.allowedEntities);
-      case i.isFragmentConstructor(e):
-        return _.findDescendantIn(e, this.allowedFragments);
-      case i.isErrorConstructor(e):
-        return _.findDescendantIn(e, this.allowedErrors);
+      case i.isComponentConstructor(e2):
+        return _.findDescendantIn(e2, this.allowedComponents);
+      case i.isEntityConstructor(e2):
+        return _.findDescendantIn(e2, this.allowedEntities);
+      case i.isFragmentConstructor(e2):
+        return _.findDescendantIn(e2, this.allowedFragments);
+      case i.isErrorConstructor(e2):
+        return _.findDescendantIn(e2, this.allowedErrors);
     }
-    if (!i.isString(e)) throw new T(T.ResolutionError, `Invalid constructor name provided: ${e}`);
-    let t4 = e;
+    if (!i.isString(e2)) throw new T(T.ResolutionError, `Invalid constructor name provided: ${e2}`);
+    let t4 = e2;
     if (this._resolveConstructorCache.has(t4)) {
-      let n6 = this._resolveConstructorCache.get(t4);
-      return n6 === null ? void 0 : n6;
+      let n7 = this._resolveConstructorCache.get(t4);
+      return n7 === null ? void 0 : n7;
     }
-    let r8 = this._resolveConstructorUncached(e);
-    return this._resolveConstructorCache.set(t4, r8 ?? null), r8;
+    let r9 = this._resolveConstructorUncached(e2);
+    return this._resolveConstructorCache.set(t4, r9 ?? null), r9;
   }
-  _resolveConstructorUncached(e) {
-    let t4 = Array.from(this.allowedComponents).find((o3) => o3.name === e || o3.name === P.toPascalCase(e));
+  _resolveConstructorUncached(e2) {
+    let t4 = Array.from(this.allowedComponents).find((o3) => o3.name === e2 || o3.name === P.toPascalCase(e2));
     if (t4) return t4;
     {
-      let o3 = P.toPascalCase(e), s4 = Array.from(this.allowedComponents).find((a4) => {
+      let o3 = P.toPascalCase(e2), s4 = Array.from(this.allowedComponents).find((a4) => {
         let c3 = _.getAncestors(a4);
         if (!c3) return false;
-        for (let l5 of c3) if (l5.name === e || l5.name === o3) return true;
+        for (let l4 of c3) if (l4.name === e2 || l4.name === o3) return true;
         return false;
       });
       if (s4) return s4;
     }
-    let r8 = Array.from(this.allowedEntities).find((o3) => o3.name === e || o3.name === P.toPascalCase(e) || o3.entity === e || o3.entity === P.toKebabCase(e));
-    if (r8) return r8;
+    let r9 = Array.from(this.allowedEntities).find((o3) => o3.name === e2 || o3.name === P.toPascalCase(e2) || o3.entity === e2 || o3.entity === P.toKebabCase(e2));
+    if (r9) return r9;
     {
-      let o3 = P.toPascalCase(e), s4 = Array.from(this.allowedEntities).find((a4) => {
+      let o3 = P.toPascalCase(e2), s4 = Array.from(this.allowedEntities).find((a4) => {
         let c3 = _.getAncestors(a4);
         if (!c3) return false;
-        for (let l5 of c3) if (l5.name === e || l5.name === o3) return true;
+        for (let l4 of c3) if (l4.name === e2 || l4.name === o3) return true;
         return false;
       });
       if (s4) return s4;
     }
-    let n6 = Array.from(this.allowedFragments).find((o3) => o3.name === e || o3.name === P.toPascalCase(e));
-    if (n6) return n6;
+    let n7 = Array.from(this.allowedFragments).find((o3) => o3.name === e2 || o3.name === P.toPascalCase(e2));
+    if (n7) return n7;
     {
-      let o3 = P.toPascalCase(e), s4 = Array.from(this.allowedFragments).find((a4) => {
+      let o3 = P.toPascalCase(e2), s4 = Array.from(this.allowedFragments).find((a4) => {
         let c3 = _.getAncestors(a4);
         if (!c3) return false;
-        for (let l5 of c3) if (l5.name === e || l5.name === o3) return true;
+        for (let l4 of c3) if (l4.name === e2 || l4.name === o3) return true;
         return false;
       });
       if (s4) return s4;
     }
     for (let o3 of this._imports) {
-      let s4 = o3.resolveConstructor(e);
+      let s4 = o3.resolveConstructor(e2);
       if (s4) return s4;
     }
-    if (this._parent) return this._parent.resolveConstructor(e);
+    if (this._parent) return this._parent.resolveConstructor(e2);
   }
-  resolveAll(e) {
-    if (this._resolveAllCache.has(e)) return this._resolveAllCache.get(e);
-    if (i.isContainerConstructor(e)) {
-      let s4 = _.containers(e);
-      return this._resolveAllCache.set(e, s4), s4;
+  resolveAll(e2) {
+    if (this._resolveAllCache.has(e2)) return this._resolveAllCache.get(e2);
+    if (i.isContainerConstructor(e2)) {
+      let s4 = _.containers(e2);
+      return this._resolveAllCache.set(e2, s4), s4;
     }
     let t4 = /* @__PURE__ */ new Set();
-    this.resolveFlatAll(e).forEach((s4) => t4.add(s4)), this._imports.forEach((s4) => {
-      s4.has(e) && s4.resolveFlatAll(e).forEach((c3) => t4.add(c3));
+    this.resolveFlatAll(e2).forEach((s4) => t4.add(s4)), this._imports.forEach((s4) => {
+      s4.has(e2) && s4.resolveFlatAll(e2).forEach((c3) => t4.add(c3));
     });
-    let n6 = this._parent;
-    for (; n6 && n6.has(e); ) n6.resolveAll(e).forEach((a4) => t4.add(a4)), n6 = n6._parent;
+    let n7 = this._parent;
+    for (; n7 && n7.has(e2); ) n7.resolveAll(e2).forEach((a4) => t4.add(a4)), n7 = n7._parent;
     let o3 = Array.from(t4);
-    return this._resolveAllCache.set(e, o3), o3;
+    return this._resolveAllCache.set(e2, o3), o3;
   }
-  resolveFlatAll(e) {
-    if (this._resolveFlatAllCache.has(e)) return this._resolveFlatAllCache.get(e);
+  resolveFlatAll(e2) {
+    if (this._resolveFlatAllCache.has(e2)) return this._resolveFlatAllCache.get(e2);
     let t4 = [];
     switch (true) {
-      case i.isComponentConstructor(e): {
-        this.allowedComponents.forEach((r8) => {
-          if (_.isIndexedInheritedFrom(r8, e)) {
-            let n6 = this.resolveOnce(r8);
-            n6 && t4.push(n6);
+      case i.isComponentConstructor(e2): {
+        this.allowedComponents.forEach((r9) => {
+          if (_.isIndexedInheritedFrom(r9, e2)) {
+            let n7 = this.resolveOnce(r9);
+            n7 && t4.push(n7);
           }
         });
         break;
       }
-      case i.isFragmentConstructor(e): {
-        this.allowedFragments.forEach((r8) => {
-          if (_.isIndexedInheritedFrom(r8, e)) {
-            let n6 = this.resolveOnce(r8);
-            n6 && t4.push(n6);
+      case i.isFragmentConstructor(e2): {
+        this.allowedFragments.forEach((r9) => {
+          if (_.isIndexedInheritedFrom(r9, e2)) {
+            let n7 = this.resolveOnce(r9);
+            n7 && t4.push(n7);
           }
         });
         break;
       }
-      case i.isEntityConstructor(e): {
-        this.entities.forEach((r8) => {
-          _.isIndexedInheritedFrom(r8.constructor, e) && t4.push(r8);
+      case i.isEntityConstructor(e2): {
+        this.entities.forEach((r9) => {
+          _.isIndexedInheritedFrom(r9.constructor, e2) && t4.push(r9);
         });
         break;
       }
-      case i.isString(e): {
-        let r8 = this.resolveConstructor(e);
-        if (!i.isComponentConstructor(r8) && !i.isEntityConstructor(r8) && !i.isFragmentConstructor(r8)) throw new T(T.ResolutionError, `Unable to resolve all instances for name: ${e} in scope ${this.name} as no matching component, entity or fragment constructor found`);
-        if (r8) {
-          let n6 = this.resolveAll(r8);
-          n6 && t4.push(...n6);
+      case i.isString(e2): {
+        let r9 = this.resolveConstructor(e2);
+        if (!i.isComponentConstructor(r9) && !i.isEntityConstructor(r9) && !i.isFragmentConstructor(r9)) throw new T(T.ResolutionError, `Unable to resolve all instances for name: ${e2} in scope ${this.name} as no matching component, entity or fragment constructor found`);
+        if (r9) {
+          let n7 = this.resolveAll(r9);
+          n7 && t4.push(...n7);
         }
         break;
       }
       default:
-        throw new T(T.ResolutionError, `Invalid parameter provided to resolveAll method: ${e} in scope ${this.name}`);
+        throw new T(T.ResolutionError, `Invalid parameter provided to resolveAll method: ${e2} in scope ${this.name}`);
     }
-    return this._resolveFlatAllCache.set(e, t4), t4;
+    return this._resolveFlatAllCache.set(e2, t4), t4;
   }
-  resolve(e) {
-    let t4 = i.isDependencyInstance(e) ? e : new M(e);
+  resolve(e2) {
+    let t4 = i.isDependencyInstance(e2) ? e2 : new M(e2);
     return this.resolveDependency(t4);
   }
-  resolveOnce(e) {
-    if (this._resolveCache.has(e)) return this._resolveCache.get(e);
-    let t4 = this.resolveFlatOnce(e);
+  resolveOnce(e2) {
+    if (this._resolveCache.has(e2)) return this._resolveCache.get(e2);
+    let t4 = this.resolveFlatOnce(e2);
     if (!t4) {
-      for (let r8 of this._imports) if (r8.has(e)) {
-        let n6 = r8.resolveFlatOnce(e);
-        if (n6) return this._resolveCache.set(e, n6), n6;
+      for (let r9 of this._imports) if (r9.has(e2)) {
+        let n7 = r9.resolveFlatOnce(e2);
+        if (n7) return this._resolveCache.set(e2, n7), n7;
       }
     }
     if (!t4 && this.parent) {
-      let r8 = this.parent.resolveOnce(e);
-      if (r8) return this._resolveCache.set(e, r8), r8;
+      let r9 = this.parent.resolveOnce(e2);
+      if (r9) return this._resolveCache.set(e2, r9), r9;
     }
-    if (!t4 && i.isContainerConstructor(e)) {
-      let n6 = _.containers(e)[0];
-      return this._resolveCache.set(e, n6), n6;
+    if (!t4 && i.isContainerConstructor(e2)) {
+      let n7 = _.containers(e2)[0];
+      return this._resolveCache.set(e2, n7), n7;
     }
-    return this._resolveCache.set(e, t4), t4;
+    return this._resolveCache.set(e2, t4), t4;
   }
-  resolveFlat(e) {
-    return this.resolveFlatOnce(e);
+  resolveFlat(e2) {
+    return this.resolveFlatOnce(e2);
   }
-  resolveFlatOnce(e) {
+  resolveFlatOnce(e2) {
     let t4;
-    if (!(!e || !this.hasFlat(e))) {
+    if (!(!e2 || !this.hasFlat(e2))) {
       switch (true) {
-        case i.isString(e): {
-          t4 = this.resolveByName(e);
+        case i.isString(e2): {
+          t4 = this.resolveByName(e2);
           break;
         }
-        case i.isConstructorAllowedForScopeAllocation(e): {
-          t4 = this.resolveIssuer(e);
+        case i.isConstructorAllowedForScopeAllocation(e2): {
+          t4 = this.resolveIssuer(e2);
           break;
         }
-        case i.isScopeConstructor(e): {
-          t4 = this.resolveScope(e);
+        case i.isScopeConstructor(e2): {
+          t4 = this.resolveScope(e2);
           break;
         }
-        case i.isEntityConstructor(e): {
-          t4 = this.resolveEntity(e);
+        case i.isEntityConstructor(e2): {
+          t4 = this.resolveEntity(e2);
           break;
         }
-        case i.isFragmentConstructor(e): {
-          t4 = this.resolveFragment(e);
+        case i.isFragmentConstructor(e2): {
+          t4 = this.resolveFragment(e2);
           break;
         }
-        case i.isComponentConstructor(e): {
-          t4 = this.resolveComponent(e);
+        case i.isComponentConstructor(e2): {
+          t4 = this.resolveComponent(e2);
           break;
         }
-        case i.isErrorConstructor(e): {
-          t4 = this.resolveError(e);
+        case i.isErrorConstructor(e2): {
+          t4 = this.resolveError(e2);
           break;
         }
         default:
-          throw new T(T.ResolutionError, `Injected Component ${A.getComponentName(e)} not found in the scope`);
+          throw new T(T.ResolutionError, `Injected Component ${A.getComponentName(e2)} not found in the scope`);
       }
       return t4;
     }
   }
-  resolveByName(e) {
-    let t4 = Array.from(this.allowedComponents).find((s4) => s4.name === e || s4.name === P.toPascalCase(e));
+  resolveByName(e2) {
+    let t4 = Array.from(this.allowedComponents).find((s4) => s4.name === e2 || s4.name === P.toPascalCase(e2));
     if (t4) return this.resolveOnce(t4);
-    let r8 = Array.from(this.allowedEntities).find((s4) => s4.name === e || s4.name === P.toPascalCase(e) || s4.entity === e || s4.entity === P.toKebabCase(e));
-    if (r8) return this.resolveOnce(r8);
-    let n6 = Array.from(this.allowedFragments).find((s4) => s4.name === e || s4.name === P.toPascalCase(e));
-    if (n6) return this.resolveOnce(n6);
-    let o3 = Array.from(this.allowedErrors).find((s4) => s4.name === e || s4.name === P.toPascalCase(e) || s4.code === e || s4.code === P.toKebabCase(e));
+    let r9 = Array.from(this.allowedEntities).find((s4) => s4.name === e2 || s4.name === P.toPascalCase(e2) || s4.entity === e2 || s4.entity === P.toKebabCase(e2));
+    if (r9) return this.resolveOnce(r9);
+    let n7 = Array.from(this.allowedFragments).find((s4) => s4.name === e2 || s4.name === P.toPascalCase(e2));
+    if (n7) return this.resolveOnce(n7);
+    let o3 = Array.from(this.allowedErrors).find((s4) => s4.name === e2 || s4.name === P.toPascalCase(e2) || s4.code === e2 || s4.code === P.toKebabCase(e2));
     if (o3) return this.resolveOnce(o3);
   }
-  resolveIssuer(e) {
+  resolveIssuer(e2) {
     let t4 = this.issuer();
-    if (t4 && (t4.constructor === e || _.isIndexedInheritedFrom(t4?.constructor, e))) return t4;
+    if (t4 && (t4.constructor === e2 || _.isIndexedInheritedFrom(t4?.constructor, e2))) return t4;
   }
-  resolveEntity(e) {
-    return this.entities.find((t4) => t4 instanceof e);
+  resolveEntity(e2) {
+    return this.entities.find((t4) => t4 instanceof e2);
   }
-  resolveError(e) {
-    return this.errors.find((t4) => t4 instanceof e);
+  resolveError(e2) {
+    return this.errors.find((t4) => t4 instanceof e2);
   }
-  resolveFragment(e) {
-    let t4 = this._fragments.get(e);
+  resolveFragment(e2) {
+    let t4 = this._fragments.get(e2);
     switch (true) {
-      case (t4 && this._fragments.has(e)):
+      case (t4 && this._fragments.has(e2)):
         return t4;
       case !t4: {
-        let r8 = _.findDescendantIn(e, this._allowedFragments);
-        return r8 ? this.resolveFragment(r8) : void 0;
+        let r9 = _.findDescendantIn(e2, this._allowedFragments);
+        return r9 ? this.resolveFragment(r9) : void 0;
       }
       default:
         return;
     }
   }
-  resolveScope(e) {
+  resolveScope(e2) {
     return this;
   }
-  resolveComponent(e) {
+  resolveComponent(e2) {
     switch (true) {
-      case (this.allowedComponents.has(e) && this._components.has(e)):
-        return this._components.get(e);
-      case (this.allowedComponents.has(e) && !this._components.has(e)): {
-        let n6 = (_.meta(e).get("a-component-injections")?.get("constructor") || []).map((s4) => this.resolve(s4)), o3 = new e(...n6);
-        return this.register(o3), this._components.get(e);
+      case (this.allowedComponents.has(e2) && this._components.has(e2)):
+        return this._components.get(e2);
+      case (this.allowedComponents.has(e2) && !this._components.has(e2)): {
+        let n7 = (_.meta(e2).get("a-component-injections")?.get("constructor") || []).map((s4) => this.resolve(s4)), o3 = new e2(...n7);
+        return this.register(o3), this._components.get(e2);
       }
-      case !this.allowedComponents.has(e): {
-        let t4 = _.findDescendantIn(e, this.allowedComponents);
+      case !this.allowedComponents.has(e2): {
+        let t4 = _.findDescendantIn(e2, this.allowedComponents);
         return t4 ? this.resolveComponent(t4) : void 0;
       }
       default:
         return;
     }
   }
-  register(e) {
+  register(e2) {
     switch (true) {
-      case e instanceof O: {
-        _.indexConstructor(e.constructor), _.register(this, e), this.allowedComponents.has(e.constructor) || this.allowedComponents.add(e.constructor), this._components.set(e.constructor, e), this.bumpVersion();
+      case e2 instanceof O: {
+        _.indexConstructor(e2.constructor), _.register(this, e2), this.allowedComponents.has(e2.constructor) || this.allowedComponents.add(e2.constructor), this._components.set(e2.constructor, e2), this.bumpVersion();
         break;
       }
-      case i.isEntityInstance(e): {
-        let t4 = e.aseid.toString();
+      case i.isEntityInstance(e2): {
+        let t4 = e2.aseid.toString();
         if (this._entities.has(t4)) throw new T(T.RegistrationError, `Entity with ASEID ${t4} is already registered in the scope ${this.name}`);
-        _.indexConstructor(e.constructor), _.register(this, e), this.allowedEntities.has(e.constructor) || this.allowedEntities.add(e.constructor), this._entities.set(t4, e), this.bumpVersion();
+        _.indexConstructor(e2.constructor), _.register(this, e2), this.allowedEntities.has(e2.constructor) || this.allowedEntities.add(e2.constructor), this._entities.set(t4, e2), this.bumpVersion();
         break;
       }
-      case i.isFragmentInstance(e): {
-        _.indexConstructor(e.constructor), _.register(this, e), this.allowedFragments.has(e.constructor) || this.allowedFragments.add(e.constructor), this._fragments.set(e.constructor, e), this.bumpVersion();
+      case i.isFragmentInstance(e2): {
+        _.indexConstructor(e2.constructor), _.register(this, e2), this.allowedFragments.has(e2.constructor) || this.allowedFragments.add(e2.constructor), this._fragments.set(e2.constructor, e2), this.bumpVersion();
         break;
       }
-      case i.isErrorInstance(e): {
-        _.indexConstructor(e.constructor), _.register(this, e), this.allowedErrors.has(e.constructor) || this.allowedErrors.add(e.constructor), this._errors.set(e.code, e), this.bumpVersion();
+      case i.isErrorInstance(e2): {
+        _.indexConstructor(e2.constructor), _.register(this, e2), this.allowedErrors.has(e2.constructor) || this.allowedErrors.add(e2.constructor), this._errors.set(e2.code, e2), this.bumpVersion();
         break;
       }
-      case i.isComponentConstructor(e): {
-        this.allowedComponents.has(e) || (this.allowedComponents.add(e), _.indexConstructor(e), this.bumpVersion());
+      case i.isComponentConstructor(e2): {
+        this.allowedComponents.has(e2) || (this.allowedComponents.add(e2), _.indexConstructor(e2), this.bumpVersion());
         break;
       }
-      case i.isFragmentConstructor(e): {
-        this.allowedFragments.has(e) || (this.allowedFragments.add(e), _.indexConstructor(e), this.bumpVersion());
+      case i.isFragmentConstructor(e2): {
+        this.allowedFragments.has(e2) || (this.allowedFragments.add(e2), _.indexConstructor(e2), this.bumpVersion());
         break;
       }
-      case i.isEntityConstructor(e): {
-        this.allowedEntities.has(e) || (this.allowedEntities.add(e), _.indexConstructor(e), this.bumpVersion());
+      case i.isEntityConstructor(e2): {
+        this.allowedEntities.has(e2) || (this.allowedEntities.add(e2), _.indexConstructor(e2), this.bumpVersion());
         break;
       }
-      case i.isErrorConstructor(e): {
-        this.allowedErrors.has(e) || (this.allowedErrors.add(e), _.indexConstructor(e), this.bumpVersion());
+      case i.isErrorConstructor(e2): {
+        this.allowedErrors.has(e2) || (this.allowedErrors.add(e2), _.indexConstructor(e2), this.bumpVersion());
         break;
       }
       default:
-        if (e instanceof D) throw new T(T.RegistrationError, `Entity with ASEID ${e.aseid.toString()} is already registered in the scope ${this.name}`);
-        if (e instanceof H) throw new T(T.RegistrationError, `Fragment ${e.constructor.name} is already registered in the scope ${this.name}`);
+        if (e2 instanceof D) throw new T(T.RegistrationError, `Entity with ASEID ${e2.aseid.toString()} is already registered in the scope ${this.name}`);
+        if (e2 instanceof H) throw new T(T.RegistrationError, `Fragment ${e2.constructor.name} is already registered in the scope ${this.name}`);
         {
-          let t4 = A.getComponentName(e);
+          let t4 = A.getComponentName(e2);
           throw new T(T.RegistrationError, `Cannot register ${t4} in the scope ${this.name}`);
         }
     }
   }
-  deregister(e) {
+  deregister(e2) {
     switch (true) {
-      case i.isComponentInstance(e): {
-        this._components.delete(e.constructor), _.deregister(e), this.bumpVersion();
+      case i.isComponentInstance(e2): {
+        this._components.delete(e2.constructor), _.deregister(e2), this.bumpVersion();
         break;
       }
-      case i.isEntityInstance(e): {
-        this._entities.delete(e.aseid.toString()), _.deregister(e), this.bumpVersion();
+      case i.isEntityInstance(e2): {
+        this._entities.delete(e2.aseid.toString()), _.deregister(e2), this.bumpVersion();
         break;
       }
-      case i.isFragmentInstance(e): {
-        this._fragments.delete(e.constructor), _.deregister(e), this.bumpVersion();
+      case i.isFragmentInstance(e2): {
+        this._fragments.delete(e2.constructor), _.deregister(e2), this.bumpVersion();
         break;
       }
-      case i.isErrorInstance(e): {
-        this._errors.delete(e.code), _.deregister(e), this.bumpVersion();
+      case i.isErrorInstance(e2): {
+        this._errors.delete(e2.code), _.deregister(e2), this.bumpVersion();
         break;
       }
-      case i.isComponentConstructor(e): {
-        this.allowedComponents.delete(e), this.bumpVersion();
+      case i.isComponentConstructor(e2): {
+        this.allowedComponents.delete(e2), this.bumpVersion();
         break;
       }
-      case i.isFragmentConstructor(e): {
-        this.allowedFragments.delete(e), Array.from(this._fragments.entries()).forEach(([r8, n6]) => {
-          _.isIndexedInheritedFrom(r8, e) && (this._fragments.delete(r8), _.deregister(n6));
+      case i.isFragmentConstructor(e2): {
+        this.allowedFragments.delete(e2), Array.from(this._fragments.entries()).forEach(([r9, n7]) => {
+          _.isIndexedInheritedFrom(r9, e2) && (this._fragments.delete(r9), _.deregister(n7));
         }), this.bumpVersion();
         break;
       }
-      case i.isEntityConstructor(e): {
-        this.allowedEntities.delete(e), Array.from(this._entities.entries()).forEach(([r8, n6]) => {
-          _.isIndexedInheritedFrom(n6.constructor, e) && (this._entities.delete(r8), _.deregister(n6));
+      case i.isEntityConstructor(e2): {
+        this.allowedEntities.delete(e2), Array.from(this._entities.entries()).forEach(([r9, n7]) => {
+          _.isIndexedInheritedFrom(n7.constructor, e2) && (this._entities.delete(r9), _.deregister(n7));
         }), this.bumpVersion();
         break;
       }
-      case i.isErrorConstructor(e): {
-        this.allowedErrors.delete(e), Array.from(this._errors.entries()).forEach(([r8, n6]) => {
-          _.isIndexedInheritedFrom(n6.constructor, e) && (this._errors.delete(r8), _.deregister(n6));
+      case i.isErrorConstructor(e2): {
+        this.allowedErrors.delete(e2), Array.from(this._errors.entries()).forEach(([r9, n7]) => {
+          _.isIndexedInheritedFrom(n7.constructor, e2) && (this._errors.delete(r9), _.deregister(n7));
         }), this.bumpVersion();
         break;
       }
       default:
-        let t4 = A.getComponentName(e);
+        let t4 = A.getComponentName(e2);
         throw new T(T.DeregistrationError, `Cannot deregister ${t4} from the scope ${this.name}`);
     }
   }
   toJSON() {
-    return this.fragments.reduce((e, t4) => {
-      let r8 = t4.toJSON();
-      return { ...e, [r8.name]: r8 };
+    return this.fragments.reduce((e2, t4) => {
+      let r9 = t4.toJSON();
+      return { ...e2, [r9.name]: r9 };
     }, {});
   }
-  isAllowedComponent(e) {
-    return i.isComponentConstructor(e) && this.allowedComponents.has(e);
+  isAllowedComponent(e2) {
+    return i.isComponentConstructor(e2) && this.allowedComponents.has(e2);
   }
-  isAllowedEntity(e) {
-    return i.isEntityConstructor(e) && this.allowedEntities.has(e);
+  isAllowedEntity(e2) {
+    return i.isEntityConstructor(e2) && this.allowedEntities.has(e2);
   }
-  isAllowedFragment(e) {
-    return i.isFragmentConstructor(e) && this.allowedFragments.has(e);
+  isAllowedFragment(e2) {
+    return i.isFragmentConstructor(e2) && this.allowedFragments.has(e2);
   }
-  isAllowedError(e) {
-    return i.isErrorConstructor(e) && this.allowedErrors.has(e);
+  isAllowedError(e2) {
+    return i.isErrorConstructor(e2) && this.allowedErrors.has(e2);
   }
-  isInheritedFrom(e) {
+  isInheritedFrom(e2) {
     let t4 = this;
     for (; t4; ) {
-      if (t4 === e) return true;
+      if (t4 === e2) return true;
       t4 = t4._parent;
     }
     return false;
   }
-  checkCircularInheritance(e) {
-    let t4 = [], r8 = this._parent;
-    for (; r8; ) {
-      if (t4.push(r8.name), r8 === e) return t4;
-      r8 = r8._parent;
+  checkCircularInheritance(e2) {
+    let t4 = [], r9 = this._parent;
+    for (; r9; ) {
+      if (t4.push(r9.name), r9 === e2) return t4;
+      r9 = r9._parent;
     }
     return false;
   }
   printInheritanceChain() {
-    let e = [], t4 = this;
-    for (; t4; ) e.push(t4.name), t4 = t4._parent;
-    console.log(e.join(" -> "));
+    let e2 = [], t4 = this;
+    for (; t4; ) e2.push(t4.name), t4 = t4._parent;
+    console.log(e2.join(" -> "));
   }
 }, __name(_a30, "it"), _a30);
 p(it, "A_Scope");
@@ -2309,8 +2309,8 @@ var x = (_a33 = class {
     this._ancestors = /* @__PURE__ */ new Map();
     this._descendants = /* @__PURE__ */ new Map();
     this._globals = /* @__PURE__ */ new Map();
-    let e = String(J.A_CONCEPT_ROOT_SCOPE) || "root";
-    this._root = new R({ name: e });
+    let e2 = String(J.A_CONCEPT_ROOT_SCOPE) || "root";
+    this._root = new R({ name: e2 });
   }
   static get concept() {
     return J.A_CONCEPT_NAME || "a-concept";
@@ -2324,177 +2324,177 @@ var x = (_a33 = class {
   static getInstance() {
     return _a33._instance || (_a33._instance = new _a33()), _a33._instance;
   }
-  static has(e) {
-    return e ? this.getInstance()._scopeStorage.has(e) : false;
+  static has(e2) {
+    return e2 ? this.getInstance()._scopeStorage.has(e2) : false;
   }
-  static register(e, t4) {
-    let r8 = this.getInstance();
+  static register(e2, t4) {
+    let r9 = this.getInstance();
     if (!t4) throw new d(d.InvalidRegisterParameterError, "Unable to register component. Component cannot be null or undefined.");
-    if (!e) throw new d(d.InvalidRegisterParameterError, "Unable to register component. Scope cannot be null or undefined.");
+    if (!e2) throw new d(d.InvalidRegisterParameterError, "Unable to register component. Scope cannot be null or undefined.");
     if (!this.isAllowedToBeRegistered(t4)) throw new d(d.NotAllowedForScopeAllocationError, `Component ${A.getComponentName(t4)} is not allowed for scope allocation.`);
-    let n6 = r8._scopeStorage.get(t4);
-    if (n6 && n6 !== e) throw new d(d.ComponentAlreadyRegisteredInOtherScopeError, `Unable to register component. Component ${A.getComponentName(t4)} is already registered in scope "${n6.name ?? "<unnamed>"}". An instance can be registered in at most one scope; inherit or import the owning scope instead of re-registering the same instance.`);
-    return r8._scopeStorage.set(t4, e), e;
+    let n7 = r9._scopeStorage.get(t4);
+    if (n7 && n7 !== e2) throw new d(d.ComponentAlreadyRegisteredInOtherScopeError, `Unable to register component. Component ${A.getComponentName(t4)} is already registered in scope "${n7.name ?? "<unnamed>"}". An instance can be registered in at most one scope; inherit or import the owning scope instead of re-registering the same instance.`);
+    return r9._scopeStorage.set(t4, e2), e2;
   }
-  static deregister(e) {
-    if (!e) throw new d(d.InvalidDeregisterParameterError, "Unable to deregister component. Component cannot be null or undefined.");
-    if (!this.getInstance()._scopeStorage.delete(e)) {
-      let r8 = A.getComponentName(e);
-      throw new d(d.ComponentNotRegisteredError, `Unable to deregister component. Component ${r8} is not registered.`);
+  static deregister(e2) {
+    if (!e2) throw new d(d.InvalidDeregisterParameterError, "Unable to deregister component. Component cannot be null or undefined.");
+    if (!this.getInstance()._scopeStorage.delete(e2)) {
+      let r9 = A.getComponentName(e2);
+      throw new d(d.ComponentNotRegisteredError, `Unable to deregister component. Component ${r9} is not registered.`);
     }
   }
-  static allocate(e, t4) {
-    let r8 = A.getComponentName(e);
-    if (!this.isAllowedForScopeAllocation(e)) throw new d(d.NotAllowedForScopeAllocationError, `Component of type ${r8} is not allowed for scope allocation. Only A_Container, A_Feature are allowed.`);
-    let n6 = this.getInstance();
-    if (n6._registry.has(e)) throw new d(d.ComponentAlreadyHasScopeAllocatedError, `Component ${r8} already has a scope allocated.`);
-    let o3 = i.isScopeInstance(t4) ? t4 : new R(t4 || { name: r8 + "-scope" }, t4);
-    return o3.isInheritedFrom(_a33.root) || o3.inherit(_a33.root), n6._registry.set(e, o3), n6._scopeIssuers.set(o3, e), i.isContainerInstance(e) && n6._containers.add(e), o3;
+  static allocate(e2, t4) {
+    let r9 = A.getComponentName(e2);
+    if (!this.isAllowedForScopeAllocation(e2)) throw new d(d.NotAllowedForScopeAllocationError, `Component of type ${r9} is not allowed for scope allocation. Only A_Container, A_Feature are allowed.`);
+    let n7 = this.getInstance();
+    if (n7._registry.has(e2)) throw new d(d.ComponentAlreadyHasScopeAllocatedError, `Component ${r9} already has a scope allocated.`);
+    let o3 = i.isScopeInstance(t4) ? t4 : new R(t4 || { name: r9 + "-scope" }, t4);
+    return o3.isInheritedFrom(_a33.root) || o3.inherit(_a33.root), n7._registry.set(e2, o3), n7._scopeIssuers.set(o3, e2), i.isContainerInstance(e2) && n7._containers.add(e2), o3;
   }
-  static deallocate(e) {
-    let t4 = this.getInstance(), r8 = i.isScopeInstance(e) ? e : t4._registry.get(e);
-    if (!r8) return;
-    let n6 = i.isComponentInstance(e) ? e : this.issuer(r8);
-    n6 && t4._registry.delete(n6), r8 && t4._scopeIssuers.delete(r8), n6 && i.isContainerInstance(n6) && t4._containers.delete(n6);
+  static deallocate(e2) {
+    let t4 = this.getInstance(), r9 = i.isScopeInstance(e2) ? e2 : t4._registry.get(e2);
+    if (!r9) return;
+    let n7 = i.isComponentInstance(e2) ? e2 : this.issuer(r9);
+    n7 && t4._registry.delete(n7), r9 && t4._scopeIssuers.delete(r9), n7 && i.isContainerInstance(n7) && t4._containers.delete(n7);
   }
-  static meta(e) {
-    let t4 = A.getComponentName(e), r8 = this.getInstance();
-    if (!e) throw new d(d.InvalidMetaParameterError, "Invalid parameter provided to get meta. Parameter cannot be null or undefined.");
-    if (!(this.isAllowedForMeta(e) || this.isAllowedForMetaConstructor(e) || i.isString(e) || i.isFunction(e))) throw new d(d.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component of type ${t4} is not allowed for meta storage. Only A_Container, A_Component and A_Entity are allowed.`);
-    let n6, o3;
+  static meta(e2) {
+    let t4 = A.getComponentName(e2), r9 = this.getInstance();
+    if (!e2) throw new d(d.InvalidMetaParameterError, "Invalid parameter provided to get meta. Parameter cannot be null or undefined.");
+    if (!(this.isAllowedForMeta(e2) || this.isAllowedForMetaConstructor(e2) || i.isString(e2) || i.isFunction(e2))) throw new d(d.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component of type ${t4} is not allowed for meta storage. Only A_Container, A_Component and A_Entity are allowed.`);
+    let n7, o3;
     switch (true) {
-      case i.isContainerInstance(e): {
-        n6 = e.constructor, o3 = Q;
+      case i.isContainerInstance(e2): {
+        n7 = e2.constructor, o3 = Q;
         break;
       }
-      case i.isContainerConstructor(e): {
-        n6 = e, o3 = Q;
+      case i.isContainerConstructor(e2): {
+        n7 = e2, o3 = Q;
         break;
       }
-      case i.isComponentInstance(e): {
-        n6 = e.constructor, o3 = z;
+      case i.isComponentInstance(e2): {
+        n7 = e2.constructor, o3 = z;
         break;
       }
-      case i.isComponentConstructor(e): {
-        n6 = e, o3 = z;
+      case i.isComponentConstructor(e2): {
+        n7 = e2, o3 = z;
         break;
       }
-      case i.isEntityInstance(e): {
-        n6 = e.constructor, o3 = z;
+      case i.isEntityInstance(e2): {
+        n7 = e2.constructor, o3 = z;
         break;
       }
-      case i.isEntityConstructor(e): {
-        n6 = e, o3 = X;
+      case i.isEntityConstructor(e2): {
+        n7 = e2, o3 = X;
         break;
       }
-      case i.isFragmentInstance(e): {
-        n6 = e.constructor, o3 = z;
+      case i.isFragmentInstance(e2): {
+        n7 = e2.constructor, o3 = z;
         break;
       }
-      case i.isFragmentConstructor(e): {
-        n6 = e, o3 = X;
+      case i.isFragmentConstructor(e2): {
+        n7 = e2, o3 = X;
         break;
       }
-      case typeof e == "string": {
-        let s4 = Array.from(r8._metaStorage).find(([a4]) => a4.name === e || a4.name === P.toKebabCase(e) || a4.name === P.toPascalCase(e));
-        if (!(s4 && s4.length)) throw new d(d.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component with name ${e} not found in the meta storage.`);
-        n6 = s4[0], o3 = z;
+      case typeof e2 == "string": {
+        let s4 = Array.from(r9._metaStorage).find(([a4]) => a4.name === e2 || a4.name === P.toKebabCase(e2) || a4.name === P.toPascalCase(e2));
+        if (!(s4 && s4.length)) throw new d(d.InvalidMetaParameterError, `Invalid parameter provided to get meta. Component with name ${e2} not found in the meta storage.`);
+        n7 = s4[0], o3 = z;
         break;
       }
       default: {
-        n6 = e, o3 = m;
+        n7 = e2, o3 = m;
         break;
       }
     }
-    if (!r8._metaStorage.has(n6)) {
-      let s4, a4 = n6;
+    if (!r9._metaStorage.has(n7)) {
+      let s4, a4 = n7;
       for (; !s4; ) {
         let c3 = Object.getPrototypeOf(a4);
         if (!c3) break;
-        s4 = r8._metaStorage.get(c3), a4 = c3;
+        s4 = r9._metaStorage.get(c3), a4 = c3;
       }
-      s4 || (s4 = new o3()), r8._metaStorage.set(n6, s4.clone()), r8._metaVersion++, this.indexConstructor(n6);
+      s4 || (s4 = new o3()), r9._metaStorage.set(n7, s4.clone()), r9._metaVersion++, this.indexConstructor(n7);
     }
-    return r8._metaStorage.get(n6);
+    return r9._metaStorage.get(n7);
   }
-  static setMeta(e, t4) {
-    let r8 = _a33.getInstance(), n6 = _a33.meta(e), o3 = typeof e == "function" ? e : e.constructor;
-    r8._metaStorage.set(o3, n6 ? t4.from(n6) : t4), r8._metaVersion++;
+  static setMeta(e2, t4) {
+    let r9 = _a33.getInstance(), n7 = _a33.meta(e2), o3 = typeof e2 == "function" ? e2 : e2.constructor;
+    r9._metaStorage.set(o3, n7 ? t4.from(n7) : t4), r9._metaVersion++;
   }
-  static issuer(e) {
+  static issuer(e2) {
     let t4 = this.getInstance();
-    if (!e) throw new d(d.InvalidComponentParameterError, "Invalid parameter provided to get scope issuer. Parameter cannot be null or undefined.");
-    return t4._scopeIssuers.get(e);
+    if (!e2) throw new d(d.InvalidComponentParameterError, "Invalid parameter provided to get scope issuer. Parameter cannot be null or undefined.");
+    return t4._scopeIssuers.get(e2);
   }
-  static containers(e) {
+  static containers(e2) {
     let t4 = this.getInstance();
-    if (!e) return Array.from(t4._containers);
-    let r8 = [];
-    return t4._containers.forEach((n6) => {
-      (n6 instanceof e || n6.constructor === e || _a33.isIndexedInheritedFrom(n6.constructor, e)) && r8.push(n6);
-    }), r8;
+    if (!e2) return Array.from(t4._containers);
+    let r9 = [];
+    return t4._containers.forEach((n7) => {
+      (n7 instanceof e2 || n7.constructor === e2 || _a33.isIndexedInheritedFrom(n7.constructor, e2)) && r9.push(n7);
+    }), r9;
   }
-  static container(e) {
+  static container(e2) {
     let t4 = this.getInstance();
-    for (let r8 of t4._containers) if (r8.name === e) return r8;
+    for (let r9 of t4._containers) if (r9.name === e2) return r9;
   }
-  static scope(e) {
-    let t4 = e?.constructor?.name || String(e), r8 = this.getInstance();
-    if (!e) throw new d(d.InvalidScopeParameterError, "Invalid parameter provided to get scope. Parameter cannot be null or undefined.");
-    if (!this.isAllowedForScopeAllocation(e) && !this.isAllowedToBeRegistered(e)) throw new d(d.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed for scope allocation.`);
+  static scope(e2) {
+    let t4 = e2?.constructor?.name || String(e2), r9 = this.getInstance();
+    if (!e2) throw new d(d.InvalidScopeParameterError, "Invalid parameter provided to get scope. Parameter cannot be null or undefined.");
+    if (!this.isAllowedForScopeAllocation(e2) && !this.isAllowedToBeRegistered(e2)) throw new d(d.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed for scope allocation.`);
     switch (true) {
-      case this.isAllowedToBeRegistered(e):
-        if (!r8._scopeStorage.has(e)) throw new d(d.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope registered. Make sure to register the component using A_Context.register() method before trying to get the scope.`);
-        return r8._scopeStorage.get(e);
-      case this.isAllowedForScopeAllocation(e):
-        if (!r8._registry.has(e)) throw new d(d.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope allocated. Make sure to allocate a scope using A_Context.allocate() method before trying to get the scope.`);
-        return r8._registry.get(e);
+      case this.isAllowedToBeRegistered(e2):
+        if (!r9._scopeStorage.has(e2)) throw new d(d.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope registered. Make sure to register the component using A_Context.register() method before trying to get the scope.`);
+        return r9._scopeStorage.get(e2);
+      case this.isAllowedForScopeAllocation(e2):
+        if (!r9._registry.has(e2)) throw new d(d.ScopeNotFoundError, `Invalid parameter provided to get scope. Component of type ${t4} does not have a scope allocated. Make sure to allocate a scope using A_Context.allocate() method before trying to get the scope.`);
+        return r9._registry.get(e2);
       default:
         throw new d(d.InvalidScopeParameterError, `Invalid parameter provided to get scope. Component of type ${t4} is not allowed to be registered.`);
     }
   }
-  static getSortedStepsFor(e) {
-    return this.getInstance()._sortedStepsForTemplate.get(e);
+  static getSortedStepsFor(e2) {
+    return this.getInstance()._sortedStepsForTemplate.get(e2);
   }
-  static setSortedStepsFor(e, t4) {
-    this.getInstance()._sortedStepsForTemplate.set(e, t4);
+  static setSortedStepsFor(e2, t4) {
+    this.getInstance()._sortedStepsForTemplate.set(e2, t4);
   }
-  static hasFeature(e, t4, r8 = this.scope(t4)) {
-    return this.featureTemplate(e, t4, r8).length > 0;
+  static hasFeature(e2, t4, r9 = this.scope(t4)) {
+    return this.featureTemplate(e2, t4, r9).length > 0;
   }
-  static featureTemplate(e, t4, r8 = this.scope(t4)) {
+  static featureTemplate(e2, t4, r9 = this.scope(t4)) {
     if (!t4) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
+    if (!e2) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
     if (!i.isAllowedForFeatureDefinition(t4)) throw new d(d.InvalidFeatureTemplateParameterError, `Unable to get feature template. Component of type ${A.getComponentName(t4)} is not allowed for feature definition.`);
-    let n6 = this.getInstance(), o3 = typeof t4 == "function" ? t4 : t4.constructor, s4 = n6._featureCache.get(o3);
+    let n7 = this.getInstance(), o3 = typeof t4 == "function" ? t4 : t4.constructor, s4 = n7._featureCache.get(o3);
     if (s4) {
-      let f4 = `${String(e)}::s${r8.fingerprint}::m${n6._metaVersion}`, g5 = s4.get(f4);
+      let f4 = `${String(e2)}::s${r9.fingerprint}::m${n7._metaVersion}`, g5 = s4.get(f4);
       if (g5) return g5;
-      let v6 = [...this.featureDefinition(e, t4), ...this.featureExtensions(e, t4, r8)];
-      return s4.size >= _a33.FEATURE_EXTENSIONS_CACHE_MAX_SIZE && s4.clear(), s4.set(f4, v6), v6;
+      let v7 = [...this.featureDefinition(e2, t4), ...this.featureExtensions(e2, t4, r9)];
+      return s4.size >= _a33.FEATURE_EXTENSIONS_CACHE_MAX_SIZE && s4.clear(), s4.set(f4, v7), v7;
     }
-    let a4 = `${String(e)}::s${r8.fingerprint}::m${n6._metaVersion}`, c3 = [...this.featureDefinition(e, t4), ...this.featureExtensions(e, t4, r8)], l5 = /* @__PURE__ */ new Map();
-    return l5.set(a4, c3), n6._featureCache.set(o3, l5), c3;
+    let a4 = `${String(e2)}::s${r9.fingerprint}::m${n7._metaVersion}`, c3 = [...this.featureDefinition(e2, t4), ...this.featureExtensions(e2, t4, r9)], l4 = /* @__PURE__ */ new Map();
+    return l4.set(a4, c3), n7._featureCache.set(o3, l4), c3;
   }
-  static featureExtensions(e, t4, r8) {
-    let n6 = this.getInstance();
+  static featureExtensions(e2, t4, r9) {
+    let n7 = this.getInstance();
     if (!t4) throw new d(d.InvalidFeatureExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new d(d.InvalidFeatureExtensionParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
+    if (!e2) throw new d(d.InvalidFeatureExtensionParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
     if (!i.isAllowedForFeatureDefinition(t4)) throw new d(d.InvalidFeatureExtensionParameterError, `Unable to get feature template. Component of type ${A.getComponentName(t4)} is not allowed for feature definition.`);
-    let o3 = A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== K && E3 !== D).map((E3) => `${E3.name}.${e}`), s4 = /* @__PURE__ */ new Map(), a4 = /* @__PURE__ */ new Set(), c3 = /* @__PURE__ */ new Map(), l5 = /* @__PURE__ */ new Map(), f4 = p((E3) => {
+    let o3 = A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== K && E3 !== D).map((E3) => `${E3.name}.${e2}`), s4 = /* @__PURE__ */ new Map(), a4 = /* @__PURE__ */ new Set(), c3 = /* @__PURE__ */ new Map(), l4 = /* @__PURE__ */ new Map(), f4 = p((E3) => {
       let y2 = c3.get(E3);
       return y2 === void 0 && (y2 = A.getComponentName(E3), c3.set(E3, y2)), y2;
     }, "getNameCached"), g5 = p((E3) => {
-      let y2 = l5.get(E3);
-      return y2 || (y2 = new M(E3), l5.set(E3, y2)), y2;
-    }, "getDependencyCached"), v6 = new Set(A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== K && E3 !== D)), L2 = p((E3) => {
-      if (v6.has(E3)) return false;
+      let y2 = l4.get(E3);
+      return y2 || (y2 = new M(E3), l4.set(E3, y2)), y2;
+    }, "getDependencyCached"), v7 = new Set(A.getClassInheritanceChain(t4).filter((E3) => E3 !== O && E3 !== K && E3 !== D)), L2 = p((E3) => {
+      if (v7.has(E3)) return false;
       let y2 = _a33.getAncestors(E3);
       if (!y2) return false;
-      for (let V2 of v6) if (y2.has(V2)) return true;
+      for (let V2 of v7) if (y2.has(V2)) return true;
       return false;
-    }, "isSiblingOrUnrelatedDescendant"), ce = t4 instanceof D, ye = p((E3) => !ce || v6.has(E3) || typeof E3 != "function" ? false : E3.prototype instanceof D || E3 === D, "isForeignEntityClass"), B3 = [];
-    for (let [E3, y2] of n6._metaStorage) if (r8.has(E3) && (i.isComponentMetaInstance(y2) || i.isContainerMetaInstance(y2))) {
+    }, "isSiblingOrUnrelatedDescendant"), ce = t4 instanceof D, ye = p((E3) => !ce || v7.has(E3) || typeof E3 != "function" ? false : E3.prototype instanceof D || E3 === D, "isForeignEntityClass"), B3 = [];
+    for (let [E3, y2] of n7._metaStorage) if (r9.has(E3) && (i.isComponentMetaInstance(y2) || i.isContainerMetaInstance(y2))) {
       if (L2(E3) || ye(E3)) continue;
       B3.push([E3, y2]);
     }
@@ -2505,157 +2505,157 @@ var x = (_a33 = class {
       for (let pe = 0; pe < ie.length; pe++) {
         let U = ie[pe], Ce;
         for (let W2 = Z2.length - 1; W2 >= 0; W2--) {
-          let ae2 = Z2[W2];
-          if (ae2 === y2) continue;
-          if (Te ? Te.has(ae2) : _a33.isIndexedInheritedFrom(y2, ae2)) {
-            Ce = ae2;
+          let ae = Z2[W2];
+          if (ae === y2) continue;
+          if (Te ? Te.has(ae) : _a33.isIndexedInheritedFrom(y2, ae)) {
+            Ce = ae;
             break;
           }
         }
         if (Ce && s4.delete(`${f4(Ce)}.${U.handler}`), U.override) {
-          let W2 = n6._overrideRegexpCache.get(U.override);
-          W2 || (W2 = new RegExp(U.override), n6._overrideRegexpCache.set(U.override, W2));
-          for (let [ae2, At] of s4) (W2.test(ae2) || W2.test(At.handler)) && s4.delete(ae2);
+          let W2 = n7._overrideRegexpCache.get(U.override);
+          W2 || (W2 = new RegExp(U.override), n7._overrideRegexpCache.set(U.override, W2));
+          for (let [ae, At] of s4) (W2.test(ae) || W2.test(At.handler)) && s4.delete(ae);
         }
         s4.set(`${f4(y2)}.${U.handler}`, { dependency: g5(y2), ...U });
       }
     }
-    return n6.filterToMostDerived(r8, Array.from(s4.values()));
+    return n7.filterToMostDerived(r9, Array.from(s4.values()));
   }
-  filterToMostDerived(e, t4) {
+  filterToMostDerived(e2, t4) {
     if (t4.length <= 1) return t4;
-    let r8 = /* @__PURE__ */ new Map(), n6 = /* @__PURE__ */ new Set();
+    let r9 = /* @__PURE__ */ new Map(), n7 = /* @__PURE__ */ new Set();
     for (let a4 of t4) {
       let c3 = a4.dependency.name;
-      r8.has(c3) || r8.set(c3, e.resolveConstructor(c3)), n6.add(c3);
+      r9.has(c3) || r9.set(c3, e2.resolveConstructor(c3)), n7.add(c3);
     }
     let o3 = /* @__PURE__ */ new Set(), s4 = /* @__PURE__ */ new Map();
-    for (let [a4, c3] of r8) c3 && s4.set(c3, a4);
-    for (let [a4, c3] of r8) {
+    for (let [a4, c3] of r9) c3 && s4.set(c3, a4);
+    for (let [a4, c3] of r9) {
       if (!c3) continue;
-      let l5 = _a33.getAncestors(c3);
-      if (l5) for (let f4 of l5) {
+      let l4 = _a33.getAncestors(c3);
+      if (l4) for (let f4 of l4) {
         let g5 = s4.get(f4);
-        g5 && g5 !== a4 && n6.has(g5) && o3.add(g5);
+        g5 && g5 !== a4 && n7.has(g5) && o3.add(g5);
       }
     }
     return t4.filter((a4) => !o3.has(a4.dependency.name));
   }
-  static featureDefinition(e, t4) {
-    let r8;
-    if (!e) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
+  static featureDefinition(e2, t4) {
+    let r9;
+    if (!e2) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Feature name cannot be null or undefined.");
     if (!t4) throw new d(d.InvalidFeatureTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
     switch (true) {
       case t4 instanceof D:
-        r8 = "a-component-features";
+        r9 = "a-component-features";
         break;
       case t4 instanceof K:
-        r8 = "a-container-features";
+        r9 = "a-container-features";
         break;
       case t4 instanceof O:
-        r8 = "a-component-features";
+        r9 = "a-component-features";
         break;
       default:
         throw new d(d.InvalidFeatureTemplateParameterError, `A-Feature cannot be defined on the ${t4} level`);
     }
-    return [...this.meta(t4)?.get(r8)?.get(e)?.template || []];
+    return [...this.meta(t4)?.get(r9)?.get(e2)?.template || []];
   }
-  static abstractionTemplate(e, t4) {
-    let r8 = A.getComponentName(t4);
+  static abstractionTemplate(e2, t4) {
+    let r9 = A.getComponentName(t4);
     if (!t4) throw new d(d.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new d(d.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
-    if (!i.isAllowedForAbstractionDefinition(t4)) throw new d(d.InvalidAbstractionTemplateParameterError, `Unable to get feature template. Component of type ${r8} is not allowed for feature definition.`);
-    return [...this.abstractionExtensions(e, t4)];
+    if (!e2) throw new d(d.InvalidAbstractionTemplateParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
+    if (!i.isAllowedForAbstractionDefinition(t4)) throw new d(d.InvalidAbstractionTemplateParameterError, `Unable to get feature template. Component of type ${r9} is not allowed for feature definition.`);
+    return [...this.abstractionExtensions(e2, t4)];
   }
-  static abstractionExtensions(e, t4) {
-    let r8 = this.getInstance(), n6 = A.getComponentName(t4);
+  static abstractionExtensions(e2, t4) {
+    let r9 = this.getInstance(), n7 = A.getComponentName(t4);
     if (!t4) throw new d(d.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Component cannot be null or undefined.");
-    if (!e) throw new d(d.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
-    if (!i.isAllowedForAbstractionDefinition(t4)) throw new d(d.InvalidAbstractionExtensionParameterError, `Unable to get feature template. Component of type ${n6} is not allowed for feature definition.`);
+    if (!e2) throw new d(d.InvalidAbstractionExtensionParameterError, "Unable to get feature template. Abstraction stage cannot be null or undefined.");
+    if (!i.isAllowedForAbstractionDefinition(t4)) throw new d(d.InvalidAbstractionExtensionParameterError, `Unable to get feature template. Component of type ${n7} is not allowed for feature definition.`);
     let o3 = /* @__PURE__ */ new Map(), s4 = this.scope(t4), a4 = /* @__PURE__ */ new Set();
-    for (let [c3, l5] of r8._metaStorage) s4.has(c3) && (i.isComponentMetaInstance(l5) || i.isContainerMetaInstance(l5)) && (a4.add(c3), l5.abstractions(e).forEach((f4) => {
-      let g5 = Array.from(a4).reverse().find((v6) => _a33.isIndexedInheritedFrom(c3, v6) && v6 !== c3);
+    for (let [c3, l4] of r9._metaStorage) s4.has(c3) && (i.isComponentMetaInstance(l4) || i.isContainerMetaInstance(l4)) && (a4.add(c3), l4.abstractions(e2).forEach((f4) => {
+      let g5 = Array.from(a4).reverse().find((v7) => _a33.isIndexedInheritedFrom(c3, v7) && v7 !== c3);
       g5 && o3.delete(`${A.getComponentName(g5)}.${f4.handler}`), o3.set(`${A.getComponentName(c3)}.${f4.handler}`, { dependency: new M(c3), ...f4 });
     }));
-    return r8.filterToMostDerived(s4, Array.from(o3.values()));
+    return r9.filterToMostDerived(s4, Array.from(o3.values()));
   }
   static reset() {
-    let e = _a33.getInstance();
-    e._registry = /* @__PURE__ */ new WeakMap(), e._featureCache = /* @__PURE__ */ new WeakMap(), e._scopeStorage = /* @__PURE__ */ new WeakMap(), e._ancestors.clear(), e._descendants.clear(), e._containers.clear(), e._metaVersion++;
+    let e2 = _a33.getInstance();
+    e2._registry = /* @__PURE__ */ new WeakMap(), e2._featureCache = /* @__PURE__ */ new WeakMap(), e2._scopeStorage = /* @__PURE__ */ new WeakMap(), e2._ancestors.clear(), e2._descendants.clear(), e2._containers.clear(), e2._metaVersion++;
     let t4 = String(J.A_CONCEPT_ROOT_SCOPE) || "root";
-    e._root = new R({ name: t4 });
+    e2._root = new R({ name: t4 });
   }
-  static indexConstructor(e) {
+  static indexConstructor(e2) {
     let t4 = this.getInstance();
-    if (t4._ancestors.has(e)) return;
-    let r8 = /* @__PURE__ */ new Set(), n6 = Object.getPrototypeOf(e);
-    for (; n6 && n6 !== Function.prototype && n6 !== Object; ) {
-      r8.add(n6);
-      let o3 = t4._descendants.get(n6);
-      o3 || (o3 = /* @__PURE__ */ new Set(), t4._descendants.set(n6, o3)), o3.add(e);
-      let s4 = t4._ancestors.get(n6);
+    if (t4._ancestors.has(e2)) return;
+    let r9 = /* @__PURE__ */ new Set(), n7 = Object.getPrototypeOf(e2);
+    for (; n7 && n7 !== Function.prototype && n7 !== Object; ) {
+      r9.add(n7);
+      let o3 = t4._descendants.get(n7);
+      o3 || (o3 = /* @__PURE__ */ new Set(), t4._descendants.set(n7, o3)), o3.add(e2);
+      let s4 = t4._ancestors.get(n7);
       if (s4) {
         for (let a4 of s4) {
-          r8.add(a4);
+          r9.add(a4);
           let c3 = t4._descendants.get(a4);
-          c3 || (c3 = /* @__PURE__ */ new Set(), t4._descendants.set(a4, c3)), c3.add(e);
+          c3 || (c3 = /* @__PURE__ */ new Set(), t4._descendants.set(a4, c3)), c3.add(e2);
         }
         break;
       }
-      n6 = Object.getPrototypeOf(n6);
+      n7 = Object.getPrototypeOf(n7);
     }
-    t4._ancestors.set(e, r8), t4._descendants.has(e) || t4._descendants.set(e, /* @__PURE__ */ new Set());
+    t4._ancestors.set(e2, r9), t4._descendants.has(e2) || t4._descendants.set(e2, /* @__PURE__ */ new Set());
   }
-  static isIndexedInheritedFrom(e, t4) {
-    if (e === t4) return true;
-    let n6 = this.getInstance()._ancestors.get(e);
-    return n6 ? n6.has(t4) : A.isInheritedFrom(e, t4);
+  static isIndexedInheritedFrom(e2, t4) {
+    if (e2 === t4) return true;
+    let n7 = this.getInstance()._ancestors.get(e2);
+    return n7 ? n7.has(t4) : A.isInheritedFrom(e2, t4);
   }
-  static findDescendantIn(e, t4) {
-    let r8 = t4 instanceof Set ? t4.size : t4.length;
+  static findDescendantIn(e2, t4) {
+    let r9 = t4 instanceof Set ? t4.size : t4.length;
     if (t4 instanceof Set) {
-      if (t4.has(e)) return e;
-    } else if (t4.includes(e)) return e;
-    let n6 = this.getInstance(), o3 = n6._descendants.get(e), s4 = o3 ? o3.size : 0;
+      if (t4.has(e2)) return e2;
+    } else if (t4.includes(e2)) return e2;
+    let n7 = this.getInstance(), o3 = n7._descendants.get(e2), s4 = o3 ? o3.size : 0;
     if (s4 === 0) {
       if (t4 instanceof Set) for (let a4 of t4) {
-        let c3 = n6._ancestors.get(a4);
-        if (c3 && c3.has(e)) return a4;
+        let c3 = n7._ancestors.get(a4);
+        if (c3 && c3.has(e2)) return a4;
       }
       else for (let a4 of t4) {
-        let c3 = n6._ancestors.get(a4);
-        if (c3 && c3.has(e)) return a4;
+        let c3 = n7._ancestors.get(a4);
+        if (c3 && c3.has(e2)) return a4;
       }
       return;
     }
-    if (r8 <= s4) if (t4 instanceof Set) for (let a4 of t4) {
-      if (a4 === e) return a4;
-      let c3 = n6._ancestors.get(a4);
-      if (c3 && c3.has(e)) return a4;
+    if (r9 <= s4) if (t4 instanceof Set) for (let a4 of t4) {
+      if (a4 === e2) return a4;
+      let c3 = n7._ancestors.get(a4);
+      if (c3 && c3.has(e2)) return a4;
     }
     else for (let a4 of t4) {
-      if (a4 === e) return a4;
-      let c3 = n6._ancestors.get(a4);
-      if (c3 && c3.has(e)) return a4;
+      if (a4 === e2) return a4;
+      let c3 = n7._ancestors.get(a4);
+      if (c3 && c3.has(e2)) return a4;
     }
     else for (let a4 of o3) if (t4 instanceof Set) {
       if (t4.has(a4)) return a4;
     } else if (t4.includes(a4)) return a4;
   }
-  static getAncestors(e) {
-    return this.getInstance()._ancestors.get(e);
+  static getAncestors(e2) {
+    return this.getInstance()._ancestors.get(e2);
   }
-  static isAllowedForScopeAllocation(e) {
-    return i.isContainerInstance(e) || i.isFeatureInstance(e) || i.isEntityInstance(e);
+  static isAllowedForScopeAllocation(e2) {
+    return i.isContainerInstance(e2) || i.isFeatureInstance(e2) || i.isEntityInstance(e2);
   }
-  static isAllowedToBeRegistered(e) {
-    return i.isEntityInstance(e) || i.isComponentInstance(e) || i.isFragmentInstance(e) || i.isErrorInstance(e);
+  static isAllowedToBeRegistered(e2) {
+    return i.isEntityInstance(e2) || i.isComponentInstance(e2) || i.isFragmentInstance(e2) || i.isErrorInstance(e2);
   }
-  static isAllowedForMeta(e) {
-    return i.isContainerInstance(e) || i.isComponentInstance(e) || i.isEntityInstance(e);
+  static isAllowedForMeta(e2) {
+    return i.isContainerInstance(e2) || i.isComponentInstance(e2) || i.isEntityInstance(e2);
   }
-  static isAllowedForMetaConstructor(e) {
-    return i.isContainerConstructor(e) || i.isComponentConstructor(e) || i.isEntityConstructor(e);
+  static isAllowedForMetaConstructor(e2) {
+    return i.isContainerConstructor(e2) || i.isComponentConstructor(e2) || i.isEntityConstructor(e2);
   }
 }, __name(_a33, "x"), _a33);
 p(x, "A_Context"), x.FEATURE_EXTENSIONS_CACHE_MAX_SIZE = 1024;
@@ -2665,11 +2665,11 @@ var ve = (_a34 = class extends b {
 }, __name(_a34, "ve"), _a34);
 p(ve, "A_AbstractionError"), ve.AbstractionExtensionError = "Unable to extend abstraction execution";
 var oe = ve;
-function at(u2, e = {}) {
-  return function(t4, r8, n6) {
+function at(u3, e2 = {}) {
+  return function(t4, r9, n7) {
     let o3 = A.getComponentName(t4);
-    if (!u2) throw new oe(oe.AbstractionExtensionError, `Abstraction name must be provided to extend abstraction for '${o3}'.`);
-    if (!i.isConstructorAvailableForAbstraction(t4)) throw new oe(oe.AbstractionExtensionError, `Unable to extend Abstraction '${u2}' for '${o3}'. Only A-Containers and A-Components can extend Abstractions.`);
+    if (!u3) throw new oe(oe.AbstractionExtensionError, `Abstraction name must be provided to extend abstraction for '${o3}'.`);
+    if (!i.isConstructorAvailableForAbstraction(t4)) throw new oe(oe.AbstractionExtensionError, `Unable to extend Abstraction '${u3}' for '${o3}'. Only A-Containers and A-Components can extend Abstractions.`);
     let s4, a4 = _.meta(t4);
     switch (true) {
       case (i.isContainerConstructor(t4) || i.isContainerInstance(t4)):
@@ -2679,20 +2679,20 @@ function at(u2, e = {}) {
         s4 = "a-component-abstractions";
         break;
     }
-    let c3 = `CONCEPT_ABSTRACTION::${u2}`, l5 = a4.get(s4) ? new m().from(a4.get(s4)) : new m(), f4 = [...l5.get(c3) || []], g5 = f4.findIndex((L2) => L2.handler === r8), v6 = { name: c3, handler: r8, behavior: e.behavior || "sync", throwOnError: e.throwOnError !== void 0 ? e.throwOnError : true, before: i.isArray(e.before) ? new RegExp(`^${e.before.join("|").replace(/\./g, "\\.")}$`).source : e.before instanceof RegExp ? e.before.source : "", after: i.isArray(e.after) ? new RegExp(`^${e.after.join("|").replace(/\./g, "\\.")}$`).source : e.after instanceof RegExp ? e.after.source : "", override: i.isArray(e.override) ? new RegExp(`^${e.override.join("|").replace(/\./g, "\\.")}$`).source : e.override instanceof RegExp ? e.override.source : "" };
-    g5 !== -1 ? f4[g5] = v6 : f4.push(v6), l5.set(c3, f4), _.meta(t4).set(s4, l5);
+    let c3 = `CONCEPT_ABSTRACTION::${u3}`, l4 = a4.get(s4) ? new m().from(a4.get(s4)) : new m(), f4 = [...l4.get(c3) || []], g5 = f4.findIndex((L2) => L2.handler === r9), v7 = { name: c3, handler: r9, behavior: e2.behavior || "sync", throwOnError: e2.throwOnError !== void 0 ? e2.throwOnError : true, before: i.isArray(e2.before) ? new RegExp(`^${e2.before.join("|").replace(/\./g, "\\.")}$`).source : e2.before instanceof RegExp ? e2.before.source : "", after: i.isArray(e2.after) ? new RegExp(`^${e2.after.join("|").replace(/\./g, "\\.")}$`).source : e2.after instanceof RegExp ? e2.after.source : "", override: i.isArray(e2.override) ? new RegExp(`^${e2.override.join("|").replace(/\./g, "\\.")}$`).source : e2.override instanceof RegExp ? e2.override.source : "" };
+    g5 !== -1 ? f4[g5] = v7 : f4.push(v7), l4.set(c3, f4), _.meta(t4).set(s4, l4);
   };
 }
 __name(at, "at");
 p(at, "A_Abstraction_Extend");
 var _a35;
 var _t = (_a35 = class {
-  constructor(e) {
+  constructor(e2) {
     this._featuresMap = /* @__PURE__ */ new Map();
     this._index = 0;
-    this._name = e.name, e.containers.map((t4) => {
-      let r8 = _.abstractionTemplate(this._name, t4), n6 = new N({ name: this._name, component: t4, template: r8 });
-      return this._featuresMap.set(t4, n6), n6;
+    this._name = e2.name, e2.containers.map((t4) => {
+      let r9 = _.abstractionTemplate(this._name, t4), n7 = new N({ name: this._name, component: t4, template: r9 });
+      return this._featuresMap.set(t4, n7), n7;
     }), this._current = this._featuresMap.values().next().value;
   }
   static get Extend() {
@@ -2710,48 +2710,48 @@ var _t = (_a35 = class {
   [Symbol.iterator]() {
     return { next: p(() => this.isDone ? (this._current = void 0, { value: void 0, done: true }) : (this._current = Array.from(this._featuresMap.values())[this._index], { value: this._current, done: false }), "next") };
   }
-  next(e) {
+  next(e2) {
     if (this._index >= this._featuresMap.size) return;
-    let t4 = Array.from(this._featuresMap.values()).indexOf(e);
+    let t4 = Array.from(this._featuresMap.values()).indexOf(e2);
     this._index = t4 + 1;
   }
-  async process(e) {
-    if (!this.isDone) for (let [t4, r8] of this._featuresMap.entries()) await r8.process(e || t4.scope);
+  async process(e2) {
+    if (!this.isDone) for (let [t4, r9] of this._featuresMap.entries()) await r9.process(e2 || t4.scope);
   }
 }, __name(_a35, "_t"), _a35);
 p(_t, "A_Abstraction");
 var F = _t;
 var It = ((c3) => (c3.Run = "run", c3.Build = "build", c3.Publish = "publish", c3.Deploy = "deploy", c3.Load = "load", c3.Start = "start", c3.Stop = "stop", c3.Debug = "debug", c3))(It || {});
-var bt = ((e) => (e.LIFECYCLE = "a-component-extensions", e))(bt || {});
+var bt = ((e2) => (e2.LIFECYCLE = "a-component-extensions", e2))(bt || {});
 var _a36;
 var pt = (_a36 = class {
-  constructor(e) {
-    this.props = e;
-    this._name = e.name || _.root.name, e.components && e.components.length && e.components.forEach((t4) => this.scope.register(t4)), e.fragments && e.fragments.length && e.fragments.forEach((t4) => this.scope.register(t4)), e.entities && e.entities.length && e.entities.forEach((t4) => this.scope.register(t4)), this._containers = e.containers || [];
+  constructor(e2) {
+    this.props = e2;
+    this._name = e2.name || _.root.name, e2.components && e2.components.length && e2.components.forEach((t4) => this.scope.register(t4)), e2.fragments && e2.fragments.length && e2.fragments.forEach((t4) => this.scope.register(t4)), e2.entities && e2.entities.length && e2.entities.forEach((t4) => this.scope.register(t4)), this._containers = e2.containers || [];
   }
-  static Load(e) {
-    return F.Extend("load", e);
+  static Load(e2) {
+    return F.Extend("load", e2);
   }
-  static Publish(e) {
+  static Publish(e2) {
     return F.Extend("publish");
   }
-  static Deploy(e) {
-    return F.Extend("deploy", e);
+  static Deploy(e2) {
+    return F.Extend("deploy", e2);
   }
-  static Build(e) {
-    return F.Extend("build", e);
+  static Build(e2) {
+    return F.Extend("build", e2);
   }
-  static Run(e) {
-    return F.Extend("run", e);
+  static Run(e2) {
+    return F.Extend("run", e2);
   }
-  static Start(e) {
-    return F.Extend("start", e);
+  static Start(e2) {
+    return F.Extend("start", e2);
   }
-  static Stop(e) {
-    return F.Extend("stop", e);
+  static Stop(e2) {
+    return F.Extend("stop", e2);
   }
-  static Debug(e) {
-    return F.Extend("debug", e);
+  static Debug(e2) {
+    return F.Extend("debug", e2);
   }
   get name() {
     return _.root.name;
@@ -2765,32 +2765,32 @@ var pt = (_a36 = class {
   get resolve() {
     return this.scope.resolve.bind(this.scope);
   }
-  async load(e) {
-    await new F({ name: "load", containers: this._containers }).process(e);
+  async load(e2) {
+    await new F({ name: "load", containers: this._containers }).process(e2);
   }
-  async run(e) {
-    await new F({ name: "run", containers: this._containers }).process(e);
+  async run(e2) {
+    await new F({ name: "run", containers: this._containers }).process(e2);
   }
-  async start(e) {
-    await new F({ name: "start", containers: this._containers }).process(e);
+  async start(e2) {
+    await new F({ name: "start", containers: this._containers }).process(e2);
   }
-  async stop(e) {
-    await new F({ name: "stop", containers: this._containers }).process(e);
+  async stop(e2) {
+    await new F({ name: "stop", containers: this._containers }).process(e2);
   }
-  async build(e) {
-    await new F({ name: "build", containers: this._containers }).process(e);
+  async build(e2) {
+    await new F({ name: "build", containers: this._containers }).process(e2);
   }
-  async deploy(e) {
-    await new F({ name: "deploy", containers: this._containers }).process(e);
+  async deploy(e2) {
+    await new F({ name: "deploy", containers: this._containers }).process(e2);
   }
-  async publish(e) {
-    await new F({ name: "publish", containers: this._containers }).process(e);
+  async publish(e2) {
+    await new F({ name: "publish", containers: this._containers }).process(e2);
   }
-  async debug(e) {
-    await new F({ name: "debug", containers: this._containers }).process(e);
+  async debug(e2) {
+    await new F({ name: "debug", containers: this._containers }).process(e2);
   }
-  async call(e, t4) {
-    return await new N({ name: e, component: t4 }).process();
+  async call(e2, t4) {
+    return await new N({ name: e2, component: t4 }).process();
   }
 }, __name(_a36, "pt"), _a36);
 p(pt, "A_Concept");
@@ -2808,12 +2808,12 @@ var ge = (_a38 = class extends b {
 }, __name(_a38, "ge"), _a38);
 p(ge, "A_InjectError"), ge.InvalidInjectionTarget = "Invalid target for A-Inject decorator", ge.MissingInjectionTarget = "Missing target for A-Inject decorator";
 var se = ge;
-function Yt(u2, e) {
-  if (!u2) throw new se(se.MissingInjectionTarget, "A-Inject decorator is missing the target to inject");
-  return function(t4, r8, n6) {
+function Yt(u3, e2) {
+  if (!u3) throw new se(se.MissingInjectionTarget, "A-Inject decorator is missing the target to inject");
+  return function(t4, r9, n7) {
     let o3 = A.getComponentName(t4);
     if (!i.isTargetAvailableForInjection(t4)) throw new se(se.InvalidInjectionTarget, `A-Inject cannot be used on the target of type ${typeof t4} (${o3})`);
-    let s4 = r8 ? String(r8) : "constructor", a4;
+    let s4 = r9 ? String(r9) : "constructor", a4;
     switch (true) {
       case (i.isComponentConstructor(t4) || i.isComponentInstance(t4)):
         a4 = "a-component-injections";
@@ -2825,8 +2825,8 @@ function Yt(u2, e) {
         a4 = "a-component-injections";
         break;
     }
-    let c3 = _.meta(t4).get(a4), l5 = c3 ? c3.clone() : new m(), f4 = l5.get(s4) ? [...l5.get(s4)] : [];
-    f4[n6] = u2 instanceof M ? u2 : new M(u2, e), l5.set(s4, f4), _.meta(t4).set(a4, l5);
+    let c3 = _.meta(t4).get(a4), l4 = c3 ? c3.clone() : new m(), f4 = l4.get(s4) ? [...l4.get(s4)] : [];
+    f4[n7] = u3 instanceof M ? u3 : new M(u3, e2), l4.set(s4, f4), _.meta(t4).set(a4, l4);
   };
 }
 __name(Yt, "Yt");
@@ -2845,48 +2845,20 @@ var __decorateClass2 = /* @__PURE__ */ __name((decorators, target, key, kind) =>
 }, "__decorateClass");
 var __decorateParam2 = /* @__PURE__ */ __name((index, decorator) => (target, key) => decorator(target, key, index), "__decorateParam");
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-VBGV4GJ5.mjs
-var t = "0.1.16";
-
 // node_modules/@adaas/a-frame/dist/browser/chunk-IKIN4MJV.mjs
 var h2 = Object.defineProperty;
 var i2 = Object.getOwnPropertyDescriptor;
 var j2 = /* @__PURE__ */ __name((c3, a4) => h2(c3, "name", { value: a4, configurable: true }), "j");
-var k2 = /* @__PURE__ */ __name((c3, a4, e, d4) => {
-  for (var b3 = d4 > 1 ? void 0 : d4 ? i2(a4, e) : a4, f4 = c3.length - 1, g5; f4 >= 0; f4--) (g5 = c3[f4]) && (b3 = (d4 ? g5(a4, e, b3) : g5(b3)) || b3);
-  return d4 && b3 && h2(a4, e, b3), b3;
+var k2 = /* @__PURE__ */ __name((c3, a4, e2, d5) => {
+  for (var b4 = d5 > 1 ? void 0 : d5 ? i2(a4, e2) : a4, f4 = c3.length - 1, g5; f4 >= 0; f4--) (g5 = c3[f4]) && (b4 = (d5 ? g5(a4, e2, b4) : g5(b4)) || b4);
+  return d5 && b4 && h2(a4, e2, b4), b4;
 }, "k");
-var l = /* @__PURE__ */ __name((c3, a4) => (e, d4) => a4(e, d4, c3), "l");
-
-// node_modules/@adaas/a-frame/dist/browser/chunk-6K7VISNV.mjs
-var _a39;
-var _2 = (_a39 = class extends H {
-  get A_FRAME_TOKEN() {
-    return window.A_FRAME_TOKEN || "";
-  }
-  get A_FRAME_SERVER_URL() {
-    return window.A_FRAME_SERVER_URL || "http://localhost:3000";
-  }
-  get A_FRAME_VERSION() {
-    return t || "0.0.1";
-  }
-  get A_FRAME_SERVER_API_KEY() {
-    return window.A_FRAME_SERVER_API_KEY || "";
-  }
-  get A_FRAME_STORAGE_DIR() {
-    return window.A_FRAME_STORAGE_DIR || ".aframe";
-  }
-  get A_FRAME_STORAGE_PATTERN() {
-    return "";
-  }
-}, __name(_a39, "_"), _a39);
-j2(_2, "A_FrameEnv");
-var R2 = _2;
+var l = /* @__PURE__ */ __name((c3, a4) => (e2, d5) => a4(e2, d5, c3), "l");
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-HPVKDLXO.mjs
-var t2 = { Load: "_A_FRAME_CREDENTIALS_LOAD", Save: "_A_FRAME_CREDENTIALS_SAVE", Destroy: "_A_FRAME_CREDENTIALS_DESTROY" };
-var _a40;
-var r = (_a40 = class extends D {
+var t = { Load: "_A_FRAME_CREDENTIALS_LOAD", Save: "_A_FRAME_CREDENTIALS_SAVE", Destroy: "_A_FRAME_CREDENTIALS_DESTROY" };
+var _a39;
+var r = (_a39 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -2917,31 +2889,31 @@ var r = (_a40 = class extends D {
   get isAuthenticated() {
     return !!this._credentialId;
   }
-  load(e) {
-    return this.call(t2.Load, e);
+  load(e2) {
+    return this.call(t.Load, e2);
   }
-  save(e) {
-    return this.call(t2.Save, e);
+  save(e2) {
+    return this.call(t.Save, e2);
   }
-  destroy(e) {
-    return this.call(t2.Destroy, e);
+  destroy(e2) {
+    return this.call(t.Destroy, e2);
   }
-  fromNew(e) {
-    this.aseid = this.generateASEID({ id: e.id, scope: "a-frame" }), this._credentialId = e.id, this._name = e.name, this._description = e.description, this._encryptionKey = e.encryption_key, this._algorithm = e.algorithm, this._keyEncoding = e.key_encoding, this._usageNote = e.usage_note, this._serverVersion = e.server_version;
+  fromNew(e2) {
+    this.aseid = this.generateASEID({ id: e2.id, scope: "a-frame" }), this._credentialId = e2.id, this._name = e2.name, this._description = e2.description, this._encryptionKey = e2.encryption_key, this._algorithm = e2.algorithm, this._keyEncoding = e2.key_encoding, this._usageNote = e2.usage_note, this._serverVersion = e2.server_version;
   }
-  fromJSON(e) {
-    this._credentialId = e.credentialId, this._name = e.name, this._description = e.description, this._algorithm = e.algorithm, this._keyEncoding = e.key_encoding, this._serverVersion = e.serverVersion, this._encryptionKey = "";
+  fromJSON(e2) {
+    this._credentialId = e2.credentialId, this._name = e2.name, this._description = e2.description, this._algorithm = e2.algorithm, this._keyEncoding = e2.key_encoding, this._serverVersion = e2.serverVersion, this._encryptionKey = "";
   }
   toJSON() {
     return { ...super.toJSON(), credentialId: this._credentialId, name: this._name, description: this._description, algorithm: this._algorithm, key_encoding: this._keyEncoding, serverVersion: this._serverVersion };
   }
-}, __name(_a40, "r"), _a40);
+}, __name(_a39, "r"), _a39);
 j2(r, "A_FrameCredentials");
 var n = r;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-7SACDPQD.mjs
-var _a41;
-var r2 = (_a41 = class extends O {
+var _a40;
+var r2 = (_a40 = class extends O {
   static getSubtle() {
     return globalThis.crypto.subtle;
   }
@@ -2949,50 +2921,76 @@ var r2 = (_a41 = class extends O {
     return t4.buffer instanceof ArrayBuffer ? t4 : new Uint8Array(t4);
   }
   static async importKey(t4) {
-    let e = _a41.base64ToBytes(t4);
-    return _a41.getSubtle().importKey("raw", e.buffer, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+    let e2 = _a40.base64ToBytes(t4);
+    return _a40.getSubtle().importKey("raw", e2.buffer, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
   }
-  static async encryptBytes(t4, e) {
-    let n6 = await _a41.importKey(e), s4 = new Uint8Array(12);
+  static async encryptBytes(t4, e2) {
+    let n7 = await _a40.importKey(e2), s4 = new Uint8Array(12);
     globalThis.crypto.getRandomValues(s4);
-    let i6 = new Uint8Array(await _a41.getSubtle().encrypt({ name: "AES-GCM", iv: s4, tagLength: 128 }, n6, _a41.bytes(t4))), a4 = i6.slice(0, i6.length - 16), c3 = i6.slice(i6.length - 16), o3 = new Uint8Array(28 + a4.length);
+    let i6 = new Uint8Array(await _a40.getSubtle().encrypt({ name: "AES-GCM", iv: s4, tagLength: 128 }, n7, _a40.bytes(t4))), a4 = i6.slice(0, i6.length - 16), c3 = i6.slice(i6.length - 16), o3 = new Uint8Array(28 + a4.length);
     return o3.set(s4, 0), o3.set(c3, 12), o3.set(a4, 28), o3;
   }
-  static async encrypt(t4, e) {
-    let n6 = new TextEncoder().encode(t4), s4 = await _a41.encryptBytes(n6, e);
-    return _a41.bytesToBase64(s4);
+  static async encrypt(t4, e2) {
+    let n7 = new TextEncoder().encode(t4), s4 = await _a40.encryptBytes(n7, e2);
+    return _a40.bytesToBase64(s4);
   }
-  static async decryptBytes(t4, e) {
+  static async decryptBytes(t4, e2) {
     if (t4.length < 28) throw new Error("Payload too short to decrypt");
-    let n6 = await _a41.importKey(e), s4 = t4.slice(0, 12), i6 = t4.slice(12, 28), a4 = t4.slice(28), c3 = new Uint8Array(a4.length + 16);
+    let n7 = await _a40.importKey(e2), s4 = t4.slice(0, 12), i6 = t4.slice(12, 28), a4 = t4.slice(28), c3 = new Uint8Array(a4.length + 16);
     c3.set(a4, 0), c3.set(i6, a4.length);
-    let o3 = await _a41.getSubtle().decrypt({ name: "AES-GCM", iv: _a41.bytes(s4), tagLength: 128 }, n6, c3);
+    let o3 = await _a40.getSubtle().decrypt({ name: "AES-GCM", iv: _a40.bytes(s4), tagLength: 128 }, n7, c3);
     return new Uint8Array(o3);
   }
-  static async decrypt(t4, e) {
-    let n6 = _a41.base64ToBytes(t4), s4 = await _a41.decryptBytes(n6, e);
+  static async decrypt(t4, e2) {
+    let n7 = _a40.base64ToBytes(t4), s4 = await _a40.decryptBytes(n7, e2);
     return new TextDecoder().decode(s4);
   }
   static async sha256hex(t4) {
-    let e = new TextEncoder().encode(t4), n6 = await _a41.getSubtle().digest("SHA-256", e);
-    return _a41.bytesToHex(new Uint8Array(n6));
+    let e2 = new TextEncoder().encode(t4), n7 = await _a40.getSubtle().digest("SHA-256", e2);
+    return _a40.bytesToHex(new Uint8Array(n7));
   }
   static bytesToBase64(t4) {
-    let e = "";
-    for (let n6 of t4) e += String.fromCharCode(n6);
-    return btoa(e);
+    let e2 = "";
+    for (let n7 of t4) e2 += String.fromCharCode(n7);
+    return btoa(e2);
   }
   static base64ToBytes(t4) {
-    let e = atob(t4), n6 = new Uint8Array(e.length);
-    for (let s4 = 0; s4 < e.length; s4++) n6[s4] = e.charCodeAt(s4);
-    return n6;
+    let e2 = atob(t4), n7 = new Uint8Array(e2.length);
+    for (let s4 = 0; s4 < e2.length; s4++) n7[s4] = e2.charCodeAt(s4);
+    return n7;
   }
   static bytesToHex(t4) {
-    return Array.from(t4).map((e) => e.toString(16).padStart(2, "0")).join("");
+    return Array.from(t4).map((e2) => e2.toString(16).padStart(2, "0")).join("");
   }
-}, __name(_a41, "r"), _a41);
+}, __name(_a40, "r"), _a40);
 j2(r2, "A_FrameCrypto");
 var g = r2;
+
+// node_modules/@adaas/a-frame/dist/browser/chunk-TO5BIE6I.mjs
+var t2 = "0.1.17";
+var _a41;
+var e = (_a41 = class extends H {
+  get A_FRAME_TOKEN() {
+    return window.A_FRAME_TOKEN || "";
+  }
+  get A_FRAME_SERVER_URL() {
+    return window.A_FRAME_SERVER_URL || "http://localhost:3000";
+  }
+  get A_FRAME_VERSION() {
+    return t2;
+  }
+  get A_FRAME_SERVER_API_KEY() {
+    return window.A_FRAME_SERVER_API_KEY || "";
+  }
+  get A_FRAME_STORAGE_DIR() {
+    return window.A_FRAME_STORAGE_DIR || ".aframe";
+  }
+  get A_FRAME_STORAGE_PATTERN() {
+    return "";
+  }
+}, __name(_a41, "e"), _a41);
+j2(e, "A_FrameEnv");
+var r3 = e;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-XJFUXWMT.mjs
 var s = { debug: 10, info: 20, success: 20, warn: 30, error: 40 };
@@ -3002,75 +3000,75 @@ var L = { debug: "color: #888;", info: "color: #06b;", success: "color: #2a7; fo
 var m2 = { progressBarWidth: 24, summaryTitle: "Summary", progressThrottleMs: 250 };
 var _a42;
 var i3 = (_a42 = class extends O {
-  constructor(e = {}) {
+  constructor(e2 = {}) {
     super();
     this.counters = /* @__PURE__ */ new Map();
     this.startTime = Date.now();
-    this.level = e.level ?? "debug", this.prefix = e.prefix ?? "";
+    this.level = e2.level ?? "debug", this.prefix = e2.prefix ?? "";
   }
-  style(e, ...r8) {
-    return e;
+  style(e2, ...r9) {
+    return e2;
   }
-  print(e = "") {
-    console.log(e);
+  print(e2 = "") {
+    console.log(e2);
   }
-  prompt(e) {
-    console.log(e);
+  prompt(e2) {
+    console.log(e2);
   }
-  setLevel(e) {
-    this.level = e;
+  setLevel(e2) {
+    this.level = e2;
   }
-  shouldEmit(e) {
-    return s[e] >= s[this.level];
+  shouldEmit(e2) {
+    return s[e2] >= s[this.level];
   }
-  emit(e, r8, t4) {
-    this.shouldEmit(e) && this.write({ level: e, message: this.prefix ? `${this.prefix} ${r8}` : r8, timestamp: Date.now(), metadata: t4 });
+  emit(e2, r9, t4) {
+    this.shouldEmit(e2) && this.write({ level: e2, message: this.prefix ? `${this.prefix} ${r9}` : r9, timestamp: Date.now(), metadata: t4 });
   }
-  debug(e, r8) {
-    this.emit("debug", e, r8);
+  debug(e2, r9) {
+    this.emit("debug", e2, r9);
   }
-  info(e, r8) {
-    this.emit("info", e, r8);
+  info(e2, r9) {
+    this.emit("info", e2, r9);
   }
-  success(e, r8) {
-    this.emit("success", e, r8);
+  success(e2, r9) {
+    this.emit("success", e2, r9);
   }
-  warn(e, r8) {
-    this.emit("warn", e, r8);
+  warn(e2, r9) {
+    this.emit("warn", e2, r9);
   }
-  error(e, r8) {
-    this.emit("error", e, r8);
+  error(e2, r9) {
+    this.emit("error", e2, r9);
   }
-  section(e) {
-    this.info(`\u2500\u2500 ${e} \u2500\u2500`);
+  section(e2) {
+    this.info(`\u2500\u2500 ${e2} \u2500\u2500`);
   }
   divider() {
     this.info("\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500");
   }
-  increment(e, r8 = 1) {
-    this.counters.set(e, (this.counters.get(e) ?? 0) + r8);
+  increment(e2, r9 = 1) {
+    this.counters.set(e2, (this.counters.get(e2) ?? 0) + r9);
   }
-  set(e, r8) {
-    this.counters.set(e, r8);
+  set(e2, r9) {
+    this.counters.set(e2, r9);
   }
-  get(e) {
-    return this.counters.get(e) ?? 0;
+  get(e2) {
+    return this.counters.get(e2) ?? 0;
   }
   resetTimer() {
     this.startTime = Date.now(), this.counters.clear();
   }
   elapsed() {
-    let e = Date.now() - this.startTime;
-    if (e < 1e3) return `${e}ms`;
-    let r8 = e / 1e3;
-    if (r8 < 60) return `${r8.toFixed(2)}s`;
-    let t4 = Math.floor(r8 / 60);
-    return `${t4}m ${(r8 - t4 * 60).toFixed(1)}s`;
+    let e2 = Date.now() - this.startTime;
+    if (e2 < 1e3) return `${e2}ms`;
+    let r9 = e2 / 1e3;
+    if (r9 < 60) return `${r9.toFixed(2)}s`;
+    let t4 = Math.floor(r9 / 60);
+    return `${t4}m ${(r9 - t4 * 60).toFixed(1)}s`;
   }
-  summary(e = m2.summaryTitle) {
-    this.section(e);
-    let r8 = [...this.counters.keys()], t4 = r8.reduce((o3, g5) => Math.max(o3, g5.length), 7);
-    for (let o3 of r8) this.info(`  ${o3.padEnd(t4)}  ${this.counters.get(o3)}`);
+  summary(e2 = m2.summaryTitle) {
+    this.section(e2);
+    let r9 = [...this.counters.keys()], t4 = r9.reduce((o3, g5) => Math.max(o3, g5.length), 7);
+    for (let o3 of r9) this.info(`  ${o3.padEnd(t4)}  ${this.counters.get(o3)}`);
     this.info(`  ${"elapsed".padEnd(t4)}  ${this.elapsed()}`), this.divider();
   }
 }, __name(_a42, "i"), _a42);
@@ -3080,9 +3078,9 @@ var c = i3;
 // node_modules/@adaas/a-frame/dist/browser/chunk-CMS3MVT4.mjs
 var _a43;
 var t3 = (_a43 = class extends H {
-  constructor(e) {
-    if (super({ name: "a-frame-file-store" }), !e || typeof e.filePath != "string" || e.filePath.length === 0) throw new Error("A_FrameFileStore requires `filePath` (non-empty string) \u2014 omit the fragment entirely to fall back to A_FRAME_STORAGE_DIR.");
-    this.filePath = e.filePath;
+  constructor(e2) {
+    if (super({ name: "a-frame-file-store" }), !e2 || typeof e2.filePath != "string" || e2.filePath.length === 0) throw new Error("A_FrameFileStore requires `filePath` (non-empty string) \u2014 omit the fragment entirely to fall back to A_FRAME_STORAGE_DIR.");
+    this.filePath = e2.filePath;
   }
 }, __name(_a43, "t"), _a43);
 j2(t3, "A_FrameFileStore");
@@ -3093,12 +3091,12 @@ var _a44;
 var i4 = (_a44 = class {
   static fnv1a(g5) {
     let t4 = 2166136261;
-    for (let n6 = 0; n6 < g5.length; n6++) t4 ^= g5.charCodeAt(n6), t4 = t4 * 16777619 >>> 0;
+    for (let n7 = 0; n7 < g5.length; n7++) t4 ^= g5.charCodeAt(n7), t4 = t4 * 16777619 >>> 0;
     return t4.toString(16).padStart(8, "0");
   }
 }, __name(_a44, "i"), _a44);
 j2(i4, "A_FrameHashHelper");
-var r3 = i4;
+var r4 = i4;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-N6D4AAGZ.mjs
 var _a45;
@@ -3117,30 +3115,30 @@ var n2 = (_a45 = class extends D {
   }
   isEqualTo(t4) {
     if (this.length !== t4.length) return false;
-    for (let e = 0; e < this.length; e++) if (this.values[e] !== t4.values[e]) return false;
+    for (let e2 = 0; e2 < this.length; e2++) if (this.values[e2] !== t4.values[e2]) return false;
     return true;
   }
   magnitude() {
     let t4 = 0;
-    for (let e = 0; e < this.values.length; e++) t4 += this.values[e] ** 2;
+    for (let e2 = 0; e2 < this.values.length; e2++) t4 += this.values[e2] ** 2;
     return Math.sqrt(t4);
   }
   normalize() {
     let t4 = this.magnitude();
     if (t4 === 0) return this;
-    let e = new Float32Array(this.length);
-    for (let r8 = 0; r8 < this.length; r8++) e[r8] = this.values[r8] / t4;
-    return new _a45(e);
+    let e2 = new Float32Array(this.length);
+    for (let r9 = 0; r9 < this.length; r9++) e2[r9] = this.values[r9] / t4;
+    return new _a45(e2);
   }
   dot(t4) {
     this.assertSameLength(t4);
-    let e = 0;
-    for (let r8 = 0; r8 < this.length; r8++) e += this.values[r8] * t4.values[r8];
-    return e;
+    let e2 = 0;
+    for (let r9 = 0; r9 < this.length; r9++) e2 += this.values[r9] * t4.values[r9];
+    return e2;
   }
   cosineSimilarity(t4) {
-    let e = this.magnitude(), r8 = t4.magnitude();
-    return e === 0 || r8 === 0 ? 0 : this.normalize().dot(t4.normalize());
+    let e2 = this.magnitude(), r9 = t4.magnitude();
+    return e2 === 0 || r9 === 0 ? 0 : this.normalize().dot(t4.normalize());
   }
   assertSameLength(t4) {
     if (this.length !== t4.length) throw new Error(`Embedding dimension mismatch: ${this.length} vs ${t4.length}`);
@@ -3161,15 +3159,15 @@ var m3 = { Load: "_A_FRAME_NAMESPACE_LOAD", Save: "_A_FRAME_NAMESPACE_SAVE", Emb
 var V = { debug: u.gray, info: u.cyan, success: u.green, warn: u.yellow, error: u.red };
 var _a46;
 var f = (_a46 = class extends c {
-  constructor(e = {}) {
-    super(e), this.useColor = e.color ?? !!(process.stdout && process.stdout.isTTY);
+  constructor(e2 = {}) {
+    super(e2), this.useColor = e2.color ?? !!(process.stdout && process.stdout.isTTY);
   }
-  c(e, r8) {
-    return this.useColor ? `${e}${r8}${u.reset}` : r8;
+  c(e2, r9) {
+    return this.useColor ? `${e2}${r9}${u.reset}` : r9;
   }
-  ansi(e) {
+  ansi(e2) {
     if (!this.useColor) return "";
-    switch (e) {
+    switch (e2) {
       case "reset":
         return u.reset;
       case "bold":
@@ -3196,67 +3194,67 @@ var f = (_a46 = class extends c {
         return "";
     }
   }
-  style(e, ...r8) {
-    if (!this.useColor || r8.length === 0) return e;
-    let s4 = r8.map((a4) => this.ansi(a4)).join("");
-    return s4 ? `${s4}${e}${u.reset}` : e;
+  style(e2, ...r9) {
+    if (!this.useColor || r9.length === 0) return e2;
+    let s4 = r9.map((a4) => this.ansi(a4)).join("");
+    return s4 ? `${s4}${e2}${u.reset}` : e2;
   }
-  print(e = "") {
-    process.stdout.write(e + `
+  print(e2 = "") {
+    process.stdout.write(e2 + `
 `);
   }
-  prompt(e) {
-    process.stdout.write(e);
+  prompt(e2) {
+    process.stdout.write(e2);
   }
-  write(e) {
-    let s4 = `${this.c(V[e.level], p2[e.level])} ${e.message}`;
-    e.level === "error" ? console.error(s4) : e.level === "warn" ? console.warn(s4) : console.log(s4), e.metadata && Object.keys(e.metadata).length > 0 && console.log(this.c(u.gray, `   ${JSON.stringify(e.metadata)}`));
+  write(e2) {
+    let s4 = `${this.c(V[e2.level], p2[e2.level])} ${e2.message}`;
+    e2.level === "error" ? console.error(s4) : e2.level === "warn" ? console.warn(s4) : console.log(s4), e2.metadata && Object.keys(e2.metadata).length > 0 && console.log(this.c(u.gray, `   ${JSON.stringify(e2.metadata)}`));
   }
-  section(e) {
-    let r8 = "\u2500".repeat(Math.max(2, 60 - e.length - 4)), s4 = `\u2504 ${e} ${r8}`;
+  section(e2) {
+    let r9 = "\u2500".repeat(Math.max(2, 60 - e2.length - 4)), s4 = `\u2504 ${e2} ${r9}`;
     console.log(`
 ` + this.c(u.bold + u.cyan, s4));
   }
   divider() {
     console.log(this.c(u.gray, "\u2500".repeat(60)));
   }
-  summary(e = m2.summaryTitle) {
-    this.section(e);
-    let r8 = [...this.counters.keys()], s4 = r8.reduce((a4, l5) => Math.max(a4, l5.length), 7);
-    for (let a4 of r8) console.log(`  ${this.c(u.gray, a4.padEnd(s4))}  ${this.c(u.bold, String(this.counters.get(a4)))}`);
+  summary(e2 = m2.summaryTitle) {
+    this.section(e2);
+    let r9 = [...this.counters.keys()], s4 = r9.reduce((a4, l4) => Math.max(a4, l4.length), 7);
+    for (let a4 of r9) console.log(`  ${this.c(u.gray, a4.padEnd(s4))}  ${this.c(u.bold, String(this.counters.get(a4)))}`);
     console.log(`  ${this.c(u.gray, "elapsed".padEnd(s4))}  ${this.c(u.bold, this.elapsed())}`), this.divider();
   }
-  progress(e, r8) {
-    let s4 = this.useColor, a$1 = m2.progressBarWidth, l5 = Date.now(), o3 = 0, d$1 = "", c3 = j2((i6) => {
-      if (r8 === 0) {
-        i6 === "done" && console.log(`${this.c(u.green, "\u2714")} ${e} (0/0)`);
+  progress(e2, r9) {
+    let s4 = this.useColor, a$1 = m2.progressBarWidth, l4 = Date.now(), o3 = 0, d$1 = "", c3 = j2((i6) => {
+      if (r9 === 0) {
+        i6 === "done" && console.log(`${this.c(u.green, "\u2714")} ${e2} (0/0)`);
         return;
       }
-      let h6 = Math.min(1, o3 / r8), S4 = Math.round(h6 * a$1);
+      let h6 = Math.min(1, o3 / r9), S4 = Math.round(h6 * a$1);
       if (s4) {
-        let p5 = this.c(u.green, "\u2588".repeat(S4)) + this.c(u.gray, "\u2591".repeat(a$1 - S4)), N3 = i6 === "done" ? this.c(u.green, "\u2714") : i6 === "fail" ? this.c(u.red, "\u2716") : this.c(u.cyan, "\u27F3"), L2 = d$1 ? this.c(u.dim, ` \u2014 ${d$1}`) : "";
-        process.stdout.write(`\r\x1B[2K${N3} ${e} ${p5} ${o3}/${r8} (${(h6 * 100).toFixed(0)}%)${L2}`), i6 && process.stdout.write(`
+        let p4 = this.c(u.green, "\u2588".repeat(S4)) + this.c(u.gray, "\u2591".repeat(a$1 - S4)), N3 = i6 === "done" ? this.c(u.green, "\u2714") : i6 === "fail" ? this.c(u.red, "\u2716") : this.c(u.cyan, "\u27F3"), L2 = d$1 ? this.c(u.dim, ` \u2014 ${d$1}`) : "";
+        process.stdout.write(`\r\x1B[2K${N3} ${e2} ${p4} ${o3}/${r9} (${(h6 * 100).toFixed(0)}%)${L2}`), i6 && process.stdout.write(`
 `);
-      } else if (i6 === "done") console.log(`[${e}] done ${o3}/${r8} in ${((Date.now() - l5) / 1e3).toFixed(2)}s`);
-      else if (i6 === "fail") console.log(`[${e}] FAILED at ${o3}/${r8}`);
+      } else if (i6 === "done") console.log(`[${e2}] done ${o3}/${r9} in ${((Date.now() - l4) / 1e3).toFixed(2)}s`);
+      else if (i6 === "fail") console.log(`[${e2}] FAILED at ${o3}/${r9}`);
       else {
-        let p5 = Math.max(1, Math.floor(r8 / 10));
-        (o3 === r8 || o3 % p5 === 0) && console.log(`[${e}] ${o3}/${r8}${d$1 ? ` \u2014 ${d$1}` : ""}`);
+        let p4 = Math.max(1, Math.floor(r9 / 10));
+        (o3 === r9 || o3 % p4 === 0) && console.log(`[${e2}] ${o3}/${r9}${d$1 ? ` \u2014 ${d$1}` : ""}`);
       }
     }, "render");
     return c3(), { tick: j2((i6) => {
-      o3 = Math.min(r8, o3 + 1), i6 && (d$1 = i6), c3();
+      o3 = Math.min(r9, o3 + 1), i6 && (d$1 = i6), c3();
     }, "tick"), succeed: j2((i6) => {
-      i6 && (d$1 = i6), o3 = r8, c3("done");
+      i6 && (d$1 = i6), o3 = r9, c3("done");
     }, "succeed"), fail: j2((i6) => {
       i6 && (d$1 = i6), c3("fail");
     }, "fail"), update: j2((i6, h6) => {
-      o3 = Math.min(r8, Math.max(0, i6)), h6 && (d$1 = h6), c3();
+      o3 = Math.min(r9, Math.max(0, i6)), h6 && (d$1 = h6), c3();
     }, "update") };
   }
 }, __name(_a46, "f"), _a46);
 j2(f, "A_FrameLogger");
-var _3 = f;
+var _2 = f;
 var _a47;
 var v = (_a47 = class extends D {
   static get concept() {
@@ -3295,58 +3293,58 @@ var v = (_a47 = class extends D {
   get requestedModel() {
     return this._requestedModel;
   }
-  save(e) {
-    return this.call(m3.Save, e);
+  save(e2) {
+    return this.call(m3.Save, e2);
   }
-  destroy(e) {
-    return this.call(m3.Destroy, e);
+  destroy(e2) {
+    return this.call(m3.Destroy, e2);
   }
-  async load(e) {
-    return this.call(m3.Load, e);
+  async load(e2) {
+    return this.call(m3.Load, e2);
   }
-  async saveTo(e) {
-    let r8 = new a({ filePath: e }), s4 = new R({ name: `${this.aseid.id}-save-to`, fragments: [r8] }).inherit(_.scope(this));
+  async saveTo(e2) {
+    let r9 = new a({ filePath: e2 }), s4 = new R({ name: `${this.aseid.id}-save-to`, fragments: [r9] }).inherit(_.scope(this));
     try {
       await this.call(m3.Save, s4);
     } finally {
       s4.destroy();
     }
   }
-  async loadFrom(e) {
-    let r8 = new a({ filePath: e }), s4 = new R({ name: `${this.aseid.id}-load-from`, fragments: [r8] }).inherit(_.scope(this));
+  async loadFrom(e2) {
+    let r9 = new a({ filePath: e2 }), s4 = new R({ name: `${this.aseid.id}-load-from`, fragments: [r9] }).inherit(_.scope(this));
     try {
       await this.call(m3.Load, s4);
     } finally {
       s4.destroy();
     }
   }
-  update(e) {
-    e.name && (this._name = e.name), e.description !== void 0 && (this._description = e.description), e.metadata !== void 0 && (this._metadata = e.metadata);
+  update(e2) {
+    e2.name && (this._name = e2.name), e2.description !== void 0 && (this._description = e2.description), e2.metadata !== void 0 && (this._metadata = e2.metadata);
   }
-  embed(e) {
-    return _.scope(this).resolve(_3)?.debug(`Embedding namespace "${this._name}"...`), this.call(m3.Embed, e);
+  embed(e2) {
+    return _.scope(this).resolve(_2)?.debug(`Embedding namespace "${this._name}"...`), this.call(m3.Embed, e2);
   }
-  fromNew(e) {
-    this.aseid = this.generateASEID({ id: P.toKebabCase(e.name), scope: "a-frame" }), this._name = e.name;
-    let r8 = this._name + (e.description || "") + (e.metadata ? JSON.stringify(e.metadata) : "");
-    this._hash = r3.fnv1a(r8), this._description = e.description, this._metadata = e.metadata, this._requestedModel = e.model ?? a2.ANTARES;
+  fromNew(e2) {
+    this.aseid = this.generateASEID({ id: P.toKebabCase(e2.name), scope: "a-frame" }), this._name = e2.name;
+    let r9 = this._name + (e2.description || "") + (e2.metadata ? JSON.stringify(e2.metadata) : "");
+    this._hash = r4.fnv1a(r9), this._description = e2.description, this._metadata = e2.metadata, this._requestedModel = e2.model ?? a2.ANTARES;
   }
-  fromJSON(e) {
-    this._name = e.name, this._hash = e.hash, this._description = e.description, this._metadata = e.metadata, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._embeddedAt = e.embeddedAt, this._embeddingModel = e.embeddingModel, this._credentialId = e.credentialId, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
+  fromJSON(e2) {
+    this._name = e2.name, this._hash = e2.hash, this._description = e2.description, this._metadata = e2.metadata, this._vector = e2.embedding ? new i5(e2.embedding) : void 0, this._embeddedAt = e2.embeddedAt, this._embeddingModel = e2.embeddingModel, this._credentialId = e2.credentialId, this._aFrameVersion = e2.aFrameVersion, this._aFrameServerVersion = e2.aFrameServerVersion;
   }
   toJSON() {
     return { ...super.toJSON(), hash: this._hash, name: this._name, description: this._description, metadata: this._metadata, embedding: this._vector?.values, embeddedAt: this._embeddedAt ?? Date.now(), embeddingModel: this._embeddingModel, credentialId: this._credentialId, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion };
   }
-  hydrateFromRecord(e) {
-    if (e.hash !== this._hash) throw new Error(`A_FrameNamespace.hydrateFromRecord: hash mismatch for "${this._name}" (expected ${this._hash}, got ${e.hash})`);
-    this._vector = new i5(e.embedding), this._embeddedAt = e.embeddedAt;
+  hydrateFromRecord(e2) {
+    if (e2.hash !== this._hash) throw new Error(`A_FrameNamespace.hydrateFromRecord: hash mismatch for "${this._name}" (expected ${this._hash}, got ${e2.hash})`);
+    this._vector = new i5(e2.embedding), this._embeddedAt = e2.embeddedAt;
   }
-  hydrateFromEmbedding(e, r8) {
-    this._vector = new i5(e), this._embeddedAt = Date.now(), r8 && (this._embeddingModel = r8.model, this._credentialId = r8.credentialId ?? void 0, this._aFrameVersion = r8.aFrameVersion, this._aFrameServerVersion = r8.aFrameServerVersion);
+  hydrateFromEmbedding(e2, r9) {
+    this._vector = new i5(e2), this._embeddedAt = Date.now(), r9 && (this._embeddingModel = r9.model, this._credentialId = r9.credentialId ?? void 0, this._aFrameVersion = r9.aFrameVersion, this._aFrameServerVersion = r9.aFrameServerVersion);
   }
   toString() {
-    let e = [`// namespace: ${this._name}`];
-    return this._description && e.push(`// ${this._description}`), e.join(`
+    let e2 = [`// namespace: ${this._name}`];
+    return this._description && e2.push(`// ${this._description}`), e2.join(`
 `);
   }
 }, __name(_a47, "v"), _a47);
@@ -3354,7 +3352,7 @@ j2(v, "A_FrameNamespace");
 var w2 = v;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-3MWPOKGL.mjs
-var r4 = { Load: "_A_FRAME_DEFINITION_LOAD", Save: "_A_FRAME_DEFINITION_SAVE", Embed: "_A_FRAME_DEFINITION_EMBED", Destroy: "_A_FRAME_DEFINITION_DESTROY" };
+var r5 = { Load: "_A_FRAME_DEFINITION_LOAD", Save: "_A_FRAME_DEFINITION_SAVE", Embed: "_A_FRAME_DEFINITION_EMBED", Destroy: "_A_FRAME_DEFINITION_DESTROY" };
 var _a48;
 var n3 = (_a48 = class extends D {
   static get concept() {
@@ -3414,61 +3412,61 @@ var n3 = (_a48 = class extends D {
   get isEmbed() {
     return this._vector !== void 0;
   }
-  save(e) {
-    return this.call(r4.Save, e);
+  save(e2) {
+    return this.call(r5.Save, e2);
   }
-  destroy(e) {
-    return this.call(r4.Destroy, e);
+  destroy(e2) {
+    return this.call(r5.Destroy, e2);
   }
-  load(e) {
-    return this.call(r4.Load, e);
+  load(e2) {
+    return this.call(r5.Load, e2);
   }
-  async saveTo(e) {
-    let t4 = new a({ filePath: e }), i6 = new R({ name: `${this.aseid.id}-save-to`, fragments: [t4] }).inherit(_.scope(this));
+  async saveTo(e2) {
+    let t4 = new a({ filePath: e2 }), i6 = new R({ name: `${this.aseid.id}-save-to`, fragments: [t4] }).inherit(_.scope(this));
     try {
-      await this.call(r4.Save, i6);
+      await this.call(r5.Save, i6);
     } finally {
       i6.destroy();
     }
   }
-  async loadFrom(e) {
-    let t4 = new a({ filePath: e }), i6 = new R({ name: `${this.aseid.id}-load-from`, fragments: [t4] }).inherit(_.scope(this));
+  async loadFrom(e2) {
+    let t4 = new a({ filePath: e2 }), i6 = new R({ name: `${this.aseid.id}-load-from`, fragments: [t4] }).inherit(_.scope(this));
     try {
-      await this.call(r4.Load, i6);
+      await this.call(r5.Load, i6);
     } finally {
       i6.destroy();
     }
   }
-  update(e) {
-    e.source && (this._source = e.source), e.description !== void 0 && (this._description = e.description), e.metadata !== void 0 && (this._metadata = e.metadata), e.namespace !== void 0 && (this._namespace = e.namespace);
+  update(e2) {
+    e2.source && (this._source = e2.source), e2.description !== void 0 && (this._description = e2.description), e2.metadata !== void 0 && (this._metadata = e2.metadata), e2.namespace !== void 0 && (this._namespace = e2.namespace);
   }
-  embed(e) {
-    return this.call(r4.Embed, e);
+  embed(e2) {
+    return this.call(r5.Embed, e2);
   }
-  fromNew(e) {
-    this._type = e.type, this.aseid = this.generateASEID({ id: P.toKebabCase(e.dependency + "-" + e.name), scope: "a-frame" }), this._name = e.name;
-    let t4 = this._name + "//" + (e.description || "") + "//" + (e.metadata ? JSON.stringify(e.metadata) : "") + "//" + e.source + "//Namespace: " + e.namespace.id;
-    this._hash = r3.fnv1a(t4), this._source = e.source, this._description = e.description, this._namespace = e.namespace, this._metadata = e.metadata, this._dependency = e.dependency, this._requestedModel = e.model ?? a2.ANTARES;
+  fromNew(e2) {
+    this._type = e2.type, this.aseid = this.generateASEID({ id: P.toKebabCase(e2.dependency + "-" + e2.name), scope: "a-frame" }), this._name = e2.name;
+    let t4 = this._name + "//" + (e2.description || "") + "//" + (e2.metadata ? JSON.stringify(e2.metadata) : "") + "//" + e2.source + "//Namespace: " + e2.namespace.id;
+    this._hash = r4.fnv1a(t4), this._source = e2.source, this._description = e2.description, this._namespace = e2.namespace, this._metadata = e2.metadata, this._dependency = e2.dependency, this._requestedModel = e2.model ?? a2.ANTARES;
   }
-  fromJSON(e) {
-    this._name = e.name, this._hash = e.hash, this._source = e.source || "", this._description = e.description, this._metadata = e.metadata, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._date = e.date, this._model = e.model, this._credentialId = e.credentialId, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion, this._aFrameMeta = e.aFrameMeta;
+  fromJSON(e2) {
+    this._name = e2.name, this._hash = e2.hash, this._source = e2.source || "", this._description = e2.description, this._metadata = e2.metadata, this._vector = e2.embedding ? new i5(e2.embedding) : void 0, this._date = e2.date, this._model = e2.model, this._credentialId = e2.credentialId, this._aFrameVersion = e2.aFrameVersion, this._aFrameServerVersion = e2.aFrameServerVersion, this._aFrameMeta = e2.aFrameMeta;
   }
   toJSON() {
     return { ...super.toJSON(), hash: this._hash, name: this._name, source: this._source, description: this._description, metadata: this._metadata, namespace: this._namespace.aseid.toString(), embedding: this._vector?.values, date: this._date ?? (/* @__PURE__ */ new Date()).toISOString(), model: this._model, credentialId: this._credentialId, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion, aFrameMeta: this._aFrameMeta };
   }
-  hydrateFromEmbedding(e, t4) {
-    this._vector = new i5(e), this._date = (/* @__PURE__ */ new Date()).toISOString(), t4 && (this._model = t4.model, this._credentialId = t4.credentialId ?? void 0, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion, t4.aFrameMeta && (this._aFrameMeta = t4.aFrameMeta));
+  hydrateFromEmbedding(e2, t4) {
+    this._vector = new i5(e2), this._date = (/* @__PURE__ */ new Date()).toISOString(), t4 && (this._model = t4.model, this._credentialId = t4.credentialId ?? void 0, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion, t4.aFrameMeta && (this._aFrameMeta = t4.aFrameMeta));
   }
   toString() {
-    let e = [];
-    return e.push(`// ${this._name}`), this._description && e.push(`// ${this._description}`), e.push(this._source), e.join(`
+    let e2 = [];
+    return e2.push(`// ${this._name}`), this._description && e2.push(`// ${this._description}`), e2.push(this._source), e2.join(`
 `);
   }
 }, __name(_a48, "n"), _a48);
 j2(n3, "A_FrameDefinition");
 var h3 = n3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-3ROGJ3YE.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-BPMRT6J5.mjs
 var _a49;
 var z2 = (_a49 = class extends H {
   constructor() {
@@ -3527,22 +3525,22 @@ var G2 = (_a52 = class extends O {
   _resolveFileStore(o3) {
     if (o3) return o3 instanceof a ? o3 : new a(o3);
   }
-  _buildExecutionScope(o3, e, a4, r8) {
-    let t4 = [e];
-    return a4 && !_.has(a4) && t4.push(a4), new R({ name: o3, fragments: t4 }).inherit(r8 || _.scope(this));
+  _buildExecutionScope(o3, e2, a4, r9) {
+    let t4 = [e2];
+    return a4 && !_.has(a4) && t4.push(a4), new R({ name: o3, fragments: t4 }).inherit(r9 || _.scope(this));
   }
-  async saveDefinitions(o3, e, a4) {
-    let r8 = new F2({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveDefinitions", r8, this._resolveFileStore(e), a4);
+  async saveDefinitions(o3, e2, a4) {
+    let r9 = new F2({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveDefinitions", r9, this._resolveFileStore(e2), a4);
     try {
-      return await this.call(S2.SaveDefinitions, t4), r8;
+      return await this.call(S2.SaveDefinitions, t4), r9;
     } catch {
-      return r8.fail(new A2({ title: A2.SaveDefinitionFailed, description: "Failed to save definition records." })), r8;
+      return r9.fail(new A2({ title: A2.SaveDefinitionFailed, description: "Failed to save definition records." })), r9;
     } finally {
       t4.destroy();
     }
   }
-  async loadDefinitions(o3, e, a4, r8) {
-    let t4 = new F2({ namespaceId: o3 }), i6 = this._buildExecutionScope("A_FrameStorage.loadDefinitions", t4, this._resolveFileStore(a4), r8);
+  async loadDefinitions(o3, e2, a4, r9) {
+    let t4 = new F2({ namespaceId: o3 }), i6 = this._buildExecutionScope("A_FrameStorage.loadDefinitions", t4, this._resolveFileStore(a4), r9);
     try {
       return await this.call(S2.LoadDefinitions, i6), t4;
     } catch {
@@ -3551,8 +3549,8 @@ var G2 = (_a52 = class extends O {
       i6.destroy();
     }
   }
-  async destroyDefinitions(o3, e, a4, r8) {
-    let t4 = new F2({ namespaceId: o3, definitionId: e }), i6 = this._buildExecutionScope("A_FrameStorage.destroyDefinitions", t4, this._resolveFileStore(a4), r8);
+  async destroyDefinitions(o3, e2, a4, r9) {
+    let t4 = new F2({ namespaceId: o3, definitionId: e2 }), i6 = this._buildExecutionScope("A_FrameStorage.destroyDefinitions", t4, this._resolveFileStore(a4), r9);
     try {
       return await this.call(S2.DestroyDefinitions, i6), t4;
     } catch {
@@ -3561,38 +3559,38 @@ var G2 = (_a52 = class extends O {
       i6.destroy();
     }
   }
-  async saveNamespaces(o3, e, a4) {
-    let r8 = new F2({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveNamespaces", r8, this._resolveFileStore(e), a4);
+  async saveNamespaces(o3, e2, a4) {
+    let r9 = new F2({ records: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.saveNamespaces", r9, this._resolveFileStore(e2), a4);
     try {
-      return await this.call(S2.SaveNamespaces, t4), r8;
+      return await this.call(S2.SaveNamespaces, t4), r9;
     } catch {
-      return r8.fail(new A2({ title: A2.SaveNamespaceFailed, description: "Failed to save namespace records." })), r8;
+      return r9.fail(new A2({ title: A2.SaveNamespaceFailed, description: "Failed to save namespace records." })), r9;
     } finally {
       t4.destroy();
     }
   }
-  async loadNamespaces(o3, e, a4) {
-    let r8 = new F2({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadNamespaces", r8, this._resolveFileStore(e), a4);
+  async loadNamespaces(o3, e2, a4) {
+    let r9 = new F2({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadNamespaces", r9, this._resolveFileStore(e2), a4);
     try {
-      return await this.call(S2.LoadNamespaces, t4), r8;
+      return await this.call(S2.LoadNamespaces, t4), r9;
     } catch {
-      return r8.fail(new A2({ title: A2.LoadNamespacesFailed, description: "Failed to load namespace records." })), r8;
+      return r9.fail(new A2({ title: A2.LoadNamespacesFailed, description: "Failed to load namespace records." })), r9;
     } finally {
       t4.destroy();
     }
   }
-  async destroyNamespaces(o3, e, a4) {
-    let r8 = new F2({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyNamespaces", r8, this._resolveFileStore(e), a4);
+  async destroyNamespaces(o3, e2, a4) {
+    let r9 = new F2({ namespaces: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyNamespaces", r9, this._resolveFileStore(e2), a4);
     try {
-      return await this.call(S2.DestroyNamespaces, t4), r8;
+      return await this.call(S2.DestroyNamespaces, t4), r9;
     } catch {
-      return r8.fail(new A2({ title: A2.DestroyNamespacesFailed, description: "Failed to destroy namespace records." })), r8;
+      return r9.fail(new A2({ title: A2.DestroyNamespacesFailed, description: "Failed to destroy namespace records." })), r9;
     } finally {
       t4.destroy();
     }
   }
-  async saveKnowledge(o3, e, a4, r8) {
-    let t4 = new F2({ id: o3, record: e }), i6 = this._buildExecutionScope("A_FrameStorage.saveKnowledge", t4, this._resolveFileStore(a4), r8);
+  async saveKnowledge(o3, e2, a4, r9) {
+    let t4 = new F2({ id: o3, record: e2 }), i6 = this._buildExecutionScope("A_FrameStorage.saveKnowledge", t4, this._resolveFileStore(a4), r9);
     try {
       return await this.call(S2.SaveKnowledge, i6), t4;
     } catch {
@@ -3601,22 +3599,22 @@ var G2 = (_a52 = class extends O {
       i6.destroy();
     }
   }
-  async loadKnowledge(o3, e, a4) {
-    let r8 = new F2({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadKnowledge", r8, this._resolveFileStore(e), a4);
+  async loadKnowledge(o3, e2, a4) {
+    let r9 = new F2({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.loadKnowledge", r9, this._resolveFileStore(e2), a4);
     try {
-      return await this.call(S2.LoadKnowledge, t4), r8;
+      return await this.call(S2.LoadKnowledge, t4), r9;
     } catch {
-      return r8.fail(new A2({ title: A2.LoadKnowledgeFailed, description: `Failed to load knowledge "${o3}".` })), r8;
+      return r9.fail(new A2({ title: A2.LoadKnowledgeFailed, description: `Failed to load knowledge "${o3}".` })), r9;
     } finally {
       t4.destroy();
     }
   }
-  async destroyKnowledge(o3, e, a4) {
-    let r8 = new F2({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyKnowledge", r8, this._resolveFileStore(e), a4);
+  async destroyKnowledge(o3, e2, a4) {
+    let r9 = new F2({ id: o3 }), t4 = this._buildExecutionScope("A_FrameStorage.destroyKnowledge", r9, this._resolveFileStore(e2), a4);
     try {
-      return await this.call(S2.DestroyKnowledge, t4), r8;
+      return await this.call(S2.DestroyKnowledge, t4), r9;
     } catch {
-      return r8.fail(new A2({ title: A2.DestroyKnowledgeFailed, description: `Failed to destroy knowledge "${o3}".` })), r8;
+      return r9.fail(new A2({ title: A2.DestroyKnowledgeFailed, description: `Failed to destroy knowledge "${o3}".` })), r9;
     } finally {
       t4.destroy();
     }
@@ -3638,16 +3636,16 @@ var K2 = (_a53 = class extends H {
   static get instance() {
     return _a53._instance || (_a53._instance = new _a53()), _a53._instance;
   }
-  static fromBundle(e) {
+  static fromBundle(e2) {
     let a4 = _a53.instance;
-    return a4.seedFromBundle(e), a4;
+    return a4.seedFromBundle(e2), a4;
   }
   get hasBundleData() {
     return this.plainStore.size > 0 || (this.plainNamespaceRecords?.length ?? 0) > 0;
   }
-  seedFromBundle(e) {
-    for (let [a4, r8] of Object.entries(e.records ?? {})) this.plainStore.set(a4, r8.map((t4) => ({ ...t4, embedding: t4.embedding.length > 0 ? new Float32Array(t4.embedding) : void 0 })));
-    e.namespaceRecords?.length && (this.plainNamespaceRecords = e.namespaceRecords.map((a4) => ({ ...a4, embedding: a4.embedding.length > 0 ? new Float32Array(a4.embedding) : void 0 }))), this.bundleMeta = { aFrameVersion: e.aFrameVersion, serverVersion: e.serverVersion, builtAt: e.builtAt };
+  seedFromBundle(e2) {
+    for (let [a4, r9] of Object.entries(e2.records ?? {})) this.plainStore.set(a4, r9.map((t4) => ({ ...t4, embedding: t4.embedding.length > 0 ? new Float32Array(t4.embedding) : void 0 })));
+    e2.namespaceRecords?.length && (this.plainNamespaceRecords = e2.namespaceRecords.map((a4) => ({ ...a4, embedding: a4.embedding.length > 0 ? new Float32Array(a4.embedding) : void 0 }))), this.bundleMeta = { aFrameVersion: e2.aFrameVersion, serverVersion: e2.serverVersion, builtAt: e2.builtAt };
   }
 }, __name(_a53, "K"), _a53);
 j2(K2, "A_FrameBrowserStorageBlobs");
@@ -3677,14 +3675,14 @@ var b2 = (_a54 = class extends H {
   static get knowledgeFileExtension() {
     return ".k.aframe";
   }
-  getDefinitionsFileName(e) {
-    return `${e}${_a54.definitionsFileExtension}`;
+  getDefinitionsFileName(e2) {
+    return `${e2}${_a54.definitionsFileExtension}`;
   }
   getNamespaceFileName() {
     return `${_a54.namespacesFileExtension}`;
   }
-  getKnowledgeFileName(e) {
-    return `${e}${_a54.knowledgeFileExtension}`;
+  getKnowledgeFileName(e2) {
+    return `${e2}${_a54.knowledgeFileExtension}`;
   }
   static get definitionsFilePattern() {
     return `*${_a54.definitionsFileExtension}`;
@@ -3692,244 +3690,244 @@ var b2 = (_a54 = class extends H {
   static get knowledgeFilePattern() {
     return `*${_a54.knowledgeFileExtension}`;
   }
-  encodePayload(e) {
+  encodePayload(e2) {
     let a4 = [];
-    if (e.some((n6) => !n6.embedding)) throw new Error("All records must have embeddings to be encoded");
-    let r8 = new Uint8Array(this.A_FRAME_HEADER_SIZE), t4 = new DataView(r8.buffer);
-    t4.setUint32(0, this.A_FRAME_FILE_MAGIC, true), r8[4] = this.A_FRAME_FILE_VERSION, t4.setUint32(5, e.length, true);
-    let i6 = e[0]?.embedding.length ?? 0;
-    t4.setUint16(9, i6, true), a4.push(r8);
-    for (let n6 of e) {
-      let _6 = C3.encode(n6.aseid.toString()), f4 = C3.encode(n6.name), M3 = JSON.stringify({ hash: n6.hash, source: n6.source, type: n6.type, description: n6.description, metadata: n6.metadata, namespace: n6.namespace, date: n6.date, model: n6.model, credentialId: n6.credentialId, aFrameVersion: n6.aFrameVersion, aFrameServerVersion: n6.aFrameServerVersion }), N3 = C3.encode(M3), L2 = 2 + _6.length + 2 + f4.length + n6.embedding.length * 4 + 4 + N3.length, g5 = new Uint8Array(L2), h6 = new DataView(g5.buffer), m7 = 0;
-      h6.setUint16(m7, _6.length, true), m7 += 2, g5.set(_6, m7), m7 += _6.length, h6.setUint16(m7, f4.length, true), m7 += 2, g5.set(f4, m7), m7 += f4.length;
-      for (let y2 = 0; y2 < n6.embedding.length; y2++) h6.setFloat32(m7, n6.embedding[y2], true), m7 += 4;
+    if (e2.some((n7) => !n7.embedding)) throw new Error("All records must have embeddings to be encoded");
+    let r9 = new Uint8Array(this.A_FRAME_HEADER_SIZE), t4 = new DataView(r9.buffer);
+    t4.setUint32(0, this.A_FRAME_FILE_MAGIC, true), r9[4] = this.A_FRAME_FILE_VERSION, t4.setUint32(5, e2.length, true);
+    let i6 = e2[0]?.embedding.length ?? 0;
+    t4.setUint16(9, i6, true), a4.push(r9);
+    for (let n7 of e2) {
+      let _5 = C3.encode(n7.aseid.toString()), f4 = C3.encode(n7.name), M3 = JSON.stringify({ hash: n7.hash, source: n7.source, type: n7.type, description: n7.description, metadata: n7.metadata, namespace: n7.namespace, date: n7.date, model: n7.model, credentialId: n7.credentialId, aFrameVersion: n7.aFrameVersion, aFrameServerVersion: n7.aFrameServerVersion }), N3 = C3.encode(M3), L2 = 2 + _5.length + 2 + f4.length + n7.embedding.length * 4 + 4 + N3.length, g5 = new Uint8Array(L2), h6 = new DataView(g5.buffer), m7 = 0;
+      h6.setUint16(m7, _5.length, true), m7 += 2, g5.set(_5, m7), m7 += _5.length, h6.setUint16(m7, f4.length, true), m7 += 2, g5.set(f4, m7), m7 += f4.length;
+      for (let y2 = 0; y2 < n7.embedding.length; y2++) h6.setFloat32(m7, n7.embedding[y2], true), m7 += 4;
       h6.setUint32(m7, N3.length, true), m7 += 4, g5.set(N3, m7), a4.push(g5);
     }
-    let c3 = a4.reduce((n6, _6) => n6 + _6.length, 0), p5 = new Uint8Array(c3), s4 = 0;
-    for (let n6 of a4) p5.set(n6, s4), s4 += n6.length;
-    return p5;
+    let c3 = a4.reduce((n7, _5) => n7 + _5.length, 0), p4 = new Uint8Array(c3), s4 = 0;
+    for (let n7 of a4) p4.set(n7, s4), s4 += n7.length;
+    return p4;
   }
-  decodePayload(e) {
-    if (e.length < this.A_FRAME_HEADER_SIZE) throw new Error("Corrupt index: too short for header");
-    let a4 = new DataView(e.buffer, e.byteOffset, e.byteLength), r8 = a4.getUint32(0, true);
-    if (r8 !== this.A_FRAME_FILE_MAGIC) throw new Error(`Corrupt index: bad magic 0x${r8.toString(16)}`);
-    let t4 = e[4];
+  decodePayload(e2) {
+    if (e2.length < this.A_FRAME_HEADER_SIZE) throw new Error("Corrupt index: too short for header");
+    let a4 = new DataView(e2.buffer, e2.byteOffset, e2.byteLength), r9 = a4.getUint32(0, true);
+    if (r9 !== this.A_FRAME_FILE_MAGIC) throw new Error(`Corrupt index: bad magic 0x${r9.toString(16)}`);
+    let t4 = e2[4];
     if (t4 !== this.A_FRAME_FILE_VERSION) throw new Error(`Unsupported index version: ${t4}`);
-    let i6 = a4.getUint32(5, true), c3 = a4.getUint16(9, true), p5 = [], s4 = this.A_FRAME_HEADER_SIZE;
-    for (let n6 = 0; n6 < i6; n6++) {
-      let _6 = a4.getUint16(s4, true);
+    let i6 = a4.getUint32(5, true), c3 = a4.getUint16(9, true), p4 = [], s4 = this.A_FRAME_HEADER_SIZE;
+    for (let n7 = 0; n7 < i6; n7++) {
+      let _5 = a4.getUint16(s4, true);
       s4 += 2;
-      let f4 = P2.decode(e.slice(s4, s4 + _6));
-      s4 += _6;
+      let f4 = P2.decode(e2.slice(s4, s4 + _5));
+      s4 += _5;
       let M3 = a4.getUint16(s4, true);
       s4 += 2;
-      let N3 = P2.decode(e.slice(s4, s4 + M3));
+      let N3 = P2.decode(e2.slice(s4, s4 + M3));
       s4 += M3;
       let L2 = new Float32Array(c3);
       for (let y2 = 0; y2 < c3; y2++) L2[y2] = a4.getFloat32(s4, true), s4 += 4;
       let g5 = a4.getUint32(s4, true);
       s4 += 4;
-      let h6 = P2.decode(e.slice(s4, s4 + g5));
+      let h6 = P2.decode(e2.slice(s4, s4 + g5));
       s4 += g5;
       let m7 = JSON.parse(h6);
-      p5.push({ aseid: f4, hash: m7.hash ?? f4, name: N3, type: m7.type, embedding: L2, source: m7.source, description: m7.description, metadata: m7.metadata, namespace: m7.namespace, date: m7.date, model: m7.model, credentialId: m7.credentialId, aFrameVersion: m7.aFrameVersion, aFrameServerVersion: m7.aFrameServerVersion });
+      p4.push({ aseid: f4, hash: m7.hash ?? f4, name: N3, type: m7.type, embedding: L2, source: m7.source, description: m7.description, metadata: m7.metadata, namespace: m7.namespace, date: m7.date, model: m7.model, credentialId: m7.credentialId, aFrameVersion: m7.aFrameVersion, aFrameServerVersion: m7.aFrameServerVersion });
     }
-    return p5;
+    return p4;
   }
-  encodeNamespacePayload(e) {
+  encodeNamespacePayload(e2) {
     let a4 = [];
-    if (e.some((n6) => !n6.embedding)) throw new Error("All records must have embeddings to be encoded");
-    let r8 = new Uint8Array(this.A_FRAME_HEADER_SIZE), t4 = new DataView(r8.buffer);
-    t4.setUint32(0, this.A_FRAME_FILE_MAGIC, true), r8[4] = this.A_FRAME_FILE_VERSION, t4.setUint32(5, e.length, true);
-    let i6 = e[0]?.embedding.length ?? 0;
-    t4.setUint16(9, i6, true), a4.push(r8);
-    for (let n6 of e) {
-      let _6 = C3.encode(n6.aseid.toString()), f4 = C3.encode(n6.name), M3 = JSON.stringify({ hash: n6.hash, description: n6.description, metadata: n6.metadata, embeddedAt: n6.embeddedAt, embeddingModel: n6.embeddingModel, credentialId: n6.credentialId, aFrameVersion: n6.aFrameVersion, aFrameServerVersion: n6.aFrameServerVersion }), N3 = C3.encode(M3), L2 = 2 + _6.length + 2 + f4.length + n6.embedding.length * 4 + 4 + N3.length, g5 = new Uint8Array(L2), h6 = new DataView(g5.buffer), m7 = 0;
-      h6.setUint16(m7, _6.length, true), m7 += 2, g5.set(_6, m7), m7 += _6.length, h6.setUint16(m7, f4.length, true), m7 += 2, g5.set(f4, m7), m7 += f4.length;
-      for (let y2 = 0; y2 < n6.embedding.length; y2++) h6.setFloat32(m7, n6.embedding[y2], true), m7 += 4;
+    if (e2.some((n7) => !n7.embedding)) throw new Error("All records must have embeddings to be encoded");
+    let r9 = new Uint8Array(this.A_FRAME_HEADER_SIZE), t4 = new DataView(r9.buffer);
+    t4.setUint32(0, this.A_FRAME_FILE_MAGIC, true), r9[4] = this.A_FRAME_FILE_VERSION, t4.setUint32(5, e2.length, true);
+    let i6 = e2[0]?.embedding.length ?? 0;
+    t4.setUint16(9, i6, true), a4.push(r9);
+    for (let n7 of e2) {
+      let _5 = C3.encode(n7.aseid.toString()), f4 = C3.encode(n7.name), M3 = JSON.stringify({ hash: n7.hash, description: n7.description, metadata: n7.metadata, embeddedAt: n7.embeddedAt, embeddingModel: n7.embeddingModel, credentialId: n7.credentialId, aFrameVersion: n7.aFrameVersion, aFrameServerVersion: n7.aFrameServerVersion }), N3 = C3.encode(M3), L2 = 2 + _5.length + 2 + f4.length + n7.embedding.length * 4 + 4 + N3.length, g5 = new Uint8Array(L2), h6 = new DataView(g5.buffer), m7 = 0;
+      h6.setUint16(m7, _5.length, true), m7 += 2, g5.set(_5, m7), m7 += _5.length, h6.setUint16(m7, f4.length, true), m7 += 2, g5.set(f4, m7), m7 += f4.length;
+      for (let y2 = 0; y2 < n7.embedding.length; y2++) h6.setFloat32(m7, n7.embedding[y2], true), m7 += 4;
       h6.setUint32(m7, N3.length, true), m7 += 4, g5.set(N3, m7), a4.push(g5);
     }
-    let c3 = a4.reduce((n6, _6) => n6 + _6.length, 0), p5 = new Uint8Array(c3), s4 = 0;
-    for (let n6 of a4) p5.set(n6, s4), s4 += n6.length;
-    return p5;
+    let c3 = a4.reduce((n7, _5) => n7 + _5.length, 0), p4 = new Uint8Array(c3), s4 = 0;
+    for (let n7 of a4) p4.set(n7, s4), s4 += n7.length;
+    return p4;
   }
-  decodeNamespacePayload(e) {
-    if (e.length < this.A_FRAME_HEADER_SIZE) throw new Error("Corrupt namespace index: too short for header");
-    let a4 = new DataView(e.buffer, e.byteOffset, e.byteLength), r8 = a4.getUint32(0, true);
-    if (r8 !== this.A_FRAME_FILE_MAGIC) throw new Error(`Corrupt namespace index: bad magic 0x${r8.toString(16)}`);
-    let t4 = e[4];
+  decodeNamespacePayload(e2) {
+    if (e2.length < this.A_FRAME_HEADER_SIZE) throw new Error("Corrupt namespace index: too short for header");
+    let a4 = new DataView(e2.buffer, e2.byteOffset, e2.byteLength), r9 = a4.getUint32(0, true);
+    if (r9 !== this.A_FRAME_FILE_MAGIC) throw new Error(`Corrupt namespace index: bad magic 0x${r9.toString(16)}`);
+    let t4 = e2[4];
     if (t4 !== this.A_FRAME_FILE_VERSION) throw new Error(`Unsupported namespace index version: ${t4}`);
-    let i6 = a4.getUint32(5, true), c3 = a4.getUint16(9, true), p5 = [], s4 = this.A_FRAME_HEADER_SIZE;
-    for (let n6 = 0; n6 < i6; n6++) {
-      let _6 = a4.getUint16(s4, true);
+    let i6 = a4.getUint32(5, true), c3 = a4.getUint16(9, true), p4 = [], s4 = this.A_FRAME_HEADER_SIZE;
+    for (let n7 = 0; n7 < i6; n7++) {
+      let _5 = a4.getUint16(s4, true);
       s4 += 2;
-      let f4 = P2.decode(e.slice(s4, s4 + _6));
-      s4 += _6;
+      let f4 = P2.decode(e2.slice(s4, s4 + _5));
+      s4 += _5;
       let M3 = a4.getUint16(s4, true);
       s4 += 2;
-      let N3 = P2.decode(e.slice(s4, s4 + M3));
+      let N3 = P2.decode(e2.slice(s4, s4 + M3));
       s4 += M3;
       let L2 = new Float32Array(c3);
       for (let y2 = 0; y2 < c3; y2++) L2[y2] = a4.getFloat32(s4, true), s4 += 4;
       let g5 = a4.getUint32(s4, true);
       s4 += 4;
-      let h6 = P2.decode(e.slice(s4, s4 + g5));
+      let h6 = P2.decode(e2.slice(s4, s4 + g5));
       s4 += g5;
       let m7 = JSON.parse(h6);
-      p5.push({ aseid: f4, hash: m7.hash ?? f4, name: N3, embedding: L2, description: m7.description, metadata: m7.metadata, embeddedAt: m7.embeddedAt, embeddingModel: m7.embeddingModel, credentialId: m7.credentialId, aFrameVersion: m7.aFrameVersion, aFrameServerVersion: m7.aFrameServerVersion });
+      p4.push({ aseid: f4, hash: m7.hash ?? f4, name: N3, embedding: L2, description: m7.description, metadata: m7.metadata, embeddedAt: m7.embeddedAt, embeddingModel: m7.embeddingModel, credentialId: m7.credentialId, aFrameVersion: m7.aFrameVersion, aFrameServerVersion: m7.aFrameServerVersion });
     }
-    return p5;
+    return p4;
   }
-  encodeKnowledgePayload(e) {
-    let a4 = JSON.parse(JSON.stringify(e, (c3, p5) => p5 instanceof Float32Array ? Array.from(p5) : p5)), r8 = C3.encode(JSON.stringify(a4)), t4 = new Uint8Array(this.A_FRAME_HEADER_SIZE + 4 + r8.length), i6 = new DataView(t4.buffer);
-    return i6.setUint32(0, this.A_FRAME_FILE_MAGIC, true), t4[4] = this.A_FRAME_KNOWLEDGE_VERSION, i6.setUint32(5, 1, true), i6.setUint16(9, 0, true), i6.setUint32(this.A_FRAME_HEADER_SIZE, r8.length, true), t4.set(r8, this.A_FRAME_HEADER_SIZE + 4), t4;
+  encodeKnowledgePayload(e2) {
+    let a4 = JSON.parse(JSON.stringify(e2, (c3, p4) => p4 instanceof Float32Array ? Array.from(p4) : p4)), r9 = C3.encode(JSON.stringify(a4)), t4 = new Uint8Array(this.A_FRAME_HEADER_SIZE + 4 + r9.length), i6 = new DataView(t4.buffer);
+    return i6.setUint32(0, this.A_FRAME_FILE_MAGIC, true), t4[4] = this.A_FRAME_KNOWLEDGE_VERSION, i6.setUint32(5, 1, true), i6.setUint16(9, 0, true), i6.setUint32(this.A_FRAME_HEADER_SIZE, r9.length, true), t4.set(r9, this.A_FRAME_HEADER_SIZE + 4), t4;
   }
-  decodeKnowledgePayload(e) {
-    if (e.length < this.A_FRAME_HEADER_SIZE + 4) throw new Error("Corrupt knowledge file: too short for header");
-    let a4 = new DataView(e.buffer, e.byteOffset, e.byteLength), r8 = a4.getUint32(0, true);
-    if (r8 !== this.A_FRAME_FILE_MAGIC) throw new Error(`Corrupt knowledge file: bad magic 0x${r8.toString(16)}`);
-    let t4 = e[4];
+  decodeKnowledgePayload(e2) {
+    if (e2.length < this.A_FRAME_HEADER_SIZE + 4) throw new Error("Corrupt knowledge file: too short for header");
+    let a4 = new DataView(e2.buffer, e2.byteOffset, e2.byteLength), r9 = a4.getUint32(0, true);
+    if (r9 !== this.A_FRAME_FILE_MAGIC) throw new Error(`Corrupt knowledge file: bad magic 0x${r9.toString(16)}`);
+    let t4 = e2[4];
     if (t4 !== this.A_FRAME_KNOWLEDGE_VERSION) throw new Error(`Unsupported knowledge file version: 0x${t4.toString(16)}`);
     let i6 = a4.getUint32(this.A_FRAME_HEADER_SIZE, true), c3 = this.A_FRAME_HEADER_SIZE + 4;
-    if (e.length < c3 + i6) throw new Error("Corrupt knowledge file: truncated payload");
-    let p5 = P2.decode(e.slice(c3, c3 + i6));
-    return JSON.parse(p5);
+    if (e2.length < c3 + i6) throw new Error("Corrupt knowledge file: truncated payload");
+    let p4 = P2.decode(e2.slice(c3, c3 + i6));
+    return JSON.parse(p4);
   }
 }, __name(_a54, "b"), _a54);
 j2(b2, "A_FrameStorageCodec");
 var O2 = b2;
 var _a55;
 var D2 = (_a55 = class extends x2 {
-  onLoad(o3, e) {
-    e || o3.register(E.instance);
+  onLoad(o3, e2) {
+    e2 || o3.register(E.instance);
   }
-  async saveDefinitionsToMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.records, c3 = i6[0].namespace, p5 = await this._loadDefinitionsFromMemory(t4.store, c3, a4.encryptionKey, r8), s4 = /* @__PURE__ */ new Map();
-    for (let _6 of p5) s4.set(_6.aseid, _6);
-    for (let _6 of i6) s4.set(_6.aseid.toString(), _6);
-    let n6 = r8.encodePayload(Array.from(s4.values()));
-    t4.store.set(c3, await g.encryptBytes(n6, a4.encryptionKey)), e.complete({ saved: i6.length });
+  async saveDefinitionsToMemory(o3, e2, a4, r9, t4) {
+    let i6 = e2.params.records, c3 = i6[0].namespace, p4 = await this._loadDefinitionsFromMemory(t4.store, c3, a4.encryptionKey, r9), s4 = /* @__PURE__ */ new Map();
+    for (let _5 of p4) s4.set(_5.aseid, _5);
+    for (let _5 of i6) s4.set(_5.aseid.toString(), _5);
+    let n7 = r9.encodePayload(Array.from(s4.values()));
+    t4.store.set(c3, await g.encryptBytes(n7, a4.encryptionKey)), e2.complete({ saved: i6.length });
   }
-  async loadDefinitionsFromMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.namespaceId, c3 = await this._loadDefinitionsFromMemory(t4.store, i6, a4.encryptionKey, r8);
-    e.complete({ records: c3 });
+  async loadDefinitionsFromMemory(o3, e2, a4, r9, t4) {
+    let i6 = e2.params.namespaceId, c3 = await this._loadDefinitionsFromMemory(t4.store, i6, a4.encryptionKey, r9);
+    e2.complete({ records: c3 });
   }
-  async destroyDefinitionsFromMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.namespaceId, c3 = e.params.definitionId, s4 = (await this._loadDefinitionsFromMemory(t4.store, i6, a4.encryptionKey, r8)).filter((_6) => _6.aseid !== c3), n6 = r8.encodePayload(s4);
-    t4.store.set(i6, await g.encryptBytes(n6, a4.encryptionKey)), e.complete({ records: s4 });
+  async destroyDefinitionsFromMemory(o3, e2, a4, r9, t4) {
+    let i6 = e2.params.namespaceId, c3 = e2.params.definitionId, s4 = (await this._loadDefinitionsFromMemory(t4.store, i6, a4.encryptionKey, r9)).filter((_5) => _5.aseid !== c3), n7 = r9.encodePayload(s4);
+    t4.store.set(i6, await g.encryptBytes(n7, a4.encryptionKey)), e2.complete({ records: s4 });
   }
-  async saveNamespacesToMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.records, c3 = await this._loadNamespacesFromMemory(t4, a4.encryptionKey, r8), p5 = /* @__PURE__ */ new Map();
-    for (let n6 of c3) p5.set(n6.aseid, n6);
-    for (let n6 of i6) p5.set(n6.aseid.toString(), n6);
-    let s4 = r8.encodeNamespacePayload(Array.from(p5.values()));
-    t4.namespaceBlob = await g.encryptBytes(s4, a4.encryptionKey), e.complete({ success: true });
+  async saveNamespacesToMemory(o3, e2, a4, r9, t4) {
+    let i6 = e2.params.records, c3 = await this._loadNamespacesFromMemory(t4, a4.encryptionKey, r9), p4 = /* @__PURE__ */ new Map();
+    for (let n7 of c3) p4.set(n7.aseid, n7);
+    for (let n7 of i6) p4.set(n7.aseid.toString(), n7);
+    let s4 = r9.encodeNamespacePayload(Array.from(p4.values()));
+    t4.namespaceBlob = await g.encryptBytes(s4, a4.encryptionKey), e2.complete({ success: true });
   }
-  async loadNamespacesFromMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.namespaces, c3 = await this._loadNamespacesFromMemory(t4, a4.encryptionKey, r8);
-    e.complete({ records: i6 ? c3.filter((p5) => i6.includes(p5.name)) : c3 });
+  async loadNamespacesFromMemory(o3, e2, a4, r9, t4) {
+    let i6 = e2.params.namespaces, c3 = await this._loadNamespacesFromMemory(t4, a4.encryptionKey, r9);
+    e2.complete({ records: i6 ? c3.filter((p4) => i6.includes(p4.name)) : c3 });
   }
-  async destroyNamespacesFromMemory(o3, e, a4, r8, t4) {
-    let i6 = e.params.namespaces, p5 = (await this._loadNamespacesFromMemory(t4, a4.encryptionKey, r8)).filter((n6) => !i6.includes(n6.aseid)), s4 = r8.encodeNamespacePayload(p5);
+  async destroyNamespacesFromMemory(o3, e2, a4, r9, t4) {
+    let i6 = e2.params.namespaces, p4 = (await this._loadNamespacesFromMemory(t4, a4.encryptionKey, r9)).filter((n7) => !i6.includes(n7.aseid)), s4 = r9.encodeNamespacePayload(p4);
     t4.namespaceBlob = await g.encryptBytes(s4, a4.encryptionKey);
     try {
-      for (let n6 of i6) t4.store.delete(n6);
-      e.complete({ success: true });
+      for (let n7 of i6) t4.store.delete(n7);
+      e2.complete({ success: true });
     } catch {
-      e.fail(new A2({ title: A2.DestroyNamespacesFailed, description: "Failed to destroy namespace records." })), e.complete({ success: false });
+      e2.fail(new A2({ title: A2.DestroyNamespacesFailed, description: "Failed to destroy namespace records." })), e2.complete({ success: false });
     }
   }
-  async loadDefinitionFromBlobs(o3, e, a4, r8) {
-    let t4 = r8.plainStore.get(o3.namespace.id);
+  async loadDefinitionFromBlobs(o3, e2, a4, r9) {
+    let t4 = r9.plainStore.get(o3.namespace.id);
     if (t4?.length) {
-      let p5 = t4.find((s4) => s4.aseid === o3.aseid.toString());
-      if (p5 && p5.hash === o3.hash) {
-        o3.fromJSON(p5);
+      let p4 = t4.find((s4) => s4.aseid === o3.aseid.toString());
+      if (p4 && p4.hash === o3.hash) {
+        o3.fromJSON(p4);
         return;
       }
     }
-    if (!e.encryptionKey) return;
-    let i6 = await this._loadDefinitionsFromMemory(r8.store, o3.namespace.id, e.encryptionKey, a4);
+    if (!e2.encryptionKey) return;
+    let i6 = await this._loadDefinitionsFromMemory(r9.store, o3.namespace.id, e2.encryptionKey, a4);
     if (i6.length === 0) return;
-    let c3 = i6.find((p5) => p5.aseid === o3.aseid.toString());
-    c3 && c3.hash === o3.hash && c3.aFrameServerVersion === e.serverVersion && o3.fromJSON(c3);
+    let c3 = i6.find((p4) => p4.aseid === o3.aseid.toString());
+    c3 && c3.hash === o3.hash && c3.aFrameServerVersion === e2.serverVersion && o3.fromJSON(c3);
   }
-  async loadNamespaceFromBlobs(o3, e, a4, r8) {
-    if (r8.plainNamespaceRecords?.length) {
-      let c3 = r8.plainNamespaceRecords.find((p5) => p5.aseid === o3.aseid.toString());
+  async loadNamespaceFromBlobs(o3, e2, a4, r9) {
+    if (r9.plainNamespaceRecords?.length) {
+      let c3 = r9.plainNamespaceRecords.find((p4) => p4.aseid === o3.aseid.toString());
       if (c3 && c3.hash === o3.hash) {
         o3.fromJSON(c3);
         return;
       }
     }
-    if (!e.encryptionKey) return;
-    let t4 = await this._loadNamespacesFromMemory(r8, e.encryptionKey, a4);
+    if (!e2.encryptionKey) return;
+    let t4 = await this._loadNamespacesFromMemory(r9, e2.encryptionKey, a4);
     if (t4.length === 0) return;
     let i6 = t4.find((c3) => c3.aseid === o3.aseid.toString());
-    i6 && i6.hash === o3.hash && i6.aFrameServerVersion === e.serverVersion && o3.fromJSON(i6);
+    i6 && i6.hash === o3.hash && i6.aFrameServerVersion === e2.serverVersion && o3.fromJSON(i6);
   }
-  async _loadDefinitionsFromMemory(o3, e, a4, r8) {
-    let t4 = o3.get(e);
+  async _loadDefinitionsFromMemory(o3, e2, a4, r9) {
+    let t4 = o3.get(e2);
     if (!t4) return [];
     try {
       let i6 = await g.decryptBytes(t4, a4);
-      return r8.decodePayload(i6);
+      return r9.decodePayload(i6);
     } catch {
       return [];
     }
   }
-  async _loadNamespacesFromMemory(o3, e, a4) {
-    let r8 = o3.namespaceBlob;
-    if (!r8) return [];
+  async _loadNamespacesFromMemory(o3, e2, a4) {
+    let r9 = o3.namespaceBlob;
+    if (!r9) return [];
     try {
-      let t4 = await g.decryptBytes(r8, e);
+      let t4 = await g.decryptBytes(r9, e2);
       return a4.decodeNamespacePayload(t4);
     } catch {
       return [];
     }
   }
 }, __name(_a55, "D"), _a55);
-j2(D2, "A_FrameBrowserStorageProvider"), k2([ct.Load(), l(0, Yt(R)), l(1, Yt(E))], D2.prototype, "onLoad", 1), k2([N.Extend({ name: S2.SaveDefinitions, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "saveDefinitionsToMemory", 1), k2([N.Extend({ name: S2.LoadDefinitions, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "loadDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.DestroyDefinitions, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "destroyDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.SaveNamespaces, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "saveNamespacesToMemory", 1), k2([N.Extend({ name: S2.LoadNamespaces, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "loadNamespacesFromMemory", 1), k2([N.Extend({ name: S2.DestroyNamespaces, scope: [x2] }), l(0, Yt(R2)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "destroyNamespacesFromMemory", 1), k2([N.Extend({ name: r4.Load, scope: [h3] }), l(0, Yt(te)), l(1, Yt(v2)), l(2, Yt(O2)), l(3, Yt(E))], D2.prototype, "loadDefinitionFromBlobs", 1), k2([N.Extend({ name: m3.Load, scope: [w2] }), l(0, Yt(te)), l(1, Yt(v2)), l(2, Yt(O2)), l(3, Yt(E))], D2.prototype, "loadNamespaceFromBlobs", 1);
+j2(D2, "A_FrameBrowserStorageProvider"), k2([ct.Load(), l(0, Yt(R)), l(1, Yt(E))], D2.prototype, "onLoad", 1), k2([N.Extend({ name: S2.SaveDefinitions, scope: [x2] }), l(0, Yt(r3)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "saveDefinitionsToMemory", 1), k2([N.Extend({ name: S2.LoadDefinitions, scope: [x2] }), l(0, Yt(r3)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "loadDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.DestroyDefinitions, scope: [x2] }), l(0, Yt(r3)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "destroyDefinitionsFromMemory", 1), k2([N.Extend({ name: S2.SaveNamespaces, scope: [x2] }), l(0, Yt(r3)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "saveNamespacesToMemory", 1), k2([N.Extend({ name: S2.LoadNamespaces, scope: [x2] }), l(0, Yt(r3)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "loadNamespacesFromMemory", 1), k2([N.Extend({ name: S2.DestroyNamespaces, scope: [x2] }), l(0, Yt(r3)), l(1, Yt(F2)), l(2, Yt(v2)), l(3, Yt(O2)), l(4, Yt(E))], D2.prototype, "destroyNamespacesFromMemory", 1), k2([N.Extend({ name: r5.Load, scope: [h3] }), l(0, Yt(te)), l(1, Yt(v2)), l(2, Yt(O2)), l(3, Yt(E))], D2.prototype, "loadDefinitionFromBlobs", 1), k2([N.Extend({ name: m3.Load, scope: [w2] }), l(0, Yt(te)), l(1, Yt(v2)), l(2, Yt(O2)), l(3, Yt(E))], D2.prototype, "loadNamespaceFromBlobs", 1);
 var Y2 = D2;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-2GSDZE4W.mjs
 var _a56;
 var d2 = (_a56 = class extends c {
-  constructor(e = {}) {
-    super(e);
+  constructor(e2 = {}) {
+    super(e2);
   }
   write(e$1) {
     let o3 = p2[e$1.level], t4 = L[e$1.level], s4 = e$1.level === "error" ? console.error : e$1.level === "warn" ? console.warn : console.log;
     e$1.metadata && Object.keys(e$1.metadata).length > 0 ? s4(`%c${o3} ${e$1.message}`, t4, e$1.metadata) : s4(`%c${o3} ${e$1.message}`, t4);
   }
-  section(e) {
-    console.log(`%c\u2504 ${e} \u2504`, "color: #06b; font-weight: bold; padding: 2px 0;");
+  section(e2) {
+    console.log(`%c\u2504 ${e2} \u2504`, "color: #06b; font-weight: bold; padding: 2px 0;");
   }
   divider() {
     console.log("%c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", "color: #aaa;");
   }
-  summary(e = m2.summaryTitle) {
-    this.section(e);
+  summary(e2 = m2.summaryTitle) {
+    this.section(e2);
     let o3 = {};
     for (let [t4, s4] of this.counters) o3[t4] = s4;
     o3.elapsed = this.elapsed(), console.table(o3), this.divider();
   }
   progress(e$1, o3) {
-    let t4 = Date.now(), s4 = 0, i6 = "", f$1 = 0, c3 = j2((r8 = false, a4) => {
+    let t4 = Date.now(), s4 = 0, i6 = "", f$1 = 0, c3 = j2((r9 = false, a4) => {
       let g5 = Date.now();
-      if (!r8 && g5 - f$1 < m2.progressThrottleMs) return;
+      if (!r9 && g5 - f$1 < m2.progressThrottleMs) return;
       f$1 = g5;
       let $2 = o3 > 0 ? Math.min(100, Math.round(s4 / o3 * 100)) : 100, A6 = i6 ? ` \u2014 ${i6}` : "";
       a4 === "done" ? console.log(`%c\u2714 ${e$1} ${s4}/${o3} (${$2}%)%c \u2014 ${((g5 - t4) / 1e3).toFixed(2)}s`, L.success, "color: #888;") : a4 === "fail" ? console.log(`%c\u2716 ${e$1} FAILED at ${s4}/${o3}`, L.error) : console.log(`%c\u27F3 ${e$1} ${s4}/${o3} (${$2}%)${A6}`, L.info);
     }, "emit");
-    return c3(true), { tick: j2((r8) => {
-      s4 = Math.min(o3, s4 + 1), r8 && (i6 = r8), c3();
-    }, "tick"), succeed: j2((r8) => {
-      r8 && (i6 = r8), s4 = o3, c3(true, "done");
-    }, "succeed"), fail: j2((r8) => {
-      r8 && (i6 = r8), c3(true, "fail");
-    }, "fail"), update: j2((r8, a4) => {
-      s4 = Math.min(o3, Math.max(0, r8)), a4 && (i6 = a4), c3();
+    return c3(true), { tick: j2((r9) => {
+      s4 = Math.min(o3, s4 + 1), r9 && (i6 = r9), c3();
+    }, "tick"), succeed: j2((r9) => {
+      r9 && (i6 = r9), s4 = o3, c3(true, "done");
+    }, "succeed"), fail: j2((r9) => {
+      r9 && (i6 = r9), c3(true, "fail");
+    }, "fail"), update: j2((r9, a4) => {
+      s4 = Math.min(o3, Math.max(0, r9)), a4 && (i6 = a4), c3();
     }, "update") };
   }
 }, __name(_a56, "d"), _a56);
@@ -3967,30 +3965,30 @@ var o = (_a57 = class extends D {
   get isGenerated() {
     return this._text !== void 0;
   }
-  fromNew(e) {
-    super.fromNew(e), this._prompt = e.prompt, this._options = e.options?.model ? e.options : { model: a2.RIGEL, ...e.options };
+  fromNew(e2) {
+    super.fromNew(e2), this._prompt = e2.prompt, this._options = e2.options?.model ? e2.options : { model: a2.RIGEL, ...e2.options };
   }
-  fromJSON(e) {
-    this._prompt = e.prompt, this._text = e.text, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
+  fromJSON(e2) {
+    this._prompt = e2.prompt, this._text = e2.text, this._vector = e2.embedding ? new i5(e2.embedding) : void 0, this._model = e2.model, this._date = e2.date, this._aFrameVersion = e2.aFrameVersion, this._aFrameServerVersion = e2.aFrameServerVersion;
   }
   toJSON() {
     return { ...super.toJSON(), prompt: this._prompt, text: this._text, embedding: this._vector?.values, model: this._model, date: this._date, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion };
   }
-  generate(e) {
-    return this.call(n4.Generate, e);
+  generate(e2) {
+    return this.call(n4.Generate, e2);
   }
-  hydrateFromGeneration(e) {
-    this._text = e.text, this._vector = new i5(e.embedding), this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
+  hydrateFromGeneration(e2) {
+    this._text = e2.text, this._vector = new i5(e2.embedding), this._model = e2.model, this._date = e2.date, this._aFrameVersion = e2.aFrameVersion, this._aFrameServerVersion = e2.aFrameServerVersion;
   }
 }, __name(_a57, "o"), _a57);
 j2(o, "A_FrameCompletion");
 var m4 = o;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-J5F4MJEB.mjs
-var r5 = { Load: "_A_FRAME_SEGMENT_LOAD", Save: "_A_FRAME_SEGMENT_SAVE", Embed: "_A_FRAME_SEGMENT_EMBED", Destroy: "_A_FRAME_SEGMENT_DESTROY" };
+var r6 = { Load: "_A_FRAME_SEGMENT_LOAD", Save: "_A_FRAME_SEGMENT_SAVE", Embed: "_A_FRAME_SEGMENT_EMBED", Destroy: "_A_FRAME_SEGMENT_DESTROY" };
 var g2 = { summary: "string - one concise sentence describing what the text is about", keywords: "string - comma-separated list of 5-15 lower-case keywords most useful for searching this text; prefer single words or short noun phrases", topics: 'string - comma-separated list of 1-5 higher-level topics or themes this text belongs to (broader than keywords, e.g. "authentication", "dependency injection")' };
 function A3(s4) {
-  return s4 ? s4.split(/[,;\n]/).map((e) => e.trim().toLowerCase()).filter((e) => e.length > 0).filter((e, t4, m7) => m7.indexOf(e) === t4) : [];
+  return s4 ? s4.split(/[,;\n]/).map((e2) => e2.trim().toLowerCase()).filter((e2) => e2.length > 0).filter((e2, t4, m7) => m7.indexOf(e2) === t4) : [];
 }
 __name(A3, "A");
 j2(A3, "parseSegmentExtractionList");
@@ -4056,42 +4054,42 @@ var o2 = (_a58 = class extends D {
   get credentialId() {
     return this._credentialId;
   }
-  save(e) {
-    return this.call(r5.Save, e);
+  save(e2) {
+    return this.call(r6.Save, e2);
   }
-  destroy(e) {
-    return this.call(r5.Destroy, e);
+  destroy(e2) {
+    return this.call(r6.Destroy, e2);
   }
-  async load(e) {
-    return this.call(r5.Load, e);
+  async load(e2) {
+    return this.call(r6.Load, e2);
   }
-  update(e) {
-    e.content && (this._content = e.content);
+  update(e2) {
+    e2.content && (this._content = e2.content);
   }
-  embed(e) {
-    return this.call(r5.Embed, e);
+  embed(e2) {
+    return this.call(r6.Embed, e2);
   }
-  fromNew(e) {
-    super.fromNew(e), this._content = e.content, this._options = { model: a2.ANTARES, ...e.options }, this._index = e.index;
+  fromNew(e2) {
+    super.fromNew(e2), this._content = e2.content, this._options = { model: a2.ANTARES, ...e2.options }, this._index = e2.index;
     let t4 = this._content;
-    this._hash = r3.fnv1a(t4);
+    this._hash = r4.fnv1a(t4);
   }
-  fromJSON(e) {
-    super.fromJSON(e), this._content = e.content, this._hash = e.hash, this._vector = e.embedding ? new i5(e.embedding) : void 0, this._embeddedAt = e.embeddedAt, this._model = e.model, this._credentialId = e.credentialId, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion, this._index = e.index, e.task && (this._options = { ...this._options, task: e.task }), this._extraction = e.extraction;
+  fromJSON(e2) {
+    super.fromJSON(e2), this._content = e2.content, this._hash = e2.hash, this._vector = e2.embedding ? new i5(e2.embedding) : void 0, this._embeddedAt = e2.embeddedAt, this._model = e2.model, this._credentialId = e2.credentialId, this._aFrameVersion = e2.aFrameVersion, this._aFrameServerVersion = e2.aFrameServerVersion, this._index = e2.index, e2.task && (this._options = { ...this._options, task: e2.task }), this._extraction = e2.extraction;
   }
   toJSON() {
     return { ...super.toJSON(), hash: this._hash, content: this._content, embedding: this._vector?.values, embeddedAt: this._embeddedAt ?? (/* @__PURE__ */ new Date()).toISOString(), task: this._options?.task, index: this._index, model: this._model, credentialId: this._credentialId, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion, extraction: this._extraction };
   }
-  hydrateFromRecord(e) {
-    if (e.hash !== this._hash) throw new Error(`A_FrameSegment.hydrateFromRecord: hash mismatch for "${this._content}" (expected ${this._hash}, got ${e.hash})`);
-    this._vector = new i5(e.embedding), this._embeddedAt = e.embeddedAt, e.task && (this._options = { ...this._options, task: e.task });
+  hydrateFromRecord(e2) {
+    if (e2.hash !== this._hash) throw new Error(`A_FrameSegment.hydrateFromRecord: hash mismatch for "${this._content}" (expected ${this._hash}, got ${e2.hash})`);
+    this._vector = new i5(e2.embedding), this._embeddedAt = e2.embeddedAt, e2.task && (this._options = { ...this._options, task: e2.task });
   }
-  hydrateFromEmbedding(e) {
-    this._vector = new i5(e);
+  hydrateFromEmbedding(e2) {
+    this._vector = new i5(e2);
   }
-  clone(e) {
+  clone(e2) {
     let t4 = new _a58(this.toJSON());
-    return t4.aseid = t4.generateASEID(e), t4;
+    return t4.aseid = t4.generateASEID(e2), t4;
   }
   toString() {
     return [`// content: ${this._content}`].join(`
@@ -4099,50 +4097,118 @@ var o2 = (_a58 = class extends D {
   }
 }, __name(_a58, "o"), _a58);
 j2(o2, "A_FrameSegment");
-var _4 = o2;
+var _3 = o2;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-OVTCNCGJ.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-PXMJ6J7L.mjs
 var _a59;
-var A4 = (_a59 = class extends D {
+var w4 = (_a59 = class extends D {
   static get concept() {
     return "a-frame";
   }
-  fromNew(i6) {
-    this.version = i6.version, this.timestamp = i6.timestamp, this.reason = i6.reason, this.encoded = i6.encoded, this.delta = i6.delta;
+  fromNew(n7) {
+    this.version = n7.version, this.timestamp = n7.timestamp, this.reason = n7.reason, this.encoded = n7.encoded, this.delta = n7.delta;
   }
   toJSON() {
     return { ...super.toJSON(), version: this.version, timestamp: this.timestamp, reason: this.reason, encoded: this.encoded, delta: this.delta };
   }
-}, __name(_a59, "A"), _a59);
-j2(A4, "A_FrameDynamicPatch");
-var l2 = A4;
-var F3 = { Generate: "_A_FRAME_DYNAMIC_CONTENT_GENERATE", Patch: "_A_FRAME_DYNAMIC_CONTENT_PATCH" };
+}, __name(_a59, "w"), _a59);
+j2(w4, "A_FrameDynamicPatch");
+var h4 = w4;
+var P3 = { Generate: "_A_FRAME_DYNAMIC_CONTENT_GENERATE", Patch: "_A_FRAME_DYNAMIC_CONTENT_PATCH" };
+var F3 = { planSystem: ["You are an editorial planner. Return ONLY a JSON array of content sections.", 'Each element must be an object: {"title": string, "type": string, "prompt": string}.', '"title" is a short section heading.', '"type" is a one-word hint for how the section will be RENDERED later', "(e.g. title, paragraph, list, table, chart, callout, profile, image).", '"prompt" is a concise instruction describing the INFORMATION the section should contain,', "to be written as plain, natural-language text.", 'CRITICAL: the "prompt" must NEVER ask to generate HTML, code, markdown, tables, charts, or any markup \u2014', 'visual form is conveyed ONLY by "type" and is applied downstream by the renderer.', 'For data-heavy sections (chart/table/stats), phrase the "prompt" to request the underlying values stated plainly', '(e.g. "give each district and its estimated number"), not a rendered chart or table.', "Use varied types across the plan. Output ONLY the JSON array \u2014 no markdown fences, no prose."].join(" "), planTemplate: j2(({ subject: p4, instruction: n7 }) => ["Create a content plan for the following theme:", `"${p4}".`, n7 ? `Additional guidance: ${n7}` : "", "Return 5\u20139 sections."].filter(Boolean).join(" "), "planTemplate"), sectionTemplate: j2(({ theme: p4, prompt: n7 }) => {
+  let e2 = ["Write the section as plain text only.", "Do NOT use HTML, markdown, code blocks, tables, or any markup or formatting syntax.", 'State any figures or comparisons as simple natural sentences or "Label: value" lines', "so they can be extracted later.", "Output only the section content \u2014 no headings, no commentary."].join(" ");
+  return p4 ? `Theme: "${p4}".
+
+${e2}
+
+${n7}` : `${e2}
+
+${n7}`;
+}, "sectionTemplate") };
 var _a60;
-var S3 = (_a60 = class extends H {
-  constructor(e = {}) {
+var C4 = (_a60 = class extends H {
+  constructor(e2 = {}) {
     super({ name: "a-frame-dynamic-content-operation-context" });
     this._meta = /* @__PURE__ */ new Map();
-    this._meta.set("params", e);
+    this._meta.set("params", e2);
   }
   get params() {
     return this._meta.get("params");
   }
-  get(e) {
-    return this._meta.get(e);
+  get(e2) {
+    return this._meta.get(e2);
   }
-  set(e, t4) {
-    this._meta.set(e, t4);
+  set(e2, t4) {
+    this._meta.set(e2, t4);
   }
-}, __name(_a60, "S"), _a60);
-j2(S3, "A_FrameDynamicContentOperation");
-var f2 = S3;
+}, __name(_a60, "C"), _a60);
+j2(C4, "A_FrameDynamicContentOperation");
+var f2 = C4;
 var _a61;
-var h4 = (_a61 = class extends b {
-}, __name(_a61, "h"), _a61);
-j2(h4, "A_FrameDynamicContentError"), h4.GenerationFailed = "GenerationFailed", h4.PatchFailed = "PatchFailed", h4.InvalidPatch = "InvalidPatch", h4.PieceNotFound = "PieceNotFound";
-var m5 = h4;
+var S3 = (_a61 = class extends H {
+  constructor() {
+    super({ name: "a-frame-dynamic-content-plan" });
+    this._sections = [];
+    this._cursor = 0;
+    this._version = 0;
+  }
+  get sections() {
+    return this._sections;
+  }
+  get size() {
+    return this._sections.length;
+  }
+  get isEmpty() {
+    return this._sections.length === 0;
+  }
+  get version() {
+    return this._version;
+  }
+  get cursor() {
+    return this._cursor;
+  }
+  get done() {
+    return this._cursor >= this._sections.length;
+  }
+  hydrateFromText(e2) {
+    return this.set(_a61.parse(e2)), this._sections;
+  }
+  set(e2) {
+    this._sections = e2.map((t4) => ({ ...t4 })), this._cursor = 0, this._version++;
+  }
+  advance() {
+    if (!this.done) return this._sections[this._cursor++];
+  }
+  reset() {
+    this._cursor = 0;
+  }
+  clear() {
+    this._sections = [], this._cursor = 0;
+  }
+  static parse(e2) {
+    if (!e2?.trim()) return [];
+    let t4 = e2.match(/```(?:json)?\s*([\s\S]*?)```/), i6 = (t4 ? t4[1] : e2).trim(), r9;
+    try {
+      r9 = JSON.parse(i6);
+    } catch {
+      return [];
+    }
+    return Array.isArray(r9) ? r9.map((o3) => {
+      if (!o3 || typeof o3 != "object") return null;
+      let s4 = o3, c3 = typeof s4.prompt == "string" ? s4.prompt.trim() : "";
+      return c3 ? { title: typeof s4.title == "string" ? s4.title.trim() : "", prompt: c3, ...typeof s4.type == "string" ? { type: s4.type.trim() } : {} } : null;
+    }).filter((o3) => o3 !== null) : [];
+  }
+}, __name(_a61, "S"), _a61);
+j2(S3, "A_FrameDynamicContentPlan");
+var A4 = S3;
 var _a62;
-var p3 = (_a62 = class extends H {
+var d3 = (_a62 = class extends b {
+}, __name(_a62, "d"), _a62);
+j2(d3, "A_FrameDynamicContentError"), d3.GenerationFailed = "GenerationFailed", d3.PatchFailed = "PatchFailed", d3.InvalidPatch = "InvalidPatch", d3.PieceNotFound = "PieceNotFound", d3.PlanFailed = "PlanFailed", d3.NextFailed = "NextFailed", d3.NothingToGenerate = "NothingToGenerate";
+var m5 = d3;
+var _a63;
+var _4 = (_a63 = class extends H {
   constructor() {
     super(...arguments);
     this._order = [];
@@ -4154,122 +4220,129 @@ var p3 = (_a62 = class extends H {
   get size() {
     return this._order.length;
   }
-  add(...e) {
-    e.forEach((t4) => {
+  add(...e2) {
+    e2.forEach((t4) => {
       this._map.set(t4.id, t4), this._order.includes(t4.id) || this._order.push(t4.id);
     });
   }
-  update(e) {
-    this._map.set(e.id, e), this._order.includes(e.id) || this._order.push(e.id);
+  update(e2) {
+    this._map.set(e2.id, e2), this._order.includes(e2.id) || this._order.push(e2.id);
   }
-  remove(e) {
-    this._map.delete(e);
-    let t4 = this._order.indexOf(e);
+  remove(e2) {
+    this._map.delete(e2);
+    let t4 = this._order.indexOf(e2);
     t4 !== -1 && this._order.splice(t4, 1);
   }
   clear() {
     this._map.clear(), this._order = [];
   }
-  insertBefore(e, t4) {
+  insertBefore(e2, t4) {
     this._map.set(t4.id, t4);
-    let n6 = this._order.indexOf(e);
-    n6 === -1 ? this._order.push(t4.id) : this._order.splice(n6, 0, t4.id);
+    let i6 = this._order.indexOf(e2);
+    i6 === -1 ? this._order.push(t4.id) : this._order.splice(i6, 0, t4.id);
   }
-  insertAfter(e, t4) {
+  insertAfter(e2, t4) {
     this._map.set(t4.id, t4);
-    let n6 = this._order.indexOf(e);
-    n6 === -1 ? this._order.push(t4.id) : this._order.splice(n6 + 1, 0, t4.id);
+    let i6 = this._order.indexOf(e2);
+    i6 === -1 ? this._order.push(t4.id) : this._order.splice(i6 + 1, 0, t4.id);
   }
-  replace(e, t4) {
-    let n6 = this._order.indexOf(e);
-    n6 !== -1 && (this._map.delete(e), this._map.set(t4.id, t4), this._order[n6] = t4.id);
+  replace(e2, t4) {
+    let i6 = this._order.indexOf(e2);
+    i6 !== -1 && (this._map.delete(e2), this._map.set(t4.id, t4), this._order[i6] = t4.id);
   }
-  moveTo(e, t4) {
-    let n6 = this._order.indexOf(e);
-    if (n6 === -1) return;
-    this._order.splice(n6, 1);
-    let r8 = Math.max(0, Math.min(t4, this._order.length));
-    this._order.splice(r8, 0, e);
+  moveTo(e2, t4) {
+    let i6 = this._order.indexOf(e2);
+    if (i6 === -1) return;
+    this._order.splice(i6, 1);
+    let r9 = Math.max(0, Math.min(t4, this._order.length));
+    this._order.splice(r9, 0, e2);
   }
-  moveBefore(e, t4) {
-    let n6 = this._order.indexOf(e);
-    if (n6 === -1) return;
-    this._order.splice(n6, 1);
-    let r8 = this._order.indexOf(t4);
-    this._order.splice(r8 === -1 ? 0 : r8, 0, e);
+  moveBefore(e2, t4) {
+    let i6 = this._order.indexOf(e2);
+    if (i6 === -1) return;
+    this._order.splice(i6, 1);
+    let r9 = this._order.indexOf(t4);
+    this._order.splice(r9 === -1 ? 0 : r9, 0, e2);
   }
-  moveAfter(e, t4) {
-    let n6 = this._order.indexOf(e);
-    if (n6 === -1) return;
-    this._order.splice(n6, 1);
-    let r8 = this._order.indexOf(t4);
-    this._order.splice(r8 === -1 ? this._order.length : r8 + 1, 0, e);
+  moveAfter(e2, t4) {
+    let i6 = this._order.indexOf(e2);
+    if (i6 === -1) return;
+    this._order.splice(i6, 1);
+    let r9 = this._order.indexOf(t4);
+    this._order.splice(r9 === -1 ? this._order.length : r9 + 1, 0, e2);
   }
-  applyOperation(e, t4) {
-    switch (e.action) {
+  applyOperation(e2, t4) {
+    switch (e2.action) {
       case "remove": {
-        e.targetId && this.remove(e.targetId);
+        e2.targetId && this.remove(e2.targetId);
         break;
       }
       case "replace": {
-        e.targetId && t4 && this.replace(e.targetId, t4);
+        e2.targetId && t4 && this.replace(e2.targetId, t4);
         break;
       }
       case "add": {
         if (!t4) break;
-        !e.targetId || e.position === "append" ? this.add(t4) : e.position === "before" ? this.insertBefore(e.targetId, t4) : this.insertAfter(e.targetId, t4);
+        !e2.targetId || e2.position === "append" ? this.add(t4) : e2.position === "before" ? this.insertBefore(e2.targetId, t4) : this.insertAfter(e2.targetId, t4);
         break;
       }
     }
   }
-  get(e) {
-    return this._map.get(e);
+  get(e2) {
+    return this._map.get(e2);
   }
   list() {
-    return this._order.map((e) => this._map.get(e)).filter((e) => e !== void 0);
+    return this._order.map((e2) => this._map.get(e2)).filter((e2) => e2 !== void 0);
   }
   centroid() {
-    let e = this.list().filter((r8) => r8.isEmbed && r8.vector);
-    if (e.length === 0) return null;
-    let t4 = e[0].vector.length, n6 = new Float32Array(t4);
-    for (let r8 of e) {
-      let o3 = r8.vector.values;
-      for (let s4 = 0; s4 < t4; s4++) n6[s4] += o3[s4];
+    let e2 = this.list().filter((r9) => r9.isEmbed && r9.vector);
+    if (e2.length === 0) return null;
+    let t4 = e2[0].vector.length, i6 = new Float32Array(t4);
+    for (let r9 of e2) {
+      let o3 = r9.vector.values;
+      for (let s4 = 0; s4 < t4; s4++) i6[s4] += o3[s4];
     }
-    for (let r8 = 0; r8 < t4; r8++) n6[r8] /= e.length;
-    return new i5(n6);
+    for (let r9 = 0; r9 < t4; r9++) i6[r9] /= e2.length;
+    return new i5(i6);
   }
-  search(e, t4 = _a62.PATCH_PIECE_LIMIT) {
-    let n6 = e.normalize();
-    return this.list().filter((r8) => r8.isEmbed && r8.vector).map((r8) => ({ segment: r8, score: n6.dot(r8.vector.normalize()) })).sort((r8, o3) => o3.score - r8.score).slice(0, t4);
+  search(e2, t4 = _a63.PATCH_PIECE_LIMIT) {
+    let i6 = e2.normalize();
+    return this.list().filter((r9) => r9.isEmbed && r9.vector).map((r9) => ({ segment: r9, score: i6.dot(r9.vector.normalize()) })).sort((r9, o3) => o3.score - r9.score).slice(0, t4);
   }
-  searchByKeywords(e, t4 = _a62.PATCH_PIECE_LIMIT) {
-    let n6 = e.toLowerCase().split(/\W+/).filter((r8) => r8.length > 3);
-    return n6.length === 0 ? [] : this.list().map((r8) => {
-      let o3 = r8.content.toLowerCase(), s4 = n6.reduce((a4, c3) => a4 + (o3.includes(c3) ? 1 : 0), 0);
-      return { segment: r8, score: s4 };
-    }).filter((r8) => r8.score > 0).sort((r8, o3) => o3.score - r8.score).slice(0, t4);
+  searchByKeywords(e2, t4 = _a63.PATCH_PIECE_LIMIT) {
+    let i6 = e2.toLowerCase().split(/\W+/).filter((r9) => r9.length > 3);
+    return i6.length === 0 ? [] : this.list().map((r9) => {
+      let o3 = r9.content.toLowerCase(), s4 = i6.reduce((c3, l4) => c3 + (o3.includes(l4) ? 1 : 0), 0);
+      return { segment: r9, score: s4 };
+    }).filter((r9) => r9.score > 0).sort((r9, o3) => o3.score - r9.score).slice(0, t4);
   }
-  selectForPatch(e, t4, n6 = _a62.PATCH_PIECE_LIMIT) {
-    let r8 = this.list();
-    if (r8.length <= n6) return r8;
-    if (e && r8.some((a4) => a4.isEmbed)) {
-      let a4 = this.search(e, n6);
-      if (a4.length > 0) return a4.map((c3) => c3.segment);
+  selectForPatch(e2, t4, i6 = _a63.PATCH_PIECE_LIMIT) {
+    let r9 = this.list();
+    if (r9.length <= i6) return r9;
+    if (e2 && r9.some((c3) => c3.isEmbed)) {
+      let c3 = this.search(e2, i6);
+      if (c3.length > 0) return c3.map((l4) => l4.segment);
     }
-    let o3 = this.searchByKeywords(t4, n6);
-    return o3.length > 0 ? o3.map((s4) => s4.segment) : r8.slice(0, n6);
+    let o3 = this.searchByKeywords(t4, i6);
+    return o3.length > 0 ? o3.map((s4) => s4.segment) : r9.slice(0, i6);
   }
-  cosineSimilarity(e, t4) {
+  cosineSimilarity(e2, t4) {
     if (!t4) return 0;
-    let n6 = e.dot(t4), r8 = e.magnitude() * t4.magnitude();
-    return r8 === 0 ? 0 : n6 / r8;
+    let i6 = e2.dot(t4), r9 = e2.magnitude() * t4.magnitude();
+    return r9 === 0 ? 0 : i6 / r9;
   }
-}, __name(_a62, "p"), _a62);
-j2(p3, "A_FrameDynamicContentIndex"), p3.PATCH_PIECE_LIMIT = 5;
-var _5 = p3;
-var _a63;
-var g3 = (_a63 = class extends D {
+}, __name(_a63, "_"), _a63);
+j2(_4, "A_FrameDynamicContentIndex"), _4.PATCH_PIECE_LIMIT = 5;
+var g3 = _4;
+function v4(p4) {
+  let n7 = new TextEncoder().encode(p4), e2 = "";
+  for (let t4 = 0; t4 < n7.length; t4++) e2 += String.fromCharCode(n7[t4]);
+  return typeof btoa == "function" ? btoa(e2) : Buffer.from(p4, "utf8").toString("base64");
+}
+__name(v4, "v");
+j2(v4, "_encodeBase64");
+var _a64;
+var u2 = (_a64 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4277,18 +4350,23 @@ var g3 = (_a63 = class extends D {
     return this._scope || (this._scope = _.allocate(this, new R({ name: `${this.aseid.id}-scope` }))), this._scope;
   }
   get index() {
-    return this.scope.resolve(_5);
+    return this.scope.resolve(g3);
   }
-  fromNew(i6) {
-    super.fromNew(i6);
-    let e = new _5({ name: `${this.aseid.id}` });
-    this.scope.register(e), this.createdAt = Date.now(), this.prompt = i6.prompt, this.model = i6.options?.model || a2.LYRA, this._system = i6.options?.system, this._patchPieceLimit = i6.options?.patchPieceLimit || _5.PATCH_PIECE_LIMIT, this._splitStrategy = i6.options?.splitStrategy ?? "paragraph", this._history = [], this._version = 0;
+  get planContext() {
+    return this.scope.resolve(A4);
+  }
+  fromNew(n7) {
+    super.fromNew(n7);
+    let e2 = new g3({ name: `${this.aseid.id}` });
+    this.scope.register(e2);
+    let t4 = new A4();
+    this.scope.register(t4), this.createdAt = Date.now(), this.prompt = n7.prompt, this._theme = n7.theme, this.model = n7.options?.model || a2.LYRA, this._system = n7.options?.system, this._patchPieceLimit = n7.options?.patchPieceLimit || g3.PATCH_PIECE_LIMIT, this._splitStrategy = n7.options?.splitStrategy ?? "paragraph", this._planSystem = n7.options?.planSystem ?? F3.planSystem, this._planTemplate = n7.options?.planTemplate ?? F3.planTemplate, this._sectionTemplate = n7.options?.sectionTemplate ?? F3.sectionTemplate, this._history = [], this._version = 0;
   }
   get segments() {
     return this.index.list();
   }
   get content() {
-    return this.index.list().map((i6) => i6.content).join(`
+    return this.index.list().map((n7) => n7.content).join(`
 `);
   }
   get text() {
@@ -4296,6 +4374,15 @@ var g3 = (_a63 = class extends D {
   }
   get history() {
     return this._history;
+  }
+  get theme() {
+    return this._theme;
+  }
+  setTheme(n7) {
+    return this._theme = n7, this;
+  }
+  get outline() {
+    return this.planContext.sections;
   }
   get version() {
     return this._version;
@@ -4310,80 +4397,119 @@ var g3 = (_a63 = class extends D {
     return this._splitStrategy;
   }
   async generate() {
-    let i6 = new f2();
-    this.scope.isInheritedFrom(_.scope(this)) || this.scope.inherit(_.scope(this));
-    let e = new R({ name: "a-frame-dynamic-content-generate", fragments: [i6] }).inherit(this.scope);
+    let n7 = this.planContext;
+    if (n7.isEmpty && !this.prompt) throw new m5({ title: m5.NothingToGenerate, description: "generate() needs either a 'prompt' (one-shot generation) or a plan (call plan() first, which uses the content 'theme'). This content has neither." });
+    if (this._linkScope(), !n7.isEmpty) {
+      for (let i6 of n7.sections) await this.next(i6.prompt, { title: i6.title, type: i6.type });
+      return;
+    }
+    let e2 = new f2(), t4 = new R({ name: "a-frame-dynamic-content-generate", fragments: [e2] }).inherit(this.scope);
     try {
-      await this.call(F3.Generate, e), e.destroy();
-    } catch (t4) {
-      throw e.destroy(), new m5({ title: m5.GenerationFailed, description: `Failed to generate content: ${t4 instanceof Error ? t4.message : String(t4)}` });
+      await this.call(P3.Generate, t4), t4.destroy();
+    } catch (i6) {
+      throw t4.destroy(), new m5({ title: m5.GenerationFailed, description: `Failed to generate content: ${i6 instanceof Error ? i6.message : String(i6)}` });
     }
   }
-  async patch(i6, e$1) {
-    this.scope.isInheritedFrom(_.scope(this)) || this.scope.inherit(_.scope(this));
-    let t4 = new R({ name: "a-frame-dynamic-content-patch" }).inherit(this.scope), n6;
-    if (e$1 !== void 0) {
-      let o3 = Array.isArray(e$1) ? e$1 : [e$1], s4 = o3.filter((a4) => !this.index.get(a4.id));
-      if (s4.length > 0) throw t4.destroy(), new m5({ title: m5.PatchFailed, description: "Segment(s) not found in this content's index: " + s4.map((a4) => `"${a4.id}"`).join(", ") + ". Only segments that belong to this DynamicContent instance can be targeted." });
-      n6 = o3;
-    } else {
-      let o3 = new _4({ content: i6, options: { task: "query" } });
-      t4.register(o3), await o3.embed(), n6 = this.index.selectForPatch(o3.vector ?? null, i6, this._patchPieceLimit);
-    }
-    let r8 = new f2({ instruction: i6, segments: n6 });
-    t4.register(r8);
+  async plan(n7) {
+    let e2 = this._theme ?? this.prompt;
+    if (!e2) throw new m5({ title: m5.PlanFailed, description: "plan() requires a 'theme' (or 'prompt') to plan around \u2014 none was set." });
+    this._linkScope();
+    let t4 = new m4({ prompt: this._planTemplate({ subject: e2, instruction: n7 }), options: { system: this._planSystem, max_tokens: 900 } });
+    this.scope.register(t4);
     try {
-      await this.call(F3.Patch, t4), t4.destroy();
+      await t4.generate();
+    } catch (r9) {
+      throw new m5({ title: m5.PlanFailed, description: `Failed to plan content: ${r9 instanceof Error ? r9.message : String(r9)}` });
+    } finally {
+      this.scope.deregister(t4);
+    }
+    let i6 = this.planContext.hydrateFromText(t4.text ?? "");
+    if (i6.length === 0) throw new m5({ title: m5.PlanFailed, description: `Planner returned no usable sections. Raw output: ${(t4.text ?? "").slice(0, 200)}` });
+    return i6;
+  }
+  async next(n7, e$1) {
+    this._linkScope();
+    let t4 = new m4({ prompt: this._sectionTemplate({ theme: this._theme, prompt: n7 }), options: { model: this.model, ...this._system !== void 0 ? { system: this._system } : {}, max_tokens: 400 } });
+    this.scope.register(t4);
+    try {
+      await t4.generate();
+    } catch (r9) {
+      throw new m5({ title: m5.NextFailed, description: `Failed to generate next section: ${r9 instanceof Error ? r9.message : String(r9)}` });
+    } finally {
+      this.scope.deregister(t4);
+    }
+    let i6 = new _3({ content: (t4.text ?? "").trim(), options: { task: "document" } });
+    return t4.embedding && i6.hydrateFromEmbedding(t4.embedding), this.index.add(i6), this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: `Next section${e$1?.title ? ` "${e$1.title}"` : ""}: "${n7}"`, encoded: v4(JSON.stringify(this.index.list())), delta: 1 })), i6;
+  }
+  _linkScope() {
+    this.scope.isInheritedFrom(_.scope(this)) || this.scope.inherit(_.scope(this));
+  }
+  async patch(n7, e$1) {
+    this._linkScope();
+    let t4 = new R({ name: "a-frame-dynamic-content-patch" }).inherit(this.scope), i6;
+    if (e$1 !== void 0) {
+      let o3 = Array.isArray(e$1) ? e$1 : [e$1], s4 = o3.filter((c3) => !this.index.get(c3.id));
+      if (s4.length > 0) throw t4.destroy(), new m5({ title: m5.PatchFailed, description: "Segment(s) not found in this content's index: " + s4.map((c3) => `"${c3.id}"`).join(", ") + ". Only segments that belong to this DynamicContent instance can be targeted." });
+      i6 = o3;
+    } else {
+      let o3 = new _3({ content: n7, options: { task: "query" } });
+      t4.register(o3), await o3.embed(), i6 = this.index.selectForPatch(o3.vector ?? null, n7, this._patchPieceLimit);
+    }
+    let r9 = new f2({ instruction: n7, segments: i6 });
+    t4.register(r9);
+    try {
+      await this.call(P3.Patch, t4), t4.destroy();
     } catch (o3) {
       throw t4.destroy(), new m5({ title: m5.PatchFailed, description: `Failed to patch content: ${o3 instanceof Error ? o3.message : String(o3)}` });
     }
   }
-  compareTo(i6) {
-    let e = this.index.centroid(), t4 = i6.index.centroid();
-    return !e || !t4 ? 0 : e.cosineSimilarity(t4);
+  compareTo(n7) {
+    let e2 = this.index.centroid(), t4 = n7.index.centroid();
+    return !e2 || !t4 ? 0 : e2.cosineSimilarity(t4);
   }
-  hydrateFromGeneration(i6, e) {
-    i6.forEach((t4) => this.index.add(t4)), this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size }));
+  hydrateFromGeneration(n7, e2) {
+    n7.forEach((t4) => this.index.add(t4)), this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt ?? this._theme ?? ""}"`, encoded: v4(JSON.stringify(this.index.list())), delta: this.index.size }));
   }
-  _resolveSplitter(i6) {
-    return typeof i6 == "function" ? i6 : _a63.SPLITTERS[i6] ?? _a63.SPLITTERS.paragraph;
+  _resolveSplitter(n7) {
+    return typeof n7 == "function" ? n7 : _a64.SPLITTERS[n7] ?? _a64.SPLITTERS.paragraph;
   }
-  hydrateFromText(i6, e$1) {
+  hydrateFromText(n7, e$1) {
     if (this.index.size > 0) throw new m5({ title: m5.GenerationFailed, description: `hydrateFromText() called on a non-empty content (${this.index.size} segments). Hydration sources must not be mixed \u2014 create a fresh A_FrameDynamicContent instead.` });
-    let n6 = this._resolveSplitter(e$1 ?? this._splitStrategy)(i6 ?? "").filter((r8) => r8.trim().length > 0);
-    for (let r8 of n6) {
-      let o3 = new _4({ content: r8, options: { task: "document" } });
+    let i6 = this._resolveSplitter(e$1 ?? this._splitStrategy)(n7 ?? "").filter((r9) => r9.trim().length > 0);
+    for (let r9 of i6) {
+      let o3 = new _3({ content: r9, options: { task: "document" } });
       this.index.add(o3);
     }
-    return this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Hydrated from local text (${n6.length} segments)`, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size })), n6.length;
+    return this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: `Hydrated from local text (${i6.length} segments)`, encoded: v4(JSON.stringify(this.index.list())), delta: this.index.size })), i6.length;
   }
-  hydrateFromPatch(i6, e$1) {
-    let t4 = this.index.size, n6 = j2((s4) => s4.toLowerCase().replace(/[^\w\s]/g, "").replace(/\s+/g, " ").trim(), "normalize"), r8 = this.index.list().map((s4) => n6(s4.content)), o3 = j2((s4) => {
-      let a4 = n6(s4);
-      return a4.length < 8 ? false : r8.some((c3) => c3 === a4 || c3.includes(a4));
+  hydrateFromPatch(n7, e$1) {
+    let t4 = this.index.size, i6 = j2((s4) => s4.toLowerCase().replace(/[^\w\s]/g, "").replace(/\s+/g, " ").trim(), "normalize"), r9 = this.index.list().map((s4) => i6(s4.content)), o3 = j2((s4) => {
+      let c3 = i6(s4);
+      return c3.length < 8 ? false : r9.some((l4) => l4 === c3 || l4.includes(c3));
     }, "isNearDuplicate");
-    for (let s4 of i6.operations) {
+    for (let s4 of n7.operations) {
       if (!["add", "replace", "remove"].includes(s4.action)) continue;
-      let a4;
+      let c3;
       if (s4.segment) {
         if ((s4.action === "add" || s4.action === "replace") && o3(s4.segment.content)) continue;
-        a4 = new _4({ content: s4.segment.content, options: { task: "document" } }), s4.segment.embedding?.length && a4.hydrateFromEmbedding(new Float32Array(s4.segment.embedding));
+        c3 = new _3({ content: s4.segment.content, options: { task: "document" } }), s4.segment.embedding?.length && c3.hydrateFromEmbedding(new Float32Array(s4.segment.embedding));
       }
-      s4.action === "add" && ((/* @__PURE__ */ new Set(["before", "after", "append", void 0])).has(s4.position) || (s4.position = "append", s4.targetId = void 0)), this.index.applyOperation(s4, a4);
+      s4.action === "add" && ((/* @__PURE__ */ new Set(["before", "after", "append", void 0])).has(s4.position) || (s4.position = "append", s4.targetId = void 0)), this.index.applyOperation(s4, c3);
     }
-    this._version++, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: i6.patchSummary, encoded: Buffer.from(JSON.stringify(this.index.list())).toString("base64"), delta: this.index.size - t4 }));
+    this._version++, this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: n7.patchSummary, encoded: v4(JSON.stringify(this.index.list())), delta: this.index.size - t4 }));
   }
   toJSON() {
-    return { ...super.toJSON(), prompt: this.prompt, metadata: { model: this.model, createdAt: this.createdAt }, history: this._history.map((i6) => i6.toJSON()) };
+    return { ...super.toJSON(), prompt: this.prompt, theme: this._theme, metadata: { model: this.model, createdAt: this.createdAt }, plan: this.planContext.size > 0 ? this.planContext.sections.map((n7) => ({ ...n7 })) : void 0, history: this._history.map((n7) => n7.toJSON()) };
   }
-}, __name(_a63, "g"), _a63);
-j2(g3, "A_FrameDynamicContent"), g3.SPLITTERS = { paragraph: j2((i6) => i6.split(/\n\s*\n+/).map((e) => e.trim()), "paragraph"), line: j2((i6) => i6.split(/\r?\n/).map((e) => e.trim()), "line"), sentence: j2((i6) => i6.split(/(?<=[.!?])\s+/).map((e) => e.trim()), "sentence"), none: j2((i6) => [i6], "none") };
-var w4 = g3;
+}, __name(_a64, "u"), _a64);
+j2(u2, "A_FrameDynamicContent"), u2.SPLITTERS = { paragraph: j2((n7) => n7.split(/\n\s*\n+/).map((e2) => e2.trim()), "paragraph"), line: j2((n7) => n7.split(/\r?\n/).map((e2) => e2.trim()), "line"), sentence: j2((n7) => n7.split(/(?<=[.!?])\s+/).map((e2) => e2.trim()), "sentence"), none: j2((n7) => [n7], "none") };
+var N2 = u2;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-WZPDJK3P.mjs
-var r6 = { Extract: "_A_FRAME_SCHEMA_EXTRACT", ExtractMultiple: "_A_FRAME_SCHEMA_EXTRACT_MULTIPLE" };
-var _a64;
-var a3 = (_a64 = class extends D {
+// node_modules/@adaas/a-frame/dist/browser/chunk-P3D7O6GW.mjs
+var r7 = { Extract: "_A_FRAME_SCHEMA_EXTRACT", ExtractMultiple: "_A_FRAME_SCHEMA_EXTRACT_MULTIPLE" };
+var s2 = 1024;
+var _a65;
+var a3 = (_a65 = class extends D {
   static get concept() {
     return "a-frame";
   }
@@ -4414,39 +4540,39 @@ var a3 = (_a64 = class extends D {
   get isMultipleExtracted() {
     return this._dataArray !== void 0;
   }
-  fromNew(e) {
-    super.fromNew(e), this._prompt = e.prompt, this._schema = e.schema, this._options = e.options?.model ? e.options : { model: a2.NOVA, ...e.options };
+  fromNew(e2) {
+    super.fromNew(e2), this._prompt = e2.prompt, this._schema = e2.schema, this._options = { model: a2.NOVA, max_tokens: s2, ...e2.options };
   }
-  fromJSON(e) {
-    this._prompt = e.prompt, this._schema = e.schema, this._data = e.data, this._model = e.model, this._date = e.date, this._aFrameVersion = e.aFrameVersion, this._aFrameServerVersion = e.aFrameServerVersion;
+  fromJSON(e2) {
+    this._prompt = e2.prompt, this._schema = e2.schema, this._data = e2.data, this._model = e2.model, this._date = e2.date, this._aFrameVersion = e2.aFrameVersion, this._aFrameServerVersion = e2.aFrameServerVersion;
   }
   toJSON() {
     return { ...super.toJSON(), prompt: this._prompt, schema: this._schema, data: this._data, model: this._model, date: this._date, aFrameVersion: this._aFrameVersion, aFrameServerVersion: this._aFrameServerVersion };
   }
-  extract(e) {
-    return this.call(r6.Extract, e);
+  extract(e2) {
+    return this.call(r7.Extract, e2);
   }
-  extractMultiple(e) {
-    return this.call(r6.ExtractMultiple, e);
+  extractMultiple(e2) {
+    return this.call(r7.ExtractMultiple, e2);
   }
-  hydrateFromExtraction(e, t4) {
-    this._data = e, this._model = t4.model, this._date = t4.date, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion;
+  hydrateFromExtraction(e2, t4) {
+    this._data = e2, this._model = t4.model, this._date = t4.date, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion;
   }
-  hydrateFromMultipleExtraction(e, t4) {
-    this._dataArray = e, this._model = t4.model, this._date = t4.date, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion;
+  hydrateFromMultipleExtraction(e2, t4) {
+    this._dataArray = e2, this._model = t4.model, this._date = t4.date, this._aFrameVersion = t4.aFrameVersion, this._aFrameServerVersion = t4.aFrameServerVersion;
   }
-}, __name(_a64, "a"), _a64);
+}, __name(_a65, "a"), _a65);
 j2(a3, "A_FrameSchema");
-var s2 = a3;
+var n5 = a3;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-4KUCX5R6.mjs
-var d3 = { Request: "_A_FRAME_REQUEST", Socket: "_A_FRAME_SOCKET", Stream: "_A_FRAME_STREAM", Send: "_A_FRAME_SEND" };
-var _a65;
-var J2 = (_a65 = class extends H {
-  constructor(t4, r8, a4) {
+// node_modules/@adaas/a-frame/dist/browser/chunk-ZMLEUEON.mjs
+var d4 = { Request: "_A_FRAME_REQUEST", Socket: "_A_FRAME_SOCKET", Stream: "_A_FRAME_STREAM", Send: "_A_FRAME_SEND" };
+var _a66;
+var J2 = (_a66 = class extends H {
+  constructor(t4, r9, a4) {
     super({ name: "a-frame-channel-request" });
     this.method = t4;
-    this.path = r8;
+    this.path = r9;
     this.body = a4;
   }
   complete(t4) {
@@ -4461,22 +4587,22 @@ var J2 = (_a65 = class extends H {
   get error() {
     return this._error;
   }
-}, __name(_a65, "J"), _a65);
+}, __name(_a66, "J"), _a66);
 j2(J2, "A_FrameChannelRequest");
 var c2 = J2;
-var _a66;
-var N2 = (_a66 = class extends b {
-}, __name(_a66, "N"), _a66);
-j2(N2, "A_FrameChannelError"), N2.InvalidRequest = "InvalidRequest", N2.Timeout = "Timeout", N2.RequestFailed = "RequestFailed";
-var s3 = N2;
-var D3 = { Load: "_A_FRAME_DYNAMIC_STRUCTURE_LOAD", Patch: "_A_FRAME_DYNAMIC_STRUCTURE_PATCH", Generate: "_A_FRAME_DYNAMIC_STRUCTURE_GENERATE", Map: "_A_FRAME_DYNAMIC_STRUCTURE_MAP" };
 var _a67;
-var R3 = (_a67 = class extends b {
-}, __name(_a67, "R"), _a67);
-j2(R3, "A_FrameDynamicStructureError"), R3.InvalidPatch = "InvalidPatch", R3.VersionMismatch = "VersionMismatch", R3.ComponentNotFound = "ComponentNotFound", R3.InvalidOperation = "InvalidOperation", R3.GenerationFailed = "GenerationFailed";
-var y = R3;
+var b3 = (_a67 = class extends b {
+}, __name(_a67, "b"), _a67);
+j2(b3, "A_FrameChannelError"), b3.InvalidRequest = "InvalidRequest", b3.Timeout = "Timeout", b3.RequestFailed = "RequestFailed";
+var s3 = b3;
+var D3 = { Load: "_A_FRAME_DYNAMIC_STRUCTURE_LOAD", Patch: "_A_FRAME_DYNAMIC_STRUCTURE_PATCH", Generate: "_A_FRAME_DYNAMIC_STRUCTURE_GENERATE", Map: "_A_FRAME_DYNAMIC_STRUCTURE_MAP" };
 var _a68;
-var Y3 = (_a68 = class extends H {
+var E2 = (_a68 = class extends b {
+}, __name(_a68, "E"), _a68);
+j2(E2, "A_FrameDynamicStructureError"), E2.InvalidPatch = "InvalidPatch", E2.VersionMismatch = "VersionMismatch", E2.ComponentNotFound = "ComponentNotFound", E2.InvalidOperation = "InvalidOperation", E2.GenerationFailed = "GenerationFailed";
+var y = E2;
+var _a69;
+var z3 = (_a69 = class extends H {
   constructor() {
     super({ name: "a-frame-component-map-index" });
     this._entries = /* @__PURE__ */ new Map();
@@ -4503,17 +4629,17 @@ var Y3 = (_a68 = class extends H {
     return this.list().filter((t4) => t4.matchedClass === null);
   }
   toResult(t4) {
-    let r8 = j2((a4) => {
-      let n6 = this._entries.get(a4.prompt);
-      return n6 || { prompt: a4.prompt, role: a4.role, class: a4.class, matchedClass: null, matchScore: 0 };
+    let r9 = j2((a4) => {
+      let n7 = this._entries.get(a4.prompt);
+      return n7 || { prompt: a4.prompt, role: a4.role, class: a4.class, matchedClass: null, matchScore: 0 };
     }, "getEntry");
-    return { containers: t4.containers.map((a4) => ({ ...r8(a4), components: (a4.components ?? []).map(r8), fragments: (a4.fragments ?? []).map(r8), entities: (a4.entities ?? []).map(r8) })), components: t4.components.map(r8), fragments: t4.fragments.map(r8), entities: t4.entities.map(r8) };
+    return { containers: t4.containers.map((a4) => ({ ...r9(a4), components: (a4.components ?? []).map(r9), fragments: (a4.fragments ?? []).map(r9), entities: (a4.entities ?? []).map(r9) })), components: t4.components.map(r9), fragments: t4.fragments.map(r9), entities: t4.entities.map(r9) };
   }
-}, __name(_a68, "Y"), _a68);
-j2(Y3, "A_FrameComponentMapIndex");
-var G3 = Y3;
-var _a69;
-var z3 = (_a69 = class extends H {
+}, __name(_a69, "z"), _a69);
+j2(z3, "A_FrameComponentMapIndex");
+var B = z3;
+var _a70;
+var Y3 = (_a70 = class extends H {
   constructor(t4 = {}) {
     super({ name: "a-frame-dynamic-structure-operation-context" });
     this._meta = /* @__PURE__ */ new Map();
@@ -4525,19 +4651,19 @@ var z3 = (_a69 = class extends H {
   get(t4) {
     return this._meta.get(t4);
   }
-  set(t4, r8) {
-    this._meta.set(t4, r8);
+  set(t4, r9) {
+    this._meta.set(t4, r9);
   }
-}, __name(_a69, "z"), _a69);
-j2(z3, "A_FrameDynamicStructureOperation");
-var v4 = z3;
-var _a70;
-var j3 = (_a70 = class extends D {
+}, __name(_a70, "Y"), _a70);
+j2(Y3, "A_FrameDynamicStructureOperation");
+var R2 = Y3;
+var _a71;
+var W = (_a71 = class extends D {
   static get concept() {
     return "a-frame";
   }
-  fromNew(e) {
-    super.fromNew(e), this.createdAt = Date.now(), this.prompt = e.prompt, this.model = e.options?.model || a2.PULSAR, this._context = e.options?.context ?? "", this._metaHint = e.options?.metaHint ?? "", this._includeBases = (e.options?.includeBases || []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._excludeBases = (e.options?.excludeBases || []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._enabledComponents = (e.options?.enabledComponents || []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._minScore = e.options?.minScore ?? 0.7, this._maxRetries = e.options?.maxRetries ?? 3, this._candidateCount = e.options?.candidateCount ?? 5, this._definition = null, this._mapResult = null, this._history = [], this._version = 0;
+  fromNew(e2) {
+    super.fromNew(e2), this.createdAt = Date.now(), this.prompt = e2.prompt, this.model = e2.options?.model || a2.PULSAR, this._context = e2.options?.context ?? "", this._metaHint = e2.options?.metaHint ?? "", this._includeBases = (e2.options?.includeBases || []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._excludeBases = (e2.options?.excludeBases || []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._enabledComponents = (e2.options?.enabledComponents || []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._minScore = e2.options?.minScore ?? 0.7, this._maxRetries = e2.options?.maxRetries ?? 3, this._candidateCount = e2.options?.candidateCount ?? 5, this._definition = null, this._mapResult = null, this._history = [], this._version = 0;
   }
   get modelName() {
     return this.model;
@@ -4582,59 +4708,59 @@ var j3 = (_a70 = class extends D {
     return this._version;
   }
   async generate() {
-    let e = new v4(), t4 = new R({ name: "a-frame-dynamic-structure-generate", fragments: [e] }).inherit(_.scope(this));
+    let e2 = new R2(), t4 = new R({ name: "a-frame-dynamic-structure-generate", fragments: [e2] }).inherit(_.scope(this));
     try {
       await this.call(D3.Generate, t4), t4.destroy();
-    } catch (r8) {
-      throw t4.destroy(), new y({ title: y.GenerationFailed, description: `Failed to generate structure: ${r8 instanceof Error ? r8.message : String(r8)}` });
+    } catch (r9) {
+      throw t4.destroy(), new y({ title: y.GenerationFailed, description: `Failed to generate structure: ${r9 instanceof Error ? r9.message : String(r9)}` });
     }
   }
-  async patch(e) {
-    let t4 = new v4({ instruction: e }), r8 = new R({ name: "a-frame-dynamic-structure-patch", fragments: [t4] }).inherit(_.scope(this));
+  async patch(e2) {
+    let t4 = new R2({ instruction: e2 }), r9 = new R({ name: "a-frame-dynamic-structure-patch", fragments: [t4] }).inherit(_.scope(this));
     try {
-      await this.call(D3.Patch, r8), r8.destroy();
+      await this.call(D3.Patch, r9), r9.destroy();
     } catch (a4) {
-      throw r8.destroy(), new y({ title: y.GenerationFailed, description: `Failed to patch structure: ${a4 instanceof Error ? a4.message : String(a4)}` });
+      throw r9.destroy(), new y({ title: y.GenerationFailed, description: `Failed to patch structure: ${a4 instanceof Error ? a4.message : String(a4)}` });
     }
   }
   async map() {
-    let e = new G3(), t4 = new R({ name: "a-frame-dynamic-structure-map", fragments: [e] }).inherit(_.scope(this));
+    let e2 = new B(), t4 = new R({ name: "a-frame-dynamic-structure-map", fragments: [e2] }).inherit(_.scope(this));
     try {
       await this.call(D3.Map, t4), t4.destroy();
-    } catch (r8) {
-      throw t4.destroy(), new y({ title: y.GenerationFailed, description: `Failed to map structure: ${r8 instanceof Error ? r8.message : String(r8)}` });
+    } catch (r9) {
+      throw t4.destroy(), new y({ title: y.GenerationFailed, description: `Failed to map structure: ${r9 instanceof Error ? r9.message : String(r9)}` });
     }
   }
-  hydrateFromGeneration(e, t4) {
-    this._definition = e, this._mapResult = null, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: this._countElements(e) }));
+  hydrateFromGeneration(e2, t4) {
+    this._definition = e2, this._mapResult = null, this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e2))).toString("base64"), delta: this._countElements(e2) }));
   }
-  hydrateFromPatch(e, t4, r8) {
+  hydrateFromPatch(e2, t4, r9) {
     let a4 = this._definition ? this._countElements(this._definition) : 0;
-    this._definition = e, this._mapResult = null, this._version++, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: this._countElements(e) - a4 }));
+    this._definition = e2, this._mapResult = null, this._version++, this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e2))).toString("base64"), delta: this._countElements(e2) - a4 }));
   }
-  hydrateFromMap(e) {
-    this._mapResult = e;
+  hydrateFromMap(e2) {
+    this._mapResult = e2;
   }
   toJSON() {
-    let e = this._definition ? this._countElements(this._definition) : 0;
-    return { ...super.toJSON(), name: this.prompt, description: `DynamicStructure with ${e} elements and ${this._history.length} patches`, metadata: { model: this.model, context: this._context, metaHint: this._metaHint, includeBases: this._includeBases, excludeBases: this._excludeBases, enabledComponents: this._enabledComponents, candidateCount: this._candidateCount, createdAt: this.createdAt }, history: this._history.map((t4) => t4.toJSON()) };
+    let e2 = this._definition ? this._countElements(this._definition) : 0;
+    return { ...super.toJSON(), name: this.prompt, description: `DynamicStructure with ${e2} elements and ${this._history.length} patches`, metadata: { model: this.model, context: this._context, metaHint: this._metaHint, includeBases: this._includeBases, excludeBases: this._excludeBases, enabledComponents: this._enabledComponents, candidateCount: this._candidateCount, createdAt: this.createdAt }, history: this._history.map((t4) => t4.toJSON()) };
   }
-  _countElements(e) {
-    return (e.containers?.length ?? 0) + (e.components?.length ?? 0) + (e.fragments?.length ?? 0) + (e.entities?.length ?? 0);
+  _countElements(e2) {
+    return (e2.containers?.length ?? 0) + (e2.components?.length ?? 0) + (e2.fragments?.length ?? 0) + (e2.entities?.length ?? 0);
   }
-  _stripEmbeddings(e) {
-    let t4 = j2((r8) => {
-      let { embedding: a4, ...n6 } = r8;
-      return n6;
+  _stripEmbeddings(e2) {
+    let t4 = j2((r9) => {
+      let { embedding: a4, ...n7 } = r9;
+      return n7;
     }, "strip");
-    return { containers: e.containers.map((r8) => ({ ...t4(r8), components: (r8.components ?? []).map(t4), fragments: (r8.fragments ?? []).map(t4), entities: (r8.entities ?? []).map(t4) })), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
+    return { containers: e2.containers.map((r9) => ({ ...t4(r9), components: (r9.components ?? []).map(t4), fragments: (r9.fragments ?? []).map(t4), entities: (r9.entities ?? []).map(t4) })), components: e2.components.map(t4), fragments: e2.fragments.map(t4), entities: e2.entities.map(t4) };
   }
-}, __name(_a70, "j"), _a70);
-j2(j3, "A_FrameDynamicStructure");
-var O3 = j3;
-var C4 = { Generate: "_A_FRAME_DYNAMIC_FEATURE_GENERATE", Patch: "_A_FRAME_DYNAMIC_FEATURE_PATCH", Map: "_A_FRAME_DYNAMIC_FEATURE_MAP" };
-var _a71;
-var W = (_a71 = class extends H {
+}, __name(_a71, "W"), _a71);
+j2(W, "A_FrameDynamicStructure");
+var O3 = W;
+var C5 = { Generate: "_A_FRAME_DYNAMIC_FEATURE_GENERATE", Patch: "_A_FRAME_DYNAMIC_FEATURE_PATCH", Map: "_A_FRAME_DYNAMIC_FEATURE_MAP" };
+var _a72;
+var X2 = (_a72 = class extends H {
   constructor(t4 = {}) {
     super({ name: "a-frame-dynamic-feature-operation-context" });
     this._meta = /* @__PURE__ */ new Map();
@@ -4646,19 +4772,19 @@ var W = (_a71 = class extends H {
   get(t4) {
     return this._meta.get(t4);
   }
-  set(t4, r8) {
-    this._meta.set(t4, r8);
+  set(t4, r9) {
+    this._meta.set(t4, r9);
   }
-}, __name(_a71, "W"), _a71);
-j2(W, "A_FrameDynamicFeatureOperation");
-var w5 = W;
-var _a72;
-var x3 = (_a72 = class extends b {
-}, __name(_a72, "x"), _a72);
-j2(x3, "A_FrameDynamicFeatureError"), x3.GenerationFailed = "GenerationFailed", x3.PatchFailed = "PatchFailed", x3.MappingFailed = "MappingFailed", x3.MethodNotFound = "MethodNotFound", x3.InvalidOperation = "InvalidOperation";
-var E2 = x3;
+}, __name(_a72, "X"), _a72);
+j2(X2, "A_FrameDynamicFeatureOperation");
+var v5 = X2;
 var _a73;
-var Z = (_a73 = class extends H {
+var w5 = (_a73 = class extends b {
+}, __name(_a73, "w"), _a73);
+j2(w5, "A_FrameDynamicFeatureError"), w5.GenerationFailed = "GenerationFailed", w5.PatchFailed = "PatchFailed", w5.MappingFailed = "MappingFailed", w5.MethodNotFound = "MethodNotFound", w5.InvalidOperation = "InvalidOperation";
+var f3 = w5;
+var _a74;
+var Z = (_a74 = class extends H {
   constructor() {
     super({ name: "a-frame-method-map-index" });
     this._stepEntries = /* @__PURE__ */ new Map();
@@ -4692,25 +4818,25 @@ var Z = (_a73 = class extends H {
     return Array.from(this._stepEntries.values()).filter((t4) => t4.matchedMethod === null);
   }
   toResult(t4) {
-    let r8 = j2((n6) => {
-      let o3 = this._stepEntries.get(n6.prompt);
-      return o3 || { prompt: n6.prompt, inputs: n6.inputs, outputs: n6.outputs, matchedClass: null, matchedMethod: null, matchScore: 0 };
-    }, "getStep"), a$1 = j2((n6) => {
-      let o3 = this._elementEntries.get(n6.prompt);
-      return o3 || { prompt: n6.prompt, matchedClass: null, matchScore: 0 };
+    let r9 = j2((n7) => {
+      let o3 = this._stepEntries.get(n7.prompt);
+      return o3 || { prompt: n7.prompt, inputs: n7.inputs, outputs: n7.outputs, matchedClass: null, matchedMethod: null, matchScore: 0 };
+    }, "getStep"), a$1 = j2((n7) => {
+      let o3 = this._elementEntries.get(n7.prompt);
+      return o3 || { prompt: n7.prompt, matchedClass: null, matchScore: 0 };
     }, "getElement");
-    return { steps: t4.steps.map(r8), components: t4.components.map(a$1), fragments: t4.fragments.map(a$1), entities: t4.entities.map(a$1) };
+    return { steps: t4.steps.map(r9), components: t4.components.map(a$1), fragments: t4.fragments.map(a$1), entities: t4.entities.map(a$1) };
   }
-}, __name(_a73, "Z"), _a73);
+}, __name(_a74, "Z"), _a74);
 j2(Z, "A_FrameMethodMapIndex");
-var B = Z;
-var _a74;
-var re2 = (_a74 = class extends D {
+var G3 = Z;
+var _a75;
+var re2 = (_a75 = class extends D {
   static get concept() {
     return "a-frame";
   }
-  fromNew(e) {
-    super.fromNew(e), this.createdAt = Date.now(), this.prompt = e.prompt, this._model = e.options?.model ?? a2.PULSAR, this._context = e.options?.context ?? "", this._includeBases = (e.options?.includeBases ?? []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._excludeBases = (e.options?.excludeBases ?? []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._enabledComponents = (e.options?.enabledComponents ?? []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._minScore = e.options?.minScore ?? 0.7, this._maxRetries = e.options?.maxRetries ?? 3, this._definition = null, this._mapResult = null, this._history = [], this._version = 0;
+  fromNew(e2) {
+    super.fromNew(e2), this.createdAt = Date.now(), this.prompt = e2.prompt, this._model = e2.options?.model ?? a2.PULSAR, this._context = e2.options?.context ?? "", this._includeBases = (e2.options?.includeBases ?? []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._excludeBases = (e2.options?.excludeBases ?? []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._enabledComponents = (e2.options?.enabledComponents ?? []).map((t4) => typeof t4 == "string" ? t4 : A.getComponentName(t4)), this._minScore = e2.options?.minScore ?? 0.7, this._maxRetries = e2.options?.maxRetries ?? 3, this._definition = null, this._mapResult = null, this._history = [], this._version = 0;
   }
   get modelName() {
     return this._model;
@@ -4749,162 +4875,126 @@ var re2 = (_a74 = class extends D {
     return this._version;
   }
   async generate() {
-    let e = new w5(), t4 = new R({ name: "a-frame-dynamic-feature-generate", fragments: [e] }).inherit(_.scope(this));
+    let e2 = new v5(), t4 = new R({ name: "a-frame-dynamic-feature-generate", fragments: [e2] }).inherit(_.scope(this));
     try {
-      await this.call(C4.Generate, t4), t4.destroy();
-    } catch (r8) {
-      throw t4.destroy(), new E2({ title: E2.GenerationFailed, description: `Failed to generate feature workflow: ${r8 instanceof Error ? r8.message : String(r8)}` });
+      await this.call(C5.Generate, t4), t4.destroy();
+    } catch (r9) {
+      throw t4.destroy(), new f3({ title: f3.GenerationFailed, description: `Failed to generate feature workflow: ${r9 instanceof Error ? r9.message : String(r9)}` });
     }
   }
-  async patch(e) {
-    let t4 = new w5({ instruction: e }), r8 = new R({ name: "a-frame-dynamic-feature-patch", fragments: [t4] }).inherit(_.scope(this));
+  async patch(e2) {
+    let t4 = new v5({ instruction: e2 }), r9 = new R({ name: "a-frame-dynamic-feature-patch", fragments: [t4] }).inherit(_.scope(this));
     try {
-      await this.call(C4.Patch, r8), r8.destroy();
+      await this.call(C5.Patch, r9), r9.destroy();
     } catch (a4) {
-      throw r8.destroy(), new E2({ title: E2.PatchFailed, description: `Failed to patch feature workflow: ${a4 instanceof Error ? a4.message : String(a4)}` });
+      throw r9.destroy(), new f3({ title: f3.PatchFailed, description: `Failed to patch feature workflow: ${a4 instanceof Error ? a4.message : String(a4)}` });
     }
   }
   async map() {
-    let e = new B(), t4 = new R({ name: "a-frame-dynamic-feature-map", fragments: [e] }).inherit(_.scope(this));
+    let e2 = new G3(), t4 = new R({ name: "a-frame-dynamic-feature-map", fragments: [e2] }).inherit(_.scope(this));
     try {
-      await this.call(C4.Map, t4), t4.destroy();
-    } catch (r8) {
-      throw t4.destroy(), new E2({ title: E2.MappingFailed, description: `Failed to map feature workflow: ${r8 instanceof Error ? r8.message : String(r8)}` });
+      await this.call(C5.Map, t4), t4.destroy();
+    } catch (r9) {
+      throw t4.destroy(), new f3({ title: f3.MappingFailed, description: `Failed to map feature workflow: ${r9 instanceof Error ? r9.message : String(r9)}` });
     }
   }
-  hydrateFromGeneration(e, t4) {
-    this._definition = e, this._mapResult = null, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: e.steps.length }));
+  hydrateFromGeneration(e2, t4) {
+    this._definition = e2, this._mapResult = null, this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: `Generated for: "${this.prompt}"`, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e2))).toString("base64"), delta: e2.steps.length }));
   }
-  hydrateFromPatch(e, t4, r8) {
+  hydrateFromPatch(e2, t4, r9) {
     let a4 = this._definition?.steps.length ?? 0;
-    this._definition = e, this._mapResult = null, this._version++, this._history.push(new l2({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e))).toString("base64"), delta: e.steps.length - a4 }));
+    this._definition = e2, this._mapResult = null, this._version++, this._history.push(new h4({ version: this._version, timestamp: Date.now(), reason: t4, encoded: Buffer.from(JSON.stringify(this._stripEmbeddings(e2))).toString("base64"), delta: e2.steps.length - a4 }));
   }
-  hydrateFromMap(e) {
-    this._mapResult = e;
+  hydrateFromMap(e2) {
+    this._mapResult = e2;
   }
   toJSON() {
-    return { ...super.toJSON(), name: this.prompt, description: `DynamicFeature with ${this._definition?.steps.length ?? 0} steps and ${this._history.length} patches`, metadata: { model: this._model, context: this._context, includeBases: this._includeBases, excludeBases: this._excludeBases, enabledComponents: this._enabledComponents, createdAt: this.createdAt }, history: this._history.map((e) => e.toJSON()) };
+    return { ...super.toJSON(), name: this.prompt, description: `DynamicFeature with ${this._definition?.steps.length ?? 0} steps and ${this._history.length} patches`, metadata: { model: this._model, context: this._context, includeBases: this._includeBases, excludeBases: this._excludeBases, enabledComponents: this._enabledComponents, createdAt: this.createdAt }, history: this._history.map((e2) => e2.toJSON()) };
   }
-  _stripEmbeddings(e) {
-    let t4 = j2((r8) => {
-      let { embedding: a4, ...n6 } = r8;
-      return n6;
+  _stripEmbeddings(e2) {
+    let t4 = j2((r9) => {
+      let { embedding: a4, ...n7 } = r9;
+      return n7;
     }, "strip");
-    return { ...e, steps: e.steps.map(t4), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
+    return { ...e2, steps: e2.steps.map(t4), components: e2.components.map(t4), fragments: e2.fragments.map(t4), entities: e2.entities.map(t4) };
   }
-}, __name(_a74, "re"), _a74);
+}, __name(_a75, "re"), _a75);
 j2(re2, "A_FrameDynamicFeature");
-var P3 = re2;
-var _a75;
-var ae = (_a75 = class extends H {
-  get A_FRAME_FILE_EXTENSION() {
-    return ".aframe";
-  }
-  get A_FRAME_NAMESPACES_BIN() {
-    return `__namespaces${this.A_FRAME_FILE_EXTENSION}`;
-  }
-  get A_FRAME_SYNC() {
-    return process.env.A_FRAME_SYNC !== "false";
-  }
-  get A_FRAME_TOKEN() {
-    return process.env.A_FRAME_TOKEN || "";
-  }
-  get A_FRAME_SERVER_URL() {
-    return process.env.A_FRAME_SERVER_URL || "http://localhost:3663";
-  }
-  get A_FRAME_SERVER_API_KEY() {
-    return process.env.A_FRAME_SERVER_API_KEY || "";
-  }
-  get A_FRAME_STORAGE_DIR() {
-    return process.env.A_FRAME_STORAGE_DIR || ".aframe";
-  }
-  get A_FRAME_STORAGE_PATTERN() {
-    return process.env.A_FRAME_STORAGE_PATTERN ?? "node_modules/**/.aframe";
-  }
-  get A_FRAME_VERSION() {
-    return t || "0.0.1";
-  }
-  get A_FRAME_REQUEST_TIMEOUT() {
-    let e = process.env.A_FRAME_REQUEST_TIMEOUT, t4 = e ? parseInt(e, 10) : NaN;
-    return isNaN(t4) ? 12e4 : t4;
-  }
-}, __name(_a75, "ae"), _a75);
-j2(ae, "A_FrameEnv");
-var f3 = ae;
+var P4 = re2;
 var _a76;
-var l3 = (_a76 = class extends O {
-  async generate(e) {
-    let t4 = new c2("POST", "/api/v1/completions", { prompt: e, max_tokens: 512 }), r8 = new R({ name: "A_FrameChannel.generate", fragments: [t4] }).inherit(_.scope(this));
+var l2 = (_a76 = class extends O {
+  async generate(e2) {
+    let t4 = new c2("POST", "/api/v1/completions", { prompt: e2, max_tokens: 512 }), r9 = new R({ name: "A_FrameChannel.generate", fragments: [t4] }).inherit(_.scope(this));
     try {
-      return await this.call(d3.Request, r8), r8.destroy(), t4;
+      return await this.call(d4.Request, r9), r9.destroy(), t4;
     } catch (a4) {
-      throw r8.destroy(), new s3({ title: s3.RequestFailed, description: `Failed to generate completion: ${a4 instanceof Error ? a4.message : String(a4)}` });
+      throw r9.destroy(), new s3({ title: s3.RequestFailed, description: `Failed to generate completion: ${a4 instanceof Error ? a4.message : String(a4)}` });
     }
   }
-  async embed(e, t4) {
-    let r8 = new c2("POST", "/api/v1/embeddings", { input: e, ...t4?.model && { model: t4.model }, ...t4?.task && { task: t4.task } }), a4 = new R({ name: "A_FrameChannel.embed", fragments: [r8] }).inherit(_.scope(this));
+  async embed(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/embeddings", { input: e2, ...t4?.model && { model: t4.model }, ...t4?.task && { task: t4.task } }), a4 = new R({ name: "A_FrameChannel.embed", fragments: [r9] }).inherit(_.scope(this));
     try {
-      return await this.call(d3.Request, a4), a4.destroy(), r8;
-    } catch (n6) {
-      throw a4.destroy(), new s3({ title: s3.RequestFailed, description: `Failed to embed input: ${n6 instanceof Error ? n6.message : String(n6)}` });
+      return await this.call(d4.Request, a4), a4.destroy(), r9;
+    } catch (n7) {
+      throw a4.destroy(), new s3({ title: s3.RequestFailed, description: `Failed to embed input: ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
   async getCredentials() {
-    let e = new c2("GET", "/api/v1/credentials/me"), t4 = new R({ name: "A_FrameChannel.getCredentials", fragments: [e] }).inherit(_.scope(this));
+    let e2 = new c2("GET", "/api/v1/credentials/me"), t4 = new R({ name: "A_FrameChannel.getCredentials", fragments: [e2] }).inherit(_.scope(this));
     try {
-      return await this.call(d3.Request, t4), t4.destroy(), e;
-    } catch (r8) {
-      throw t4.destroy(), new s3({ title: s3.RequestFailed, description: `Failed to get credentials: ${r8 instanceof Error ? r8.message : String(r8)}` });
+      return await this.call(d4.Request, t4), t4.destroy(), e2;
+    } catch (r9) {
+      throw t4.destroy(), new s3({ title: s3.RequestFailed, description: `Failed to get credentials: ${r9 instanceof Error ? r9.message : String(r9)}` });
     }
   }
   async ping() {
-    let e = new c2("GET", "/health"), t4 = new R({ name: "A_FrameChannel.ping", fragments: [e] }).inherit(_.scope(this));
+    let e2 = new c2("GET", "/health"), t4 = new R({ name: "A_FrameChannel.ping", fragments: [e2] }).inherit(_.scope(this));
     try {
-      return await this.call(d3.Request, t4), t4.destroy(), e;
+      return await this.call(d4.Request, t4), t4.destroy(), e2;
     } catch {
-      return t4.destroy(), e;
+      return t4.destroy(), e2;
     }
   }
-  async embedDefinition(e, t4) {
-    let r8 = new c2("POST", "/api/v1/definition/embed", { definition: e.toJSON(), model: e.requestedModel }), a4 = new R({ name: "A_FrameChannel.embedDefinition", fragments: [r8] }).inherit(_.scope(this));
+  async embedDefinition(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/definition/embed", { definition: e2.toJSON(), model: e2.requestedModel }), a4 = new R({ name: "A_FrameChannel.embedDefinition", fragments: [r9] }).inherit(_.scope(this));
     try {
-      await this.call(d3.Request, a4), a4.destroy();
-      let n6 = r8.response;
-      if (!n6.data || !n6.data[0] || !n6.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Invalid embedding response for definition "${e.name}"` });
-      let o3 = new Float32Array(n6.data[0].embedding);
-      e.hydrateFromEmbedding(o3, { model: n6.model, dimensions: n6.meta.dimensions, inputCount: n6.meta.input_count, aFrameServerVersion: n6.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n6.meta.credential_id, date: n6.date, aFrameMeta: n6.aFrameMeta });
-    } catch (n6) {
-      throw new s3({ title: s3.RequestFailed, description: `Failed to embed definition "${e.name}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+      await this.call(d4.Request, a4), a4.destroy();
+      let n7 = r9.response;
+      if (!n7.data || !n7.data[0] || !n7.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Invalid embedding response for definition "${e2.name}"` });
+      let o3 = new Float32Array(n7.data[0].embedding);
+      e2.hydrateFromEmbedding(o3, { model: n7.model, dimensions: n7.meta.dimensions, inputCount: n7.meta.input_count, aFrameServerVersion: n7.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n7.meta.credential_id, date: n7.date, aFrameMeta: n7.aFrameMeta });
+    } catch (n7) {
+      throw new s3({ title: s3.RequestFailed, description: `Failed to embed definition "${e2.name}": ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
-  async embedNamespace(e, t4) {
-    let r8 = new c2("POST", "/api/v1/namespace/embed", { namespace: e.toJSON(), model: e.requestedModel }), a4 = new R({ name: "A_FrameChannel.embedNamespace", fragments: [r8] }).inherit(_.scope(this));
+  async embedNamespace(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/namespace/embed", { namespace: e2.toJSON(), model: e2.requestedModel }), a4 = new R({ name: "A_FrameChannel.embedNamespace", fragments: [r9] }).inherit(_.scope(this));
     try {
-      await this.call(d3.Request, a4), a4.destroy();
-      let n6 = r8.response;
-      if (!n6.data || !n6.data[0] || !n6.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Invalid embedding response for namespace "${e.name}"` });
-      let o3 = new Float32Array(n6.data[0].embedding);
-      e.hydrateFromEmbedding(o3, { model: n6.model, dimensions: n6.meta.dimensions, inputCount: n6.meta.input_count, aFrameServerVersion: n6.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n6.meta.credential_id, date: n6.date });
-    } catch (n6) {
-      throw new s3({ title: s3.RequestFailed, description: `Failed to embed namespace "${e.name}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+      await this.call(d4.Request, a4), a4.destroy();
+      let n7 = r9.response;
+      if (!n7.data || !n7.data[0] || !n7.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Invalid embedding response for namespace "${e2.name}"` });
+      let o3 = new Float32Array(n7.data[0].embedding);
+      e2.hydrateFromEmbedding(o3, { model: n7.model, dimensions: n7.meta.dimensions, inputCount: n7.meta.input_count, aFrameServerVersion: n7.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n7.meta.credential_id, date: n7.date });
+    } catch (n7) {
+      throw new s3({ title: s3.RequestFailed, description: `Failed to embed namespace "${e2.name}": ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
-  async embedSegment(e, t4) {
-    let r8 = new c2("POST", "/api/v1/segment/embed", { segment: e.toJSON(), task: e.options?.task, model: e.options?.model }), a4 = new R({ name: "A_FrameChannel.embedNamespace", fragments: [r8] }).inherit(_.scope(this));
+  async embedSegment(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/segment/embed", { segment: e2.toJSON(), task: e2.options?.task, model: e2.options?.model }), a4 = new R({ name: "A_FrameChannel.embedNamespace", fragments: [r9] }).inherit(_.scope(this));
     try {
-      await this.call(d3.Request, a4), a4.destroy();
-      let n6 = r8.response;
-      if (!n6.data || !n6.data[0] || !n6.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Error during embed a segment: ${e.content}` });
-      let o3 = new Float32Array(n6.data[0].embedding), S4 = await this.extractSegmentMeta(e.content);
-      e.fromJSON({ aseid: e.aseid.toString(), content: e.content, hash: e.hash, embedding: o3, model: n6.model, aFrameServerVersion: n6.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n6.meta.credential_id, embeddedAt: n6.date, extraction: S4 });
-    } catch (n6) {
-      throw new s3({ title: s3.RequestFailed, description: `Failed to embed segment with content "${e.content}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+      await this.call(d4.Request, a4), a4.destroy();
+      let n7 = r9.response;
+      if (!n7.data || !n7.data[0] || !n7.data[0].embedding) throw new s3({ title: s3.InvalidRequest, description: `Error during embed a segment: ${e2.content}` });
+      let o3 = new Float32Array(n7.data[0].embedding), S4 = await this.extractSegmentMeta(e2.content);
+      e2.fromJSON({ aseid: e2.aseid.toString(), content: e2.content, hash: e2.hash, embedding: o3, model: n7.model, aFrameServerVersion: n7.meta.server_version, aFrameVersion: t4.A_FRAME_VERSION, credentialId: n7.meta.credential_id, embeddedAt: n7.date, extraction: S4 });
+    } catch (n7) {
+      throw new s3({ title: s3.RequestFailed, description: `Failed to embed segment with content "${e2.content}": ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
-  async extractSegmentMeta(e) {
-    if (!e || e.trim().length === 0) return;
-    let t4 = new s2({ prompt: e, schema: g2 }), r8 = new R({ name: "A_FrameChannel.embedSegment.meta" }).inherit(_.scope(this));
-    r8.register(t4);
+  async extractSegmentMeta(e2) {
+    if (!e2 || e2.trim().length === 0) return;
+    let t4 = new n5({ prompt: e2, schema: g2 }), r9 = new R({ name: "A_FrameChannel.embedSegment.meta" }).inherit(_.scope(this));
+    r9.register(t4);
     try {
       await t4.extract();
       let a4 = t4.data;
@@ -4912,125 +5002,125 @@ var l3 = (_a76 = class extends O {
     } catch {
       return;
     } finally {
-      r8.destroy();
+      r9.destroy();
     }
   }
-  async generateDynamicStructure(e, t4) {
-    let r8 = new c2("POST", "/api/v1/structure/generate", { prompt: e.prompt, model: e.modelName, context: e.contextHint, metaHint: e.metaHintValue, includeBases: e.includedBases, excludeBases: e.excludedBases, enabledComponents: e.enabledComponentsList }), a4 = new R({ name: "A_FrameChannel.generateDynamicStructure", fragments: [r8] }).inherit(_.scope(this));
-    await this.call(d3.Request, a4), a4.destroy();
-    let n6 = r8.response;
-    e.hydrateFromGeneration(n6.definition, { model: n6.model, serverVersion: n6.meta?.server_version ?? "0.0.0" });
+  async generateDynamicStructure(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/structure/generate", { prompt: e2.prompt, model: e2.modelName, context: e2.contextHint, metaHint: e2.metaHintValue, includeBases: e2.includedBases, excludeBases: e2.excludedBases, enabledComponents: e2.enabledComponentsList }), a4 = new R({ name: "A_FrameChannel.generateDynamicStructure", fragments: [r9] }).inherit(_.scope(this));
+    await this.call(d4.Request, a4), a4.destroy();
+    let n7 = r9.response;
+    e2.hydrateFromGeneration(n7.definition, { model: n7.model, serverVersion: n7.meta?.server_version ?? "0.0.0" });
   }
-  async patchDynamicStructure(e, t4) {
-    let { instruction: r8 } = t4.params, a4 = new c2("POST", "/api/v1/structure/patch", { originalPrompt: e.prompt, definition: this._stripStructureEmbeddings(e.definition ?? { containers: [], components: [], fragments: [], entities: [] }), patchInstruction: r8, model: e.modelName, context: e.contextHint, metaHint: e.metaHintValue, includeBases: e.includedBases, excludeBases: e.excludedBases, enabledComponents: e.enabledComponentsList }), n6 = new R({ name: "A_FrameChannel.patchDynamicStructure", fragments: [a4] }).inherit(_.scope(this));
-    await this.call(d3.Request, n6), n6.destroy();
+  async patchDynamicStructure(e2, t4) {
+    let { instruction: r9 } = t4.params, a4 = new c2("POST", "/api/v1/structure/patch", { originalPrompt: e2.prompt, definition: this._stripStructureEmbeddings(e2.definition ?? { containers: [], components: [], fragments: [], entities: [] }), patchInstruction: r9, model: e2.modelName, context: e2.contextHint, metaHint: e2.metaHintValue, includeBases: e2.includedBases, excludeBases: e2.excludedBases, enabledComponents: e2.enabledComponentsList }), n7 = new R({ name: "A_FrameChannel.patchDynamicStructure", fragments: [a4] }).inherit(_.scope(this));
+    await this.call(d4.Request, n7), n7.destroy();
     let o3 = a4.response;
-    e.hydrateFromPatch(o3.definition, o3.patchSummary, { model: o3.model, serverVersion: o3.meta?.server_version ?? "0.0.0" });
+    e2.hydrateFromPatch(o3.definition, o3.patchSummary, { model: o3.model, serverVersion: o3.meta?.server_version ?? "0.0.0" });
   }
-  _stripStructureEmbeddings(e) {
-    let t4 = j2((r8) => {
-      let { embedding: a4, ...n6 } = r8;
-      return n6;
+  _stripStructureEmbeddings(e2) {
+    let t4 = j2((r9) => {
+      let { embedding: a4, ...n7 } = r9;
+      return n7;
     }, "strip");
-    return { containers: e.containers.map((r8) => ({ ...t4(r8), components: (r8.components ?? []).map(t4), fragments: (r8.fragments ?? []).map(t4), entities: (r8.entities ?? []).map(t4) })), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
+    return { containers: e2.containers.map((r9) => ({ ...t4(r9), components: (r9.components ?? []).map(t4), fragments: (r9.fragments ?? []).map(t4), entities: (r9.entities ?? []).map(t4) })), components: e2.components.map(t4), fragments: e2.fragments.map(t4), entities: e2.entities.map(t4) };
   }
-  async generateDynamicFeature(e, t4) {
-    let r8 = new c2("POST", "/api/v1/feature/generate", { prompt: e.prompt, model: e.modelName, context: e.contextHint }), a4 = new R({ name: "A_FrameChannel.generateDynamicFeature", fragments: [r8] }).inherit(_.scope(this));
-    await this.call(d3.Request, a4), a4.destroy();
-    let n6 = r8.response;
-    e.hydrateFromGeneration(n6.definition, { model: n6.model, serverVersion: n6.meta?.server_version ?? "0.0.0" });
+  async generateDynamicFeature(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/feature/generate", { prompt: e2.prompt, model: e2.modelName, context: e2.contextHint }), a4 = new R({ name: "A_FrameChannel.generateDynamicFeature", fragments: [r9] }).inherit(_.scope(this));
+    await this.call(d4.Request, a4), a4.destroy();
+    let n7 = r9.response;
+    e2.hydrateFromGeneration(n7.definition, { model: n7.model, serverVersion: n7.meta?.server_version ?? "0.0.0" });
   }
-  async patchDynamicFeature(e, t4) {
-    let { instruction: r8 } = t4.params, a4 = new c2("POST", "/api/v1/feature/patch", { originalPrompt: e.prompt, definition: this._stripFeatureEmbeddings(e.definition ?? { title: "", description: "", steps: [], components: [], fragments: [], entities: [] }), patchInstruction: r8, model: e.modelName, context: e.contextHint }), n6 = new R({ name: "A_FrameChannel.patchDynamicFeature", fragments: [a4] }).inherit(_.scope(this));
-    await this.call(d3.Request, n6), n6.destroy();
+  async patchDynamicFeature(e2, t4) {
+    let { instruction: r9 } = t4.params, a4 = new c2("POST", "/api/v1/feature/patch", { originalPrompt: e2.prompt, definition: this._stripFeatureEmbeddings(e2.definition ?? { title: "", description: "", steps: [], components: [], fragments: [], entities: [] }), patchInstruction: r9, model: e2.modelName, context: e2.contextHint }), n7 = new R({ name: "A_FrameChannel.patchDynamicFeature", fragments: [a4] }).inherit(_.scope(this));
+    await this.call(d4.Request, n7), n7.destroy();
     let o3 = a4.response;
-    e.hydrateFromPatch(o3.definition, o3.patchSummary, { model: o3.model, serverVersion: o3.meta?.server_version ?? "0.0.0" });
+    e2.hydrateFromPatch(o3.definition, o3.patchSummary, { model: o3.model, serverVersion: o3.meta?.server_version ?? "0.0.0" });
   }
-  _stripFeatureEmbeddings(e) {
-    let t4 = j2((r8) => {
-      let { embedding: a4, ...n6 } = r8;
-      return n6;
+  _stripFeatureEmbeddings(e2) {
+    let t4 = j2((r9) => {
+      let { embedding: a4, ...n7 } = r9;
+      return n7;
     }, "strip");
-    return { ...e, steps: e.steps.map(t4), components: e.components.map(t4), fragments: e.fragments.map(t4), entities: e.entities.map(t4) };
+    return { ...e2, steps: e2.steps.map(t4), components: e2.components.map(t4), fragments: e2.fragments.map(t4), entities: e2.entities.map(t4) };
   }
   async generateDynamicContent(e$1, t4) {
-    let r8 = new c2("POST", "/api/v1/content/generate", { prompt: e$1.prompt, model: e$1.modelName, ...e$1.systemPrompt !== void 0 ? { system: e$1.systemPrompt } : {} }), a4 = new R({ name: "A_FrameChannel.generateDynamicContent", fragments: [r8] }).inherit(_.scope(this));
-    await this.call(d3.Request, a4), a4.destroy();
-    let n6 = r8.response, o3 = (n6.segments ?? []).map((S4) => {
-      let b3 = new _4({ content: S4.content, options: { task: "document" } });
-      return S4.embedding?.length && b3.hydrateFromEmbedding(new Float32Array(S4.embedding)), b3;
+    let r9 = new c2("POST", "/api/v1/content/generate", { prompt: e$1.prompt, model: e$1.modelName, ...e$1.systemPrompt !== void 0 ? { system: e$1.systemPrompt } : {} }), a4 = new R({ name: "A_FrameChannel.generateDynamicContent", fragments: [r9] }).inherit(_.scope(this));
+    await this.call(d4.Request, a4), a4.destroy();
+    let n7 = r9.response, o3 = (n7.segments ?? []).map((S4) => {
+      let N3 = new _3({ content: S4.content, options: { task: "document" } });
+      return S4.embedding?.length && N3.hydrateFromEmbedding(new Float32Array(S4.embedding)), N3;
     });
-    e$1.hydrateFromGeneration(o3, { model: n6.model, serverVersion: n6.meta?.server_version ?? "0.0.0" });
+    e$1.hydrateFromGeneration(o3, { model: n7.model, serverVersion: n7.meta?.server_version ?? "0.0.0" });
   }
-  async patchDynamicContent(e, t4) {
-    let { instruction: r8, segments: a4 } = t4.params, n6 = /* @__PURE__ */ new Map(), o3 = a4.map((g5, se2) => {
-      let ie = `s${se2}`;
-      return n6.set(ie, String(g5.id)), { id: ie, index: se2, text: g5.content, vector: g5.vector ? Array.from(g5.vector.values) : void 0 };
-    }), S4 = new c2("POST", "/api/v1/content/patch", { prompt: e.prompt, segments: o3, instruction: r8, model: e.modelName, ...e.systemPrompt !== void 0 ? { system: e.systemPrompt } : {} }), b3 = new R({ name: "A_FrameChannel.patchDynamicContent", fragments: [S4] }).inherit(_.scope(this));
-    await this.call(d3.Request, b3), b3.destroy();
-    let T3 = S4.response, Ae2 = T3.operations.map((g5) => ({ ...g5, targetId: g5.targetId ? n6.get(g5.targetId) ?? g5.targetId : g5.targetId }));
-    e.hydrateFromPatch({ ...T3, operations: Ae2 }, { model: T3.model, serverVersion: T3.meta?.server_version ?? "0.0.0" });
+  async patchDynamicContent(e2, t4) {
+    let { instruction: r9, segments: a4 } = t4.params, n7 = /* @__PURE__ */ new Map(), o3 = a4.map((A6, ae) => {
+      let se2 = `s${ae}`;
+      return n7.set(se2, String(A6.id)), { id: se2, index: ae, text: A6.content, vector: A6.vector ? Array.from(A6.vector.values) : void 0 };
+    }), S4 = new c2("POST", "/api/v1/content/patch", { prompt: e2.prompt, segments: o3, instruction: r9, model: e2.modelName, ...e2.systemPrompt !== void 0 ? { system: e2.systemPrompt } : {} }), N3 = new R({ name: "A_FrameChannel.patchDynamicContent", fragments: [S4] }).inherit(_.scope(this));
+    await this.call(d4.Request, N3), N3.destroy();
+    let q2 = S4.response, he2 = q2.operations.map((A6) => ({ ...A6, targetId: A6.targetId ? n7.get(A6.targetId) ?? A6.targetId : A6.targetId }));
+    e2.hydrateFromPatch({ ...q2, operations: he2 }, { model: q2.model, serverVersion: q2.meta?.server_version ?? "0.0.0" });
   }
-  async generateCompletion(e, t4) {
-    let r8 = new c2("POST", "/api/v1/completions/generate", { prompt: e.prompt, options: e.options }), a4 = new R({ name: "A_FrameChannel.generateCompletion", fragments: [r8] }).inherit(_.scope(this));
+  async generateCompletion(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/completions/generate", { prompt: e2.prompt, options: e2.options }), a4 = new R({ name: "A_FrameChannel.generateCompletion", fragments: [r9] }).inherit(_.scope(this));
     try {
-      await this.call(d3.Request, a4), a4.destroy();
-      let n6 = r8.response;
-      if (!n6.text) throw new s3({ title: s3.InvalidRequest, description: `Invalid completion response for prompt "${e.prompt}"` });
-      e.hydrateFromGeneration({ text: n6.text, embedding: new Float32Array(n6.embedding), model: n6.model, date: n6.date, aFrameVersion: t4.A_FRAME_VERSION, aFrameServerVersion: n6.meta.server_version });
-    } catch (n6) {
-      throw new s3({ title: s3.RequestFailed, description: `Failed to generate completion for prompt "${e.prompt}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+      await this.call(d4.Request, a4), a4.destroy();
+      let n7 = r9.response;
+      if (!n7.text) throw new s3({ title: s3.InvalidRequest, description: `Invalid completion response for prompt "${e2.prompt}"` });
+      e2.hydrateFromGeneration({ text: n7.text, embedding: new Float32Array(n7.embedding), model: n7.model, date: n7.date, aFrameVersion: t4.A_FRAME_VERSION, aFrameServerVersion: n7.meta.server_version });
+    } catch (n7) {
+      throw new s3({ title: s3.RequestFailed, description: `Failed to generate completion for prompt "${e2.prompt}": ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
-  async extractSchema(e, t4) {
-    let r8 = new c2("POST", "/api/v1/schema/extract", { prompt: e.prompt, schema: e.schema, options: e.options }), a4 = new R({ name: "A_FrameChannel.extractSchema", fragments: [r8] }).inherit(_.scope(this));
+  async extractSchema(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/schema/extract", { prompt: e2.prompt, schema: e2.schema, options: e2.options }), a4 = new R({ name: "A_FrameChannel.extractSchema", fragments: [r9] }).inherit(_.scope(this));
     try {
-      await this.call(d3.Request, a4), a4.destroy();
-      let n6 = r8.response;
-      if (!n6.data) throw new s3({ title: s3.InvalidRequest, description: `Invalid scheme extraction response for prompt "${e.prompt}"` });
-      e.hydrateFromExtraction(n6.data, { model: n6.model, date: n6.date, aFrameVersion: t4.A_FRAME_VERSION, aFrameServerVersion: n6.meta.server_version });
-    } catch (n6) {
-      throw new s3({ title: s3.RequestFailed, description: `Failed to extract scheme for prompt "${e.prompt}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+      await this.call(d4.Request, a4), a4.destroy();
+      let n7 = r9.response;
+      if (!n7.data) throw new s3({ title: s3.InvalidRequest, description: `Invalid scheme extraction response for prompt "${e2.prompt}"` });
+      e2.hydrateFromExtraction(n7.data, { model: n7.model, date: n7.date, aFrameVersion: t4.A_FRAME_VERSION, aFrameServerVersion: n7.meta.server_version });
+    } catch (n7) {
+      throw new s3({ title: s3.RequestFailed, description: `Failed to extract scheme for prompt "${e2.prompt}": ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
-  async extractSchemaMultiple(e, t4) {
-    let r8 = new c2("POST", "/api/v1/schema/extract-multiple", { prompt: e.prompt, schema: e.schema, options: e.options }), a4 = new R({ name: "A_FrameChannel.extractSchemaMultiple", fragments: [r8] }).inherit(_.scope(this));
+  async extractSchemaMultiple(e2, t4) {
+    let r9 = new c2("POST", "/api/v1/schema/extract-multiple", { prompt: e2.prompt, schema: e2.schema, options: e2.options }), a4 = new R({ name: "A_FrameChannel.extractSchemaMultiple", fragments: [r9] }).inherit(_.scope(this));
     try {
-      await this.call(d3.Request, a4), a4.destroy();
-      let n6 = r8.response;
-      if (!Array.isArray(n6.data)) throw new s3({ title: s3.InvalidRequest, description: `Invalid extract-multiple response for prompt "${e.prompt}": expected array` });
-      e.hydrateFromMultipleExtraction(n6.data, { model: n6.model, date: n6.date, aFrameVersion: t4.A_FRAME_VERSION, aFrameServerVersion: n6.meta.server_version });
-    } catch (n6) {
-      throw new s3({ title: s3.RequestFailed, description: `Failed to extract-multiple for prompt "${e.prompt}": ${n6 instanceof Error ? n6.message : String(n6)}` });
+      await this.call(d4.Request, a4), a4.destroy();
+      let n7 = r9.response;
+      if (!Array.isArray(n7.data)) throw new s3({ title: s3.InvalidRequest, description: `Invalid extract-multiple response for prompt "${e2.prompt}": expected array` });
+      e2.hydrateFromMultipleExtraction(n7.data, { model: n7.model, date: n7.date, aFrameVersion: t4.A_FRAME_VERSION, aFrameServerVersion: n7.meta.server_version });
+    } catch (n7) {
+      throw new s3({ title: s3.RequestFailed, description: `Failed to extract-multiple for prompt "${e2.prompt}": ${n7 instanceof Error ? n7.message : String(n7)}` });
     }
   }
 }, __name(_a76, "l"), _a76);
-j2(l3, "A_FrameChannel"), k2([N.Extend({ name: r4.Embed, scope: [h3] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedDefinition", 1), k2([N.Extend({ name: m3.Embed, scope: [w2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedNamespace", 1), k2([N.Extend({ name: r5.Embed, scope: [_4] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "embedSegment", 1), k2([N.Extend({ name: D3.Generate, scope: [O3] }), l(0, Yt(te)), l(1, Yt(v4))], l3.prototype, "generateDynamicStructure", 1), k2([N.Extend({ name: D3.Patch, scope: [O3] }), l(0, Yt(te)), l(1, Yt(v4))], l3.prototype, "patchDynamicStructure", 1), k2([N.Extend({ name: C4.Generate, scope: [P3] }), l(0, Yt(te)), l(1, Yt(w5))], l3.prototype, "generateDynamicFeature", 1), k2([N.Extend({ name: C4.Patch, scope: [P3] }), l(0, Yt(te)), l(1, Yt(w5))], l3.prototype, "patchDynamicFeature", 1), k2([N.Extend({ name: F3.Generate, scope: [w4] }), l(0, Yt(te)), l(1, Yt(f2))], l3.prototype, "generateDynamicContent", 1), k2([N.Extend({ name: F3.Patch, scope: [w4] }), l(0, Yt(te)), l(1, Yt(f2))], l3.prototype, "patchDynamicContent", 1), k2([N.Extend({ name: n4.Generate, scope: [m4] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "generateCompletion", 1), k2([N.Extend({ name: r6.Extract, scope: [s2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "extractSchema", 1), k2([N.Extend({ name: r6.ExtractMultiple, scope: [s2] }), l(0, Yt(te)), l(1, Yt(f3))], l3.prototype, "extractSchemaMultiple", 1);
-var Fe2 = l3;
+j2(l2, "A_FrameChannel"), k2([N.Extend({ name: r5.Embed, scope: [h3] }), l(0, Yt(te)), l(1, Yt(r3))], l2.prototype, "embedDefinition", 1), k2([N.Extend({ name: m3.Embed, scope: [w2] }), l(0, Yt(te)), l(1, Yt(r3))], l2.prototype, "embedNamespace", 1), k2([N.Extend({ name: r6.Embed, scope: [_3] }), l(0, Yt(te)), l(1, Yt(r3))], l2.prototype, "embedSegment", 1), k2([N.Extend({ name: D3.Generate, scope: [O3] }), l(0, Yt(te)), l(1, Yt(R2))], l2.prototype, "generateDynamicStructure", 1), k2([N.Extend({ name: D3.Patch, scope: [O3] }), l(0, Yt(te)), l(1, Yt(R2))], l2.prototype, "patchDynamicStructure", 1), k2([N.Extend({ name: C5.Generate, scope: [P4] }), l(0, Yt(te)), l(1, Yt(v5))], l2.prototype, "generateDynamicFeature", 1), k2([N.Extend({ name: C5.Patch, scope: [P4] }), l(0, Yt(te)), l(1, Yt(v5))], l2.prototype, "patchDynamicFeature", 1), k2([N.Extend({ name: P3.Generate, scope: [N2] }), l(0, Yt(te)), l(1, Yt(f2))], l2.prototype, "generateDynamicContent", 1), k2([N.Extend({ name: P3.Patch, scope: [N2] }), l(0, Yt(te)), l(1, Yt(f2))], l2.prototype, "patchDynamicContent", 1), k2([N.Extend({ name: n4.Generate, scope: [m4] }), l(0, Yt(te)), l(1, Yt(r3))], l2.prototype, "generateCompletion", 1), k2([N.Extend({ name: r7.Extract, scope: [n5] }), l(0, Yt(te)), l(1, Yt(r3))], l2.prototype, "extractSchema", 1), k2([N.Extend({ name: r7.ExtractMultiple, scope: [n5] }), l(0, Yt(te)), l(1, Yt(r3))], l2.prototype, "extractSchemaMultiple", 1);
+var le2 = l2;
 
-// node_modules/@adaas/a-frame/dist/browser/chunk-P6WICUUU.mjs
+// node_modules/@adaas/a-frame/dist/browser/chunk-X2W2OTA6.mjs
 var _a77;
-var r7 = (_a77 = class extends Fe2 {
-  async request(e, a4) {
-    let R5 = `${a4.A_FRAME_SERVER_URL}${e.path}`, m7 = new AbortController(), _6 = setTimeout(() => {
-      m7.abort(), e.fail(new s3({ title: s3.Timeout, description: `Request to ${e.path} timed out after 15 seconds` }));
+var r8 = (_a77 = class extends le2 {
+  async request(e2, a4) {
+    let R4 = `${a4.A_FRAME_SERVER_URL}${e2.path}`, m7 = new AbortController(), _5 = setTimeout(() => {
+      m7.abort(), e2.fail(new s3({ title: s3.Timeout, description: `Request to ${e2.path} timed out after 15 seconds` }));
     }, 15e3);
     try {
-      let n6 = await fetch(R5, { method: e.method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${a4.A_FRAME_SERVER_API_KEY}` }, body: e.body !== void 0 ? JSON.stringify(e.body) : void 0, signal: m7.signal });
-      e.complete(await n6.json());
+      let n7 = await fetch(R4, { method: e2.method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${a4.A_FRAME_SERVER_API_KEY}` }, body: e2.body !== void 0 ? JSON.stringify(e2.body) : void 0, signal: m7.signal });
+      e2.complete(await n7.json());
     } catch {
-      e.fail(new s3({ title: s3.RequestFailed, description: `Request to ${e.path} failed or timed out` }));
+      e2.fail(new s3({ title: s3.RequestFailed, description: `Request to ${e2.path} failed or timed out` }));
     } finally {
-      clearTimeout(_6);
+      clearTimeout(_5);
     }
   }
 }, __name(_a77, "r"), _a77);
-j2(r7, "A_FrameBrowserChannel"), k2([N.Extend({ name: d3.Request, scope: [Fe2] }), l(0, Yt(c2)), l(1, Yt(R2))], r7.prototype, "request", 1);
-var A5 = r7;
+j2(r8, "A_FrameBrowserChannel"), k2([N.Extend({ name: d4.Request, scope: [le2] }), l(0, Yt(c2)), l(1, Yt(r3))], r8.prototype, "request", 1);
+var A5 = r8;
 
 // node_modules/@adaas/a-frame/dist/browser/chunk-V44ZFIUA.mjs
 var _a78;
-var n5 = (_a78 = class extends H {
+var n6 = (_a78 = class extends H {
   constructor() {
     if (_a78._instance) return _a78._instance;
     super({ name: "A_FrameIndex" });
@@ -5047,233 +5137,233 @@ var n5 = (_a78 = class extends H {
   static get scope() {
     return _.scope(this);
   }
-  static inherit(e) {
-    _a78.instance.inherit(e);
+  static inherit(e2) {
+    _a78.instance.inherit(e2);
   }
-  static addDefinition(e) {
-    _a78.instance.addDefinition(e);
+  static addDefinition(e2) {
+    _a78.instance.addDefinition(e2);
   }
-  static getDefinition(e) {
-    return _a78.instance.getDefinition(e);
+  static getDefinition(e2) {
+    return _a78.instance.getDefinition(e2);
   }
-  static listDefinitions(e) {
-    return _a78.instance.listDefinitions(e);
+  static listDefinitions(e2) {
+    return _a78.instance.listDefinitions(e2);
   }
-  static removeDefinition(e) {
-    _a78.instance.removeDefinition(e);
+  static removeDefinition(e2) {
+    _a78.instance.removeDefinition(e2);
   }
-  static addNamespace(e) {
-    _a78.instance.addNamespace(e);
+  static addNamespace(e2) {
+    _a78.instance.addNamespace(e2);
   }
   static getDefaultNamespace() {
     return _a78.instance.getDefaultNamespace();
   }
-  static getNamespace(e) {
-    return _a78.instance.getNamespace(e);
+  static getNamespace(e2) {
+    return _a78.instance.getNamespace(e2);
   }
   static listNamespaces() {
     return _a78.instance.listNamespaces();
   }
-  static removeNamespace(e) {
-    _a78.instance.removeNamespace(e);
+  static removeNamespace(e2) {
+    _a78.instance.removeNamespace(e2);
   }
-  static search(e, i6 = {}) {
-    return _a78.instance.search(e, i6);
+  static search(e2, i6 = {}) {
+    return _a78.instance.search(e2, i6);
   }
   static reset() {
     if (!_a78._instance) return;
-    let e = _a78._instance, i6 = Array.from(e.namespaces.values()), a4 = Array.from(e.definitions.values());
-    e.scope = new R({ name: "A_FrameIndexScope" });
-    for (let t4 of i6) e.scope.register(t4);
-    for (let t4 of a4) e.scope.register(t4);
+    let e2 = _a78._instance, i6 = Array.from(e2.namespaces.values()), a4 = Array.from(e2.definitions.values());
+    e2.scope = new R({ name: "A_FrameIndexScope" });
+    for (let t4 of i6) e2.scope.register(t4);
+    for (let t4 of a4) e2.scope.register(t4);
   }
   get indexSize() {
     return this.definitions.size;
   }
-  inherit(e) {
-    this.scope.inherit(e);
+  inherit(e2) {
+    this.scope.inherit(e2);
   }
-  addDefinition(e) {
-    this.scope.register(e), this.namespaces.get(e.namespace.id) || this.addNamespace(e.namespace), this.definitions.set(e.id, e);
+  addDefinition(e2) {
+    this.scope.register(e2), this.namespaces.get(e2.namespace.id) || this.addNamespace(e2.namespace), this.definitions.set(e2.id, e2);
   }
-  getDefinition(e) {
-    for (let i6 of this.definitions.values()) if (i6.name === e) return i6;
+  getDefinition(e2) {
+    for (let i6 of this.definitions.values()) if (i6.name === e2) return i6;
   }
-  listDefinitions(e = {}) {
-    let i6 = e.namespace ? typeof e.namespace == "string" ? w.isASEID(e.namespace) ? new w(e.namespace).id : e.namespace : e.namespace.id : void 0, a4 = e.inherit ? Array.isArray(e.inherit) ? e.inherit : [e.inherit] : void 0;
+  listDefinitions(e2 = {}) {
+    let i6 = e2.namespace ? typeof e2.namespace == "string" ? w.isASEID(e2.namespace) ? new w(e2.namespace).id : e2.namespace : e2.namespace.id : void 0, a4 = e2.inherit ? Array.isArray(e2.inherit) ? e2.inherit : [e2.inherit] : void 0;
     return [...this.definitions.values()].filter((t4) => !(i6 && t4.namespace.name !== i6 || a4 && !this.matchesInheritanceFilters(t4, a4)));
   }
-  removeDefinition(e) {
-    this.scope.deregister(e);
+  removeDefinition(e2) {
+    this.scope.deregister(e2);
   }
-  addNamespace(e) {
-    this.scope.register(e), this.namespaces.set(e.id, e);
+  addNamespace(e2) {
+    this.scope.register(e2), this.namespaces.set(e2.id, e2);
   }
-  getNamespace(e) {
-    let i6 = typeof e == "string" ? w.isASEID(e) ? new w(e).id : e : e.id;
+  getNamespace(e2) {
+    let i6 = typeof e2 == "string" ? w.isASEID(e2) ? new w(e2).id : e2 : e2.id;
     return this.namespaces.get(i6);
   }
   getDefaultNamespace() {
-    let e = this.getNamespace(C2);
-    return e || (e = new w2({ name: C2 }), this.addNamespace(e)), e;
+    let e2 = this.getNamespace(C2);
+    return e2 || (e2 = new w2({ name: C2 }), this.addNamespace(e2)), e2;
   }
   listNamespaces() {
     return [...this.namespaces.values()];
   }
-  removeNamespace(e) {
-    this.scope.deregister(e), this.namespaces.delete(e.id);
+  removeNamespace(e2) {
+    this.scope.deregister(e2), this.namespaces.delete(e2.id);
   }
-  search(e, i6 = {}) {
-    let { topK: a4 = 10, namespace: t4, minScore: r8 = 0, inherit: c3 } = i6, d4 = c3 ? Array.isArray(c3) ? c3 : [c3] : void 0;
-    return [...this.definitions.values()].filter((s4) => !(t4 && s4.namespace.id !== t4 || d4 && !this.matchesInheritanceFilters(s4, d4))).map((s4) => ({ record: s4, score: this.cosineSimilarity(e, s4.vector) })).filter((s4) => s4.score >= r8).sort((s4, m7) => m7.score - s4.score).slice(0, a4).map(({ record: s4, score: m7 }) => ({ record: s4, score: m7 }));
+  search(e2, i6 = {}) {
+    let { topK: a4 = 10, namespace: t4, minScore: r9 = 0, inherit: c3 } = i6, d5 = c3 ? Array.isArray(c3) ? c3 : [c3] : void 0;
+    return [...this.definitions.values()].filter((s4) => !(t4 && s4.namespace.id !== t4 || d5 && !this.matchesInheritanceFilters(s4, d5))).map((s4) => ({ record: s4, score: this.cosineSimilarity(e2, s4.vector) })).filter((s4) => s4.score >= r9).sort((s4, m7) => m7.score - s4.score).slice(0, a4).map(({ record: s4, score: m7 }) => ({ record: s4, score: m7 }));
   }
-  matchesInheritanceFilters(e, i6) {
-    let a4 = this.scope.resolveConstructor(e.name);
+  matchesInheritanceFilters(e2, i6) {
+    let a4 = this.scope.resolveConstructor(e2.name);
     return a4 ? i6.some((t4) => {
-      let r8 = t4.class;
-      return t4.strict ? Object.getPrototypeOf(a4) === r8 : _.isIndexedInheritedFrom(a4, r8);
+      let r9 = t4.class;
+      return t4.strict ? Object.getPrototypeOf(a4) === r9 : _.isIndexedInheritedFrom(a4, r9);
     }) : false;
   }
-  cosineSimilarity(e, i6) {
+  cosineSimilarity(e2, i6) {
     if (!i6) return 0;
-    let a4 = e.dot(i6), t4 = e.magnitude() * i6.magnitude();
+    let a4 = e2.dot(i6), t4 = e2.magnitude() * i6.magnitude();
     return t4 === 0 ? 0 : a4 / t4;
   }
-  euclideanDistance(e, i6) {
-    this.assertSameLength(e, i6);
+  euclideanDistance(e2, i6) {
+    this.assertSameLength(e2, i6);
     let a4 = 0;
-    for (let t4 = 0; t4 < e.length; t4++) {
-      let r8 = e.values[t4] - i6.values[t4];
-      a4 += r8 * r8;
+    for (let t4 = 0; t4 < e2.length; t4++) {
+      let r9 = e2.values[t4] - i6.values[t4];
+      a4 += r9 * r9;
     }
     return Math.sqrt(a4);
   }
-  nearest(e, i6, a4 = 1) {
-    return [...i6].map((t4) => ({ vector: t4, score: this.cosineSimilarity(e, t4) })).sort((t4, r8) => r8.score - t4.score).slice(0, a4).map((t4) => t4.vector);
+  nearest(e2, i6, a4 = 1) {
+    return [...i6].map((t4) => ({ vector: t4, score: this.cosineSimilarity(e2, t4) })).sort((t4, r9) => r9.score - t4.score).slice(0, a4).map((t4) => t4.vector);
   }
-  rank(e, i6) {
-    return i6.map((a4) => ({ vector: a4, score: this.cosineSimilarity(e, a4) })).sort((a4, t4) => t4.score - a4.score);
+  rank(e2, i6) {
+    return i6.map((a4) => ({ vector: a4, score: this.cosineSimilarity(e2, a4) })).sort((a4, t4) => t4.score - a4.score);
   }
-  assertSameLength(e, i6) {
-    if (e.length !== i6.length) throw new Error(`Embedding dimension mismatch: ${e.length} vs ${i6.length}`);
+  assertSameLength(e2, i6) {
+    if (e2.length !== i6.length) throw new Error(`Embedding dimension mismatch: ${e2.length} vs ${i6.length}`);
   }
 }, __name(_a78, "n"), _a78);
-j2(n5, "A_FrameIndex");
-var h5 = n5;
+j2(n6, "A_FrameIndex");
+var h5 = n6;
 
 // node_modules/@adaas/a-frame/dist/browser/core.mjs
-var j4 = ((a4) => (a4.COMPONENT = "component", a4.ENTITY = "entity", a4.CONTAINER = "container", a4.FRAGMENT = "fragment", a4.METHOD = "method", a4))(j4 || {});
+var j3 = ((a4) => (a4.COMPONENT = "component", a4.ENTITY = "entity", a4.CONTAINER = "container", a4.FRAGMENT = "fragment", a4.METHOD = "method", a4))(j3 || {});
 var _a79;
 var M2 = (_a79 = class {
-  static isAllowedTarget(e) {
-    return i.isEntityConstructor(e) || i.isComponentConstructor(e) || i.isContainerConstructor(e) || i.isFragmentConstructor(e) || i.isComponentInstance(e) || i.isContainerInstance(e) || i.isEntityInstance(e) || i.isFragmentInstance(e);
+  static isAllowedTarget(e2) {
+    return i.isEntityConstructor(e2) || i.isComponentConstructor(e2) || i.isContainerConstructor(e2) || i.isFragmentConstructor(e2) || i.isComponentInstance(e2) || i.isContainerInstance(e2) || i.isEntityInstance(e2) || i.isFragmentInstance(e2);
   }
-  static getTargetName(e) {
-    return A.getComponentName(e);
+  static getTargetName(e2) {
+    return A.getComponentName(e2);
   }
-  static getTargetConstructor(e) {
-    return typeof e == "function" ? e : e.constructor;
+  static getTargetConstructor(e2) {
+    return typeof e2 == "function" ? e2 : e2.constructor;
   }
 }, __name(_a79, "M"), _a79);
 j2(M2, "A_FrameTypeGuard");
 var g4 = M2;
 var _a80;
-var p4 = (_a80 = class extends b {
+var p3 = (_a80 = class extends b {
 }, __name(_a80, "p"), _a80);
-j2(p4, "A_FrameError"), p4.InvalidTarget = "A-Frame Index Invalid Target Error", p4.InvalidConfiguration = "A-Frame Index Invalid Configuration Error", p4.IndexDefinitionError = "A-Frame Index Definition Error", p4.IndexMetadataError = "A-Frame Index Metadata Error", p4.IndexRegistryError = "A-Frame Index Registry Error", p4.IndexComponentNotFoundError = "A-Frame Index Component Not Found Error";
-var m6 = p4;
-function k3(n6) {
-  return function(e, r8, t4) {
+j2(p3, "A_FrameError"), p3.InvalidTarget = "A-Frame Index Invalid Target Error", p3.InvalidConfiguration = "A-Frame Index Invalid Configuration Error", p3.IndexDefinitionError = "A-Frame Index Definition Error", p3.IndexMetadataError = "A-Frame Index Metadata Error", p3.IndexRegistryError = "A-Frame Index Registry Error", p3.IndexComponentNotFoundError = "A-Frame Index Component Not Found Error";
+var m6 = p3;
+function k3(n7) {
+  return function(e2, r9, t4) {
     let o3;
     switch (true) {
-      case (!!r8 && !!t4):
+      case (!!r9 && !!t4):
         o3 = "method";
         break;
-      case (i.isComponentConstructor(e) || i.isComponentInstance(e)):
+      case (i.isComponentConstructor(e2) || i.isComponentInstance(e2)):
         o3 = "component";
         break;
-      case (i.isContainerConstructor(e) || i.isContainerInstance(e)):
+      case (i.isContainerConstructor(e2) || i.isContainerInstance(e2)):
         o3 = "container";
         break;
-      case (i.isEntityConstructor(e) || i.isEntityInstance(e)):
+      case (i.isEntityConstructor(e2) || i.isEntityInstance(e2)):
         o3 = "entity";
         break;
-      case (i.isFragmentConstructor(e) || i.isFragmentInstance(e)):
+      case (i.isFragmentConstructor(e2) || i.isFragmentInstance(e2)):
         o3 = "fragment";
         break;
       default:
-        throw new m6(m6.InvalidTarget, `@A_Frame.Define decorator cannot be applied to the target : ${A.getComponentName(e)}. It can only be applied to classes or methods inheriting from allowed base classes.`);
+        throw new m6(m6.InvalidTarget, `@A_Frame.Define decorator cannot be applied to the target : ${A.getComponentName(e2)}. It can only be applied to classes or methods inheriting from allowed base classes.`);
     }
-    let a4 = n6.namespace ? n6.namespace instanceof w2 ? n6.namespace : h5.getNamespace(n6.namespace) || new w2({ name: n6.namespace }) : h5.getDefaultNamespace();
-    if (r8 && t4) {
-      let c3 = e.constructor, H2 = String(r8), $2 = t4.value.toString();
-      return h5.addDefinition(new h3({ name: H2, dependency: c3.name, description: n6.description, source: $2, metadata: n6.metadata, type: "method", namespace: a4 })), t4;
+    let a4 = n7.namespace ? n7.namespace instanceof w2 ? n7.namespace : h5.getNamespace(n7.namespace) || new w2({ name: n7.namespace }) : h5.getDefaultNamespace();
+    if (r9 && t4) {
+      let c3 = e2.constructor, H2 = String(r9), $2 = t4.value.toString();
+      return h5.addDefinition(new h3({ name: H2, dependency: c3.name, description: n7.description, source: $2, metadata: n7.metadata, type: "method", namespace: a4 })), t4;
     }
-    if (!g4.isAllowedTarget(e)) throw new m6(m6.InvalidTarget, `@A_Frame.${o3} decorator cannot be applied to the target : ${A.getComponentName(e)}. It can only be applied to allowed targets.`);
-    let F4 = A.getComponentName(e), f4 = g4.getTargetConstructor(e), u2 = e.toString();
-    return h5.addDefinition(new h3({ name: F4, description: n6.description, dependency: f4.name, source: u2, metadata: n6.metadata, type: o3, namespace: a4 })), e;
+    if (!g4.isAllowedTarget(e2)) throw new m6(m6.InvalidTarget, `@A_Frame.${o3} decorator cannot be applied to the target : ${A.getComponentName(e2)}. It can only be applied to allowed targets.`);
+    let F4 = A.getComponentName(e2), f4 = g4.getTargetConstructor(e2), u3 = e2.toString();
+    return h5.addDefinition(new h3({ name: F4, description: n7.description, dependency: f4.name, source: u3, metadata: n7.metadata, type: o3, namespace: a4 })), e2;
   };
 }
 __name(k3, "k");
 j2(k3, "A_FrameDefineDecorator");
-function B2(n6 = {}) {
-  return function(e, r8, t4) {
-    if (!n6.name) throw new m6(m6.InvalidConfiguration, "@A_Frame.Namespace decorator requires a name in the configuration.");
-    let o3 = new w2({ name: n6.name, description: n6.description });
+function B2(n7 = {}) {
+  return function(e2, r9, t4) {
+    if (!n7.name) throw new m6(m6.InvalidConfiguration, "@A_Frame.Namespace decorator requires a name in the configuration.");
+    let o3 = new w2({ name: n7.name, description: n7.description });
     h5.addNamespace(o3);
   };
 }
 __name(B2, "B");
 j2(B2, "A_FrameNamespaceDecorator");
 var _a81;
-var v5 = (_a81 = class extends O {
-  static Define(e) {
-    return k3(e);
+var v6 = (_a81 = class extends O {
+  static Define(e2) {
+    return k3(e2);
   }
-  static NameSpace(e) {
-    return B2(e);
+  static NameSpace(e2) {
+    return B2(e2);
   }
   get package() {
     return [];
   }
-  packDependency(e, r8, t4) {
-    e.resolve(r8) || e.register(t4);
+  packDependency(e2, r9, t4) {
+    e2.resolve(r9) || e2.register(t4);
   }
 }, __name(_a81, "v"), _a81);
-j2(v5, "A_FrameBase");
-var P4 = v5;
+j2(v6, "A_FrameBase");
+var P5 = v6;
 var _a82;
-var l4 = (_a82 = class extends P4 {
+var l3 = (_a82 = class extends P5 {
   get package() {
-    return [{ ctor: v2, instance: new v2() }, { ctor: R2, instance: new R2() }, { ctor: O2, instance: new O2() }, { ctor: Y2, instance: Y2 }, { ctor: v3, instance: new v3() }, { ctor: A5, instance: A5 }];
+    return [{ ctor: v2, instance: new v2() }, { ctor: r3, instance: new r3() }, { ctor: O2, instance: new O2() }, { ctor: Y2, instance: Y2 }, { ctor: v3, instance: new v3() }, { ctor: A5, instance: A5 }];
   }
   async injectDependencies() {
-    let e = _.root;
-    if (this.package.forEach(({ ctor: r8, instance: t4 }) => this.packDependency(e, r8, t4)), e.resolve(E) || e.register(E.instance), !e.resolve(h5)) {
-      let r8 = new h5();
-      r8.inherit(e), e.register(r8);
+    let e2 = _.root;
+    if (this.package.forEach(({ ctor: r9, instance: t4 }) => this.packDependency(e2, r9, t4)), e2.resolve(E) || e2.register(E.instance), !e2.resolve(h5)) {
+      let r9 = new h5();
+      r9.inherit(e2), e2.register(r9);
     }
   }
-  async load(e, r8, t4, o3, a4) {
+  async load(e2, r9, t4, o3, a4) {
     if (!t4.encryptionKey && !a4?.hasBundleData) {
       o3.warn("A_Frame (browser): no encryption key and no pre-built bundle data. Seed A_FrameBrowserStorageBlobs.fromBundle(bundle) before concept.load(), or call A_FrameContext.setCredentials({...}) for live-session mode.");
       return;
     }
     a4.bundleMeta && t4.serverVersion && a4.bundleMeta.serverVersion !== t4.serverVersion && o3.warn(`A_Frame bundle was built against server v${a4.bundleMeta.serverVersion} but the current credentials report v${t4.serverVersion}. Hydration may skip records \u2014 rebuild the bundle.`);
-    let F4 = r8.listNamespaces(), f4 = r8.listDefinitions();
+    let F4 = r9.listNamespaces(), f4 = r9.listDefinitions();
     await Promise.all([...F4.map((c3) => Promise.resolve(c3.load()).catch(() => {
     })), ...f4.map((c3) => Promise.resolve(c3.load()).catch(() => {
     }))]);
-    let u2 = F4.filter((c3) => !c3.isEmbed).length + f4.filter((c3) => !c3.isEmbed).length;
-    u2 > 0 && o3.warn(`${u2} A-Frame entit${u2 === 1 ? "y" : "ies"} could not be hydrated from the bundle. Rebuild the bundle on the Node side to include them.`);
+    let u3 = F4.filter((c3) => !c3.isEmbed).length + f4.filter((c3) => !c3.isEmbed).length;
+    u3 > 0 && o3.warn(`${u3} A-Frame entit${u3 === 1 ? "y" : "ies"} could not be hydrated from the bundle. Rebuild the bundle on the Node side to include them.`);
   }
-  async build(e) {
+  async build(e2) {
   }
-  async start(e) {
+  async start(e2) {
   }
 }, __name(_a82, "l"), _a82);
-j2(l4, "A_Frame"), k2([ct.Load()], l4.prototype, "injectDependencies", 1), k2([ct.Load(), l(0, Yt(R)), l(1, Yt(h5)), l(2, Yt(v2)), l(3, Yt(v3)), l(4, Yt(E))], l4.prototype, "load", 1), k2([ct.Build(), l(0, Yt(R))], l4.prototype, "build", 1), k2([ct.Start(), l(0, Yt(R))], l4.prototype, "start", 1);
-var R4 = l4;
+j2(l3, "A_Frame"), k2([ct.Load()], l3.prototype, "injectDependencies", 1), k2([ct.Load(), l(0, Yt(R)), l(1, Yt(h5)), l(2, Yt(v2)), l(3, Yt(v3)), l(4, Yt(E))], l3.prototype, "load", 1), k2([ct.Build(), l(0, Yt(R))], l3.prototype, "build", 1), k2([ct.Start(), l(0, Yt(R))], l3.prototype, "start", 1);
+var R3 = l3;
 
 // node_modules/@adaas/a-utils/dist/browser/chunk-ZSD77J3W.mjs
 var _a83;
@@ -5926,7 +6016,7 @@ __decorateClass2([
   ct.Load()
 ], A_Polyfill.prototype, "attachToWindow", 1);
 A_Polyfill = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Polyfill component that provides cross-environment compatibility for Node.js core modules such as fs, crypto, http, https, path, url, buffer, and process. It dynamically loads appropriate polyfills based on the execution environment (Node.js or browser), enabling seamless usage of these modules in different contexts."
   }),
@@ -5977,7 +6067,7 @@ var A_ExecutionContext = (_a100 = class extends H {
   }
 }, __name(_a100, "A_ExecutionContext"), _a100);
 A_ExecutionContext = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Execution context fragment that provides a structured way to manage metadata and serialized data for execution environments. It allows storing and retrieving key-value pairs, facilitating context-aware operations within the application. It useful in cases when it's necessary to share some runtime data across multiple steps of thee features, or components."
   })
@@ -6031,7 +6121,7 @@ var A_Config = (_a102 = class extends A_ExecutionContext {
   }
 }, __name(_a102, "A_Config"), _a102);
 A_Config = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Configuration management context that provides structured access to application configuration variables, supporting defaults and strict mode for enhanced reliability. Default environment variables are included for comprehensive configuration handling."
   })
@@ -6089,7 +6179,7 @@ __decorateClass2([
   __decorateParam2(0, Yt(A_Config))
 ], ConfigReader.prototype, "initialize", 1);
 ConfigReader = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Abstract component for reading configuration data from various sources such as files, environment variables, or remote services. This component can be extended to implement specific configuration reading strategies."
   }),
@@ -6125,7 +6215,7 @@ var FileConfigReader = (_a104 = class extends ConfigReader {
   }
 }, __name(_a104, "FileConfigReader"), _a104);
 FileConfigReader = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Configuration reader that loads configuration data from a JSON file located in the application root directory. It reads the file named after the current concept with a .conf.json extension and parses its contents into the configuration context."
   })
@@ -6173,7 +6263,7 @@ __decorateClass2([
   __decorateParam2(2, Yt(N))
 ], ENVConfigReader.prototype, "readEnvFile", 1);
 ENVConfigReader = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Configuration reader that sources configuration data from environment variables. It supports loading variables from a .env file and maps them to the configuration context, making it suitable for applications running in diverse environments such as local development, staging, and production."
   })
@@ -6227,7 +6317,7 @@ __decorateClass2([
   __decorateParam2(0, Yt(A_Polyfill))
 ], A_ConfigLoader.prototype, "prepare", 1);
 A_ConfigLoader = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Container responsible for loading and initializing the A_Config component based on the environment and available configuration sources. It can be useful for application that need a separated configuration management and sharable across multiple containers."
   })
@@ -6989,13 +7079,13 @@ ${scopePadding}|-------------------------------
    * for plain A_Error or any other subclass that doesn't expose them.
    */
   appendFeatureContext(error, pushRow, prefix = "") {
-    const e = error;
-    const hasContext = e.featureName || e.stageName || e.handler || e.component;
+    const e2 = error;
+    const hasContext = e2.featureName || e2.stageName || e2.handler || e2.component;
     if (!hasContext) return;
-    if (e.featureName) pushRow(`${prefix}Feature   : ${e.featureName}`);
-    if (e.stageName) pushRow(`${prefix}Stage     : ${e.stageName}`);
-    if (e.component) pushRow(`${prefix}Component : ${e.component}`);
-    if (e.handler) pushRow(`${prefix}Handler   : ${e.handler}`);
+    if (e2.featureName) pushRow(`${prefix}Feature   : ${e2.featureName}`);
+    if (e2.stageName) pushRow(`${prefix}Stage     : ${e2.stageName}`);
+    if (e2.component) pushRow(`${prefix}Component : ${e2.component}`);
+    if (e2.handler) pushRow(`${prefix}Handler   : ${e2.handler}`);
   }
   /**
    * Colorize one stack-trace line:
@@ -7011,7 +7101,7 @@ ${scopePadding}|-------------------------------
     const locRegex = /(\(?)([^()\s:]+\.(?:ts|tsx|js|jsx|mjs|cjs)):(\d+):(\d+)(\)?)/g;
     const colorized = line.replace(
       locRegex,
-      (_6, openP, file, ln, col, closeP) => `${openP}${c3.CYAN}${file}${c3.RESET}${c3.RED}:${c3.YELLOW}${ln}${c3.RED}:${c3.YELLOW}${col}${c3.RED}${closeP}`
+      (_5, openP, file, ln, col, closeP) => `${openP}${c3.CYAN}${file}${c3.RESET}${c3.RED}:${c3.YELLOW}${ln}${c3.RED}:${c3.YELLOW}${col}${c3.RED}${closeP}`
     );
     const baseColor = /caused by:/i.test(line) ? c3.RED_BOLD : c3.RED;
     return `${baseColor}${colorized}${c3.RESET}`;
@@ -7091,7 +7181,7 @@ ${scopePadding}|-------------------------------
   }
 }, __name(_a108, "A_Logger"), _a108);
 A_Logger = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Advanced Logging Component with Scope-based Output Formatting that provides color-coded console output, multi-type support, and configurable log levels for enhanced debugging and monitoring."
   }),
@@ -7191,11 +7281,11 @@ var A_UtilsHelper = (_a109 = class extends O {
         return `fn:${value.toString()}`;
     }
     if (value instanceof Map) {
-      const entries = Array.from(value.entries()).map(([k4, v6]) => `${A_UtilsHelper.serialize(k4)}=>${A_UtilsHelper.serialize(v6)}`).sort().join(",");
+      const entries = Array.from(value.entries()).map(([k4, v7]) => `${A_UtilsHelper.serialize(k4)}=>${A_UtilsHelper.serialize(v7)}`).sort().join(",");
       return `Map{${entries}}`;
     }
     if (value instanceof Set) {
-      const items = Array.from(value.values()).map((v6) => A_UtilsHelper.serialize(v6)).sort().join(",");
+      const items = Array.from(value.values()).map((v7) => A_UtilsHelper.serialize(v7)).sort().join(",");
       return `Set{${items}}`;
     }
     if (value instanceof Date) {
@@ -7205,7 +7295,7 @@ var A_UtilsHelper = (_a109 = class extends O {
       return `RegExp:${value.toString()}`;
     }
     if (Array.isArray(value)) {
-      const items = value.map((v6) => A_UtilsHelper.serialize(v6)).join(",");
+      const items = value.map((v7) => A_UtilsHelper.serialize(v7)).join(",");
       return `[${items}]`;
     }
     if (typeof value.toJSON === "function") {
@@ -7319,7 +7409,7 @@ var A_UtilsHelper = (_a109 = class extends O {
   }
 }, __name(_a109, "A_UtilsHelper"), _a109);
 __decorateClass2([
-  R4.Define({
+  R3.Define({
     description: "Instance method wrapper for the static hash function, allowing it to be injected as a dependency."
   }),
   __decorateParam2(0, Yt(te)),
@@ -7327,7 +7417,7 @@ __decorateClass2([
   __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "hash", 1);
 __decorateClass2([
-  R4.Define({
+  R3.Define({
     description: "Instance method wrapper for the static serialize function, allowing it to be injected as a dependency."
   }),
   __decorateParam2(0, Yt(te)),
@@ -7335,7 +7425,7 @@ __decorateClass2([
   __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "serialize", 1);
 __decorateClass2([
-  R4.Define({
+  R3.Define({
     description: "Instance method wrapper for the static setByPath function, allowing it to be injected as a dependency."
   }),
   __decorateParam2(0, Yt(te)),
@@ -7343,7 +7433,7 @@ __decorateClass2([
   __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "setByPath", 1);
 __decorateClass2([
-  R4.Define({
+  R3.Define({
     description: "Instance method wrapper for the static getByPath function, allowing it to be injected as a dependency."
   }),
   __decorateParam2(0, Yt(te)),
@@ -7351,7 +7441,7 @@ __decorateClass2([
   __decorateParam2(2, Yt(N))
 ], A_UtilsHelper.prototype, "getByPath", 1);
 A_UtilsHelper = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Utility helper class providing common functions for A-Utils library, such as hashing and serialization."
   })
@@ -7433,7 +7523,7 @@ var A_Signal = (_a110 = class extends D {
   }
 }, __name(_a110, "A_Signal"), _a110);
 A_Signal = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "A Signal Entity represents an individual signal instance that carries data, used for managing state within an application context. Signals are designed to reflect the current state rather than individual events, making them suitable for scenarios where state monitoring and real-time updates are essential."
   })
@@ -7705,7 +7795,7 @@ var A_SignalVector = (_a111 = class extends D {
   }
 }, __name(_a111, "A_SignalVector"), _a111);
 A_SignalVector = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "A Signal Vector Entity represents a collection of signals structured in a specific way, allowing for batch processing and transmission of related signals as a unified state representation."
   })
@@ -7792,7 +7882,7 @@ var A_SignalState = (_a112 = class extends H {
   }
 }, __name(_a112, "A_SignalState"), _a112);
 A_SignalState = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Manages the latest state of all signals within a given scope, maintaining a mapping between signal constructors and their most recently emitted values."
   })
@@ -7804,7 +7894,7 @@ var A_SignalConfig = (_a113 = class extends H {
       return this._structure;
     }
     const scope = _.scope(this);
-    const constructors = [...scope.allowedEntities].filter((e) => A.isInheritedFrom(e, A_Signal)).sort((a4, b3) => a4.constructor.name.localeCompare(b3.name)).map((s4) => scope.resolveConstructor(s4.name));
+    const constructors = [...scope.allowedEntities].filter((e2) => A.isInheritedFrom(e2, A_Signal)).sort((a4, b4) => a4.constructor.name.localeCompare(b4.name)).map((s4) => scope.resolveConstructor(s4.name));
     return constructors.filter((s4) => s4);
   }
   /**
@@ -7844,7 +7934,7 @@ var A_SignalConfig = (_a113 = class extends H {
   }
 }, __name(_a113, "A_SignalConfig"), _a113);
 A_SignalConfig = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Signal configuration fragment that defines the structure and types of signals within a given scope. It allows specifying the expected signal constructors and their order, facilitating consistent signal management and processing across components that emit or listen to signals."
   })
@@ -7908,7 +7998,7 @@ var A_SignalBus = (_a116 = class extends O {
     const componentContext = _.scope(this);
     if (!config) {
       const entries = componentContext.allowedEntities.entries();
-      const signalTypes = Array.from(entries).filter(([_6, entity]) => A.isInheritedFrom(entity, A_Signal)).map(([ctor, _6]) => ctor);
+      const signalTypes = Array.from(entries).filter(([_5, entity]) => A.isInheritedFrom(entity, A_Signal)).map(([ctor, _5]) => ctor);
       config = new A_SignalConfig({
         structure: signalTypes.length ? signalTypes : void 0,
         stringStructure: globalConfig?.get("A_SIGNAL_VECTOR_STRUCTURE") || void 0
@@ -7937,7 +8027,7 @@ var A_SignalBus = (_a116 = class extends O {
   }
 }, __name(_a116, "A_SignalBus"), _a116);
 __decorateClass2([
-  R4.Define({
+  R3.Define({
     description: "Emit multiple signals through the signal bus."
   })
 ], A_SignalBus.prototype, "next", 1);
@@ -7975,7 +8065,7 @@ __decorateClass2([
   __decorateParam2(5, Yt(A_SignalConfig))
 ], A_SignalBus.prototype, _a115, 1);
 A_SignalBus = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Signal bus component that manages the emission and state of signals within a given scope. It listens for emitted signals, updates their state, and forwards them to registered watchers. The bus ensures a consistent signal vector structure based on the defined configuration, facilitating signal management across multiple components."
   })
@@ -8281,7 +8371,7 @@ __decorateClass2([
   __decorateParam2(1, Yt(A_Logger))
 ], A_Service.prototype, _a118, 1);
 A_Service = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Service container that manages the lifecycle of various types of services, such as HTTP servers and workers or UI loader. It dynamically loads necessary components based on the provided configuration and orchestrates the start and stop processes, ensuring proper error handling and extensibility through feature hooks."
   })
@@ -8298,17 +8388,17 @@ var A_Route = (_a120 = class extends H {
    * Returns path only without query and hash
    */
   get path() {
-    const p5 = this.url.split("?")[0].split("#")[0];
-    if (p5.includes("://")) {
-      const pathStartIndex = p5.indexOf("/", p5.indexOf("://") + 3);
+    const p4 = this.url.split("?")[0].split("#")[0];
+    if (p4.includes("://")) {
+      const pathStartIndex = p4.indexOf("/", p4.indexOf("://") + 3);
       if (pathStartIndex === -1) {
         return "/";
       } else {
-        const path = p5.slice(pathStartIndex);
+        const path = p4.slice(pathStartIndex);
         return path.endsWith("/") ? path.slice(0, -1) : path;
       }
     }
-    return p5.endsWith("/") ? p5.slice(0, -1) : p5;
+    return p4.endsWith("/") ? p4.slice(0, -1) : p4;
   }
   /**
    * Returns array of parameter names in the route path
@@ -8373,7 +8463,7 @@ var A_Route = (_a120 = class extends H {
   }
 }, __name(_a120, "A_Route"), _a120);
 A_Route = __decorateClass2([
-  R4.Define({
+  R3.Define({
     namespace: "A-Utils",
     description: "Route fragment that defines URL patterns for routing purposes. It supports dynamic parameters and query extraction, allowing for flexible route definitions. This fragment can be used in routing systems to match incoming URLs against defined routes and extract relevant parameters and query strings."
   })
@@ -8472,7 +8562,7 @@ var AreContext = (_a121 = class extends A_ExecutionContext {
    * @param node 
    */
   removeRoot(node) {
-    this._roots = this._roots.filter((r8) => r8.aseid.toString() !== node.aseid.toString());
+    this._roots = this._roots.filter((r9) => r9.aseid.toString() !== node.aseid.toString());
   }
   startPerformance(label = "default") {
     const depth = this._performanceDepth.get(label) || 0;
@@ -8498,7 +8588,7 @@ var AreContext = (_a121 = class extends A_ExecutionContext {
   }
 }, __name(_a121, "AreContext"), _a121);
 AreContext = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Context fragment for the A-Concept Rendering Engine (ARE) framework, serving as a foundational component for managing shared state and configurations within the ARE environment. This Context uses to encapsulate global settings, resources, and utilities that can be accessed by various ARE components and entities during the rendering and interaction processes."
   })
@@ -8719,7 +8809,7 @@ var AreInstruction = (_a122 = class extends D {
   }
 }, __name(_a122, "AreInstruction"), _a122);
 AreInstruction = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreInstruction is the base entity for all rendering instructions in the ARE framework. It represents a serializable, reversible operation (such as creating or mutating a DOM element) that can be applied to and tracked within the AreScene, enabling deterministic rendering and undo/redo capabilities."
   })
@@ -8740,7 +8830,7 @@ var AreDeclaration = (_a123 = class extends AreInstruction {
   }
 }, __name(_a123, "AreDeclaration"), _a123);
 AreDeclaration = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreDeclaration is a top-level rendering instruction that represents the creation of a new element in the ARE scene. It carries the target tag name and parent reference needed by the Host to construct the DOM element, and can be applied or reverted to manage element creation and removal deterministically."
   })
@@ -8793,7 +8883,7 @@ var AreMutation = (_a126 = class extends AreInstruction {
   }
 }, __name(_a126, "AreMutation"), _a126);
 AreMutation = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreMutation is a rendering instruction that represents a reversible change applied to an existing declaration node in the ARE scene \u2014 such as updating an attribute, modifying content, or altering child structure. It references a parent AreDeclaration and is grouped with related mutations for coordinated apply and revert operations."
   })
@@ -9117,7 +9207,7 @@ var AreScene = (_a127 = class extends H {
   }
 }, __name(_a127, "AreScene"), _a127);
 AreScene = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Persistent runtime structure that owns the rendering state for a component's lifetime. Maintains two sets \u2014 applied (what is currently in the DOM) and planned (what should be). Acts as the single source of truth for all rendering decisions. The Compiler produces it once, the Interpreter reads it on every update."
   })
@@ -9232,12 +9322,12 @@ var AreAttribute = (_a128 = class extends D {
   }
 }, __name(_a128, "AreAttribute"), _a128);
 __decorateClass3([
-  R4.Define({
+  R3.Define({
     description: "Compile the attribute. This method should transform attribute details into a set of SceneInstructions. It may also modify attribute value, since this field is editable during runtime."
   })
 ], AreAttribute.prototype, "compile", 1);
 AreAttribute = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Represents an HTML attribute within the A-Concept Rendering Engine (ARE) framework, encapsulating the attribute's name, raw content, evaluated value, and associated features for initialization, transformation, compilation, updating, and validation."
   })
@@ -9729,7 +9819,7 @@ var AreNode = (_a129 = class extends D {
   }
 }, __name(_a129, "AreNode"), _a129);
 AreNode = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "An AreNode entity represents a node within the A-Concept Rendering Engine (ARE) framework. It encapsulates content, markup, and styles, and manages its own scope for nested fragments and entities. AreNodes are responsible for handling events, compiling, rendering, updating, and lifecycle management within the ARE context."
   })
@@ -9738,7 +9828,7 @@ var _a130;
 var AreEvent = (_a130 = class extends A_ExecutionContext {
 }, __name(_a130, "AreEvent"), _a130);
 AreEvent = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Event context for managing events within the A-Concept Rendering Engine (ARE) framework, encapsulating event data and associated nodes to facilitate event-driven interactions."
   })
@@ -9974,7 +10064,7 @@ var AreSignalsContext = (_a132 = class extends H {
   }
 }, __name(_a132, "AreSignalsContext"), _a132);
 AreSignalsContext = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreSignalsContext is a fragment that manages the set of root nodes subscribed to the signal bus. It tracks which Are components should receive signal vectors from AreSignals and provides the subscriber registry used during signal dispatch."
   })
@@ -10106,7 +10196,7 @@ __decorateClass3([
   __decorateParam3(4, Yt(A_Logger))
 ], AreSignals.prototype, "propagateEvent", 1);
 AreSignals = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreSignals is the central signal bus component within the ARE framework. It listens for incoming signal vectors and dispatches them to all subscribed root nodes, enabling reactive, event-driven rendering and lifecycle management across the component tree."
   }),
@@ -10312,7 +10402,7 @@ __decorateClass3([
   Are.Data
 ], Are.prototype, "data", 1);
 Are = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Base component class for A-Concept Rendering Engine (ARE) components. It provides lifecycle decorators and methods for defining templates, styles, and data, facilitating the creation of dynamic and interactive UI components within the ARE framework."
   }),
@@ -10382,7 +10472,7 @@ var AreSyntax = (_a136 = class extends H {
     this._trimWhitespace = config?.trimWhitespace !== false;
     this._strictMode = config?.strictMode !== false;
     this._rules = [...config?.rules ?? []].sort(
-      (a4, b3) => (b3.priority ?? 0) - (a4.priority ?? 0)
+      (a4, b4) => (b4.priority ?? 0) - (a4.priority ?? 0)
     );
   }
   /**
@@ -10428,8 +10518,8 @@ var AreSyntax = (_a136 = class extends H {
     if (!isSimplePath) {
       try {
         compiled = new Function("scope", `"use strict"; with(scope) { return (${trimmed}) }`);
-      } catch (e) {
-        throw new Error(`Expression syntax error in "${trimmed}": ${e.message}`);
+      } catch (e2) {
+        throw new Error(`Expression syntax error in "${trimmed}": ${e2.message}`);
       }
     }
     const createSandboxFn = this.createSandbox.bind(this);
@@ -10445,8 +10535,8 @@ var AreSyntax = (_a136 = class extends H {
         let result;
         try {
           result = compiled ? compiled(sandbox) : new Function("scope", `"use strict"; with(scope) { return (${trimmed}) }`)(sandbox);
-        } catch (e) {
-          throw new Error(`Expression evaluation error in "${trimmed}": ${e.message}`);
+        } catch (e2) {
+          throw new Error(`Expression evaluation error in "${trimmed}": ${e2.message}`);
         }
         if (isCallable && typeof result !== "function") {
           throw new Error(
@@ -10564,11 +10654,11 @@ var AreSyntax = (_a136 = class extends H {
   // ── Sandbox ───────────────────────────────────────────────────────────────
   createSandbox(store, scope) {
     return new Proxy({}, {
-      has: /* @__PURE__ */ __name((_6, key) => {
+      has: /* @__PURE__ */ __name((_5, key) => {
         if (typeof key === "string" && this.BLOCKED_GLOBALS.has(key)) return false;
         return true;
       }, "has"),
-      get: /* @__PURE__ */ __name((_6, key) => {
+      get: /* @__PURE__ */ __name((_5, key) => {
         if (typeof key !== "string") return void 0;
         if (scope && key in scope) return scope[key];
         this.assertSafeKey(key);
@@ -10617,18 +10707,18 @@ var AreSyntax = (_a136 = class extends H {
     let fn;
     try {
       fn = new Function("scope", `with(scope) { return (${expr}) }`);
-    } catch (e) {
-      throw new Error(`Expression syntax error in "${expr}": ${e.message}`);
+    } catch (e2) {
+      throw new Error(`Expression syntax error in "${expr}": ${e2.message}`);
     }
     try {
       return fn(sandbox);
-    } catch (e) {
-      throw new Error(`Expression evaluation error in "${expr}": ${e.message}`);
+    } catch (e2) {
+      throw new Error(`Expression evaluation error in "${expr}": ${e2.message}`);
     }
   }
 }, __name(_a136, "AreSyntax"), _a136);
 AreSyntax = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Context that defines the syntax rules and structures for the A-Concept Rendering Engine (ARE). It provides mechanisms for parsing and interpreting templates, attributes, directives, interpolations, and event listeners, enabling dynamic and interactive UI rendering within the ARE framework."
   })
@@ -10675,7 +10765,7 @@ __decorateClass3([
   __decorateParam3(2, Yt(A_Logger))
 ], AreCompiler.prototype, "compile", 1);
 AreCompiler = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Walks the transformed AreNode tree and emits a Scene. Translates each node, binding, directive and interpolation into a typed instruction. Knows nothing about the DOM or any rendering target \u2014 its only concern is producing a complete and ordered set of instructions that fully describes how the tree should be rendered."
   })
@@ -10704,7 +10794,7 @@ __decorateClass3([
   __decorateParam3(2, Yt(AreScene))
 ], AreTransformer.prototype, "transform", 1);
 AreTransformer = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Reshapes the AreNode tree before compilation without changing its abstraction level. Responsible for structural rewrites that would complicate the compiler if left unhandled \u2014 converting $for nodes into AreGroupNode, extracting AreText and AreInterpolation from raw text, sorting directives via TopologicalSorter, and flagging static nodes."
   })
@@ -10742,7 +10832,7 @@ __decorateClass3([
   __decorateParam3(4, Yt(AreContext))
 ], AreLoader.prototype, "load", 1);
 AreLoader = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Entry point of the pipeline. Accepts a raw template string and orchestrates the initial processing by delegating to Syntax. Returns a structured AreNode tree ready for transformation. Knows nothing about the template content or grammar rules."
   })
@@ -11057,7 +11147,7 @@ var AreStore = (_a140 = class extends A_ExecutionContext {
   }
 }, __name(_a140, "AreStore"), _a140);
 AreStore = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Runtime data store scoped to an AreNode. Holds interpolation values, dynamic data bindings, and any per-node state that components need to read or write during rendering. Can be injected into directives, attributes, and lifecycle handlers to share mutable data across the render pipeline without exposing it globally."
   })
@@ -11201,7 +11291,7 @@ __decorateClass3([
   __decorateParam3(4, Yt(N))
 ], AreInterpreter.prototype, "revertInstruction", 1);
 AreInterpreter = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Stateless executor that reads the Scene and translates its instructions into operations on a rendering target. Computes the diff between applied and planned, calls revert on removed instructions and apply on added ones. Owns no state of its own \u2014 all state lives in the Scene. Can be swapped for any target implementation (DOMInterpreter, SSRInterpreter, CanvasInterpreter) without touching any other part of the pipeline."
   })
@@ -11526,7 +11616,7 @@ __decorateClass3([
   __decorateParam3(2, Yt(N))
 ], AreLifecycle.prototype, "afterDestroy", 1);
 AreLifecycle = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Handles the lifecycle of the AreNode and related entities such as interpolations, directives, attributes, and so on. It provides lifecycle hooks for initialization, mounting, updating, and unmounting of the nodes, allowing to manage the state and behavior of the nodes throughout their lifecycle in a structured and consistent way."
   })
@@ -11719,7 +11809,7 @@ var AreTokenizer = (_a145 = class extends O {
   }
   tryPlainText(raw, position) {
     if (!raw) return null;
-    const rule = this.config.rules.find((r8) => !r8.opening && !r8.closing && !r8.pattern && !r8.matcher);
+    const rule = this.config.rules.find((r9) => !r9.opening && !r9.closing && !r9.pattern && !r9.matcher);
     if (!rule) return null;
     const match = this.buildMatch(rule, raw, raw, position, "");
     match._rule = rule;
@@ -11727,7 +11817,7 @@ var AreTokenizer = (_a145 = class extends O {
   }
   findRuleForMatch(match) {
     if (match._rule) return match._rule;
-    return this.config.rules.find((r8) => (r8.opening ?? "") === match.opening && (r8.closing ?? "") === match.closing);
+    return this.config.rules.find((r9) => (r9.opening ?? "") === match.opening && (r9.closing ?? "") === match.closing);
   }
 }, __name(_a145, "AreTokenizer"), _a145);
 __decorateClass3([
@@ -11747,7 +11837,7 @@ __decorateClass3([
   __decorateParam3(2, Yt(A_Logger))
 ], AreTokenizer.prototype, "tokenize", 1);
 AreTokenizer = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreTokenizer is responsible for scanning and tokenizing template source strings using the syntax rules defined in AreSyntax. It converts raw template strings into AreNode instances that represent the structured AST of the template, enabling downstream compilation and rendering within the ARE framework."
   })
@@ -11759,7 +11849,7 @@ var AreSignal = (_a146 = class extends A_Signal {
   }
 }, __name(_a146, "AreSignal"), _a146);
 AreSignal = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "AreSignal is the base class for all signals used within the ARE framework. It extends A_Signal to provide a typed signal entity that components can subscribe to and emit, enabling reactive communication between ARE components and driving lifecycle and rendering updates."
   })
@@ -11931,17 +12021,17 @@ var AreEngine = (_a148 = class extends O {
   }
 }, __name(_a148, "AreEngine"), _a148);
 __decorateClass3([
-  R4.Define({
+  R3.Define({
     description: "Method does engine loading, first read of the source and tokenization."
   })
 ], AreEngine.prototype, "load", 1);
 __decorateClass3([
-  R4.Define({
+  R3.Define({
     description: "Method responsible for building the scene, which includes initializing root nodes, loading necessary data, applying transformations, and compiling the scene into a format that can be executed by the interpreter."
   })
 ], AreEngine.prototype, "build", 1);
 __decorateClass3([
-  R4.Define({
+  R3.Define({
     description: "Method responsible for executing the rendering process, which involves mounting the root nodes to the DOM and starting the reactive update cycle based on signals and state changes."
   })
 ], AreEngine.prototype, "execute", 1);
@@ -11987,12 +12077,12 @@ __decorateClass3([
   __decorateParam3(8, Yt(A_Logger))
 ], AreEngine.prototype, "verify", 1);
 __decorateClass3([
-  R4.Define({
+  R3.Define({
     description: "Method to pack all necessary dependencies for the engine. This method is called during the initialization phase of the engine and ensures that all required components are registered in the container scope, allowing for proper dependency injection and management throughout the engine's lifecycle."
   })
 ], AreEngine.prototype, "package", 1);
 AreEngine = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Core rendering engine for A-Concept Rendering Engine (ARE), responsible for orchestrating the loading, building, and execution of the rendering process. It manages the lifecycle of root nodes, coordinates the interactions between syntax, transformer, loader, compiler, and interpreter components, and ensures the proper initialization and mounting of the UI application."
   })
@@ -12016,7 +12106,7 @@ __decorateClass3([
   ct.Stop()
 ], AreWatcher.prototype, "destroy", 1);
 AreWatcher = __decorateClass3([
-  R4.Define({
+  R3.Define({
     namespace: "A-ARE",
     description: "Abstract base component that observes external changes and emits A_Signals to drive reactive updates within the ARE pipeline. Subclasses override init() to set up initial state and watch() to begin observing \u2014 for example, polling a data source, listening to DOM events, or subscribing to a store \u2014 and call the appropriate signal methods to notify the engine when a re-render is needed."
   })
@@ -12085,362 +12175,208 @@ var AreLoaderError = (_a156 = class extends b {
 }, __name(_a156, "AreLoaderError"), _a156);
 AreLoaderError.SyntaxError = "Are Loader Syntax Error";
 AreLoaderError.EmptyTemplateError = "Are Loader Empty Template Error";
-var _a157;
-var AreRoute = (_a157 = class extends AreSignal {
-  constructor(path) {
-    super({
-      data: new A_Route(path)
-    });
-  }
-  get route() {
-    return this.data;
-  }
-  static default() {
-    return new _a157(document.location.pathname || "/");
-  }
-  compare(other) {
-    return this.route.toRegExp().test(other.data.toString());
-  }
-}, __name(_a157, "_AreRoute"), _a157);
 
-// src/signals/AreRoute.signal.ts
-var AreRoute2 = class extends AreSignal {
-  constructor(path) {
-    super({
-      data: new A_Route(path)
-    });
-  }
-  get route() {
-    return this.data;
-  }
-  static default() {
-    return new AreRoute2(document.location.pathname || "/");
-  }
-  compare(other) {
-    return this.route.toRegExp().test(other.data.toString());
+// src/lib/AreHTMLAttribute/AreHTML.attribute.ts
+var AreHTMLAttribute = class extends AreAttribute {
+  get owner() {
+    return this.scope.issuer();
   }
 };
-__name(AreRoute2, "AreRoute");
-AreRoute2 = __decorateClass([
-  R4.Define({
+__name(AreHTMLAttribute, "AreHTMLAttribute");
+AreHTMLAttribute = __decorateClass([
+  R3.Define({
     namespace: "a-are-html",
-    description: "ARE signal that carries an A_Route value. Dispatched by AreRouteWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
+    description: "Base class for all typed HTML attributes in the ARE framework. Provides typed access to the owning AreHTMLNode via the scope injector so that attribute subclasses can inspect host-node properties and resolve store bindings during transformation, compilation, and lifecycle phases."
   })
-], AreRoute2);
+], AreHTMLAttribute);
 
-// src/lib/AreRoot/AreRootCache.context.ts
-var AreRootCache = class extends H {
-  constructor(limit = 10) {
-    super({ name: "AreRootCache" });
-    /**
-     * rootId -> (component tag -> cache entry). The inner Map preserves
-     * insertion order which is used as the LRU recency order: the first key is
-     * the least-recently-used entry, the last key the most-recently-used.
-     */
-    this._cache = /* @__PURE__ */ new Map();
-    this._limit = Math.max(0, Math.floor(limit));
-  }
-  /**
-   * Maximum number of cached subtrees kept per root.
-   */
-  get limit() {
-    return this._limit;
-  }
-  bucket(rootId) {
-    let bucket = this._cache.get(rootId);
-    if (!bucket) {
-      bucket = /* @__PURE__ */ new Map();
-      this._cache.set(rootId, bucket);
-    }
-    return bucket;
-  }
-  /**
-   * Whether a subtree for the given component tag is currently cached.
-   */
-  has(rootId, tag) {
-    return this.bucket(rootId).has(tag);
-  }
-  /**
-   * Retrieve AND remove a cached subtree so it can become live again. Returns
-   * `undefined` on a cache miss.
-   */
-  take(rootId, tag) {
-    const bucket = this.bucket(rootId);
-    const entry = bucket.get(tag);
-    if (entry) {
-      bucket.delete(tag);
-    }
-    return entry;
-  }
-  /**
-   * Stash a detached subtree under the given component tag. Returns any entries
-   * that were evicted to honour the LRU limit (or replaced for the same tag) so
-   * the caller can `destroy()` them.
-   */
-  put(rootId, tag, entry) {
-    const bucket = this.bucket(rootId);
-    const evicted = [];
-    const existing = bucket.get(tag);
-    if (existing) {
-      bucket.delete(tag);
-      if (existing.node !== entry.node) {
-        evicted.push(existing);
-      }
-    }
-    bucket.set(tag, entry);
-    while (bucket.size > this._limit) {
-      const oldestKey = bucket.keys().next().value;
-      if (oldestKey === void 0) {
-        break;
-      }
-      const oldest = bucket.get(oldestKey);
-      bucket.delete(oldestKey);
-      evicted.push(oldest);
-    }
-    return evicted;
-  }
-  /**
-   * Remove and return every cached entry for a root (e.g. on teardown) so the
-   * caller can destroy them.
-   */
-  clear(rootId) {
-    const bucket = this._cache.get(rootId);
-    if (!bucket) {
-      return [];
-    }
-    const entries = [...bucket.values()];
-    bucket.clear();
-    this._cache.delete(rootId);
-    return entries;
-  }
+// src/attributes/AreBinding.attribute.ts
+var AreBindingAttribute = class extends AreHTMLAttribute {
+  // get value(): string {
+  //     const [firstPart, ...pathPart] = this.content.split('.');
+  //     const primaryObject = this.owner.store.get(firstPart);
+  //     return AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join('.')) as string;
+  // }
 };
-__name(AreRootCache, "AreRootCache");
-AreRootCache = __decorateClass([
-  R4.Define({
+__name(AreBindingAttribute, "AreBindingAttribute");
+AreBindingAttribute = __decorateClass([
+  R3.Define({
     namespace: "a-are-html",
-    description: "AreRootCache is a fragment that keeps a small per-root LRU of previously rendered are-root subtrees. When an are-root swaps the component it displays, the outgoing subtree is stashed here (unmounted + detached, but not destroyed) so that routing back to it can re-inject the preserved scene instantly instead of rebuilding from scratch."
+    description: "Attribute type for two-way value bindings (: prefix). Marks that the attribute value should be resolved dynamically from the node store rather than used verbatim, enabling reactive updates whenever the underlying store value changes during a rendering cycle."
   })
-], AreRootCache);
+], AreBindingAttribute);
 
-// src/lib/AreRoot/AreRoot.component.ts
-var AreRoot = class extends Are {
-  async template(root, logger, signalsContext, signalState) {
-    const rootId = root.id;
-    if (signalsContext && !signalsContext.hasRoot(rootId)) {
-      if (!root.content?.trim()) {
-        const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
-        const defaultComponent = defaultMatch?.[1];
-        if (defaultComponent) {
-          root.setContent(`<${defaultComponent}></${defaultComponent}>`);
-        }
-      }
-      return;
-    }
-    const initialVector = this.buildInitialVector(signalState);
-    const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
-    let componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : void 0;
-    if (!componentName) {
-      if (root.content?.trim()) {
-        return;
-      }
-    }
-    if (!componentName) {
-      const defaultComp = signalsContext?.getDefault(rootId);
-      if (defaultComp?.name) {
-        componentName = P.toKebabCase(defaultComp.name);
-      }
-    }
-    if (!componentName) {
-      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
-      componentName = defaultMatch?.[1];
-    }
-    if (!componentName) {
-      logger.warning('AreRoot: No component found for initial render. Provide body content, a route condition, or a "default" attribute.');
-      return;
-    }
-    root.setContent(`<${componentName}></${componentName}>`);
-  }
-  async onSignal(root, vector, logger, signalsContext, cache) {
-    const rootId = root.id;
-    if (signalsContext && !signalsContext.hasRoot(rootId)) {
-      return;
-    }
-    const renderTarget = this.matchComponent(rootId, vector, signalsContext);
-    const def = signalsContext?.getDefault(rootId);
-    const componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : def?.name ? P.toKebabCase(def.name) : void 0;
-    if (!componentName) {
-      for (const child of [...root.children]) {
-        this.stashChild(root, child, signalsContext, cache);
-      }
-      root.setContent("");
-      return;
-    }
-    const currentChild = root.children[0];
-    if (currentChild?.type === componentName) {
-      return;
-    }
-    for (const child of [...root.children]) {
-      this.stashChild(root, child, signalsContext, cache);
-    }
-    root.setContent(`<${componentName}></${componentName}>`);
-    const cached = cache?.take(root.id, componentName);
-    if (cached) {
-      this.restoreChild(root, cached, signalsContext);
-      return;
-    }
-    root.tokenize();
-    for (let i6 = 0; i6 < root.children.length; i6++) {
-      const child = root.children[i6];
-      child.init();
-      const res = child.load();
-      if (res instanceof Promise) {
-        await res;
-      }
-      child.transform();
-      child.compile();
-      await child.mount();
-    }
-  }
+// src/attributes/AreDirective.attribute.ts
+var AreDirectiveAttribute = class extends AreHTMLAttribute {
   /**
-   * Resolves the component a vector should render for the given root, mirroring
-   * the priority used everywhere in the routing system:
-   *   1. Root-specific conditions registered on AreSignalsContext.
-   *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
-   *
-   * Passing the pool *into* the meta lookup is critical: without it, the first
-   * globally matching component wins and may belong to a different outlet
-   * (e.g. AisRequirementsPanel for the meta-outlet matching
-   * AisEditorCursorScope) — the pool check would then reject it and the outlet
-   * would fall back to its default, hiding a valid in-pool match (e.g.
-   * AisDiagramTab matching AisSetPrimaryDisplay).
-   *
-   * Returns `undefined` when nothing matches — callers decide whether to use a
-   * configured default, body content, or clear the outlet.
+   * Returns a custom directive component associated with this attribute, if available.
+   * 
+   * The method uses the attribute's name to resolve the corresponding directive component from the scope. It constructs the expected directive name by converting the attribute name to PascalCase and prefixing it with "AreDirective". If a matching directive component is found in the scope, it is returned; otherwise, the method returns undefined.
    */
-  matchComponent(rootId, vector, signalsContext) {
-    if (!vector) return void 0;
-    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
-    if (!renderTarget) {
-      const signalsMeta = _.meta(AreSignals);
-      const pool = signalsContext?.getComponentById(rootId);
-      const metaTarget = signalsMeta?.findComponentByVector(
-        vector,
-        pool?.length ? pool : void 0,
-        rootId
-      );
-      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
-        renderTarget = metaTarget;
-      }
-    }
-    return renderTarget;
-  }
-  /**
-   * Builds the vector used for the INITIAL render. It is seeded from the
-   * accumulated signal state (every signal dispatched on the bus so far) so a
-   * freshly-mounted outlet reflects the live application state immediately,
-   * not just on the next signal tick. The current URL route is appended when
-   * no AreRoute is already present in the state, so route-driven outlets still
-   * resolve on the very first paint (before AreRouteWatcher has dispatched).
-   */
-  buildInitialVector(signalState) {
-    const signals = [];
-    if (signalState) {
-      for (const signal of signalState.toVector()) {
-        if (signal) signals.push(signal);
-      }
-    }
-    if (!signals.some((signal) => signal instanceof AreRoute2)) {
-      try {
-        const currentRoute = AreRoute2.default();
-        if (currentRoute) signals.push(currentRoute);
-      } catch {
-      }
-    }
-    return new A_SignalVector(signals);
-  }
-  /**
-   * Detach a displayed child subtree from the outlet and stash it in the cache
-   * for fast re-injection later. The subtree is unmounted (its scene plan is
-   * preserved) and deregistered from the root scope, but NOT destroyed. The
-   * nodes that were subscribed to the signal bus are unsubscribed while cached
-   * so the detached DOM never reacts to signals, and recorded so they can be
-   * re-subscribed verbatim on restore.
-   *
-   * When no cache is available, or the LRU evicts an entry, the affected
-   * subtree is fully destroyed.
-   */
-  stashChild(root, child, signalsContext, cache) {
-    const tag = child.type;
-    child.unmount();
-    const subscribers = signalsContext ? this.collectSubscribers(child, signalsContext) : [];
-    for (const node of subscribers) {
-      signalsContext?.unsubscribe(node);
-    }
-    root.removeChild(child);
-    if (!cache) {
-      void child.destroy();
-      return;
-    }
-    const evicted = cache.put(root.id, tag, { node: child, subscribers });
-    for (const entry of evicted) {
-      void entry.node.destroy();
-    }
-  }
-  /**
-   * Re-attach a cached subtree to the outlet and re-mount it from its preserved
-   * scene plan, re-subscribing exactly the nodes that were subscribed before it
-   * was cached.
-   */
-  restoreChild(root, entry, signalsContext) {
-    const child = entry.node;
-    root.addChild(child);
-    for (const node of entry.subscribers) {
-      signalsContext?.subscribe(node);
-    }
-    child.mount();
-  }
-  /**
-   * Walk a subtree and collect the nodes currently registered as signal
-   * subscribers. Mirrors the subscription performed at init time in
-   * AreHTMLLifecycle (component nodes and root nodes) without depending on the
-   * concrete node classes — it simply intersects the subtree with the live
-   * subscriber registry.
-   */
-  collectSubscribers(node, signalsContext) {
-    const result = [];
-    const queue = [node];
-    while (queue.length > 0) {
-      const current = queue.shift();
-      if (signalsContext.subscribers.has(current)) {
-        result.push(current);
-      }
-      queue.push(...current.children);
-    }
-    return result;
+  get component() {
+    const component = this.scope.resolve(`AreDirective${P.toPascalCase(this.name)}`);
+    return component;
   }
 };
-__name(AreRoot, "AreRoot");
+__name(AreDirectiveAttribute, "AreDirectiveAttribute");
+AreDirectiveAttribute = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for directive invocations ($ prefix). Carries the resolved directive component class and a cloned template node. The associated directive uses these during its Compile phase to emit conditional or repeated instruction groups and to manage per-item or per-condition subscopes."
+  })
+], AreDirectiveAttribute);
+
+// src/attributes/AreEvent.attribute.ts
+var AreEventAttribute = class extends AreHTMLAttribute {
+};
+__name(AreEventAttribute, "AreEventAttribute");
+AreEventAttribute = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for DOM event listeners (@ prefix). Marks the attribute as an event binding \u2014 the compiler emits an AddListener instruction that attaches a handler expression resolved from the store to the specified event name on the host element."
+  })
+], AreEventAttribute);
+
+// src/attributes/AreStatic.attribute.ts
+var AreStaticAttribute = class extends AreHTMLAttribute {
+};
+__name(AreStaticAttribute, "AreStaticAttribute");
+AreStaticAttribute = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Attribute type for plain static HTML attributes with no dynamic prefix. Its value is emitted verbatim via an AddAttribute instruction at compile time and does not participate in reactive update cycles."
+  })
+], AreStaticAttribute);
+
+// src/lib/AreDirective/AreDirective.meta.ts
+var _AreDirectiveMeta = class _AreDirectiveMeta extends z {
+  constructor() {
+    super(...arguments);
+    this.priority = 0;
+  }
+};
+__name(_AreDirectiveMeta, "AreDirectiveMeta");
+var AreDirectiveMeta = _AreDirectiveMeta;
+
+// src/lib/AreDirective/AreDirective.constants.ts
+var AreDirectiveFeatures = {
+  /**
+   * Feature that should transform the tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   */
+  Transform: "_AreDirective_Transform",
+  /**
+   * Feature that should convert a directiveAttribute definition into a set of SceneInstructions to be rendered correctly
+   */
+  Compile: "_AreDirective_Compile",
+  /**
+   * Feature that should update the directiveAttribute based on the changes in the store or other dependencies. 
+   */
+  Update: "_AreDirective_Update"
+};
+
+// src/lib/AreDirective/AreDirective.component.ts
+var AreDirective = class extends O {
+  //==================================================================================
+  //======================== LIFECYCLE DECORATORS ====================================
+  //==================================================================================
+  /**
+   * Allows to define a compilation order for directives, which is necessary when we have multiple directives on the same node and we want to control the order of their compilation and application. The directive with the highest priority will be compiled and applied first, and the directive with the lowest priority will be compiled and applied last. This is important because some directives may depend on the output of other directives, so we need to ensure that they are compiled and applied in the correct order to avoid errors and ensure the expected behavior.
+   * 
+   * @param priority 
+   * @returns 
+   */
+  static Priority(priority) {
+    return function(target) {
+      const meta = _.meta(target);
+      meta.priority = priority;
+      return target;
+    };
+  }
+  /**
+   * Allows to define a custom method for transforming the AreNode tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   */
+  static get Transform() {
+    return (target, propertyKey, descriptor) => {
+      return N.Extend({
+        name: AreDirectiveFeatures.Transform,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Allows to define a custom method for compiling a directive attribute into a set of SceneInstructions. 
+   * Can be used at any component to extend this logic not only for a AreDirective inherited.
+   */
+  static get Compile() {
+    return (target, propertyKey, descriptor) => {
+      return N.Extend({
+        name: AreDirectiveFeatures.Compile,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Allows to define a custom method for updating a directive attribute based on changes in the store or other dependencies.
+   * Can be used at any component to extend this logic not only for a AreDirective inherited.
+   */
+  static get Update() {
+    return (target, propertyKey, descriptor) => {
+      return N.Extend({
+        name: AreDirectiveFeatures.Update,
+        scope: [target.constructor]
+      })(target, propertyKey, descriptor);
+    };
+  }
+  /**
+   * Default transform method for directives, which can be overridden by specific directive implementations. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
+   * 
+   * @param attribute - The directive attribute to transform, which contains all the information about the directive as defined in the template (e.g. name, raw content, evaluated value, etc.)
+   * @param args - Additional arguments that may be required for the transformation process.
+   */
+  transform(attribute, ...args) {
+    const logger = _.scope(this).resolve(A_Logger);
+    if (logger) {
+      logger.warning(`No transforming logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+    }
+  }
+  compile(attribute, ...args) {
+    const logger = _.scope(this).resolve(A_Logger);
+    if (logger) {
+      logger.warning(`No compiling logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+    }
+  }
+  update(attribute, ...args) {
+    const logger = _.scope(this).resolve(A_Logger);
+    if (logger) {
+      logger.warning(`No update logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
+    }
+  }
+};
+__name(AreDirective, "AreDirective");
 __decorateClass([
-  Are.Template,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_Logger)),
-  __decorateParam(2, Yt(AreSignalsContext)),
-  __decorateParam(3, Yt(A_SignalState))
-], AreRoot.prototype, "template", 1);
+  __decorateParam(0, Yt(te))
+], AreDirective.prototype, "transform", 1);
 __decorateClass([
-  Are.Signal,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(A_SignalVector)),
-  __decorateParam(2, Yt(A_Logger)),
-  __decorateParam(3, Yt(AreSignalsContext)),
-  __decorateParam(4, Yt(AreRootCache))
-], AreRoot.prototype, "onSignal", 1);
-AreRoot = __decorateClass([
-  R4.Define({
+  N.Extend({
+    name: AreDirectiveFeatures.Compile,
+    scope: [AreDirective]
+  }),
+  __decorateParam(0, Yt(te))
+], AreDirective.prototype, "compile", 1);
+__decorateClass([
+  N.Extend({
+    name: AreDirectiveFeatures.Update,
+    scope: [AreDirective]
+  }),
+  __decorateParam(0, Yt(te))
+], AreDirective.prototype, "update", 1);
+AreDirective = __decorateClass([
+  R3.Define({
     namespace: "a-are-html",
-    description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
-  })
-], AreRoot);
+    description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
+  }),
+  m.Define(AreDirectiveMeta)
+], AreDirective);
 
 // src/instructions/AreHTML.instructions.constants.ts
 var AreHTMLInstructions = {
@@ -12455,6 +12391,27 @@ var AreHTMLInstructions = {
   HideElement: "_AreHTML_HideElement"
 };
 
+// src/instructions/AddComment.instruction.ts
+var AddCommentInstruction = class extends AreDeclaration {
+  get content() {
+    return this.payload.content;
+  }
+  constructor(props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddComment, props);
+    }
+  }
+};
+__name(AddCommentInstruction, "AddCommentInstruction");
+AddCommentInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
+  })
+], AddCommentInstruction);
+
 // src/lib/AreDirective/AreDirective.context.ts
 var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext {
   constructor(aseid) {
@@ -12464,6 +12421,44 @@ var _AreDirectiveContext = class _AreDirectiveContext extends A_ExecutionContext
 };
 __name(_AreDirectiveContext, "AreDirectiveContext");
 var AreDirectiveContext = _AreDirectiveContext;
+
+// src/helpers/AreScheduler.helper.ts
+var _AreSchedulerHelper = class _AreSchedulerHelper {
+  /**
+   * High-resolution wall-clock time in milliseconds. Uses `performance.now()`
+   * when available (monotonic, sub-millisecond), falling back to `Date.now()`.
+   */
+  static now() {
+    return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now();
+  }
+  /**
+   * Schedule `fn` to run on the next macrotask.
+   *
+   * `MessageChannel` yields a true macrotask without the ~4ms clamp that nested
+   * `setTimeout(0)` calls incur, so the browser can paint between chunks with
+   * minimal scheduling overhead. Falls back to `setTimeout` in non-DOM
+   * environments (e.g. tests / SSR).
+   */
+  static scheduleMacrotask(fn) {
+    if (typeof MessageChannel === "undefined") {
+      setTimeout(fn, 0);
+      return;
+    }
+    if (!this._channel) {
+      this._channel = new MessageChannel();
+      this._channel.port1.onmessage = () => {
+        const next = this._queue.shift();
+        if (next) next();
+      };
+    }
+    this._queue.push(fn);
+    this._channel.port2.postMessage(null);
+  }
+};
+__name(_AreSchedulerHelper, "AreSchedulerHelper");
+/** FIFO queue of callbacks waiting for their posted macrotask to fire. */
+_AreSchedulerHelper._queue = [];
+var AreSchedulerHelper = _AreSchedulerHelper;
 
 // src/engine/AreHTML.context.ts
 var AreHTMLEngineContext = class extends AreContext {
@@ -12735,2160 +12730,11 @@ var AreHTMLEngineContext = class extends AreContext {
 };
 __name(AreHTMLEngineContext, "AreHTMLEngineContext");
 AreHTMLEngineContext = __decorateClass([
-  R4.Define({
+  R3.Define({
     namespace: "a-are-html",
     description: "Runtime index for the HTML rendering engine. Maps each AreNode and instruction ASEID to its corresponding DOM element so that apply and revert handlers on interpreter instructions can look up their DOM node in O(1). Tracks root-element mounts and maintains the group-level index used by structural directives."
   })
 ], AreHTMLEngineContext);
-
-// src/engine/AreHTML.constants.ts
-var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-var SVG_ATTRIBUTE_NS = {
-  xlink: "http://www.w3.org/1999/xlink",
-  xml: "http://www.w3.org/XML/1998/namespace",
-  xmlns: "http://www.w3.org/2000/xmlns/"
-};
-var VOID_ELEMENTS = /* @__PURE__ */ new Set([
-  "area",
-  "base",
-  "br",
-  "col",
-  "embed",
-  "hr",
-  "img",
-  "input",
-  "link",
-  "meta",
-  "param",
-  "source",
-  "track",
-  "wbr"
-]);
-function isVoidElement(tagName) {
-  return VOID_ELEMENTS.has(tagName.toLowerCase());
-}
-__name(isVoidElement, "isVoidElement");
-var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
-  "allowfullscreen",
-  "async",
-  "autofocus",
-  "autoplay",
-  "checked",
-  "controls",
-  "default",
-  "defer",
-  "disabled",
-  "formnovalidate",
-  "hidden",
-  "inert",
-  "ismap",
-  "itemscope",
-  "loop",
-  "multiple",
-  "muted",
-  "nomodule",
-  "novalidate",
-  "open",
-  "playsinline",
-  "readonly",
-  "required",
-  "reversed",
-  "selected"
-]);
-function isBooleanAttribute(name) {
-  return BOOLEAN_ATTRIBUTES.has(name.toLowerCase());
-}
-__name(isBooleanAttribute, "isBooleanAttribute");
-var IDL_FORM_PROPERTIES = {
-  INPUT: /* @__PURE__ */ new Set(["value", "checked", "indeterminate"]),
-  TEXTAREA: /* @__PURE__ */ new Set(["value"]),
-  SELECT: /* @__PURE__ */ new Set(["value"]),
-  OPTION: /* @__PURE__ */ new Set(["selected"])
-};
-function isIDLFormProperty(tagName, attrName) {
-  const set = IDL_FORM_PROPERTIES[tagName.toUpperCase()];
-  return !!set && set.has(attrName);
-}
-__name(isIDLFormProperty, "isIDLFormProperty");
-function normalizeClassValue(value) {
-  if (value === null || value === void 0 || value === false) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number") return String(value);
-  if (Array.isArray(value)) {
-    return value.map(normalizeClassValue).filter(Boolean).join(" ");
-  }
-  if (typeof value === "object") {
-    const parts = [];
-    for (const key of Object.keys(value)) {
-      if (value[key]) parts.push(key);
-    }
-    return parts.join(" ");
-  }
-  return "";
-}
-__name(normalizeClassValue, "normalizeClassValue");
-function normalizeStyleValue(value) {
-  if (value === null || value === void 0 || value === false) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number") return String(value);
-  if (Array.isArray(value)) {
-    return value.map(normalizeStyleValue).filter(Boolean).join("; ");
-  }
-  if (typeof value === "object") {
-    const parts = [];
-    for (const key of Object.keys(value)) {
-      const v6 = value[key];
-      if (v6 === null || v6 === void 0 || v6 === false) continue;
-      const kebab = key.replace(/[A-Z]/g, (m7) => "-" + m7.toLowerCase());
-      parts.push(`${kebab}: ${v6}`);
-    }
-    return parts.join("; ");
-  }
-  return "";
-}
-__name(normalizeStyleValue, "normalizeStyleValue");
-function parseEventName(raw) {
-  const [event, ...modifiers] = raw.split(".");
-  return { event, modifiers: new Set(modifiers) };
-}
-__name(parseEventName, "parseEventName");
-function toDOMString(value) {
-  if (value === null || value === void 0) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
-  try {
-    return JSON.stringify(value);
-  } catch {
-    return "";
-  }
-}
-__name(toDOMString, "toDOMString");
-var STANDARD_HTML_TAGS = /* @__PURE__ */ new Set([
-  // root / sections
-  "html",
-  "body",
-  "header",
-  "footer",
-  "main",
-  "nav",
-  "section",
-  "article",
-  "aside",
-  "address",
-  "hgroup",
-  // headings
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  // grouping
-  "div",
-  "p",
-  "span",
-  "pre",
-  "blockquote",
-  "figure",
-  "figcaption",
-  "hr",
-  "br",
-  "wbr",
-  // lists
-  "ul",
-  "ol",
-  "li",
-  "dl",
-  "dt",
-  "dd",
-  "menu",
-  // text-level / phrasing
-  "a",
-  "b",
-  "i",
-  "u",
-  "s",
-  "em",
-  "strong",
-  "small",
-  "mark",
-  "abbr",
-  "cite",
-  "q",
-  "code",
-  "kbd",
-  "samp",
-  "var",
-  "sub",
-  "sup",
-  "time",
-  "data",
-  "dfn",
-  "bdi",
-  "bdo",
-  "ruby",
-  "rt",
-  "rp",
-  "del",
-  "ins",
-  // media / embedded (no special namespace handling needed)
-  "img",
-  "picture",
-  "source",
-  "figure",
-  "audio",
-  "video",
-  "track",
-  // tables
-  "table",
-  "caption",
-  "colgroup",
-  "col",
-  "thead",
-  "tbody",
-  "tfoot",
-  "tr",
-  "th",
-  "td",
-  // forms (display only — these still render fine from innerHTML)
-  "label",
-  "fieldset",
-  "legend",
-  "datalist",
-  "option",
-  "optgroup",
-  "output",
-  "progress",
-  "meter",
-  // interactive
-  "details",
-  "summary",
-  "dialog"
-]);
-function isStaticMarkup(inner) {
-  if (!inner) return false;
-  if (inner.indexOf("{{") !== -1) return false;
-  const n6 = inner.length;
-  let i6 = 0;
-  while (i6 < n6) {
-    const lt = inner.indexOf("<", i6);
-    if (lt === -1) break;
-    if (inner.startsWith("<!--", lt)) {
-      const end = inner.indexOf("-->", lt + 4);
-      if (end === -1) return false;
-      i6 = end + 3;
-      continue;
-    }
-    if (inner[lt + 1] === "/" || inner[lt + 1] === "!" || inner[lt + 1] === "?") {
-      const gt2 = inner.indexOf(">", lt);
-      if (gt2 === -1) return false;
-      i6 = gt2 + 1;
-      continue;
-    }
-    const nameMatch = /^<([a-zA-Z][a-zA-Z0-9-]*)/.exec(inner.slice(lt));
-    if (!nameMatch) {
-      i6 = lt + 1;
-      continue;
-    }
-    const tag = nameMatch[1].toLowerCase();
-    if (tag.indexOf("-") !== -1 || !STANDARD_HTML_TAGS.has(tag)) return false;
-    let j5 = lt + nameMatch[0].length;
-    let inSingle = false;
-    let inDouble = false;
-    let atNameBoundary = true;
-    let tagEnd = -1;
-    while (j5 < n6) {
-      const ch = inner[j5];
-      if (inDouble) {
-        if (ch === '"') inDouble = false;
-      } else if (inSingle) {
-        if (ch === "'") inSingle = false;
-      } else if (ch === '"') {
-        inDouble = true;
-        atNameBoundary = false;
-      } else if (ch === "'") {
-        inSingle = true;
-        atNameBoundary = false;
-      } else if (ch === ">") {
-        tagEnd = j5;
-        break;
-      } else if (ch === " " || ch === "	" || ch === "\n" || ch === "\r" || ch === "/") {
-        atNameBoundary = true;
-      } else {
-        if (atNameBoundary && (ch === "$" || ch === ":" || ch === "@")) {
-          return false;
-        }
-        atNameBoundary = false;
-      }
-      j5++;
-    }
-    if (tagEnd === -1) return false;
-    i6 = tagEnd + 1;
-  }
-  return true;
-}
-__name(isStaticMarkup, "isStaticMarkup");
-
-// src/engine/AreHTML.interpreter.ts
-var AreHTMLInterpreter = class extends AreInterpreter {
-  addElement(declaration, context, logger) {
-    try {
-      const node = declaration.owner;
-      let currentNode = node;
-      let parent = node.parent;
-      while (parent) {
-        if (context.getNodeElement(parent)) {
-          break;
-        }
-        currentNode = parent;
-        parent = parent.parent;
-      }
-      const tag = node.tag;
-      const isSVG = tag === "svg" || this.isInSVGContext(node);
-      if (parent) {
-        const mountPoint = context.getNodeElement(parent);
-        if (!mountPoint) {
-          throw new AreInterpreterError({
-            title: "Mount Point Not Found",
-            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
-          });
-        }
-        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        context.setInstructionElement(declaration, element);
-        const attach = mountPoint.nodeType === Node.ELEMENT_NODE ? () => mountPoint.appendChild(element) : () => {
-          mountPoint.parentNode?.insertBefore(element, mountPoint);
-        };
-        if (context.isBatching && mountPoint.isConnected) {
-          context.deferAttach(attach);
-        } else {
-          attach();
-        }
-      } else {
-        const mountPoint = context.container.getElementById(node.id);
-        if (!mountPoint) {
-          throw new AreInterpreterError({
-            title: "Mount Point Not Found",
-            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
-          });
-        }
-        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
-        context.setInstructionElement(declaration, element);
-        const attach = /* @__PURE__ */ __name(() => {
-          mountPoint.parentNode?.replaceChild(element, mountPoint);
-        }, "attach");
-        if (context.isBatching && mountPoint.isConnected) {
-          context.deferAttach(attach);
-        } else {
-          attach();
-        }
-      }
-      logger?.debug("green", `Element ${node.aseid.toString()} added to Context:`);
-    } catch (error) {
-      logger?.error(error);
-      throw error;
-    }
-  }
-  removeElement(declaration, context) {
-    const element = context.getElementByInstruction(declaration);
-    if (element && element.parentNode && element.isConnected) {
-      element.parentNode.removeChild(element);
-    }
-    context.removeInstructionElement(declaration);
-  }
-  addAttribute(mutation, context, store, syntax, directiveContext, logger) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element) {
-      throw new AreInterpreterError({
-        title: "Element Not Found",
-        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
-      });
-    }
-    const { name, content, evaluate } = mutation.payload;
-    const rawValue = evaluate ? syntax.evaluate(content, store, {
-      ...directiveContext?.scope || {}
-    }) : content;
-    const el = element;
-    const lowerName = name.toLowerCase();
-    const colonIdx = name.indexOf(":");
-    if (colonIdx > 0) {
-      const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
-      if (ns) {
-        el.setAttributeNS(ns, name, toDOMString(rawValue));
-        mutation.cache = toDOMString(rawValue);
-        return;
-      }
-    }
-    if (isBooleanAttribute(lowerName)) {
-      if (rawValue) {
-        el.setAttribute(lowerName, "");
-        try {
-          el[lowerName] = true;
-        } catch {
-        }
-      } else {
-        el.removeAttribute(lowerName);
-        try {
-          el[lowerName] = false;
-        } catch {
-        }
-      }
-      mutation.cache = rawValue ? "true" : "";
-      return;
-    }
-    if (isIDLFormProperty(el.tagName, name)) {
-      const propName = name === "value" ? "value" : name === "checked" ? "checked" : name === "selected" ? "selected" : name === "indeterminate" ? "indeterminate" : name;
-      try {
-        if (propName === "checked" || propName === "selected" || propName === "indeterminate") {
-          el[propName] = !!rawValue;
-        } else {
-          el[propName] = toDOMString(rawValue);
-        }
-      } catch {
-      }
-      if (propName !== "value") {
-        if (rawValue) el.setAttribute(name, "");
-        else el.removeAttribute(name);
-      } else {
-        el.setAttribute(name, toDOMString(rawValue));
-      }
-      mutation.cache = toDOMString(rawValue);
-      return;
-    }
-    if (lowerName === "class") {
-      const newValue = normalizeClassValue(rawValue);
-      if (mutation.cache === void 0) {
-        const existingValue = el.getAttribute("class");
-        const merged = existingValue ? `${existingValue} ${newValue}`.trim() : newValue;
-        if (merged) el.setAttribute("class", merged);
-        else el.removeAttribute("class");
-      } else {
-        const existingValue = el.getAttribute("class");
-        const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
-        const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
-        const newParts = newValue ? newValue.split(/\s+/).filter(Boolean) : [];
-        const merged = [...existingParts.filter((p5) => !oldParts.has(p5)), ...newParts].join(" ");
-        if (merged) el.setAttribute("class", merged);
-        else el.removeAttribute("class");
-      }
-      mutation.cache = newValue;
-      return;
-    }
-    if (lowerName === "style") {
-      const newValue = normalizeStyleValue(rawValue);
-      if (newValue) el.setAttribute("style", newValue);
-      else el.removeAttribute("style");
-      mutation.cache = newValue;
-      return;
-    }
-    const stringValue = toDOMString(rawValue);
-    if (stringValue === "" && evaluate && (rawValue === false || rawValue === null || rawValue === void 0)) {
-      el.removeAttribute(name);
-    } else {
-      el.setAttribute(name, stringValue);
-    }
-    mutation.cache = stringValue;
-  }
-  removeAttribute(mutation, context) {
-    try {
-      const element = context.getElementByInstruction(mutation.parent);
-      if (!element) return;
-      const { name } = mutation.payload;
-      if (name && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
-        const colonIdx = name.indexOf(":");
-        if (colonIdx > 0) {
-          const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
-          if (ns) {
-            element.removeAttributeNS(ns, name.slice(colonIdx + 1));
-          } else {
-            element.removeAttribute(name);
-          }
-        } else {
-          element.removeAttribute(name);
-        }
-      }
-    } catch (error) {
-      console.log("Error removing attribute:", error);
-    }
-  }
-  hideElement(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
-    const el = element;
-    mutation.cache = el.style.display;
-    el.style.display = "none";
-  }
-  showElement(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
-    if (!element.isConnected) return;
-    const el = element;
-    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
-  }
-  addEventListener(mutation, context, store, syntax, directiveContext, logger) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element) {
-      throw new AreInterpreterError({
-        title: "Element Not Found",
-        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before adding event listeners.`
-      });
-    }
-    const { event: eventName, modifiers } = parseEventName(mutation.payload.name);
-    const listenerOptions = {};
-    if (modifiers.has("capture")) listenerOptions.capture = true;
-    if (modifiers.has("once")) listenerOptions.once = true;
-    if (modifiers.has("passive")) listenerOptions.passive = true;
-    const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
-    let liveEvent = null;
-    const handlerScope = {};
-    for (const handler of handlers) {
-      const handlerFn = /* @__PURE__ */ __name((...args) => {
-        const event = new AreEvent(handler);
-        const effectiveArgs = args.length === 0 && liveEvent ? [liveEvent] : liveEvent ? [...args, liveEvent] : args;
-        event.set("args", effectiveArgs);
-        event.set("element", element);
-        event.set("instruction", mutation);
-        if (liveEvent) event.set("native", liveEvent);
-        mutation.owner.emit(event);
-      }, "handlerFn");
-      handlerScope[`$${handler}`] = handlerFn;
-    }
-    const callback = /* @__PURE__ */ __name((e) => {
-      try {
-        liveEvent = e;
-        if (modifiers.has("self") && e.target !== element) return;
-        if (modifiers.has("stop")) e.stopPropagation();
-        if (modifiers.has("prevent")) e.preventDefault();
-        if (e instanceof KeyboardEvent && modifiers.size > 0) {
-          const key = (e.key || "").toLowerCase();
-          const KEY_ALIASES = {
-            enter: ["enter"],
-            esc: ["escape"],
-            escape: ["escape"],
-            tab: ["tab"],
-            space: [" ", "spacebar"],
-            up: ["arrowup"],
-            down: ["arrowdown"],
-            left: ["arrowleft"],
-            right: ["arrowright"],
-            delete: ["delete", "backspace"]
-          };
-          const keyMods = [...modifiers].filter((m7) => m7 in KEY_ALIASES || m7 === "ctrl" || m7 === "alt" || m7 === "shift" || m7 === "meta");
-          if (keyMods.length > 0) {
-            const keyMatch = keyMods.some((m7) => {
-              if (m7 === "ctrl") return e.ctrlKey;
-              if (m7 === "alt") return e.altKey;
-              if (m7 === "shift") return e.shiftKey;
-              if (m7 === "meta") return e.metaKey;
-              const aliases = KEY_ALIASES[m7];
-              return aliases && aliases.includes(key);
-            });
-            if (!keyMatch) return;
-          }
-        }
-        context.startPerformance("event:" + eventName);
-        const result = syntax.evaluate(mutation.payload.handler, store, {
-          ...handlerScope,
-          $event: e,
-          ...directiveContext?.scope || {}
-        });
-        if (typeof result === "function") result(e);
-        context.endPerformance("event:" + eventName);
-      } catch (err) {
-        logger?.error(err);
-      } finally {
-        liveEvent = null;
-      }
-    }, "callback");
-    const useOptions = listenerOptions.capture || listenerOptions.once || listenerOptions.passive;
-    if (useOptions) {
-      element.addEventListener(eventName, callback, listenerOptions);
-    } else {
-      element.addEventListener(eventName, callback);
-    }
-    mutation.payload._callback = callback;
-    context.addListener(element, mutation.payload.name, callback);
-  }
-  removeEventListener(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element) return;
-    const { name } = mutation.payload;
-    const { event: eventName } = parseEventName(name);
-    const listener = mutation.payload._callback;
-    if (listener) {
-      if (element.isConnected) {
-        element.removeEventListener(eventName, listener);
-      }
-      context.removeListener(element, name, listener);
-      mutation.payload._callback = void 0;
-    }
-  }
-  addText(declaration, context, store, syntax, directiveContext, logger) {
-    const node = declaration.owner.parent;
-    const { content, evaluate } = declaration.payload;
-    const rawValue = evaluate ? syntax.evaluate(content, store, {
-      ...directiveContext?.scope || {}
-    }) : content;
-    const value = toDOMString(rawValue);
-    if (!node) {
-      const textNode = context.container.createTextNode(value);
-      context.container.body.appendChild(textNode);
-      context.setInstructionElement(declaration, textNode);
-    } else {
-      const element = context.getNodeElement(node);
-      if (!element) {
-        throw new AreInterpreterError({
-          title: "Element Not Found",
-          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
-        });
-      }
-      const existingNode = context.getElementByInstruction(declaration);
-      if (existingNode) {
-        existingNode.textContent = value;
-      } else {
-        const textNode = context.container.createTextNode(value);
-        element.appendChild(textNode);
-        context.setInstructionElement(declaration, textNode);
-      }
-    }
-    logger?.debug("green", `Text ${node?.aseid.toString()} added to Context:`);
-  }
-  removeText(declaration, context) {
-    const element = context.getElementByInstruction(declaration);
-    if (!element) return;
-    if (element.isConnected) {
-      element.parentNode?.removeChild(element);
-    }
-    context.removeInstructionElement(declaration);
-  }
-  addStaticHTML(mutation, context, logger) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-      throw new AreInterpreterError({
-        title: "Element Not Found",
-        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure the host element is rendered before materialising its static island.`
-      });
-    }
-    const el = element;
-    const { html } = mutation.payload;
-    el.textContent = "";
-    const fragment = context.getStaticFragment(el.tagName.toLowerCase(), html);
-    el.appendChild(fragment.cloneNode(true));
-    logger?.debug("green", `Static island materialised onto <${(mutation.owner.parent ?? mutation.owner)?.aseid?.toString?.()}>`);
-  }
-  removeStaticHTML(mutation, context) {
-    const element = context.getElementByInstruction(mutation.parent);
-    if (element && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
-      element.textContent = "";
-    }
-  }
-  addComment(declaration, context, store, syntax, directiveContext, logger) {
-    const node = declaration.owner.parent;
-    const { content, evaluate } = declaration.payload;
-    const rawValue = evaluate ? syntax.evaluate(content, store, {
-      ...directiveContext?.scope || {}
-    }) : content;
-    const value = toDOMString(rawValue);
-    if (!node) {
-      const commentNode = context.container.createComment(value);
-      context.container.body.appendChild(commentNode);
-      context.setInstructionElement(declaration, commentNode);
-    } else {
-      const element = context.getNodeElement(node);
-      if (!element) {
-        throw new AreInterpreterError({
-          title: "Element Not Found",
-          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
-        });
-      }
-      const existingNode = context.getElementByInstruction(declaration);
-      if (existingNode) {
-        existingNode.textContent = value;
-      } else {
-        const commentNode = context.container.createComment(value);
-        element.appendChild(commentNode);
-        context.setInstructionElement(declaration, commentNode);
-      }
-    }
-    logger?.debug("green", `Comment ${node?.aseid.toString()} added to Context:`);
-  }
-  removeComment(declaration, context) {
-    const element = context.getElementByInstruction(declaration);
-    if (!element) return;
-    if (element.isConnected) {
-      element.parentNode?.removeChild(element);
-    }
-    context.removeInstructionElement(declaration);
-  }
-  addStyle(mutation, context, logger) {
-    try {
-      const { styles } = mutation.payload;
-      const styleId = `are-style-${String(mutation.aseid)}`;
-      const existing = context.getElementByInstruction(mutation);
-      if (existing) {
-        existing.textContent = styles;
-      } else {
-        const styleEl = context.container.createElement("style");
-        styleEl.setAttribute("data-are-id", styleId);
-        styleEl.textContent = styles;
-        (context.container.head ?? context.container.body).appendChild(styleEl);
-        context.setInstructionElement(mutation, styleEl);
-        logger?.debug("green", `Style injected for ${String(mutation.aseid)}`);
-      }
-    } catch (error) {
-      logger?.error(error);
-    }
-  }
-  removeStyle(mutation, context) {
-    const styleEl = context.getElementByInstruction(mutation);
-    if (styleEl?.parentNode) {
-      styleEl.parentNode.removeChild(styleEl);
-    }
-    context.removeInstructionElement(mutation);
-  }
-  // ─────────────────────────────────────────────────────────────────────────────
-  // ── SVG helpers ───────────────────────────────────────────────────────────────
-  // ─────────────────────────────────────────────────────────────────────────────
-  /**
-   * Returns true when any ancestor of the given node has the tag `svg`,
-   * meaning the node lives inside an SVG subtree and its DOM element must be
-   * created via createElementNS(SVG_NAMESPACE, tag).
-   */
-  isInSVGContext(node) {
-    let current = node.parent;
-    while (current) {
-      if (current.tag === "svg") return true;
-      if (current.tag === "foreignobject") return false;
-      current = current.parent;
-    }
-    return false;
-  }
-};
-__name(AreHTMLInterpreter, "AreHTMLInterpreter");
-__decorateClass([
-  R4.Define({
-    description: "Create an HTML element based on the provided declaration instruction. Handles both root-level mounting and child element creation based on the structural parent hierarchy."
-  }),
-  AreInterpreter.Apply(AreInstructionDefaultNames.Default),
-  AreInterpreter.Apply(AreHTMLInstructions.AddElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove an HTML element that was created by a CreateElement declaration. Cleans up the DOM and the context index."
-  }),
-  AreInterpreter.Revert(AreInstructionDefaultNames.Default),
-  AreInterpreter.Revert(AreHTMLInstructions.AddElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add an attribute to an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddAttribute),
-  AreInterpreter.Update(AreHTMLInstructions.AddAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addAttribute", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove an attribute from an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeAttribute", 1);
-__decorateClass([
-  R4.Define({
-    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.HideElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "hideElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.HideElement),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "showElement", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add an event listener to an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddListener),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addEventListener", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove an event listener from an HTML element based on the provided mutation instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddListener),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeEventListener", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add text content to an HTML element based on the provided declaration instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddText),
-  AreInterpreter.Update(AreHTMLInstructions.AddText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addText", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove text content from an HTML element based on the provided declaration instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeText", 1);
-__decorateClass([
-  R4.Define({
-    description: "Inject a static island's inner markup onto its host element in one pass via a cached, browser-parsed <template> clone. Decodes HTML entities natively."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddStaticHTML),
-  AreInterpreter.Update(AreHTMLInstructions.AddStaticHTML),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addStaticHTML", 1);
-__decorateClass([
-  R4.Define({
-    description: "Clear a static island's injected markup from its host element on revert."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddStaticHTML),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeStaticHTML", 1);
-__decorateClass([
-  R4.Define({
-    description: "Add a comment node to the DOM based on the provided declaration instruction."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddComment),
-  AreInterpreter.Update(AreHTMLInstructions.AddComment),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext)),
-  __decorateParam(5, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addComment", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove a comment node from the DOM based on the provided declaration instruction."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddComment),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeComment", 1);
-__decorateClass([
-  R4.Define({
-    description: "Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place."
-  }),
-  AreInterpreter.Apply(AreHTMLInstructions.AddStyle),
-  AreInterpreter.Update(AreHTMLInstructions.AddStyle),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLInterpreter.prototype, "addStyle", 1);
-__decorateClass([
-  R4.Define({
-    description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
-  }),
-  AreInterpreter.Revert(AreHTMLInstructions.AddStyle),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreHTMLEngineContext))
-], AreHTMLInterpreter.prototype, "removeStyle", 1);
-AreHTMLInterpreter = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "DOM interpreter for the HTML rendering pipeline. Extends AreInterpreter to apply and revert each ARE instruction type directly against the browser DOM \u2014 creating and removing elements, setting and removing attributes and event listeners, managing inline styles, and inserting text and comment nodes. Driven by the scene diff computed per render cycle."
-  })
-], AreHTMLInterpreter);
-
-// src/lib/AreHTMLAttribute/AreHTML.attribute.ts
-var AreHTMLAttribute = class extends AreAttribute {
-  get owner() {
-    return this.scope.issuer();
-  }
-};
-__name(AreHTMLAttribute, "AreHTMLAttribute");
-AreHTMLAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Base class for all typed HTML attributes in the ARE framework. Provides typed access to the owning AreHTMLNode via the scope injector so that attribute subclasses can inspect host-node properties and resolve store bindings during transformation, compilation, and lifecycle phases."
-  })
-], AreHTMLAttribute);
-
-// src/attributes/AreBinding.attribute.ts
-var AreBindingAttribute = class extends AreHTMLAttribute {
-  // get value(): string {
-  //     const [firstPart, ...pathPart] = this.content.split('.');
-  //     const primaryObject = this.owner.store.get(firstPart);
-  //     return AreCommonHelper.extractPropertyByPath(primaryObject, pathPart.join('.')) as string;
-  // }
-};
-__name(AreBindingAttribute, "AreBindingAttribute");
-AreBindingAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for two-way value bindings (: prefix). Marks that the attribute value should be resolved dynamically from the node store rather than used verbatim, enabling reactive updates whenever the underlying store value changes during a rendering cycle."
-  })
-], AreBindingAttribute);
-
-// src/attributes/AreDirective.attribute.ts
-var AreDirectiveAttribute = class extends AreHTMLAttribute {
-  /**
-   * Returns a custom directive component associated with this attribute, if available.
-   * 
-   * The method uses the attribute's name to resolve the corresponding directive component from the scope. It constructs the expected directive name by converting the attribute name to PascalCase and prefixing it with "AreDirective". If a matching directive component is found in the scope, it is returned; otherwise, the method returns undefined.
-   */
-  get component() {
-    const component = this.scope.resolve(`AreDirective${P.toPascalCase(this.name)}`);
-    return component;
-  }
-};
-__name(AreDirectiveAttribute, "AreDirectiveAttribute");
-AreDirectiveAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for directive invocations ($ prefix). Carries the resolved directive component class and a cloned template node. The associated directive uses these during its Compile phase to emit conditional or repeated instruction groups and to manage per-item or per-condition subscopes."
-  })
-], AreDirectiveAttribute);
-
-// src/attributes/AreEvent.attribute.ts
-var AreEventAttribute = class extends AreHTMLAttribute {
-};
-__name(AreEventAttribute, "AreEventAttribute");
-AreEventAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for DOM event listeners (@ prefix). Marks the attribute as an event binding \u2014 the compiler emits an AddListener instruction that attaches a handler expression resolved from the store to the specified event name on the host element."
-  })
-], AreEventAttribute);
-
-// src/attributes/AreStatic.attribute.ts
-var AreStaticAttribute = class extends AreHTMLAttribute {
-};
-__name(AreStaticAttribute, "AreStaticAttribute");
-AreStaticAttribute = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attribute type for plain static HTML attributes with no dynamic prefix. Its value is emitted verbatim via an AddAttribute instruction at compile time and does not participate in reactive update cycles."
-  })
-], AreStaticAttribute);
-
-// src/lib/AreStyle/AreStyle.context.ts
-var AreStyle = class extends H {
-  constructor(styles, aseid) {
-    super({
-      name: aseid ? aseid.toString() : "default-style"
-    });
-    this.styles = styles;
-  }
-};
-__name(AreStyle, "AreStyle");
-AreStyle = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Context fragment that holds the resolved CSS style rules string for a component scope. Populated during lifecycle initialisation and read by the compiler when emitting AddStyle instructions for inline styles declared on the component host element."
-  })
-], AreStyle);
-
-// src/lib/AreHTMLNode/AreHTMLNode.ts
-var AreHTMLNode = class extends AreNode {
-  /**
-   * Actual node type. 
-   * By default it's a tag name
-   */
-  get tag() {
-    return this.aseid.entity;
-  }
-  /**
-   * The verbatim inner markup captured when this node was identified as a
-   * static island, or `undefined` for ordinary (per-node) nodes.
-   */
-  get staticInnerHTML() {
-    return this._staticInnerHTML;
-  }
-  /**
-   * Whether this node is a static-island root (see `_staticInnerHTML`).
-   */
-  get isStaticIsland() {
-    return this._staticInnerHTML !== void 0;
-  }
-  /**
-   * Marks this node as a static-island root, capturing the verbatim inner
-   * markup to be materialised in one shot by the interpreter. Called by the
-   * tokenizer when the node's inner content is detected to be fully static.
-   */
-  markStatic(innerHTML) {
-    this._staticInnerHTML = innerHTML;
-  }
-  /**
-   * Deep-clone the node. Overridden to carry over the static-island marker
-   * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
-   * copied by the base AreNode.clone(). Without this, cloning a directive
-   * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
-   * would drop the captured inner markup and render an empty element. The
-   * base clone() recurses via each child's polymorphic clone(), so nested
-   * island children are preserved automatically through this override.
-   */
-  clone() {
-    const cloned = super.clone();
-    const self = this;
-    if (self._staticInnerHTML !== void 0)
-      cloned.markStatic(self._staticInnerHTML);
-    return cloned;
-  }
-  /**
-   * Clone the node while transferring its existing scope to the clone (used by
-   * the $if/$for directives to turn the original node into a lightweight group
-   * container). Overridden for the same reason as `clone()`: the static-island
-   * marker must survive so a directive applied to an island root keeps its
-   * inner markup.
-   */
-  cloneWithScope() {
-    const cloned = super.cloneWithScope();
-    const self = this;
-    if (self._staticInnerHTML !== void 0)
-      cloned.markStatic(self._staticInnerHTML);
-    return cloned;
-  }
-  /**
-    * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
-    * 
-    * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.
-    */
-  get staticAttributes() {
-    return this.scope.resolveFlatAll(AreStaticAttribute);
-  }
-  /**
-   * The binding attributes defined for the node, which are typically used to represent dynamic properties or characteristics of the node that can change based on the context or state. These attributes are usually defined in the template with a specific syntax (e.g., `:prop="value"` or `v-bind:prop="value"`) and are reactive, meaning that they will update automatically when the underlying data changes.
-   * 
-   * Example: For a node defined as `<div :class="dynamicClass">`, the binding attribute would be `:class="dynamicClass"`.
-   */
-  get bindings() {
-    return this.scope.resolveFlatAll(AreBindingAttribute);
-  }
-  /**
-   * The directive attributes defined for the node, which are typically used to represent special instructions or behaviors that should be applied to the node. These attributes are usually defined in the template with a specific syntax (e.g., `v-if="condition"` or `v-for="item in list"`) and are processed by the rendering engine to apply the corresponding logic or behavior to the node.
-   * 
-   * Example: For a node defined as `<div v-if="isVisible">`, the directive attribute would be `v-if="isVisible"`.
-   */
-  get directives() {
-    const directives = this.scope.resolveFlatAll(AreDirectiveAttribute);
-    return directives.filter((d4) => d4.component).sort((a4, b3) => {
-      const aMeta = _.meta(a4.component);
-      const bMeta = _.meta(b3.component);
-      const aPriority = aMeta.priority ?? 0;
-      const bPriority = bMeta.priority ?? 0;
-      return bPriority - aPriority;
-    });
-  }
-  /**
-   * The event attributes defined for the node, which are typically used to represent event listeners or handlers that should be attached to the node. These attributes are usually defined in the template with a specific syntax (e.g., `@click="handleClick"` or `v-on:click="handleClick"`) and are processed by the rendering engine to attach the corresponding event listeners to the node.
-   * 
-   * Example: For a node defined as `<button @click="handleClick">`, the event attribute would be `@click="handleClick"`.
-   */
-  get events() {
-    return this.scope.resolveFlatAll(AreEventAttribute);
-  }
-  /**
-   * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
-   */
-  get styles() {
-    return this.scope.resolveFlat(AreStyle);
-  }
-  /**
-   * Registers or updates the component-scoped CSS string for this node.
-   * Called by the @Are.Styles-decorated method on the associated component.
-   * A new AreStyle fragment is registered in scope on first call; subsequent
-   * calls update the existing fragment in-place.
-   */
-  setStyles(css) {
-    const existing = this.scope.resolveFlat(AreStyle);
-    if (existing) {
-      existing.styles = css;
-    } else {
-      this.scope.register(new AreStyle(css, this.aseid.toString()));
-    }
-  }
-};
-__name(AreHTMLNode, "AreHTMLNode");
-AreHTMLNode = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles."
-  })
-], AreHTMLNode);
-
-// src/nodes/AreInterpolation.ts
-var AreInterpolation = class extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-interpolation"
-      }
-    });
-  }
-};
-__name(AreInterpolation, "AreInterpolation");
-AreInterpolation = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Node type representing a reactive inline expression in the AreHTMLNode tree. Its content expression is resolved from the store at render time and kept live via an AddInterpolation instruction that updates the corresponding text node on each reactive cycle."
-  })
-], AreInterpolation);
-
-// src/nodes/AreText.ts
-var AreText = class extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-text"
-      }
-    });
-  }
-};
-__name(AreText, "AreText");
-AreText = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Node type representing a plain or partially-dynamic text segment in the AreHTMLNode tree. Emits an AddText instruction that sets or updates the corresponding DOM text node; the content may carry a store getter for any dynamic portion."
-  })
-], AreText);
-
-// src/nodes/AreComment.ts
-var AreComment = class extends AreHTMLNode {
-  fromNew(newEntity) {
-    super.fromNew({
-      ...newEntity,
-      payload: {
-        ...newEntity.payload || {},
-        entity: "are-comment"
-      }
-    });
-  }
-};
-__name(AreComment, "AreComment");
-AreComment = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Node type representing a comment node in the AreHTMLNode tree. Used as a stable DOM anchor by structural directives such as $if and $for that swap rendered content in and out, ensuring the parent container always has a consistent insertion point."
-  })
-], AreComment);
-
-// src/nodes/AreComponent.ts
-var AreComponentNode = class extends AreHTMLNode {
-  /**
-   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
-   * 
-   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
-   * 
-   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
-   */
-  get component() {
-    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
-  }
-};
-__name(AreComponentNode, "AreComponentNode");
-AreComponentNode = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreComponentNode represents a node in the scene graph that corresponds to a component. It extends the base AreNode and includes additional properties and methods specific to component nodes, such as handling attributes, bindings, directives, events, styles, and interpolations associated with the component."
-  })
-], AreComponentNode);
-
-// src/nodes/AreRoot.ts
-var AreRootNode = class extends AreHTMLNode {
-  /**
-   * For the root node, we can default to a generic container element like <div> since it serves as the root of the component tree and does not correspond to a specific HTML tag defined in the markup. The actual content and structure of the root node will be determined by the child nodes and components that are rendered within it, allowing for flexibility in how the root node is used and what it contains.
-   */
-  get tag() {
-    return "div";
-  }
-  /**
-   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
-   * 
-   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
-   * 
-   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
-   */
-  get component() {
-    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
-  }
-};
-__name(AreRootNode, "AreRootNode");
-AreRootNode = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "AreRootNode represents the root node in the scene graph. It extends the base AreHTMLNode and includes additional properties and methods specific to the root node, such as handling the root element and its associated component."
-  })
-], AreRootNode);
-
-// src/engine/AreHTML.tokenizer.ts
-var AreHTMLTokenizer = class extends AreTokenizer {
-  constructor() {
-    super(...arguments);
-    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
-  }
-  tokenize(node, context, logger) {
-    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
-    if (isStaticIsland) {
-      node.markStatic(node.content);
-    } else {
-      super.tokenize(node, context, logger);
-    }
-    context.startPerformance("attributeExtraction");
-    const attributes = this.extractAttributes(node.markup);
-    for (const attr of attributes) {
-      node.scope.register(attr);
-    }
-    context.endPerformance("attributeExtraction");
-  }
-  extractAttributes(markup) {
-    const withoutTag = markup.replace(/^<[a-zA-Z][a-zA-Z0-9-]*\s*/, "");
-    let inSingle = false;
-    let inDouble = false;
-    let endIdx = withoutTag.length;
-    for (let i6 = 0; i6 < withoutTag.length; i6++) {
-      const ch = withoutTag[i6];
-      if (ch === '"' && !inSingle) inDouble = !inDouble;
-      else if (ch === "'" && !inDouble) inSingle = !inSingle;
-      else if (ch === ">" && !inSingle && !inDouble) {
-        endIdx = i6;
-        break;
-      }
-    }
-    const attrString = withoutTag.slice(0, endIdx).replace(/\s*\/?\s*$/, "").trim();
-    const results = [];
-    for (const match of attrString.matchAll(this.ATTR_PATTERN)) {
-      const raw = match[0];
-      const full = match[1];
-      if (!full) continue;
-      const value = match[2] ?? match[3] ?? match[4] ?? "true";
-      const prefix = full[0];
-      const isSpecial = prefix === ":" || prefix === "@" || prefix === "$";
-      const name = isSpecial ? full.slice(1) : full;
-      const meta = { name, content: value, raw, prefix: isSpecial ? prefix : "" };
-      if (prefix === ":") results.push(new AreBindingAttribute(meta));
-      else if (prefix === "@") results.push(new AreEventAttribute(meta));
-      else if (prefix === "$") results.push(new AreDirectiveAttribute(meta));
-      else results.push(new AreStaticAttribute(meta));
-    }
-    return results;
-  }
-};
-__name(AreHTMLTokenizer, "AreHTMLTokenizer");
-__decorateClass([
-  N.Extend({
-    name: AreNodeFeatures.onTokenize,
-    scope: [AreComponentNode, AreRootNode]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreContext)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLTokenizer.prototype, "tokenize", 1);
-AreHTMLTokenizer = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific tokenizer extending AreTokenizer. Parses raw HTML template strings into AreHTMLNode trees by scanning element tags and resolving directive ($), event (@), binding (:), and static attributes to their typed attribute classes, constructing AreComponentNode and AreRootNode instances where required."
-  })
-], AreHTMLTokenizer);
-
-// src/lib/AreDirective/AreDirective.constants.ts
-var AreDirectiveFeatures = {
-  /**
-   * Feature that should transform the tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   */
-  Transform: "_AreDirective_Transform",
-  /**
-   * Feature that should convert a directiveAttribute definition into a set of SceneInstructions to be rendered correctly
-   */
-  Compile: "_AreDirective_Compile",
-  /**
-   * Feature that should update the directiveAttribute based on the changes in the store or other dependencies. 
-   */
-  Update: "_AreDirective_Update"
-};
-
-// src/engine/AreHTML.lifecycle.ts
-var AreHTMLLifecycle = class extends AreLifecycle {
-  initComponent(node, scope, context, signalsContext, logger, ...args) {
-    if (node.component)
-      signalsContext?.subscribe(node);
-    super.init(node, scope, context, logger, ...args);
-  }
-  initRoot(node, scope, context, signalsContext, logger, ...args) {
-    signalsContext?.subscribe(node);
-    super.init(node, scope, context, logger, ...args);
-  }
-  initText(node, scope, context, logger, ...args) {
-    const scene = new AreScene(node.aseid);
-    scope.register(scene);
-  }
-  initInterpolation(node, scope, context, logger, ...args) {
-    const scene = new AreScene(node.aseid);
-    scope.register(scene);
-  }
-  mount(node, scene, logger, ...args) {
-    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
-    if (scene.isInactive) return;
-    const context = node.scope.resolve(AreHTMLEngineContext);
-    context?.beginBatch();
-    const afterMountQueue = [];
-    try {
-      node.interpret();
-      const stack = [];
-      for (let i6 = node.children.length - 1; i6 >= 0; i6--) {
-        stack.push({ node: node.children[i6], entered: false });
-      }
-      while (stack.length > 0) {
-        const frame = stack[stack.length - 1];
-        const current = frame.node;
-        if (frame.entered) {
-          stack.pop();
-          afterMountQueue.push(current);
-          continue;
-        }
-        frame.entered = true;
-        current.call(AreNodeFeatures.onBeforeMount, current.scope);
-        if (!current.scene.isInactive) {
-          current.interpret();
-          for (let i6 = current.children.length - 1; i6 >= 0; i6--) {
-            stack.push({ node: current.children[i6], entered: false });
-          }
-        }
-      }
-    } finally {
-      context?.endBatch();
-    }
-    for (let i6 = 0; i6 < afterMountQueue.length; i6++) {
-      const mounted = afterMountQueue[i6];
-      mounted.call(AreNodeFeatures.onAfterMount, mounted.scope);
-    }
-  }
-  updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
-    if (directive.component) {
-      feature.chain(directive.component, AreDirectiveFeatures.Update, directive.owner.scope);
-    } else {
-      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
-    }
-  }
-};
-__name(AreHTMLLifecycle, "AreHTMLLifecycle");
-__decorateClass([
-  AreLifecycle.Init(AreComponentNode),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(AreSignalsContext)),
-  __decorateParam(4, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initComponent", 1);
-__decorateClass([
-  AreLifecycle.Init(AreRootNode),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(AreSignalsContext)),
-  __decorateParam(4, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initRoot", 1);
-__decorateClass([
-  AreLifecycle.Init(AreText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initText", 1);
-__decorateClass([
-  AreLifecycle.Init(AreInterpolation),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreHTMLEngineContext)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "initInterpolation", 1);
-__decorateClass([
-  N.Extend({
-    name: AreNodeFeatures.onMount,
-    scope: [AreHTMLNode]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "mount", 1);
-__decorateClass([
-  N.Extend({
-    name: AreAttributeFeatures.Update,
-    scope: [AreDirectiveAttribute]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(N)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
-AreHTMLLifecycle = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation."
-  })
-], AreHTMLLifecycle);
-
-// src/engine/AreHTML.transformer.ts
-var AreHTMLTransformer = class extends AreTransformer {
-  transformDirectiveAttribute(directive, store, feature, logger, ...args) {
-    store.watch(directive);
-    if (directive.component) {
-      feature.chain(directive.component, AreDirectiveFeatures.Transform, directive.owner.scope);
-    } else {
-      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
-    }
-    store.unwatch(directive);
-  }
-};
-__name(AreHTMLTransformer, "AreHTMLTransformer");
-__decorateClass([
-  N.Extend({
-    name: AreAttributeFeatures.Transform,
-    scope: [AreDirectiveAttribute]
-  }),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(N)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLTransformer.prototype, "transformDirectiveAttribute", 1);
-AreHTMLTransformer = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation \u2014 sorting directives by declared priority and expanding compound directive expressions \u2014 so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission."
-  })
-], AreHTMLTransformer);
-
-// src/instructions/AddAttribute.instruction.ts
-var AddAttributeInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddAttribute, parent, props);
-    }
-  }
-};
-__name(AddAttributeInstruction, "AddAttributeInstruction");
-AddAttributeInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
-  })
-], AddAttributeInstruction);
-
-// src/instructions/AddText.instruction.ts
-var AddTextInstruction = class extends AreDeclaration {
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddText, props);
-    }
-  }
-};
-__name(AddTextInstruction, "AddTextInstruction");
-AddTextInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
-  })
-], AddTextInstruction);
-
-// src/instructions/AddListener.instruction.ts
-var AddListenerInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddListener, parent, props);
-    }
-  }
-};
-__name(AddListenerInstruction, "AddListenerInstruction");
-AddListenerInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
-  })
-], AddListenerInstruction);
-
-// src/instructions/AddStyle.instruction.ts
-var AddStyleInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddStyle, parent, props);
-    }
-  }
-};
-__name(AddStyleInstruction, "AddStyleInstruction");
-AddStyleInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
-  })
-], AddStyleInstruction);
-
-// src/instructions/AddStaticHTML.instruction.ts
-var AddStaticHTMLInstruction = class extends AreMutation {
-  constructor(parent, props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddStaticHTML, parent, props);
-    }
-  }
-};
-__name(AddStaticHTMLInstruction, "AddStaticHTMLInstruction");
-AddStaticHTMLInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: 'Materialises a fully static subtree (a "static island") onto its parent element in a single pass via browser-parsed innerHTML / a cached <template> clone. Apply injects the markup; revert clears it. Decodes HTML entities (e.g. &nbsp;) for free.'
-  })
-], AddStaticHTMLInstruction);
-
-// src/engine/AreHTML.compiler.ts
-var AreHTMLCompiler = class extends AreCompiler {
-  compileHTMLNode(node, scene, logger, ...args) {
-    super.compile(node, scene, logger, ...args);
-    if (node.isStaticIsland && scene.host) {
-      scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
-    }
-    if (node.styles?.styles) {
-      const host = scene.host;
-      if (host) {
-        scene.plan(new AddStyleInstruction(host, { styles: node.styles.styles }));
-      }
-    }
-  }
-  compileInterpolation(interpolation, scene, store, logger, ...args) {
-    scene.plan(new AddTextInstruction({ content: interpolation.content, evaluate: true }));
-  }
-  compileText(text, scene, logger, ...args) {
-    logger?.debug("cyan", `AreHTMLCompiler: compile text node <${text.aseid.toString()}> with content: "${text.content}"`);
-    if (scene.host)
-      scene.unPlan(scene.host);
-    scene.plan(new AddTextInstruction({ content: text.content }));
-  }
-  compileStaticAttribute(attribute, scene, ...args) {
-    if (!scene.host)
-      throw new AreCompilerError({
-        title: "Scene Host Not Found",
-        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
-      });
-    const content = attribute.content;
-    if (content.includes("{{")) {
-      const transformed = '"' + content.replace(/\{\{([^}]+)\}\}/g, '"+($1)+"') + '"';
-      scene.plan(new AddAttributeInstruction(scene.host, {
-        name: attribute.name,
-        content: transformed,
-        evaluate: true
-      }));
-      return;
-    }
-    scene.plan(new AddAttributeInstruction(scene.host, {
-      name: attribute.name,
-      content: attribute.content
-    }));
-  }
-  compileDirectiveAttribute(directive, store, feature, logger, ...args) {
-    store.watch(directive);
-    if (directive.component) {
-      feature.chain(directive.component, AreDirectiveFeatures.Compile, directive.owner.scope);
-    } else {
-      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
-    }
-    store.unwatch(directive);
-  }
-  compileEventAttribute(attribute, scene, ...args) {
-    if (!scene.host)
-      throw new AreCompilerError({
-        title: "Scene Host Not Found",
-        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
-      });
-    scene.plan(new AddListenerInstruction(scene.host, {
-      name: attribute.name,
-      handler: attribute.content
-    }));
-  }
-  compileBindingAttribute(attribute, scene, parentStore, store, syntax, ...args) {
-    if (!scene.host)
-      throw new AreCompilerError({
-        title: "Scene Host Not Found",
-        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
-      });
-    const node = attribute.owner;
-    const props = node.component?.props;
-    let propName;
-    if (props) {
-      if (props[attribute.name]) {
-        propName = attribute.name;
-      } else {
-        const camel = P.toCamelCase(attribute.name);
-        if (props[camel]) propName = camel;
-      }
-    }
-    if (propName && props) {
-      const propDefinition = props[propName];
-      const coerce = /* @__PURE__ */ __name((raw) => {
-        let value = raw;
-        if (propDefinition.type) {
-          switch (propDefinition.type) {
-            case "string":
-              value = value === void 0 || value === null ? "" : String(value);
-              break;
-            case "number":
-              value = Number(value);
-              break;
-            case "boolean":
-              value = Boolean(value);
-              break;
-          }
-        }
-        return value;
-      }, "coerce");
-      const watcher = {
-        update: /* @__PURE__ */ __name(() => {
-          try {
-            parentStore.watch(watcher);
-            const next = coerce(syntax.evaluate(attribute.content, parentStore));
-            parentStore.unwatch(watcher);
-            store.set(propName, next);
-          } catch (e) {
-            parentStore.unwatch(watcher);
-          }
-        }, "update")
-      };
-      parentStore.watch(watcher);
-      const initial = coerce(syntax.evaluate(attribute.content, parentStore));
-      parentStore.unwatch(watcher);
-      store.set(propName, initial);
-      return;
-    }
-    const instruction = new AddAttributeInstruction(scene.host, {
-      name: attribute.name,
-      content: attribute.content,
-      evaluate: true
-    });
-    scene.plan(instruction);
-  }
-};
-__name(AreHTMLCompiler, "AreHTMLCompiler");
-__decorateClass([
-  AreCompiler.Compile(AreHTMLNode),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLCompiler.prototype, "compileHTMLNode", 1);
-__decorateClass([
-  AreCompiler.Compile(AreInterpolation),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLCompiler.prototype, "compileInterpolation", 1);
-__decorateClass([
-  AreCompiler.Compile(AreText),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene)),
-  __decorateParam(2, Yt(A_Logger))
-], AreHTMLCompiler.prototype, "compileText", 1);
-__decorateClass([
-  AreCompiler.Compile(AreStaticAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene))
-], AreHTMLCompiler.prototype, "compileStaticAttribute", 1);
-__decorateClass([
-  AreCompiler.Compile(AreDirectiveAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(N)),
-  __decorateParam(3, Yt(A_Logger))
-], AreHTMLCompiler.prototype, "compileDirectiveAttribute", 1);
-__decorateClass([
-  AreCompiler.Compile(AreEventAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene))
-], AreHTMLCompiler.prototype, "compileEventAttribute", 1);
-__decorateClass([
-  AreCompiler.Compile(AreBindingAttribute),
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreScene)),
-  __decorateParam(2, M.Parent()),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(AreSyntax))
-], AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
-AreHTMLCompiler = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments."
-  })
-], AreHTMLCompiler);
-
-// src/engine/AreHTML.engine.ts
-var AreHTMLEngine = class extends AreEngine {
-  get DefaultSyntax() {
-    return new AreSyntax({
-      trimWhitespace: true,
-      strictMode: true,
-      rules: [
-        // HTML comments
-        {
-          opening: "<!--",
-          closing: "-->",
-          component: AreComment,
-          priority: 10,
-          nested: false,
-          extract: /* @__PURE__ */ __name((raw) => ({ content: raw.slice(4, -3).trim() }), "extract")
-        },
-        // interpolations
-        {
-          opening: "{{",
-          closing: "}}",
-          component: AreInterpolation,
-          priority: 9,
-          nested: false,
-          extract: /* @__PURE__ */ __name((_6, match) => ({ key: match.content }), "extract")
-        },
-        // are-root — matched before generic elements, produces AreRootNode
-        {
-          matcher: this.rootElementMatcher.bind(this),
-          component: AreRootNode,
-          priority: 5
-        },
-        // generic HTML elements
-        {
-          matcher: this.htmlElementMatcher.bind(this),
-          component: AreComponentNode,
-          priority: 4
-        },
-        // plain text fallback
-        {
-          component: AreText,
-          priority: 0
-        }
-      ]
-    });
-  }
-  async init(scope, signalContext, rootCache) {
-    this.package(scope, {
-      context: new AreHTMLEngineContext({}),
-      syntax: this.DefaultSyntax,
-      compiler: AreHTMLCompiler,
-      interpreter: AreHTMLInterpreter,
-      tokenizer: AreHTMLTokenizer,
-      lifecycle: AreHTMLLifecycle,
-      transformer: AreHTMLTransformer
-    });
-    if (!signalContext) {
-      signalContext = new AreSignalsContext();
-      scope.register(signalContext);
-    }
-    if (!rootCache) {
-      rootCache = new AreRootCache();
-      scope.register(rootCache);
-    }
-  }
-  rootElementMatcher(source, from, to, build) {
-    const rootTag = "are-root";
-    const tagStart = source.indexOf("<", from);
-    if (tagStart === -1 || tagStart >= to) return null;
-    const tagNameMatch = source.slice(tagStart).match(/^<([a-zA-Z][a-zA-Z0-9-]*)/);
-    if (!tagNameMatch || tagNameMatch[1].toLowerCase() !== rootTag) return null;
-    return this.htmlElementMatcher(source, from, to, build);
-  }
-  htmlElementMatcher(source, from, to, build) {
-    let index = from;
-    while (index < to) {
-      const tagStart = source.indexOf("<", index);
-      if (tagStart === -1 || tagStart >= to) return null;
-      if (source.startsWith("<!--", tagStart)) {
-        index = tagStart + 1;
-        continue;
-      }
-      if (source[tagStart + 1] === "/") {
-        index = tagStart + 1;
-        continue;
-      }
-      if (source[tagStart + 1] === "!" || source[tagStart + 1] === "?") {
-        index = tagStart + 1;
-        continue;
-      }
-      const tagNameMatch = source.slice(tagStart).match(/^<([a-zA-Z][a-zA-Z0-9-]*)/);
-      if (!tagNameMatch) {
-        index = tagStart + 1;
-        continue;
-      }
-      const tagName = tagNameMatch[1];
-      const openingTagEnd = AreHTMLEngine.findTagClose(source, tagStart);
-      if (openingTagEnd === -1) return null;
-      const openingTagStr = source.slice(tagStart, openingTagEnd + 1);
-      const idMatch = openingTagStr.match(/\bid=["']([^"']*)["']/);
-      const id = idMatch ? idMatch[1] : void 0;
-      if (source[openingTagEnd - 1] === "/") {
-        const raw = source.slice(tagStart, openingTagEnd + 1);
-        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1);
-        const match2 = build(raw, content2, tagStart, "/>");
-        match2.payload = { entity: tagName, selfClose: true, id };
-        return match2;
-      }
-      if (isVoidElement(tagName)) {
-        const raw = source.slice(tagStart, openingTagEnd + 1);
-        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
-        const match2 = build(raw, content2, tagStart, ">");
-        match2.payload = { entity: tagName, selfClose: true, id };
-        return match2;
-      }
-      const closingTag = `</${tagName}>`;
-      let level = 0;
-      let searchIndex = openingTagEnd + 1;
-      let closingStart = -1;
-      while (searchIndex < to) {
-        const nextOpen = source.indexOf(`<${tagName}`, searchIndex);
-        const nextClose = source.indexOf(closingTag, searchIndex);
-        if (nextClose === -1) break;
-        if (nextOpen !== -1 && nextOpen < nextClose) {
-          const charAfter = source[nextOpen + tagName.length + 1];
-          if (charAfter === " " || charAfter === ">" || charAfter === "/") {
-            const innerEnd = AreHTMLEngine.findTagClose(source, nextOpen);
-            const isSelfClose = innerEnd !== -1 && source[innerEnd - 1] === "/";
-            if (!isSelfClose) {
-              level++;
-            }
-            searchIndex = innerEnd === -1 ? nextOpen + tagName.length + 1 : innerEnd + 1;
-            continue;
-          }
-        }
-        if (level === 0) {
-          closingStart = nextClose;
-          break;
-        }
-        level--;
-        searchIndex = nextClose + closingTag.length;
-      }
-      if (closingStart === -1) return null;
-      const fullTag = source.slice(tagStart, closingStart + closingTag.length);
-      const content = source.slice(openingTagEnd + 1, closingStart);
-      const match = build(fullTag, content, tagStart, closingTag);
-      match.payload = { entity: tagName, selfClose: false, id };
-      return match;
-    }
-    return null;
-  }
-  /**
-   * Find the index of the closing `>` of an opening tag, skipping over
-   * `>` characters that appear inside quoted attribute values.
-   */
-  static findTagClose(source, from) {
-    let inSingle = false;
-    let inDouble = false;
-    for (let i6 = from; i6 < source.length; i6++) {
-      const ch = source[i6];
-      if (ch === '"' && !inSingle) inDouble = !inDouble;
-      else if (ch === "'" && !inDouble) inSingle = !inSingle;
-      else if (ch === ">" && !inSingle && !inDouble) return i6;
-    }
-    return -1;
-  }
-};
-__name(AreHTMLEngine, "AreHTMLEngine");
-__decorateClass([
-  N.Extend({
-    name: A_ServiceFeatures.onBeforeLoad,
-    before: /.*/
-  }),
-  __decorateParam(0, Yt(R)),
-  __decorateParam(1, Yt(AreSignalsContext)),
-  __decorateParam(2, Yt(AreRootCache))
-], AreHTMLEngine.prototype, "init", 1);
-AreHTMLEngine = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Concrete HTML rendering engine that assembles the full ARE pipeline for web environments. Bootstraps and wires AreHTMLTokenizer, AreHTMLTransformer, AreHTMLCompiler, AreHTMLInterpreter, and AreHTMLLifecycle; mounts root nodes from inline or fetched templates; and drives reactive re-renders via the AreSignals bus."
-  })
-], AreHTMLEngine);
-
-// src/lib/AreDirective/AreDirective.meta.ts
-var _AreDirectiveMeta = class _AreDirectiveMeta extends z {
-  constructor() {
-    super(...arguments);
-    this.priority = 0;
-  }
-};
-__name(_AreDirectiveMeta, "AreDirectiveMeta");
-var AreDirectiveMeta = _AreDirectiveMeta;
-
-// src/lib/AreDirective/AreDirective.component.ts
-var AreDirective = class extends O {
-  //==================================================================================
-  //======================== LIFECYCLE DECORATORS ====================================
-  //==================================================================================
-  /**
-   * Allows to define a compilation order for directives, which is necessary when we have multiple directives on the same node and we want to control the order of their compilation and application. The directive with the highest priority will be compiled and applied first, and the directive with the lowest priority will be compiled and applied last. This is important because some directives may depend on the output of other directives, so we need to ensure that they are compiled and applied in the correct order to avoid errors and ensure the expected behavior.
-   * 
-   * @param priority 
-   * @returns 
-   */
-  static Priority(priority) {
-    return function(target) {
-      const meta = _.meta(target);
-      meta.priority = priority;
-      return target;
-    };
-  }
-  /**
-   * Allows to define a custom method for transforming the AreNode tree based on the directive attribute. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   */
-  static get Transform() {
-    return (target, propertyKey, descriptor) => {
-      return N.Extend({
-        name: AreDirectiveFeatures.Transform,
-        scope: [target.constructor]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  /**
-   * Allows to define a custom method for compiling a directive attribute into a set of SceneInstructions. 
-   * Can be used at any component to extend this logic not only for a AreDirective inherited.
-   */
-  static get Compile() {
-    return (target, propertyKey, descriptor) => {
-      return N.Extend({
-        name: AreDirectiveFeatures.Compile,
-        scope: [target.constructor]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  /**
-   * Allows to define a custom method for updating a directive attribute based on changes in the store or other dependencies.
-   * Can be used at any component to extend this logic not only for a AreDirective inherited.
-   */
-  static get Update() {
-    return (target, propertyKey, descriptor) => {
-      return N.Extend({
-        name: AreDirectiveFeatures.Update,
-        scope: [target.constructor]
-      })(target, propertyKey, descriptor);
-    };
-  }
-  /**
-   * Default transform method for directives, which can be overridden by specific directive implementations. This method is called during the transformation phase of the ARE component and should perform any necessary transformations on the AreNode tree based on the directive's content and context. This can include tasks such as adding or removing nodes, modifying node properties, or restructuring the tree to ensure that the directive is applied correctly during rendering.
-   * 
-   * @param attribute - The directive attribute to transform, which contains all the information about the directive as defined in the template (e.g. name, raw content, evaluated value, etc.)
-   * @param args - Additional arguments that may be required for the transformation process.
-   */
-  transform(attribute, ...args) {
-    const logger = _.scope(this).resolve(A_Logger);
-    if (logger) {
-      logger.warning(`No transforming logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
-    }
-  }
-  compile(attribute, ...args) {
-    const logger = _.scope(this).resolve(A_Logger);
-    if (logger) {
-      logger.warning(`No compiling logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
-    }
-  }
-  update(attribute, ...args) {
-    const logger = _.scope(this).resolve(A_Logger);
-    if (logger) {
-      logger.warning(`No update logic defined for directive: ${attribute.name} with content: ${attribute.content}`);
-    }
-  }
-};
-__name(AreDirective, "AreDirective");
-__decorateClass([
-  __decorateParam(0, Yt(te))
-], AreDirective.prototype, "transform", 1);
-__decorateClass([
-  N.Extend({
-    name: AreDirectiveFeatures.Compile,
-    scope: [AreDirective]
-  }),
-  __decorateParam(0, Yt(te))
-], AreDirective.prototype, "compile", 1);
-__decorateClass([
-  N.Extend({
-    name: AreDirectiveFeatures.Update,
-    scope: [AreDirective]
-  }),
-  __decorateParam(0, Yt(te))
-], AreDirective.prototype, "update", 1);
-AreDirective = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Abstract base component for all ARE directive types. Provides lifecycle decorators (Transform, Compile, Apply, Revert, Priority) that subclasses hook into at each pipeline stage. Subclasses implement Transform to rewrite the attribute or template node, Compile to emit scene instructions, Apply to activate them in the DOM, and Revert to undo them on removal."
-  }),
-  m.Define(AreDirectiveMeta)
-], AreDirective);
-
-// src/instructions/AddComment.instruction.ts
-var AddCommentInstruction = class extends AreDeclaration {
-  get content() {
-    return this.payload.content;
-  }
-  constructor(props) {
-    if ("aseid" in props) {
-      super(props);
-    } else {
-      super(AreHTMLInstructions.AddComment, props);
-    }
-  }
-};
-__name(AddCommentInstruction, "AddCommentInstruction");
-AddCommentInstruction = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Appends a comment node to an element. Apply creates the comment node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
-  })
-], AddCommentInstruction);
-
-// src/directives/AreDirectiveIf.directive.ts
-var AreDirectiveIf = class extends AreDirective {
-  transform(attribute, scope, store, scene, logger, ...args) {
-    logger.debug(`[Transform] directive $IF for <${attribute.owner.aseid.toString()}>`);
-    const node = attribute.owner;
-    const ifTemplate = node.cloneWithScope();
-    const ifAttr = ifTemplate.attributes.find((d4) => d4.name === attribute.name);
-    if (ifAttr) {
-      ifTemplate.scope.deregister(ifAttr);
-      node.scope.register(ifAttr);
-    }
-    node.init();
-    node.addChild(ifTemplate);
-    ifTemplate.scene.deactivate();
-    attribute.template = ifTemplate;
-  }
-  compile(attribute, store, scene, syntax, directiveContext, ...args) {
-    attribute.value = syntax.evaluate(attribute.content, store, {
-      ...directiveContext?.scope || {}
-    });
-    const hostInstruction = scene.host;
-    const commentIdentifier = ` --- if: ${attribute.template.id} --- `;
-    const declaration = new AddCommentInstruction({ content: commentIdentifier });
-    scene.setHost(declaration);
-    scene.planBefore(declaration, hostInstruction);
-    scene.unPlan(hostInstruction);
-    if (attribute.value)
-      attribute.template.scene.activate();
-    else
-      attribute.template.scene.deactivate();
-  }
-  update(attribute, store, scope, syntax, scene, ...args) {
-    const previous = !!attribute.value;
-    const next = !!syntax.evaluate(attribute.content, store);
-    attribute.value = next;
-    if (previous === next) return;
-    if (next) {
-      attribute.template.scene.activate();
-      attribute.template.mount();
-    } else {
-      attribute.template.unmount();
-      attribute.template.scene.deactivate();
-    }
-  }
-};
-__name(AreDirectiveIf, "AreDirectiveIf");
-__decorateClass([
-  AreDirective.Transform,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(R)),
-  __decorateParam(2, Yt(AreStore)),
-  __decorateParam(3, Yt(AreScene)),
-  __decorateParam(4, Yt(A_Logger))
-], AreDirectiveIf.prototype, "transform", 1);
-__decorateClass([
-  AreDirective.Compile,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(AreScene)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreDirectiveContext))
-], AreDirectiveIf.prototype, "compile", 1);
-__decorateClass([
-  AreDirective.Update,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreStore)),
-  __decorateParam(2, Yt(R)),
-  __decorateParam(3, Yt(AreSyntax)),
-  __decorateParam(4, Yt(AreScene))
-], AreDirectiveIf.prototype, "update", 1);
-AreDirectiveIf = __decorateClass([
-  R4.Define({
-    namespace: "a-are-html",
-    description: "Built-in $if directive. Conditionally renders a subtree based on a store expression. Replaces the target element with a stable comment anchor when the condition is false and restores the fully rendered subtree when it becomes true, preventing any leaking of the host element between states."
-  }),
-  AreDirective.Priority(2)
-], AreDirectiveIf);
-
-// src/helpers/AreScheduler.helper.ts
-var _AreSchedulerHelper = class _AreSchedulerHelper {
-  /**
-   * High-resolution wall-clock time in milliseconds. Uses `performance.now()`
-   * when available (monotonic, sub-millisecond), falling back to `Date.now()`.
-   */
-  static now() {
-    return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now();
-  }
-  /**
-   * Schedule `fn` to run on the next macrotask.
-   *
-   * `MessageChannel` yields a true macrotask without the ~4ms clamp that nested
-   * `setTimeout(0)` calls incur, so the browser can paint between chunks with
-   * minimal scheduling overhead. Falls back to `setTimeout` in non-DOM
-   * environments (e.g. tests / SSR).
-   */
-  static scheduleMacrotask(fn) {
-    if (typeof MessageChannel === "undefined") {
-      setTimeout(fn, 0);
-      return;
-    }
-    if (!this._channel) {
-      this._channel = new MessageChannel();
-      this._channel.port1.onmessage = () => {
-        const next = this._queue.shift();
-        if (next) next();
-      };
-    }
-    this._queue.push(fn);
-    this._channel.port2.postMessage(null);
-  }
-};
-__name(_AreSchedulerHelper, "AreSchedulerHelper");
-/** FIFO queue of callbacks waiting for their posted macrotask to fire. */
-_AreSchedulerHelper._queue = [];
-var AreSchedulerHelper = _AreSchedulerHelper;
 
 // src/directives/AreDirectiveFor.directive.ts
 var AreDirectiveFor = class extends AreDirective {
@@ -14896,7 +12742,7 @@ var AreDirectiveFor = class extends AreDirective {
     logger.debug(`[Transform] directive $FOR for <${attribute.owner.aseid.toString()}>`);
     const node = attribute.owner;
     const forTemplate = node.cloneWithScope();
-    const forAttr = forTemplate.attributes.find((d4) => d4.name === attribute.name);
+    const forAttr = forTemplate.attributes.find((d5) => d5.name === attribute.name);
     if (forAttr) {
       forTemplate.scope.deregister(forAttr);
       node.scope.register(forAttr);
@@ -15092,12 +12938,12 @@ var AreDirectiveFor = class extends AreDirective {
       if (item == null) return i6;
       if (path === key || path === "$index") return path === "$index" ? i6 : item;
       const parts = path.split(".");
-      let v6 = item;
-      for (const p5 of parts) {
-        if (v6 == null) return i6;
-        v6 = v6[p5];
+      let v7 = item;
+      for (const p4 of parts) {
+        if (v7 == null) return i6;
+        v7 = v7[p4];
       }
-      return v6 ?? i6;
+      return v7 ?? i6;
     };
   }
   /**
@@ -15126,7 +12972,7 @@ var AreDirectiveFor = class extends AreDirective {
     const inIndex = body.lastIndexOf(" in ");
     const keyAndIndex = body.slice(0, inIndex).trim().replace(/^\(|\)$/g, "");
     const arrayExpr = body.slice(inIndex + 4).trim();
-    const keyParts = keyAndIndex.split(",").map((p5) => p5.trim());
+    const keyParts = keyAndIndex.split(",").map((p4) => p4.trim());
     return {
       key: keyParts[0],
       index: keyParts[1] || void 0,
@@ -15168,11 +13014,11 @@ var AreDirectiveFor = class extends AreDirective {
         if (!isNaN(Number(arg))) return Number(arg);
         const stripped = arg.replace(/\?$/, "");
         if (stripped.includes(".")) {
-          const parts = stripped.split(".").map((p5) => p5.replace(/\?$/, ""));
+          const parts = stripped.split(".").map((p4) => p4.replace(/\?$/, ""));
           let val = getRoot(parts[0]);
-          for (let j5 = 1; j5 < parts.length; j5++) {
+          for (let j4 = 1; j4 < parts.length; j4++) {
             if (val == null) return void 0;
-            val = val[parts[j5]];
+            val = val[parts[j4]];
           }
           return val ?? void 0;
         }
@@ -15180,7 +13026,7 @@ var AreDirectiveFor = class extends AreDirective {
       });
       result = fn(...resolvedArgs);
     } else if (arrayExpr.includes(".")) {
-      const parts = arrayExpr.split(".").map((p5) => p5.replace(/\?$/, ""));
+      const parts = arrayExpr.split(".").map((p4) => p4.replace(/\?$/, ""));
       result = getRoot(parts[0]);
       for (let i6 = 1; i6 < parts.length; i6++) {
         if (result == null) break;
@@ -15274,353 +13120,2853 @@ __decorateClass([
   __decorateParam(2, Yt(AreScene))
 ], AreDirectiveFor.prototype, "update", 1);
 AreDirectiveFor = __decorateClass([
-  R4.Define({
+  R3.Define({
     namespace: "a-are-html",
     description: "Built-in $for directive. Iterates over an array expression resolved from the store and renders a cloned template fragment per item, managing per-item subscopes and comment-node anchors. Supports keyed diffing via an optional track clause to minimise DOM mutations on collection updates."
   }),
   AreDirective.Priority(1)
 ], AreDirectiveFor);
 
-// examples/for-perf/src/components/PerfApp.component.ts
-var _PerfApp = class _PerfApp extends Are {
-  template(node) {
-    node.setContent(`
-            <div class="app">
-                <perf-header></perf-header>
-                <perf-stats></perf-stats>
-                <perf-controls></perf-controls>
-                <perf-grid></perf-grid>
-            </div>
-        `);
+// src/directives/AreDirectiveIf.directive.ts
+var AreDirectiveIf = class extends AreDirective {
+  transform(attribute, scope, store, scene, logger, ...args) {
+    logger.debug(`[Transform] directive $IF for <${attribute.owner.aseid.toString()}>`);
+    const node = attribute.owner;
+    const ifTemplate = node.cloneWithScope();
+    const ifAttr = ifTemplate.attributes.find((d5) => d5.name === attribute.name);
+    if (ifAttr) {
+      ifTemplate.scope.deregister(ifAttr);
+      node.scope.register(ifAttr);
+    }
+    node.init();
+    node.addChild(ifTemplate);
+    ifTemplate.scene.deactivate();
+    attribute.template = ifTemplate;
   }
-  data(store) {
-    store.set({
-      appName: "ARE $for Performance Lab"
+  compile(attribute, store, scene, syntax, directiveContext, ...args) {
+    attribute.value = this.evaluateCondition(syntax, attribute, store, directiveContext);
+    const hostInstruction = scene.host;
+    const commentIdentifier = ` --- if: ${attribute.template.id} --- `;
+    const declaration = new AddCommentInstruction({ content: commentIdentifier });
+    scene.setHost(declaration);
+    scene.planBefore(declaration, hostInstruction);
+    scene.unPlan(hostInstruction);
+    if (attribute.value)
+      attribute.template.scene.activate();
+    else
+      attribute.template.scene.deactivate();
+  }
+  update(attribute, store, scope, syntax, scene, directiveContext, ...args) {
+    const previous = !!attribute.value;
+    const next = this.evaluateCondition(syntax, attribute, store, directiveContext);
+    attribute.value = next;
+    if (previous === next) return;
+    if (next) {
+      attribute.template.scene.activate();
+      attribute.template.mount();
+    } else {
+      attribute.template.unmount();
+      attribute.template.scene.deactivate();
+    }
+  }
+  /**
+   * Evaluates the `$if` condition defensively.
+   *
+   * A condition can reference data that is momentarily unavailable — most
+   * commonly a nested `$if` (e.g. `$if="selected.fields.length"`) living
+   * inside a parent `$if="selected"` whose object has just become `null`.
+   * Because the nested directive is still subscribed to the store, its
+   * update fires on that same change and the raw expression would throw
+   * `Cannot read properties of null`, crashing the whole update pipeline.
+   *
+   * Treating an evaluation error as `false` is the correct contract for a
+   * conditional: if the condition cannot be resolved, the subtree simply
+   * stays hidden until the referenced data is present again (at which point
+   * the parent `$if` re-activates and re-evaluates this one).
+   */
+  evaluateCondition(syntax, attribute, store, directiveContext) {
+    try {
+      return !!syntax.evaluate(attribute.content, store, {
+        ...directiveContext?.scope || {}
+      });
+    } catch {
+      return false;
+    }
+  }
+};
+__name(AreDirectiveIf, "AreDirectiveIf");
+__decorateClass([
+  AreDirective.Transform,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreScene)),
+  __decorateParam(4, Yt(A_Logger))
+], AreDirectiveIf.prototype, "transform", 1);
+__decorateClass([
+  AreDirective.Compile,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext))
+], AreDirectiveIf.prototype, "compile", 1);
+__decorateClass([
+  AreDirective.Update,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(R)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreScene)),
+  __decorateParam(5, Yt(AreDirectiveContext))
+], AreDirectiveIf.prototype, "update", 1);
+AreDirectiveIf = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Built-in $if directive. Conditionally renders a subtree based on a store expression. Replaces the target element with a stable comment anchor when the condition is false and restores the fully rendered subtree when it becomes true, preventing any leaking of the host element between states."
+  }),
+  AreDirective.Priority(2)
+], AreDirectiveIf);
+
+// src/instructions/HideElement.instruction.ts
+var HideElementInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.HideElement, parent, props);
+    }
+  }
+};
+__name(HideElementInstruction, "HideElementInstruction");
+HideElementInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: 'Toggles the visibility of an existing element by setting its inline display to "none" on apply and restoring the previous inline display on revert. Used by the $show directive to hide/show an element without unmounting it, preserving its subtree, listeners and scene state.'
+  })
+], HideElementInstruction);
+
+// src/directives/AreDirectiveShow.directive.ts
+var AreDirectiveShow = class extends AreDirective {
+  transform(attribute, logger, ...args) {
+    logger.debug(`[Transform] directive $SHOW for <${attribute.owner.aseid.toString()}> (no structural change)`);
+  }
+  compile(attribute, store, scene, syntax, directiveContext, ...args) {
+    const visible = !!syntax.evaluate(attribute.content, store, {
+      ...directiveContext?.scope || {}
+    });
+    attribute.value = visible;
+    const hide = new HideElementInstruction(scene.host, {});
+    attribute.cache = hide;
+    if (!visible)
+      scene.plan(hide);
+  }
+  update(attribute, store, scene, syntax, directiveContext, ...args) {
+    const previous = !!attribute.value;
+    const next = !!syntax.evaluate(attribute.content, store, {
+      ...directiveContext?.scope || {}
+    });
+    attribute.value = next;
+    if (previous === next) return;
+    const hide = attribute.cache;
+    if (!hide) return;
+    if (next)
+      scene.unPlan(hide);
+    else
+      scene.plan(hide);
+    attribute.owner.interpret();
+  }
+};
+__name(AreDirectiveShow, "AreDirectiveShow");
+__decorateClass([
+  AreDirective.Transform,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_Logger))
+], AreDirectiveShow.prototype, "transform", 1);
+__decorateClass([
+  AreDirective.Compile,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext))
+], AreDirectiveShow.prototype, "compile", 1);
+__decorateClass([
+  AreDirective.Update,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(AreScene)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext))
+], AreDirectiveShow.prototype, "update", 1);
+AreDirectiveShow = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Built-in $show directive. Toggles an element's visibility by flipping its inline display value based on a store expression, keeping the element mounted (subtree, listeners and scene state preserved) instead of unmounting it like $if."
+  }),
+  AreDirective.Priority(3)
+], AreDirectiveShow);
+
+// src/instructions/AddAttribute.instruction.ts
+var AddAttributeInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddAttribute, parent, props);
+    }
+  }
+};
+__name(AddAttributeInstruction, "AddAttributeInstruction");
+AddAttributeInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Sets an attribute on an HTML element. Apply calls setAttribute; revert calls removeAttribute."
+  })
+], AddAttributeInstruction);
+
+// src/instructions/AddListener.instruction.ts
+var AddListenerInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddListener, parent, props);
+    }
+  }
+};
+__name(AddListenerInstruction, "AddListenerInstruction");
+AddListenerInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Attaches a DOM event listener to an element. Apply calls addEventListener; revert calls removeEventListener."
+  })
+], AddListenerInstruction);
+
+// src/instructions/AddStaticHTML.instruction.ts
+var AddStaticHTMLInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddStaticHTML, parent, props);
+    }
+  }
+};
+__name(AddStaticHTMLInstruction, "AddStaticHTMLInstruction");
+AddStaticHTMLInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: 'Materialises a fully static subtree (a "static island") onto its parent element in a single pass via browser-parsed innerHTML / a cached <template> clone. Apply injects the markup; revert clears it. Decodes HTML entities (e.g. &nbsp;) for free.'
+  })
+], AddStaticHTMLInstruction);
+
+// src/instructions/AddStyle.instruction.ts
+var AddStyleInstruction = class extends AreMutation {
+  constructor(parent, props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddStyle, parent, props);
+    }
+  }
+};
+__name(AddStyleInstruction, "AddStyleInstruction");
+AddStyleInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Sets an inline CSS style property on an element. Apply sets the property; revert removes it."
+  })
+], AddStyleInstruction);
+
+// src/instructions/AddText.instruction.ts
+var AddTextInstruction = class extends AreDeclaration {
+  constructor(props) {
+    if ("aseid" in props) {
+      super(props);
+    } else {
+      super(AreHTMLInstructions.AddText, props);
+    }
+  }
+};
+__name(AddTextInstruction, "AddTextInstruction");
+AddTextInstruction = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Appends a text node to an element. Apply creates the text node; revert removes it. Content can be a static string or a dynamic getter for interpolations."
+  })
+], AddTextInstruction);
+
+// src/lib/AreStyle/AreStyle.context.ts
+var AreStyle = class extends H {
+  constructor(styles, aseid) {
+    super({
+      name: aseid ? aseid.toString() : "default-style"
+    });
+    this.styles = styles;
+  }
+};
+__name(AreStyle, "AreStyle");
+AreStyle = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Context fragment that holds the resolved CSS style rules string for a component scope. Populated during lifecycle initialisation and read by the compiler when emitting AddStyle instructions for inline styles declared on the component host element."
+  })
+], AreStyle);
+
+// src/lib/AreHTMLNode/AreHTMLNode.ts
+var AreHTMLNode = class extends AreNode {
+  /**
+   * Actual node type. 
+   * By default it's a tag name
+   */
+  get tag() {
+    return this.aseid.entity;
+  }
+  /**
+   * The verbatim inner markup captured when this node was identified as a
+   * static island, or `undefined` for ordinary (per-node) nodes.
+   */
+  get staticInnerHTML() {
+    return this._staticInnerHTML;
+  }
+  /**
+   * Whether this node is a static-island root (see `_staticInnerHTML`).
+   */
+  get isStaticIsland() {
+    return this._staticInnerHTML !== void 0;
+  }
+  /**
+   * Marks this node as a static-island root, capturing the verbatim inner
+   * markup to be materialised in one shot by the interpreter. Called by the
+   * tokenizer when the node's inner content is detected to be fully static.
+   */
+  markStatic(innerHTML) {
+    this._staticInnerHTML = innerHTML;
+  }
+  /**
+   * Deep-clone the node. Overridden to carry over the static-island marker
+   * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
+   * copied by the base AreNode.clone(). Without this, cloning a directive
+   * template ($if/$for) that wraps a static island (e.g. `<span $if>★</span>`)
+   * would drop the captured inner markup and render an empty element. The
+   * base clone() recurses via each child's polymorphic clone(), so nested
+   * island children are preserved automatically through this override.
+   */
+  clone() {
+    const cloned = super.clone();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
+   * Clone the node while transferring its existing scope to the clone (used by
+   * the $if/$for directives to turn the original node into a lightweight group
+   * container). Overridden for the same reason as `clone()`: the static-island
+   * marker must survive so a directive applied to an island root keeps its
+   * inner markup.
+   */
+  cloneWithScope() {
+    const cloned = super.cloneWithScope();
+    const self = this;
+    if (self._staticInnerHTML !== void 0)
+      cloned.markStatic(self._staticInnerHTML);
+    return cloned;
+  }
+  /**
+    * The static attributes defined for the node, which are typically used to represent static properties or characteristics of the node that do not change based on the context or state. These attributes are usually defined in the template and are not reactive.
+    * 
+    * Example: For a node defined as `<div class="static-class">`, the static attribute would be `class="static-class"`.
+    */
+  get staticAttributes() {
+    return this.scope.resolveFlatAll(AreStaticAttribute);
+  }
+  /**
+   * The binding attributes defined for the node, which are typically used to represent dynamic properties or characteristics of the node that can change based on the context or state. These attributes are usually defined in the template with a specific syntax (e.g., `:prop="value"` or `v-bind:prop="value"`) and are reactive, meaning that they will update automatically when the underlying data changes.
+   * 
+   * Example: For a node defined as `<div :class="dynamicClass">`, the binding attribute would be `:class="dynamicClass"`.
+   */
+  get bindings() {
+    return this.scope.resolveFlatAll(AreBindingAttribute);
+  }
+  /**
+   * The directive attributes defined for the node, which are typically used to represent special instructions or behaviors that should be applied to the node. These attributes are usually defined in the template with a specific syntax (e.g., `v-if="condition"` or `v-for="item in list"`) and are processed by the rendering engine to apply the corresponding logic or behavior to the node.
+   * 
+   * Example: For a node defined as `<div v-if="isVisible">`, the directive attribute would be `v-if="isVisible"`.
+   */
+  get directives() {
+    const directives = this.scope.resolveFlatAll(AreDirectiveAttribute);
+    return directives.filter((d5) => d5.component).sort((a4, b4) => {
+      const aMeta = _.meta(a4.component);
+      const bMeta = _.meta(b4.component);
+      const aPriority = aMeta.priority ?? 0;
+      const bPriority = bMeta.priority ?? 0;
+      return bPriority - aPriority;
+    });
+  }
+  /**
+   * The event attributes defined for the node, which are typically used to represent event listeners or handlers that should be attached to the node. These attributes are usually defined in the template with a specific syntax (e.g., `@click="handleClick"` or `v-on:click="handleClick"`) and are processed by the rendering engine to attach the corresponding event listeners to the node.
+   * 
+   * Example: For a node defined as `<button @click="handleClick">`, the event attribute would be `@click="handleClick"`.
+   */
+  get events() {
+    return this.scope.resolveFlatAll(AreEventAttribute);
+  }
+  /**
+   * The styles defined for the node, which can include inline styles or styles defined in a separate stylesheet that are applied to the node. These styles can be used to control the visual appearance of the node and can be defined using standard CSS syntax.
+   */
+  get styles() {
+    return this.scope.resolveFlat(AreStyle);
+  }
+  /**
+   * Registers or updates the component-scoped CSS string for this node.
+   * Called by the @Are.Styles-decorated method on the associated component.
+   * A new AreStyle fragment is registered in scope on first call; subsequent
+   * calls update the existing fragment in-place.
+   */
+  setStyles(css) {
+    const existing = this.scope.resolveFlat(AreStyle);
+    if (existing) {
+      existing.styles = css;
+    } else {
+      this.scope.register(new AreStyle(css, this.aseid.toString()));
+    }
+  }
+};
+__name(AreHTMLNode, "AreHTMLNode");
+AreHTMLNode = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "AreHTMLNode represents a node in the HTML structure. It extends the base AreNode and includes properties and methods specific to HTML nodes, such as handling attributes, directives, events, and styles."
+  })
+], AreHTMLNode);
+
+// src/nodes/AreComment.ts
+var AreComment = class extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-comment"
+      }
     });
   }
 };
-__name(_PerfApp, "PerfApp");
-__decorateClass([
-  Are.Template,
-  __decorateParam(0, Yt(te))
-], _PerfApp.prototype, "template", 1);
-__decorateClass([
-  Are.Data,
-  __decorateParam(0, Yt(AreStore))
-], _PerfApp.prototype, "data", 1);
-var PerfApp = _PerfApp;
+__name(AreComment, "AreComment");
+AreComment = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Node type representing a comment node in the AreHTMLNode tree. Used as a stable DOM anchor by structural directives such as $if and $for that swap rendered content in and out, ensuring the parent container always has a consistent insertion point."
+  })
+], AreComment);
 
-// examples/for-perf/src/components/PerfHeader.component.ts
-var _PerfHeader = class _PerfHeader extends Are {
-  template(node) {
-    node.setContent(`
-            <header class="header">
-                <div class="brand">
-                    <span class="logo">\u25A6</span>
-                    <span class="title">{{title}}</span>
-                </div>
-                <span class="subtitle">{{subtitle}}</span>
-            </header>
-        `);
+// src/nodes/AreComponent.ts
+var AreComponentNode = class extends AreHTMLNode {
+  /**
+   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
+   * 
+   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
+   * 
+   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
+   */
+  get component() {
+    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
   }
-  data(store) {
-    store.set({
-      title: "ARE $for Performance Lab",
-      subtitle: "Open DevTools console \u2014 logger is at debug, perf metrics are printed on every action"
+};
+__name(AreComponentNode, "AreComponentNode");
+AreComponentNode = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "AreComponentNode represents a node in the scene graph that corresponds to a component. It extends the base AreNode and includes additional properties and methods specific to component nodes, such as handling attributes, bindings, directives, events, styles, and interpolations associated with the component."
+  })
+], AreComponentNode);
+
+// src/nodes/AreInterpolation.ts
+var AreInterpolation = class extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-interpolation"
+      }
     });
   }
 };
-__name(_PerfHeader, "PerfHeader");
-__decorateClass([
-  Are.Template,
-  __decorateParam(0, Yt(te))
-], _PerfHeader.prototype, "template", 1);
-__decorateClass([
-  Are.Data,
-  __decorateParam(0, Yt(AreStore))
-], _PerfHeader.prototype, "data", 1);
-var PerfHeader = _PerfHeader;
+__name(AreInterpolation, "AreInterpolation");
+AreInterpolation = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Node type representing a reactive inline expression in the AreHTMLNode tree. Its content expression is resolved from the store at render time and kept live via an AddInterpolation instruction that updates the corresponding text node on each reactive cycle."
+  })
+], AreInterpolation);
 
-// examples/for-perf/src/components/PerfControls.component.ts
-var _PerfControls = class _PerfControls extends Are {
-  template(node) {
-    node.setContent(`
-            <section class="hint">
-                <span class="hint-icon">\u2139</span>
-                <span class="hint-text">{{hint}}</span>
-            </section>
-        `);
+// src/nodes/AreRoot.ts
+var AreRootNode = class extends AreHTMLNode {
+  /**
+   * For the root node, we can default to a generic container element like <div> since it serves as the root of the component tree and does not correspond to a specific HTML tag defined in the markup. The actual content and structure of the root node will be determined by the child nodes and components that are rendered within it, allowing for flexibility in how the root node is used and what it contains.
+   */
+  get tag() {
+    return "div";
   }
-  data(store) {
-    store.set({
-      hint: "Each button below mutates the store; the $for directive re-renders synchronously and the timing is logged."
+  /**
+   * A custom component associated with this node, which can be used to provide custom logic and behavior for the node. This component is typically defined in the context and can be resolved based on the node's type or other identifying information. The component can include its own template, markup, styles, and features that are specific to the functionality it provides.
+   * 
+   * Example: If the node type is "custom-component", the corresponding component would be resolved from the context and can be used to provide custom rendering and behavior for nodes of that type.
+   * 
+   * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
+   */
+  get component() {
+    return this.scope.resolve(P.toPascalCase(this.aseid.entity));
+  }
+};
+__name(AreRootNode, "AreRootNode");
+AreRootNode = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "AreRootNode represents the root node in the scene graph. It extends the base AreHTMLNode and includes additional properties and methods specific to the root node, such as handling the root element and its associated component."
+  })
+], AreRootNode);
+
+// src/nodes/AreText.ts
+var AreText = class extends AreHTMLNode {
+  fromNew(newEntity) {
+    super.fromNew({
+      ...newEntity,
+      payload: {
+        ...newEntity.payload || {},
+        entity: "are-text"
+      }
     });
   }
 };
-__name(_PerfControls, "PerfControls");
-__decorateClass([
-  Are.Template,
-  __decorateParam(0, Yt(te))
-], _PerfControls.prototype, "template", 1);
-__decorateClass([
-  Are.Data,
-  __decorateParam(0, Yt(AreStore))
-], _PerfControls.prototype, "data", 1);
-var PerfControls = _PerfControls;
+__name(AreText, "AreText");
+AreText = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Node type representing a plain or partially-dynamic text segment in the AreHTMLNode tree. Emits an AddText instruction that sets or updates the corresponding DOM text node; the content may carry a store getter for any dynamic portion."
+  })
+], AreText);
 
-// examples/for-perf/src/components/PerfStats.component.ts
-var _PerfStats = class _PerfStats extends Are {
-  template(node) {
-    node.setContent(`
-            <section class="legend">
-                <div class="legend-card" $for="card in cards track card.key">
-                    <span class="legend-key">{{card.key}}</span>
-                    <span class="legend-label">{{card.label}}</span>
-                </div>
-            </section>
-        `);
+// src/signals/AreRoute.signal.ts
+var AreRoute = class extends AreSignal {
+  constructor(path) {
+    super({
+      data: new A_Route(path)
+    });
   }
-  data(store) {
-    store.set({
-      cards: [
-        { key: "render", label: "Replace the whole list" },
-        { key: "append", label: "Add rows at the end" },
-        { key: "prepend", label: "Add rows at the start" },
-        { key: "shuffle", label: "Reorder existing rows" },
-        { key: "update", label: "Mutate every row in place" }
+  get route() {
+    return this.data;
+  }
+  static default() {
+    return new AreRoute(document.location.pathname || "/");
+  }
+  compare(other) {
+    return this.route.toRegExp().test(other.data.toString());
+  }
+};
+__name(AreRoute, "AreRoute");
+AreRoute = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "ARE signal that carries an A_Route value. Dispatched by AreRouteWatcher on client-side navigation events (pushState, replaceState, popstate). The signal bus delivers it to all subscribed root nodes, triggering route-based conditional rendering across the component tree."
+  })
+], AreRoute);
+
+// src/engine/AreHTML.constants.ts
+var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+var SVG_ATTRIBUTE_NS = {
+  xlink: "http://www.w3.org/1999/xlink",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  xmlns: "http://www.w3.org/2000/xmlns/"
+};
+var VOID_ELEMENTS = /* @__PURE__ */ new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+]);
+function isVoidElement(tagName) {
+  return VOID_ELEMENTS.has(tagName.toLowerCase());
+}
+__name(isVoidElement, "isVoidElement");
+var BOOLEAN_ATTRIBUTES = /* @__PURE__ */ new Set([
+  "allowfullscreen",
+  "async",
+  "autofocus",
+  "autoplay",
+  "checked",
+  "controls",
+  "default",
+  "defer",
+  "disabled",
+  "formnovalidate",
+  "hidden",
+  "inert",
+  "ismap",
+  "itemscope",
+  "loop",
+  "multiple",
+  "muted",
+  "nomodule",
+  "novalidate",
+  "open",
+  "playsinline",
+  "readonly",
+  "required",
+  "reversed",
+  "selected"
+]);
+function isBooleanAttribute(name) {
+  return BOOLEAN_ATTRIBUTES.has(name.toLowerCase());
+}
+__name(isBooleanAttribute, "isBooleanAttribute");
+var IDL_FORM_PROPERTIES = {
+  INPUT: /* @__PURE__ */ new Set(["value", "checked", "indeterminate"]),
+  TEXTAREA: /* @__PURE__ */ new Set(["value"]),
+  SELECT: /* @__PURE__ */ new Set(["value"]),
+  OPTION: /* @__PURE__ */ new Set(["selected"])
+};
+function isIDLFormProperty(tagName, attrName) {
+  const set = IDL_FORM_PROPERTIES[tagName.toUpperCase()];
+  return !!set && set.has(attrName);
+}
+__name(isIDLFormProperty, "isIDLFormProperty");
+function normalizeClassValue(value) {
+  if (value === null || value === void 0 || value === false) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) {
+    return value.map(normalizeClassValue).filter(Boolean).join(" ");
+  }
+  if (typeof value === "object") {
+    const parts = [];
+    for (const key of Object.keys(value)) {
+      if (value[key]) parts.push(key);
+    }
+    return parts.join(" ");
+  }
+  return "";
+}
+__name(normalizeClassValue, "normalizeClassValue");
+function normalizeStyleValue(value) {
+  if (value === null || value === void 0 || value === false) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) {
+    return value.map(normalizeStyleValue).filter(Boolean).join("; ");
+  }
+  if (typeof value === "object") {
+    const parts = [];
+    for (const key of Object.keys(value)) {
+      const v7 = value[key];
+      if (v7 === null || v7 === void 0 || v7 === false) continue;
+      const kebab = key.replace(/[A-Z]/g, (m7) => "-" + m7.toLowerCase());
+      parts.push(`${kebab}: ${v7}`);
+    }
+    return parts.join("; ");
+  }
+  return "";
+}
+__name(normalizeStyleValue, "normalizeStyleValue");
+function parseEventName(raw) {
+  const [event, ...modifiers] = raw.split(".");
+  return { event, modifiers: new Set(modifiers) };
+}
+__name(parseEventName, "parseEventName");
+function toDOMString(value) {
+  if (value === null || value === void 0) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return "";
+  }
+}
+__name(toDOMString, "toDOMString");
+var STANDARD_HTML_TAGS = /* @__PURE__ */ new Set([
+  // root / sections
+  "html",
+  "body",
+  "header",
+  "footer",
+  "main",
+  "nav",
+  "section",
+  "article",
+  "aside",
+  "address",
+  "hgroup",
+  // headings
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  // grouping
+  "div",
+  "p",
+  "span",
+  "pre",
+  "blockquote",
+  "figure",
+  "figcaption",
+  "hr",
+  "br",
+  "wbr",
+  // lists
+  "ul",
+  "ol",
+  "li",
+  "dl",
+  "dt",
+  "dd",
+  "menu",
+  // text-level / phrasing
+  "a",
+  "b",
+  "i",
+  "u",
+  "s",
+  "em",
+  "strong",
+  "small",
+  "mark",
+  "abbr",
+  "cite",
+  "q",
+  "code",
+  "kbd",
+  "samp",
+  "var",
+  "sub",
+  "sup",
+  "time",
+  "data",
+  "dfn",
+  "bdi",
+  "bdo",
+  "ruby",
+  "rt",
+  "rp",
+  "del",
+  "ins",
+  // media / embedded (no special namespace handling needed)
+  "img",
+  "picture",
+  "source",
+  "figure",
+  "audio",
+  "video",
+  "track",
+  // tables
+  "table",
+  "caption",
+  "colgroup",
+  "col",
+  "thead",
+  "tbody",
+  "tfoot",
+  "tr",
+  "th",
+  "td",
+  // forms (display only — these still render fine from innerHTML)
+  "label",
+  "fieldset",
+  "legend",
+  "datalist",
+  "option",
+  "optgroup",
+  "output",
+  "progress",
+  "meter",
+  // interactive
+  "details",
+  "summary",
+  "dialog"
+]);
+function isStaticMarkup(inner) {
+  if (!inner) return false;
+  if (inner.indexOf("{{") !== -1) return false;
+  const n7 = inner.length;
+  let i6 = 0;
+  while (i6 < n7) {
+    const lt = inner.indexOf("<", i6);
+    if (lt === -1) break;
+    if (inner.startsWith("<!--", lt)) {
+      const end = inner.indexOf("-->", lt + 4);
+      if (end === -1) return false;
+      i6 = end + 3;
+      continue;
+    }
+    if (inner[lt + 1] === "/" || inner[lt + 1] === "!" || inner[lt + 1] === "?") {
+      const gt2 = inner.indexOf(">", lt);
+      if (gt2 === -1) return false;
+      i6 = gt2 + 1;
+      continue;
+    }
+    const nameMatch = /^<([a-zA-Z][a-zA-Z0-9-]*)/.exec(inner.slice(lt));
+    if (!nameMatch) {
+      i6 = lt + 1;
+      continue;
+    }
+    const tag = nameMatch[1].toLowerCase();
+    if (tag.indexOf("-") !== -1 || !STANDARD_HTML_TAGS.has(tag)) return false;
+    let j4 = lt + nameMatch[0].length;
+    let inSingle = false;
+    let inDouble = false;
+    let atNameBoundary = true;
+    let tagEnd = -1;
+    while (j4 < n7) {
+      const ch = inner[j4];
+      if (inDouble) {
+        if (ch === '"') inDouble = false;
+      } else if (inSingle) {
+        if (ch === "'") inSingle = false;
+      } else if (ch === '"') {
+        inDouble = true;
+        atNameBoundary = false;
+      } else if (ch === "'") {
+        inSingle = true;
+        atNameBoundary = false;
+      } else if (ch === ">") {
+        tagEnd = j4;
+        break;
+      } else if (ch === " " || ch === "	" || ch === "\n" || ch === "\r" || ch === "/") {
+        atNameBoundary = true;
+      } else {
+        if (atNameBoundary && (ch === "$" || ch === ":" || ch === "@")) {
+          return false;
+        }
+        atNameBoundary = false;
+      }
+      j4++;
+    }
+    if (tagEnd === -1) return false;
+    i6 = tagEnd + 1;
+  }
+  return true;
+}
+__name(isStaticMarkup, "isStaticMarkup");
+
+// src/engine/AreHTML.compiler.ts
+var AreHTMLCompiler = class extends AreCompiler {
+  compileHTMLNode(node, scene, logger, ...args) {
+    super.compile(node, scene, logger, ...args);
+    if (node.isStaticIsland && scene.host) {
+      scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
+    }
+    if (node.styles?.styles) {
+      const host = scene.host;
+      if (host) {
+        scene.plan(new AddStyleInstruction(host, { styles: node.styles.styles }));
+      }
+    }
+  }
+  compileInterpolation(interpolation, scene, store, logger, ...args) {
+    scene.plan(new AddTextInstruction({ content: interpolation.content, evaluate: true }));
+  }
+  compileText(text, scene, logger, ...args) {
+    logger?.debug("cyan", `AreHTMLCompiler: compile text node <${text.aseid.toString()}> with content: "${text.content}"`);
+    if (scene.host)
+      scene.unPlan(scene.host);
+    scene.plan(new AddTextInstruction({ content: text.content }));
+  }
+  compileStaticAttribute(attribute, scene, ...args) {
+    if (!scene.host)
+      throw new AreCompilerError({
+        title: "Scene Host Not Found",
+        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
+      });
+    const content = attribute.content;
+    if (content.includes("{{")) {
+      const transformed = '"' + content.replace(/\{\{([^}]+)\}\}/g, '"+($1)+"') + '"';
+      scene.plan(new AddAttributeInstruction(scene.host, {
+        name: attribute.name,
+        content: transformed,
+        evaluate: true
+      }));
+      return;
+    }
+    scene.plan(new AddAttributeInstruction(scene.host, {
+      name: attribute.name,
+      content: attribute.content
+    }));
+  }
+  compileDirectiveAttribute(directive, store, feature, logger, ...args) {
+    store.watch(directive);
+    if (directive.component) {
+      feature.chain(directive.component, AreDirectiveFeatures.Compile, directive.owner.scope);
+    } else {
+      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
+    }
+    store.unwatch(directive);
+  }
+  compileEventAttribute(attribute, scene, ...args) {
+    if (!scene.host)
+      throw new AreCompilerError({
+        title: "Scene Host Not Found",
+        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
+      });
+    scene.plan(new AddListenerInstruction(scene.host, {
+      name: attribute.name,
+      handler: attribute.content
+    }));
+  }
+  compileBindingAttribute(attribute, scene, parentStore, store, syntax, directiveContext, ...args) {
+    if (!scene.host)
+      throw new AreCompilerError({
+        title: "Scene Host Not Found",
+        description: `No host found for the scene with id: ${scene.id}. Please ensure that the scene is properly initialized and has a host before compiling binding attributes.`
+      });
+    const node = attribute.owner;
+    const props = node.component?.props;
+    let propName;
+    if (props) {
+      if (props[attribute.name]) {
+        propName = attribute.name;
+      } else {
+        const camel = P.toCamelCase(attribute.name);
+        if (props[camel]) propName = camel;
+      }
+    }
+    if (propName && props) {
+      const propDefinition = props[propName];
+      const coerce = /* @__PURE__ */ __name((raw) => {
+        let value = raw;
+        if (propDefinition.type) {
+          switch (propDefinition.type) {
+            case "string":
+              value = value === void 0 || value === null ? "" : String(value);
+              break;
+            case "number":
+              value = Number(value);
+              break;
+            case "boolean":
+              value = Boolean(value);
+              break;
+          }
+        }
+        return value;
+      }, "coerce");
+      const directiveScope = /* @__PURE__ */ __name(() => directiveContext?.scope ?? {}, "directiveScope");
+      const watcher = {
+        update: /* @__PURE__ */ __name(() => {
+          try {
+            parentStore.watch(watcher);
+            const next = coerce(syntax.evaluate(attribute.content, parentStore, directiveScope()));
+            parentStore.unwatch(watcher);
+            store.set(propName, next);
+          } catch (e2) {
+            parentStore.unwatch(watcher);
+          }
+        }, "update")
+      };
+      parentStore.watch(watcher);
+      const initial = coerce(syntax.evaluate(attribute.content, parentStore, directiveScope()));
+      parentStore.unwatch(watcher);
+      store.set(propName, initial);
+      return;
+    }
+    const instruction = new AddAttributeInstruction(scene.host, {
+      name: attribute.name,
+      content: attribute.content,
+      evaluate: true
+    });
+    scene.plan(instruction);
+  }
+};
+__name(AreHTMLCompiler, "AreHTMLCompiler");
+__decorateClass([
+  AreCompiler.Compile(AreHTMLNode),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLCompiler.prototype, "compileHTMLNode", 1);
+__decorateClass([
+  AreCompiler.Compile(AreInterpolation),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLCompiler.prototype, "compileInterpolation", 1);
+__decorateClass([
+  AreCompiler.Compile(AreText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLCompiler.prototype, "compileText", 1);
+__decorateClass([
+  AreCompiler.Compile(AreStaticAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene))
+], AreHTMLCompiler.prototype, "compileStaticAttribute", 1);
+__decorateClass([
+  AreCompiler.Compile(AreDirectiveAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLCompiler.prototype, "compileDirectiveAttribute", 1);
+__decorateClass([
+  AreCompiler.Compile(AreEventAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene))
+], AreHTMLCompiler.prototype, "compileEventAttribute", 1);
+__decorateClass([
+  AreCompiler.Compile(AreBindingAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, M.Parent()),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreStore)),
+  __decorateParam(4, Yt(AreSyntax)),
+  __decorateParam(5, Yt(AreDirectiveContext))
+], AreHTMLCompiler.prototype, "compileBindingAttribute", 1);
+AreHTMLCompiler = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific compiler for A-Concept Rendering Engine (ARE) components, extending the base AreCompiler to handle HTML templates, styles, and rendering logic tailored for web environments."
+  })
+], AreHTMLCompiler);
+
+// src/engine/AreHTML.interpreter.ts
+var AreHTMLInterpreter = class extends AreInterpreter {
+  addElement(declaration, context, logger) {
+    try {
+      const node = declaration.owner;
+      let currentNode = node;
+      let parent = node.parent;
+      while (parent) {
+        if (context.getNodeElement(parent)) {
+          break;
+        }
+        currentNode = parent;
+        parent = parent.parent;
+      }
+      const tag = node.tag;
+      const isSVG = tag === "svg" || this.isInSVGContext(node);
+      if (parent) {
+        const mountPoint = context.getNodeElement(parent);
+        if (!mountPoint) {
+          throw new AreInterpreterError({
+            title: "Mount Point Not Found",
+            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+          });
+        }
+        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
+        context.setInstructionElement(declaration, element);
+        const attach = mountPoint.nodeType === Node.ELEMENT_NODE ? () => mountPoint.appendChild(element) : () => {
+          mountPoint.parentNode?.insertBefore(element, mountPoint);
+        };
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
+      } else {
+        const mountPoint = context.container.getElementById(node.id);
+        if (!mountPoint) {
+          throw new AreInterpreterError({
+            title: "Mount Point Not Found",
+            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+          });
+        }
+        const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
+        context.setInstructionElement(declaration, element);
+        const attach = /* @__PURE__ */ __name(() => {
+          mountPoint.parentNode?.replaceChild(element, mountPoint);
+        }, "attach");
+        if (context.isBatching && mountPoint.isConnected) {
+          context.deferAttach(attach);
+        } else {
+          attach();
+        }
+      }
+      logger?.debug("green", `Element ${node.aseid.toString()} added to Context:`);
+    } catch (error) {
+      logger?.error(error);
+      throw error;
+    }
+  }
+  removeElement(declaration, context) {
+    const element = context.getElementByInstruction(declaration);
+    if (element && element.parentNode && element.isConnected) {
+      element.parentNode.removeChild(element);
+    }
+    context.removeInstructionElement(declaration);
+  }
+  addAttribute(mutation, context, store, syntax, directiveContext, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
+      });
+    }
+    const { name, content, evaluate } = mutation.payload;
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
+      ...directiveContext?.scope || {}
+    }) : content;
+    const el = element;
+    const lowerName = name.toLowerCase();
+    const colonIdx = name.indexOf(":");
+    if (colonIdx > 0) {
+      const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+      if (ns) {
+        el.setAttributeNS(ns, name, toDOMString(rawValue));
+        mutation.cache = toDOMString(rawValue);
+        return;
+      }
+    }
+    if (isBooleanAttribute(lowerName)) {
+      if (rawValue) {
+        el.setAttribute(lowerName, "");
+        try {
+          el[lowerName] = true;
+        } catch {
+        }
+      } else {
+        el.removeAttribute(lowerName);
+        try {
+          el[lowerName] = false;
+        } catch {
+        }
+      }
+      mutation.cache = rawValue ? "true" : "";
+      return;
+    }
+    if (isIDLFormProperty(el.tagName, name)) {
+      const propName = name === "value" ? "value" : name === "checked" ? "checked" : name === "selected" ? "selected" : name === "indeterminate" ? "indeterminate" : name;
+      try {
+        if (propName === "checked" || propName === "selected" || propName === "indeterminate") {
+          el[propName] = !!rawValue;
+        } else {
+          el[propName] = toDOMString(rawValue);
+        }
+      } catch {
+      }
+      if (propName !== "value") {
+        if (rawValue) el.setAttribute(name, "");
+        else el.removeAttribute(name);
+      } else {
+        el.setAttribute(name, toDOMString(rawValue));
+      }
+      mutation.cache = toDOMString(rawValue);
+      return;
+    }
+    if (lowerName === "class") {
+      const newValue = normalizeClassValue(rawValue);
+      if (mutation.cache === void 0) {
+        const existingValue = el.getAttribute("class");
+        const merged = existingValue ? `${existingValue} ${newValue}`.trim() : newValue;
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      } else {
+        const existingValue = el.getAttribute("class");
+        const existingParts = existingValue ? existingValue.split(/\s+/).filter(Boolean) : [];
+        const oldParts = new Set(mutation.cache.split(/\s+/).filter(Boolean));
+        const newParts = newValue ? newValue.split(/\s+/).filter(Boolean) : [];
+        const merged = [...existingParts.filter((p4) => !oldParts.has(p4)), ...newParts].join(" ");
+        if (merged) el.setAttribute("class", merged);
+        else el.removeAttribute("class");
+      }
+      mutation.cache = newValue;
+      return;
+    }
+    if (lowerName === "style") {
+      const newValue = normalizeStyleValue(rawValue);
+      if (newValue) el.setAttribute("style", newValue);
+      else el.removeAttribute("style");
+      mutation.cache = newValue;
+      return;
+    }
+    const stringValue = toDOMString(rawValue);
+    if (stringValue === "" && evaluate && (rawValue === false || rawValue === null || rawValue === void 0)) {
+      el.removeAttribute(name);
+    } else {
+      el.setAttribute(name, stringValue);
+    }
+    mutation.cache = stringValue;
+  }
+  removeAttribute(mutation, context) {
+    try {
+      const element = context.getElementByInstruction(mutation.parent);
+      if (!element) return;
+      const { name } = mutation.payload;
+      if (name && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+        const colonIdx = name.indexOf(":");
+        if (colonIdx > 0) {
+          const ns = SVG_ATTRIBUTE_NS[name.slice(0, colonIdx)];
+          if (ns) {
+            element.removeAttributeNS(ns, name.slice(colonIdx + 1));
+          } else {
+            element.removeAttribute(name);
+          }
+        } else {
+          element.removeAttribute(name);
+        }
+      }
+    } catch (error) {
+      console.log("Error removing attribute:", error);
+    }
+  }
+  hideElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    const el = element;
+    mutation.cache = el.style.display;
+    el.style.display = "none";
+  }
+  showElement(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
+    if (!element.isConnected) return;
+    const el = element;
+    el.style.display = mutation.payload?.display ?? mutation.cache ?? "";
+  }
+  addEventListener(mutation, context, store, syntax, directiveContext, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure that the parent instruction is properly rendered and associated with a DOM element before adding event listeners.`
+      });
+    }
+    const { event: eventName, modifiers } = parseEventName(mutation.payload.name);
+    const listenerOptions = {};
+    if (modifiers.has("capture")) listenerOptions.capture = true;
+    if (modifiers.has("once")) listenerOptions.once = true;
+    if (modifiers.has("passive")) listenerOptions.passive = true;
+    const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
+    let liveEvent = null;
+    const handlerScope = {};
+    for (const handler of handlers) {
+      const handlerFn = /* @__PURE__ */ __name((...args) => {
+        const event = new AreEvent(handler);
+        const effectiveArgs = args.length === 0 && liveEvent ? [liveEvent] : liveEvent ? [...args, liveEvent] : args;
+        event.set("args", effectiveArgs);
+        event.set("element", element);
+        event.set("instruction", mutation);
+        if (liveEvent) event.set("native", liveEvent);
+        mutation.owner.emit(event);
+      }, "handlerFn");
+      handlerScope[`$${handler}`] = handlerFn;
+    }
+    const callback = /* @__PURE__ */ __name((e2) => {
+      try {
+        liveEvent = e2;
+        if (modifiers.has("self") && e2.target !== element) return;
+        if (modifiers.has("stop")) e2.stopPropagation();
+        if (modifiers.has("prevent")) e2.preventDefault();
+        if (e2 instanceof KeyboardEvent && modifiers.size > 0) {
+          const key = (e2.key || "").toLowerCase();
+          const KEY_ALIASES = {
+            enter: ["enter"],
+            esc: ["escape"],
+            escape: ["escape"],
+            tab: ["tab"],
+            space: [" ", "spacebar"],
+            up: ["arrowup"],
+            down: ["arrowdown"],
+            left: ["arrowleft"],
+            right: ["arrowright"],
+            delete: ["delete", "backspace"]
+          };
+          const keyMods = [...modifiers].filter((m7) => m7 in KEY_ALIASES || m7 === "ctrl" || m7 === "alt" || m7 === "shift" || m7 === "meta");
+          if (keyMods.length > 0) {
+            const keyMatch = keyMods.some((m7) => {
+              if (m7 === "ctrl") return e2.ctrlKey;
+              if (m7 === "alt") return e2.altKey;
+              if (m7 === "shift") return e2.shiftKey;
+              if (m7 === "meta") return e2.metaKey;
+              const aliases = KEY_ALIASES[m7];
+              return aliases && aliases.includes(key);
+            });
+            if (!keyMatch) return;
+          }
+        }
+        context.startPerformance("event:" + eventName);
+        const result = syntax.evaluate(mutation.payload.handler, store, {
+          ...handlerScope,
+          $event: e2,
+          ...directiveContext?.scope || {}
+        });
+        if (typeof result === "function") result(e2);
+        context.endPerformance("event:" + eventName);
+      } catch (err) {
+        logger?.error(err);
+      } finally {
+        liveEvent = null;
+      }
+    }, "callback");
+    const useOptions = listenerOptions.capture || listenerOptions.once || listenerOptions.passive;
+    if (useOptions) {
+      element.addEventListener(eventName, callback, listenerOptions);
+    } else {
+      element.addEventListener(eventName, callback);
+    }
+    mutation.payload._callback = callback;
+    context.addListener(element, mutation.payload.name, callback);
+  }
+  removeEventListener(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element) return;
+    const { name } = mutation.payload;
+    const { event: eventName } = parseEventName(name);
+    const listener = mutation.payload._callback;
+    if (listener) {
+      if (element.isConnected) {
+        element.removeEventListener(eventName, listener);
+      }
+      context.removeListener(element, name, listener);
+      mutation.payload._callback = void 0;
+    }
+  }
+  addText(declaration, context, store, syntax, directiveContext, logger) {
+    const node = declaration.owner.parent;
+    const { content, evaluate } = declaration.payload;
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
+      ...directiveContext?.scope || {}
+    }) : content;
+    const value = toDOMString(rawValue);
+    if (!node) {
+      const textNode = context.container.createTextNode(value);
+      context.container.body.appendChild(textNode);
+      context.setInstructionElement(declaration, textNode);
+    } else {
+      const element = context.getNodeElement(node);
+      if (!element) {
+        throw new AreInterpreterError({
+          title: "Element Not Found",
+          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
+        });
+      }
+      const existingNode = context.getElementByInstruction(declaration);
+      if (existingNode) {
+        existingNode.textContent = value;
+      } else {
+        const textNode = context.container.createTextNode(value);
+        element.appendChild(textNode);
+        context.setInstructionElement(declaration, textNode);
+      }
+    }
+    logger?.debug("green", `Text ${node?.aseid.toString()} added to Context:`);
+  }
+  removeText(declaration, context) {
+    const element = context.getElementByInstruction(declaration);
+    if (!element) return;
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
+    context.removeInstructionElement(declaration);
+  }
+  addStaticHTML(mutation, context, logger) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+      throw new AreInterpreterError({
+        title: "Element Not Found",
+        description: `Could not find a DOM element associated with the instruction ASEID "${mutation.parent}". Ensure the host element is rendered before materialising its static island.`
+      });
+    }
+    const el = element;
+    const { html } = mutation.payload;
+    el.textContent = "";
+    const fragment = context.getStaticFragment(el.tagName.toLowerCase(), html);
+    el.appendChild(fragment.cloneNode(true));
+    logger?.debug("green", `Static island materialised onto <${(mutation.owner.parent ?? mutation.owner)?.aseid?.toString?.()}>`);
+  }
+  removeStaticHTML(mutation, context) {
+    const element = context.getElementByInstruction(mutation.parent);
+    if (element && element.nodeType === Node.ELEMENT_NODE && element.isConnected) {
+      element.textContent = "";
+    }
+  }
+  addComment(declaration, context, store, syntax, directiveContext, logger) {
+    const node = declaration.owner.parent;
+    const { content, evaluate } = declaration.payload;
+    const rawValue = evaluate ? syntax.evaluate(content, store, {
+      ...directiveContext?.scope || {}
+    }) : content;
+    const value = toDOMString(rawValue);
+    if (!node) {
+      const commentNode = context.container.createComment(value);
+      context.container.body.appendChild(commentNode);
+      context.setInstructionElement(declaration, commentNode);
+    } else {
+      const element = context.getNodeElement(node);
+      if (!element) {
+        throw new AreInterpreterError({
+          title: "Element Not Found",
+          description: `Could not find a DOM element associated with the instruction ASEID "${declaration.owner.parent.aseid}". Ensure that the parent instruction is properly rendered and associated with a DOM element before applying attribute mutations.`
+        });
+      }
+      const existingNode = context.getElementByInstruction(declaration);
+      if (existingNode) {
+        existingNode.textContent = value;
+      } else {
+        const commentNode = context.container.createComment(value);
+        element.appendChild(commentNode);
+        context.setInstructionElement(declaration, commentNode);
+      }
+    }
+    logger?.debug("green", `Comment ${node?.aseid.toString()} added to Context:`);
+  }
+  removeComment(declaration, context) {
+    const element = context.getElementByInstruction(declaration);
+    if (!element) return;
+    if (element.isConnected) {
+      element.parentNode?.removeChild(element);
+    }
+    context.removeInstructionElement(declaration);
+  }
+  addStyle(mutation, context, logger) {
+    try {
+      const { styles } = mutation.payload;
+      const styleId = `are-style-${String(mutation.aseid)}`;
+      const existing = context.getElementByInstruction(mutation);
+      if (existing) {
+        existing.textContent = styles;
+      } else {
+        const styleEl = context.container.createElement("style");
+        styleEl.setAttribute("data-are-id", styleId);
+        styleEl.textContent = styles;
+        (context.container.head ?? context.container.body).appendChild(styleEl);
+        context.setInstructionElement(mutation, styleEl);
+        logger?.debug("green", `Style injected for ${String(mutation.aseid)}`);
+      }
+    } catch (error) {
+      logger?.error(error);
+    }
+  }
+  removeStyle(mutation, context) {
+    const styleEl = context.getElementByInstruction(mutation);
+    if (styleEl?.parentNode) {
+      styleEl.parentNode.removeChild(styleEl);
+    }
+    context.removeInstructionElement(mutation);
+  }
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ── SVG helpers ───────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  /**
+   * Returns true when any ancestor of the given node has the tag `svg`,
+   * meaning the node lives inside an SVG subtree and its DOM element must be
+   * created via createElementNS(SVG_NAMESPACE, tag).
+   */
+  isInSVGContext(node) {
+    let current = node.parent;
+    while (current) {
+      if (current.tag === "svg") return true;
+      if (current.tag === "foreignobject") return false;
+      current = current.parent;
+    }
+    return false;
+  }
+};
+__name(AreHTMLInterpreter, "AreHTMLInterpreter");
+__decorateClass([
+  R3.Define({
+    description: "Create an HTML element based on the provided declaration instruction. Handles both root-level mounting and child element creation based on the structural parent hierarchy."
+  }),
+  AreInterpreter.Apply(AreInstructionDefaultNames.Default),
+  AreInterpreter.Apply(AreHTMLInstructions.AddElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addElement", 1);
+__decorateClass([
+  R3.Define({
+    description: "Remove an HTML element that was created by a CreateElement declaration. Cleans up the DOM and the context index."
+  }),
+  AreInterpreter.Revert(AreInstructionDefaultNames.Default),
+  AreInterpreter.Revert(AreHTMLInstructions.AddElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeElement", 1);
+__decorateClass([
+  R3.Define({
+    description: "Add an attribute to an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddAttribute),
+  AreInterpreter.Update(AreHTMLInstructions.AddAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addAttribute", 1);
+__decorateClass([
+  R3.Define({
+    description: "Remove an attribute from an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddAttribute),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeAttribute", 1);
+__decorateClass([
+  R3.Define({
+    description: "Hide an element by setting inline display:none, caching its previous inline display value for restoration on revert."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.HideElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "hideElement", 1);
+__decorateClass([
+  R3.Define({
+    description: "Restore an element hidden by a HideElement instruction back to its previous inline display value."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.HideElement),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "showElement", 1);
+__decorateClass([
+  R3.Define({
+    description: "Add an event listener to an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddListener),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addEventListener", 1);
+__decorateClass([
+  R3.Define({
+    description: "Remove an event listener from an HTML element based on the provided mutation instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddListener),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeEventListener", 1);
+__decorateClass([
+  R3.Define({
+    description: "Add text content to an HTML element based on the provided declaration instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddText),
+  AreInterpreter.Update(AreHTMLInstructions.AddText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addText", 1);
+__decorateClass([
+  R3.Define({
+    description: "Remove text content from an HTML element based on the provided declaration instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeText", 1);
+__decorateClass([
+  R3.Define({
+    description: "Inject a static island's inner markup onto its host element in one pass via a cached, browser-parsed <template> clone. Decodes HTML entities natively."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStaticHTML),
+  AreInterpreter.Update(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addStaticHTML", 1);
+__decorateClass([
+  R3.Define({
+    description: "Clear a static island's injected markup from its host element on revert."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStaticHTML),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStaticHTML", 1);
+__decorateClass([
+  R3.Define({
+    description: "Add a comment node to the DOM based on the provided declaration instruction."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddComment),
+  AreInterpreter.Update(AreHTMLInstructions.AddComment),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSyntax)),
+  __decorateParam(4, Yt(AreDirectiveContext)),
+  __decorateParam(5, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addComment", 1);
+__decorateClass([
+  R3.Define({
+    description: "Remove a comment node from the DOM based on the provided declaration instruction."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddComment),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeComment", 1);
+__decorateClass([
+  R3.Define({
+    description: "Inject a <style> element into the document <head> carrying the component CSS. Keyed by instruction ASEID so multiple components with styles do not collide. Subsequent Update calls refresh the textContent in-place."
+  }),
+  AreInterpreter.Apply(AreHTMLInstructions.AddStyle),
+  AreInterpreter.Update(AreHTMLInstructions.AddStyle),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLInterpreter.prototype, "addStyle", 1);
+__decorateClass([
+  R3.Define({
+    description: "Remove the <style> element that was injected by addStyle, cleaning up the document head."
+  }),
+  AreInterpreter.Revert(AreHTMLInstructions.AddStyle),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreHTMLEngineContext))
+], AreHTMLInterpreter.prototype, "removeStyle", 1);
+AreHTMLInterpreter = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "DOM interpreter for the HTML rendering pipeline. Extends AreInterpreter to apply and revert each ARE instruction type directly against the browser DOM \u2014 creating and removing elements, setting and removing attributes and event listeners, managing inline styles, and inserting text and comment nodes. Driven by the scene diff computed per render cycle."
+  })
+], AreHTMLInterpreter);
+
+// src/engine/AreHTML.tokenizer.ts
+var AreHTMLTokenizer = class extends AreTokenizer {
+  constructor() {
+    super(...arguments);
+    this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
+  }
+  tokenize(node, context, logger) {
+    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
+    if (isStaticIsland) {
+      node.markStatic(node.content);
+    } else {
+      super.tokenize(node, context, logger);
+    }
+    context.startPerformance("attributeExtraction");
+    const attributes = this.extractAttributes(node.markup);
+    for (const attr of attributes) {
+      node.scope.register(attr);
+    }
+    context.endPerformance("attributeExtraction");
+  }
+  extractAttributes(markup) {
+    const withoutTag = markup.replace(/^<[a-zA-Z][a-zA-Z0-9-]*\s*/, "");
+    let inSingle = false;
+    let inDouble = false;
+    let endIdx = withoutTag.length;
+    for (let i6 = 0; i6 < withoutTag.length; i6++) {
+      const ch = withoutTag[i6];
+      if (ch === '"' && !inSingle) inDouble = !inDouble;
+      else if (ch === "'" && !inDouble) inSingle = !inSingle;
+      else if (ch === ">" && !inSingle && !inDouble) {
+        endIdx = i6;
+        break;
+      }
+    }
+    const attrString = withoutTag.slice(0, endIdx).replace(/\s*\/?\s*$/, "").trim();
+    const results = [];
+    for (const match of attrString.matchAll(this.ATTR_PATTERN)) {
+      const raw = match[0];
+      const full = match[1];
+      if (!full) continue;
+      const value = match[2] ?? match[3] ?? match[4] ?? "true";
+      const prefix = full[0];
+      const isSpecial = prefix === ":" || prefix === "@" || prefix === "$";
+      const name = isSpecial ? full.slice(1) : full;
+      const meta = { name, content: value, raw, prefix: isSpecial ? prefix : "" };
+      if (prefix === ":") results.push(new AreBindingAttribute(meta));
+      else if (prefix === "@") results.push(new AreEventAttribute(meta));
+      else if (prefix === "$") results.push(new AreDirectiveAttribute(meta));
+      else results.push(new AreStaticAttribute(meta));
+    }
+    return results;
+  }
+};
+__name(AreHTMLTokenizer, "AreHTMLTokenizer");
+__decorateClass([
+  N.Extend({
+    name: AreNodeFeatures.onTokenize,
+    scope: [AreComponentNode, AreRootNode]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreContext)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLTokenizer.prototype, "tokenize", 1);
+AreHTMLTokenizer = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific tokenizer extending AreTokenizer. Parses raw HTML template strings into AreHTMLNode trees by scanning element tags and resolving directive ($), event (@), binding (:), and static attributes to their typed attribute classes, constructing AreComponentNode and AreRootNode instances where required."
+  })
+], AreHTMLTokenizer);
+
+// src/engine/AreHTML.lifecycle.ts
+var AreHTMLLifecycle = class extends AreLifecycle {
+  initComponent(node, scope, context, signalsContext, logger, ...args) {
+    if (node.component)
+      signalsContext?.subscribe(node);
+    super.init(node, scope, context, logger, ...args);
+  }
+  initRoot(node, scope, context, signalsContext, logger, ...args) {
+    signalsContext?.subscribe(node);
+    super.init(node, scope, context, logger, ...args);
+  }
+  initText(node, scope, context, logger, ...args) {
+    const scene = new AreScene(node.aseid);
+    scope.register(scene);
+  }
+  initInterpolation(node, scope, context, logger, ...args) {
+    const scene = new AreScene(node.aseid);
+    scope.register(scene);
+  }
+  mount(node, scene, logger, ...args) {
+    logger?.debug(`[Mount] Component Trigger for <${node.aseid.entity}>  with aseid :{${node.aseid.toString()}}`);
+    if (scene.isInactive) return;
+    const context = node.scope.resolve(AreHTMLEngineContext);
+    context?.beginBatch();
+    const afterMountQueue = [];
+    try {
+      node.interpret();
+      const stack = [];
+      for (let i6 = node.children.length - 1; i6 >= 0; i6--) {
+        stack.push({ node: node.children[i6], entered: false });
+      }
+      while (stack.length > 0) {
+        const frame = stack[stack.length - 1];
+        const current = frame.node;
+        if (frame.entered) {
+          stack.pop();
+          afterMountQueue.push(current);
+          continue;
+        }
+        frame.entered = true;
+        current.call(AreNodeFeatures.onBeforeMount, current.scope);
+        if (!current.scene.isInactive) {
+          current.interpret();
+          for (let i6 = current.children.length - 1; i6 >= 0; i6--) {
+            stack.push({ node: current.children[i6], entered: false });
+          }
+        }
+      }
+    } finally {
+      context?.endBatch();
+    }
+    for (let i6 = 0; i6 < afterMountQueue.length; i6++) {
+      const mounted = afterMountQueue[i6];
+      mounted.call(AreNodeFeatures.onAfterMount, mounted.scope);
+    }
+  }
+  updateDirectiveAttribute(directive, scope, feature, logger, ...args) {
+    if (directive.component) {
+      feature.chain(directive.component, AreDirectiveFeatures.Update, directive.owner.scope);
+    } else {
+      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
+    }
+  }
+};
+__name(AreHTMLLifecycle, "AreHTMLLifecycle");
+__decorateClass([
+  AreLifecycle.Init(AreComponentNode),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initComponent", 1);
+__decorateClass([
+  AreLifecycle.Init(AreRootNode),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initRoot", 1);
+__decorateClass([
+  AreLifecycle.Init(AreText),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initText", 1);
+__decorateClass([
+  AreLifecycle.Init(AreInterpolation),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(AreHTMLEngineContext)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "initInterpolation", 1);
+__decorateClass([
+  N.Extend({
+    name: AreNodeFeatures.onMount,
+    scope: [AreHTMLNode]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreScene)),
+  __decorateParam(2, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "mount", 1);
+__decorateClass([
+  N.Extend({
+    name: AreAttributeFeatures.Update,
+    scope: [AreDirectiveAttribute]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(R)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLLifecycle.prototype, "updateDirectiveAttribute", 1);
+AreHTMLLifecycle = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific lifecycle handler extending AreLifecycle. Wires DOM-aware init hooks for component nodes, root nodes, interpolations, text nodes, and directive attributes to the ARE rendering pipeline, connecting each entity to its HTML engine context and priming the scene for subsequent compilation and interpretation."
+  })
+], AreHTMLLifecycle);
+
+// src/engine/AreHTML.transformer.ts
+var AreHTMLTransformer = class extends AreTransformer {
+  transformDirectiveAttribute(directive, store, feature, logger, ...args) {
+    store.watch(directive);
+    if (directive.component) {
+      feature.chain(directive.component, AreDirectiveFeatures.Transform, directive.owner.scope);
+    } else {
+      logger?.warning(`Directive handler component not found for directive: ${directive.name}. Make sure to create a component named "AreDirective${P.toPascalCase(directive.name)}" to handle this directive.`);
+    }
+    store.unwatch(directive);
+  }
+};
+__name(AreHTMLTransformer, "AreHTMLTransformer");
+__decorateClass([
+  N.Extend({
+    name: AreAttributeFeatures.Transform,
+    scope: [AreDirectiveAttribute]
+  }),
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(AreStore)),
+  __decorateParam(2, Yt(N)),
+  __decorateParam(3, Yt(A_Logger))
+], AreHTMLTransformer.prototype, "transformDirectiveAttribute", 1);
+AreHTMLTransformer = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "HTML-specific transformer extending AreTransformer. Handles directive-attribute structural rewrites before compilation \u2014 sorting directives by declared priority and expanding compound directive expressions \u2014 so the compiler receives a clean, ordered AreHTMLNode tree ready for instruction emission."
+  })
+], AreHTMLTransformer);
+
+// src/lib/AreRoot/AreRootCache.context.ts
+var AreRootCache = class extends H {
+  constructor(limit = 10) {
+    super({ name: "AreRootCache" });
+    /**
+     * rootId -> (component tag -> cache entry). The inner Map preserves
+     * insertion order which is used as the LRU recency order: the first key is
+     * the least-recently-used entry, the last key the most-recently-used.
+     */
+    this._cache = /* @__PURE__ */ new Map();
+    this._limit = Math.max(0, Math.floor(limit));
+  }
+  /**
+   * Maximum number of cached subtrees kept per root.
+   */
+  get limit() {
+    return this._limit;
+  }
+  bucket(rootId) {
+    let bucket = this._cache.get(rootId);
+    if (!bucket) {
+      bucket = /* @__PURE__ */ new Map();
+      this._cache.set(rootId, bucket);
+    }
+    return bucket;
+  }
+  /**
+   * Whether a subtree for the given component tag is currently cached.
+   */
+  has(rootId, tag) {
+    return this.bucket(rootId).has(tag);
+  }
+  /**
+   * Retrieve AND remove a cached subtree so it can become live again. Returns
+   * `undefined` on a cache miss.
+   */
+  take(rootId, tag) {
+    const bucket = this.bucket(rootId);
+    const entry = bucket.get(tag);
+    if (entry) {
+      bucket.delete(tag);
+    }
+    return entry;
+  }
+  /**
+   * Stash a detached subtree under the given component tag. Returns any entries
+   * that were evicted to honour the LRU limit (or replaced for the same tag) so
+   * the caller can `destroy()` them.
+   */
+  put(rootId, tag, entry) {
+    const bucket = this.bucket(rootId);
+    const evicted = [];
+    const existing = bucket.get(tag);
+    if (existing) {
+      bucket.delete(tag);
+      if (existing.node !== entry.node) {
+        evicted.push(existing);
+      }
+    }
+    bucket.set(tag, entry);
+    while (bucket.size > this._limit) {
+      const oldestKey = bucket.keys().next().value;
+      if (oldestKey === void 0) {
+        break;
+      }
+      const oldest = bucket.get(oldestKey);
+      bucket.delete(oldestKey);
+      evicted.push(oldest);
+    }
+    return evicted;
+  }
+  /**
+   * Remove and return every cached entry for a root (e.g. on teardown) so the
+   * caller can destroy them.
+   */
+  clear(rootId) {
+    const bucket = this._cache.get(rootId);
+    if (!bucket) {
+      return [];
+    }
+    const entries = [...bucket.values()];
+    bucket.clear();
+    this._cache.delete(rootId);
+    return entries;
+  }
+};
+__name(AreRootCache, "AreRootCache");
+AreRootCache = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "AreRootCache is a fragment that keeps a small per-root LRU of previously rendered are-root subtrees. When an are-root swaps the component it displays, the outgoing subtree is stashed here (unmounted + detached, but not destroyed) so that routing back to it can re-inject the preserved scene instantly instead of rebuilding from scratch."
+  })
+], AreRootCache);
+
+// src/engine/AreHTML.engine.ts
+var AreHTMLEngine = class extends AreEngine {
+  get DefaultSyntax() {
+    return new AreSyntax({
+      trimWhitespace: true,
+      strictMode: true,
+      rules: [
+        // HTML comments
+        {
+          opening: "<!--",
+          closing: "-->",
+          component: AreComment,
+          priority: 10,
+          nested: false,
+          extract: /* @__PURE__ */ __name((raw) => ({ content: raw.slice(4, -3).trim() }), "extract")
+        },
+        // interpolations
+        {
+          opening: "{{",
+          closing: "}}",
+          component: AreInterpolation,
+          priority: 9,
+          nested: false,
+          extract: /* @__PURE__ */ __name((_5, match) => ({ key: match.content }), "extract")
+        },
+        // are-root — matched before generic elements, produces AreRootNode
+        {
+          matcher: this.rootElementMatcher.bind(this),
+          component: AreRootNode,
+          priority: 5
+        },
+        // generic HTML elements
+        {
+          matcher: this.htmlElementMatcher.bind(this),
+          component: AreComponentNode,
+          priority: 4
+        },
+        // plain text fallback
+        {
+          component: AreText,
+          priority: 0
+        }
       ]
     });
   }
+  async init(scope, signalContext, rootCache) {
+    this.package(scope, {
+      context: new AreHTMLEngineContext({}),
+      syntax: this.DefaultSyntax,
+      compiler: AreHTMLCompiler,
+      interpreter: AreHTMLInterpreter,
+      tokenizer: AreHTMLTokenizer,
+      lifecycle: AreHTMLLifecycle,
+      transformer: AreHTMLTransformer
+    });
+    if (!signalContext) {
+      signalContext = new AreSignalsContext();
+      scope.register(signalContext);
+    }
+    if (!rootCache) {
+      rootCache = new AreRootCache();
+      scope.register(rootCache);
+    }
+  }
+  rootElementMatcher(source, from, to, build) {
+    const rootTag = "are-root";
+    const tagStart = source.indexOf("<", from);
+    if (tagStart === -1 || tagStart >= to) return null;
+    const tagNameMatch = source.slice(tagStart).match(/^<([a-zA-Z][a-zA-Z0-9-]*)/);
+    if (!tagNameMatch || tagNameMatch[1].toLowerCase() !== rootTag) return null;
+    return this.htmlElementMatcher(source, from, to, build);
+  }
+  htmlElementMatcher(source, from, to, build) {
+    let index = from;
+    while (index < to) {
+      const tagStart = source.indexOf("<", index);
+      if (tagStart === -1 || tagStart >= to) return null;
+      if (source.startsWith("<!--", tagStart)) {
+        index = tagStart + 1;
+        continue;
+      }
+      if (source[tagStart + 1] === "/") {
+        index = tagStart + 1;
+        continue;
+      }
+      if (source[tagStart + 1] === "!" || source[tagStart + 1] === "?") {
+        index = tagStart + 1;
+        continue;
+      }
+      const tagNameMatch = source.slice(tagStart).match(/^<([a-zA-Z][a-zA-Z0-9-]*)/);
+      if (!tagNameMatch) {
+        index = tagStart + 1;
+        continue;
+      }
+      const tagName = tagNameMatch[1];
+      const openingTagEnd = AreHTMLEngine.findTagClose(source, tagStart);
+      if (openingTagEnd === -1) return null;
+      const openingTagStr = source.slice(tagStart, openingTagEnd + 1);
+      const idMatch = openingTagStr.match(/\bid=["']([^"']*)["']/);
+      const id = idMatch ? idMatch[1] : void 0;
+      if (source[openingTagEnd - 1] === "/") {
+        const raw = source.slice(tagStart, openingTagEnd + 1);
+        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1);
+        const match2 = build(raw, content2, tagStart, "/>");
+        match2.payload = { entity: tagName, selfClose: true, id };
+        return match2;
+      }
+      if (isVoidElement(tagName)) {
+        const raw = source.slice(tagStart, openingTagEnd + 1);
+        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
+        const match2 = build(raw, content2, tagStart, ">");
+        match2.payload = { entity: tagName, selfClose: true, id };
+        return match2;
+      }
+      const closingTag = `</${tagName}>`;
+      let level = 0;
+      let searchIndex = openingTagEnd + 1;
+      let closingStart = -1;
+      while (searchIndex < to) {
+        const nextOpen = source.indexOf(`<${tagName}`, searchIndex);
+        const nextClose = source.indexOf(closingTag, searchIndex);
+        if (nextClose === -1) break;
+        if (nextOpen !== -1 && nextOpen < nextClose) {
+          const charAfter = source[nextOpen + tagName.length + 1];
+          if (charAfter === " " || charAfter === ">" || charAfter === "/") {
+            const innerEnd = AreHTMLEngine.findTagClose(source, nextOpen);
+            const isSelfClose = innerEnd !== -1 && source[innerEnd - 1] === "/";
+            if (!isSelfClose) {
+              level++;
+            }
+            searchIndex = innerEnd === -1 ? nextOpen + tagName.length + 1 : innerEnd + 1;
+            continue;
+          }
+        }
+        if (level === 0) {
+          closingStart = nextClose;
+          break;
+        }
+        level--;
+        searchIndex = nextClose + closingTag.length;
+      }
+      if (closingStart === -1) return null;
+      const fullTag = source.slice(tagStart, closingStart + closingTag.length);
+      const content = source.slice(openingTagEnd + 1, closingStart);
+      const match = build(fullTag, content, tagStart, closingTag);
+      match.payload = { entity: tagName, selfClose: false, id };
+      return match;
+    }
+    return null;
+  }
+  /**
+   * Find the index of the closing `>` of an opening tag, skipping over
+   * `>` characters that appear inside quoted attribute values.
+   */
+  static findTagClose(source, from) {
+    let inSingle = false;
+    let inDouble = false;
+    for (let i6 = from; i6 < source.length; i6++) {
+      const ch = source[i6];
+      if (ch === '"' && !inSingle) inDouble = !inDouble;
+      else if (ch === "'" && !inDouble) inSingle = !inSingle;
+      else if (ch === ">" && !inSingle && !inDouble) return i6;
+    }
+    return -1;
+  }
 };
-__name(_PerfStats, "PerfStats");
+__name(AreHTMLEngine, "AreHTMLEngine");
+__decorateClass([
+  N.Extend({
+    name: A_ServiceFeatures.onBeforeLoad,
+    before: /.*/
+  }),
+  __decorateParam(0, Yt(R)),
+  __decorateParam(1, Yt(AreSignalsContext)),
+  __decorateParam(2, Yt(AreRootCache))
+], AreHTMLEngine.prototype, "init", 1);
+AreHTMLEngine = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "Concrete HTML rendering engine that assembles the full ARE pipeline for web environments. Bootstraps and wires AreHTMLTokenizer, AreHTMLTransformer, AreHTMLCompiler, AreHTMLInterpreter, and AreHTMLLifecycle; mounts root nodes from inline or fetched templates; and drives reactive re-renders via the AreSignals bus."
+  })
+], AreHTMLEngine);
+
+// src/lib/AreRoot/AreRoot.component.ts
+var AreRoot = class extends Are {
+  async template(root, logger, signalsContext, signalState) {
+    const rootId = root.id;
+    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      if (!root.content?.trim()) {
+        const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+        const defaultComponent = defaultMatch?.[1];
+        if (defaultComponent) {
+          root.setContent(`<${defaultComponent}></${defaultComponent}>`);
+        }
+      }
+      return;
+    }
+    const initialVector = this.buildInitialVector(signalState);
+    const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
+    let componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : void 0;
+    if (!componentName) {
+      if (root.content?.trim()) {
+        return;
+      }
+    }
+    if (!componentName) {
+      const defaultComp = signalsContext?.getDefault(rootId);
+      if (defaultComp?.name) {
+        componentName = P.toKebabCase(defaultComp.name);
+      }
+    }
+    if (!componentName) {
+      const defaultMatch = root.markup?.match(/\bdefault=["']([^"']*)["']/);
+      componentName = defaultMatch?.[1];
+    }
+    if (!componentName) {
+      logger.warning('AreRoot: No component found for initial render. Provide body content, a route condition, or a "default" attribute.');
+      return;
+    }
+    root.setContent(`<${componentName}></${componentName}>`);
+  }
+  async onSignal(root, vector, logger, signalsContext, cache) {
+    const rootId = root.id;
+    if (signalsContext && !signalsContext.hasRoot(rootId)) {
+      return;
+    }
+    const renderTarget = this.matchComponent(rootId, vector, signalsContext);
+    const def = signalsContext?.getDefault(rootId);
+    const componentName = renderTarget?.name ? P.toKebabCase(renderTarget.name) : def?.name ? P.toKebabCase(def.name) : void 0;
+    if (!componentName) {
+      for (const child of [...root.children]) {
+        this.stashChild(root, child, signalsContext, cache);
+      }
+      root.setContent("");
+      return;
+    }
+    const currentChild = root.children[0];
+    if (currentChild?.type === componentName) {
+      return;
+    }
+    for (const child of [...root.children]) {
+      this.stashChild(root, child, signalsContext, cache);
+    }
+    root.setContent(`<${componentName}></${componentName}>`);
+    const cached = cache?.take(root.id, componentName);
+    if (cached) {
+      this.restoreChild(root, cached, signalsContext);
+      return;
+    }
+    root.tokenize();
+    for (let i6 = 0; i6 < root.children.length; i6++) {
+      const child = root.children[i6];
+      child.init();
+      const res = child.load();
+      if (res instanceof Promise) {
+        await res;
+      }
+      child.transform();
+      child.compile();
+      await child.mount();
+    }
+  }
+  /**
+   * Resolves the component a vector should render for the given root, mirroring
+   * the priority used everywhere in the routing system:
+   *   1. Root-specific conditions registered on AreSignalsContext.
+   *   2. The global AreSignalsMeta map, restricted to this outlet's pool.
+   *
+   * Passing the pool *into* the meta lookup is critical: without it, the first
+   * globally matching component wins and may belong to a different outlet
+   * (e.g. AisRequirementsPanel for the meta-outlet matching
+   * AisEditorCursorScope) — the pool check would then reject it and the outlet
+   * would fall back to its default, hiding a valid in-pool match (e.g.
+   * AisDiagramTab matching AisSetPrimaryDisplay).
+   *
+   * Returns `undefined` when nothing matches — callers decide whether to use a
+   * configured default, body content, or clear the outlet.
+   */
+  matchComponent(rootId, vector, signalsContext) {
+    if (!vector) return void 0;
+    let renderTarget = signalsContext?.findComponentByVector(rootId, vector);
+    if (!renderTarget) {
+      const signalsMeta = _.meta(AreSignals);
+      const pool = signalsContext?.getComponentById(rootId);
+      const metaTarget = signalsMeta?.findComponentByVector(
+        vector,
+        pool?.length ? pool : void 0,
+        rootId
+      );
+      if (metaTarget && (!pool?.length || pool.includes(metaTarget))) {
+        renderTarget = metaTarget;
+      }
+    }
+    return renderTarget;
+  }
+  /**
+   * Builds the vector used for the INITIAL render. It is seeded from the
+   * accumulated signal state (every signal dispatched on the bus so far) so a
+   * freshly-mounted outlet reflects the live application state immediately,
+   * not just on the next signal tick. The current URL route is appended when
+   * no AreRoute is already present in the state, so route-driven outlets still
+   * resolve on the very first paint (before AreRouteWatcher has dispatched).
+   */
+  buildInitialVector(signalState) {
+    const signals = [];
+    if (signalState) {
+      for (const signal of signalState.toVector()) {
+        if (signal) signals.push(signal);
+      }
+    }
+    if (!signals.some((signal) => signal instanceof AreRoute)) {
+      try {
+        const currentRoute = AreRoute.default();
+        if (currentRoute) signals.push(currentRoute);
+      } catch {
+      }
+    }
+    return new A_SignalVector(signals);
+  }
+  /**
+   * Detach a displayed child subtree from the outlet and stash it in the cache
+   * for fast re-injection later. The subtree is unmounted (its scene plan is
+   * preserved) and deregistered from the root scope, but NOT destroyed. The
+   * nodes that were subscribed to the signal bus are unsubscribed while cached
+   * so the detached DOM never reacts to signals, and recorded so they can be
+   * re-subscribed verbatim on restore.
+   *
+   * When no cache is available, or the LRU evicts an entry, the affected
+   * subtree is fully destroyed.
+   */
+  stashChild(root, child, signalsContext, cache) {
+    const tag = child.type;
+    child.unmount();
+    const subscribers = signalsContext ? this.collectSubscribers(child, signalsContext) : [];
+    for (const node of subscribers) {
+      signalsContext?.unsubscribe(node);
+    }
+    root.removeChild(child);
+    if (!cache) {
+      void child.destroy();
+      return;
+    }
+    const evicted = cache.put(root.id, tag, { node: child, subscribers });
+    for (const entry of evicted) {
+      void entry.node.destroy();
+    }
+  }
+  /**
+   * Re-attach a cached subtree to the outlet and re-mount it from its preserved
+   * scene plan, re-subscribing exactly the nodes that were subscribed before it
+   * was cached.
+   */
+  restoreChild(root, entry, signalsContext) {
+    const child = entry.node;
+    root.addChild(child);
+    for (const node of entry.subscribers) {
+      signalsContext?.subscribe(node);
+    }
+    child.mount();
+  }
+  /**
+   * Walk a subtree and collect the nodes currently registered as signal
+   * subscribers. Mirrors the subscription performed at init time in
+   * AreHTMLLifecycle (component nodes and root nodes) without depending on the
+   * concrete node classes — it simply intersects the subtree with the live
+   * subscriber registry.
+   */
+  collectSubscribers(node, signalsContext) {
+    const result = [];
+    const queue = [node];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (signalsContext.subscribers.has(current)) {
+        result.push(current);
+      }
+      queue.push(...current.children);
+    }
+    return result;
+  }
+};
+__name(AreRoot, "AreRoot");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_Logger)),
+  __decorateParam(2, Yt(AreSignalsContext)),
+  __decorateParam(3, Yt(A_SignalState))
+], AreRoot.prototype, "template", 1);
+__decorateClass([
+  Are.Signal,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_SignalVector)),
+  __decorateParam(2, Yt(A_Logger)),
+  __decorateParam(3, Yt(AreSignalsContext)),
+  __decorateParam(4, Yt(AreRootCache))
+], AreRoot.prototype, "onSignal", 1);
+AreRoot = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
+  })
+], AreRoot);
+
+// src/lib/AreRouteWatcher/AreRouteWatcher.component.ts
+var AreRouteWatcher = class extends O {
+  constructor() {
+    super();
+    this.handlers = /* @__PURE__ */ new Set();
+    this.current = new URL(window.location.href);
+    // ── Listeners ─────────────────────────────────────────────────────────────
+    this.onPopState = /* @__PURE__ */ __name(() => {
+      this.notify();
+    }, "onPopState");
+    this.onHashChange = /* @__PURE__ */ __name(() => {
+      this.notify();
+    }, "onHashChange");
+    this.onURLChange = /* @__PURE__ */ __name(() => {
+      this.notify();
+    }, "onURLChange");
+    this.patchHistory();
+    this.attachListeners();
+  }
+  // ── Public ────────────────────────────────────────────────────────────────
+  onChange(handler) {
+    this.handlers.add(handler);
+    return () => this.handlers.delete(handler);
+  }
+  get url() {
+    return this.current;
+  }
+  destroy() {
+    window.removeEventListener("popstate", this.onPopState);
+    window.removeEventListener("hashchange", this.onHashChange);
+    window.removeEventListener("urlchange", this.onURLChange);
+    this.handlers.clear();
+  }
+  attachListeners() {
+    window.addEventListener("popstate", this.onPopState);
+    window.addEventListener("hashchange", this.onHashChange);
+    window.addEventListener("urlchange", this.onURLChange);
+  }
+  // ── Patch pushState / replaceState ────────────────────────────────────────
+  patchHistory() {
+    const patch = /* @__PURE__ */ __name((original) => function(...args) {
+      original.apply(this, args);
+      window.dispatchEvent(new Event("urlchange"));
+    }, "patch");
+    history.pushState = patch(history.pushState);
+    history.replaceState = patch(history.replaceState);
+  }
+  // ── Notify ────────────────────────────────────────────────────────────────
+  notify() {
+    const next = new URL(window.location.href);
+    if (next.href === this.current.href) return;
+    this.current = next;
+    for (const handler of this.handlers) {
+      handler(this.current);
+    }
+  }
+};
+__name(AreRouteWatcher, "AreRouteWatcher");
+AreRouteWatcher = __decorateClass([
+  R3.Define({
+    namespace: "a-are-html",
+    description: "AreRouteWatcher is a component that observes browser navigation events (history pushState, replaceState, and popstate) and notifies registered handlers when the URL changes, enabling client-side routing and reactive route-based rendering within the ARE framework."
+  })
+], AreRouteWatcher);
+
+// examples/signal-routing/src/components/AppShell.component.ts
+var _AppShell = class _AppShell extends Are {
+  template(node) {
+    node.setContent(`
+            <div class="app-shell">
+                <nav-bar></nav-bar>
+                <main class="app-main">
+                    <are-root id="page-outlet"><home-page></home-page></are-root>
+                </main>
+            </div>
+        `);
+  }
+  styles(node) {
+    node.setStyles(`
+            .app-shell {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                background: #09090b;
+                color: #f4f4f5;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            }
+            .app-main {
+                flex: 1;
+            }
+        `);
+  }
+};
+__name(_AppShell, "AppShell");
 __decorateClass([
   Are.Template,
   __decorateParam(0, Yt(te))
-], _PerfStats.prototype, "template", 1);
+], _AppShell.prototype, "template", 1);
 __decorateClass([
-  Are.Data,
-  __decorateParam(0, Yt(AreStore))
-], _PerfStats.prototype, "data", 1);
-var PerfStats = _PerfStats;
+  Are.Styles,
+  __decorateParam(0, Yt(te))
+], _AppShell.prototype, "styles", 1);
+var AppShell = _AppShell;
 
-// examples/for-perf/src/components/PerfGrid.component.ts
-var STATUSES = ["ok", "warn", "error", "idle"];
-var ROW_SEQ = 0;
-function makeCells(rowId) {
-  const cells = [];
-  for (let c3 = 0; c3 < 4; c3++) {
-    cells.push({ id: `${rowId}:${c3}`, v: Math.floor(Math.random() * 1e3) });
-  }
-  return cells;
-}
-__name(makeCells, "makeCells");
-function makeRows(count) {
-  const rows = [];
-  for (let i6 = 0; i6 < count; i6++) {
-    const id = ++ROW_SEQ;
-    rows.push({
-      id,
-      label: `Row ${id}`,
-      status: STATUSES[id % STATUSES.length],
-      value: Math.floor(Math.random() * 1e4),
-      active: id % 7 === 0,
-      cells: makeCells(id)
-    });
-  }
-  return rows;
-}
-__name(makeRows, "makeRows");
-function commit(action, rows, context, store, logger) {
-  const label = `$for: ${action}`;
-  console.group(`%c${label}`, "color:#7c3aed;font-weight:bold");
-  const t0 = performance.now();
-  context.startPerformance(label);
-  store.set("rows", rows);
-  store.set("count", rows.length);
-  context.endPerformance(label);
-  const wall = (performance.now() - t0).toFixed(2);
-  store.set("lastAction", action);
-  store.set("lastWall", wall);
-  logger.debug(`${label} | rows=${rows.length} | wall=${wall}ms`);
-  logger.info(`${label} done in ${wall}ms`, ...context.performance);
-  console.log("%cWall time:", "font-weight:bold", `${wall} ms`);
-  console.log("%cEngine performance:", "font-weight:bold");
-  context.performance.forEach((line) => console.log("  " + line));
-  console.log("%cScene stats:", "font-weight:bold");
-  context.stats.forEach((line) => console.log("  " + line));
-  console.groupEnd();
-}
-__name(commit, "commit");
-var _PerfGrid = class _PerfGrid extends Are {
+// examples/signal-routing/src/components/NavBar.component.ts
+var _NavBar = class _NavBar extends Are {
   template(node) {
     node.setContent(`
-            <section class="grid-panel">
-                <div class="toolbar">
-                    <button class="btn" @click="$render(100)">Render 100</button>
-                    <button class="btn" @click="$render(1000)">Render 1000</button>
-                    <button class="btn" @click="$render(5000)">Render 5000</button>
-                    <span class="sep"></span>
-                    <button class="btn" @click="$append(100)">Append 100</button>
-                    <button class="btn" @click="$prepend(100)">Prepend 100</button>
-                    <button class="btn" @click="$shuffle()">Shuffle</button>
-                    <button class="btn" @click="$updateInPlace()">Update in place</button>
-                    <button class="btn btn-danger" @click="$clear()">Clear</button>
+            <nav class="navbar">
+                <div class="navbar-brand">ARE \xB7 Signal Router</div>
+                <ul class="navbar-links">
+                    <li><a href="/" @click="$navigate('/')">Home</a></li>
+                    <li><a href="/about" @click="$navigate('/about')">About</a></li>
+                    <li><a href="/settings" @click="$navigate('/settings')">Settings</a></li>
+                </ul>
+            </nav>
+        `);
+  }
+  styles(node) {
+    node.setStyles(`
+            .navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 32px;
+                height: 56px;
+                background: #18181b;
+                border-bottom: 1px solid #27272a;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            .navbar-brand {
+                font-size: 16px;
+                font-weight: 700;
+                color: #a78bfa;
+                letter-spacing: -0.02em;
+            }
+            .navbar-links {
+                list-style: none;
+                display: flex;
+                gap: 8px;
+                margin: 0;
+                padding: 0;
+            }
+            .navbar-links a {
+                display: inline-block;
+                padding: 6px 16px;
+                border-radius: 6px;
+                text-decoration: none;
+                color: #a1a1aa;
+                font-size: 14px;
+                font-weight: 500;
+                transition: background 0.15s, color 0.15s;
+            }
+            .navbar-links a:hover {
+                background: #27272a;
+                color: #f4f4f5;
+            }
+        `);
+  }
+  navigate(event, bus) {
+    const e2 = event.get("native");
+    e2?.preventDefault();
+    const path = event.get("args")?.[0] ?? "/";
+    history.pushState({}, "", path);
+    bus.next(new AreRoute(path));
+  }
+  async onSignal(root, vector, store, signalsContext) {
+    const rootId = root.id;
+    console.log(`NavBar received signal: ${vector.toString()} for rootId: ${rootId}`, root, signalsContext);
+  }
+};
+__name(_NavBar, "NavBar");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, Yt(te))
+], _NavBar.prototype, "template", 1);
+__decorateClass([
+  Are.Styles,
+  __decorateParam(0, Yt(te))
+], _NavBar.prototype, "styles", 1);
+__decorateClass([
+  Are.EventHandler,
+  __decorateParam(0, Yt(AreEvent)),
+  __decorateParam(1, Yt(A_SignalBus))
+], _NavBar.prototype, "navigate", 1);
+__decorateClass([
+  Are.Signal,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_SignalVector)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSignalsContext))
+], _NavBar.prototype, "onSignal", 1);
+var NavBar = _NavBar;
+
+// examples/signal-routing/src/components/HomePage.component.ts
+var HomePage = class extends Are {
+  template(node) {
+    node.setContent(`
+            <section class="page page-home">
+                <div class="page-hero">
+                    <h1 class="page-title">Welcome to Signal Routing</h1>
+                    <p class="page-subtitle">
+                        This page is rendered because the current route matched <code>/</code>.<br/>
+                        Navigate using the links above \u2014 no full page reload, just signals.
+                    </p>
                 </div>
-
-                <div class="meta">
-                    <span class="pill">Rows: {{count}}</span>
-                    <span class="pill">Last action: {{lastAction}}</span>
-                    <span class="pill">Wall time: {{lastWall}} ms</span>
-                </div>
-
-                <div class="empty" $if="count == 0">No rows. Pick a "Render N" button to start.</div>
-
-                <div class="grid">
-                    <div class="row" $for="row in rows track row.id" :class="row.active ? 'row-active' : ''">
-                        <span class="row-id">#{{row.id}}</span>
-                        <span class="row-label">{{row.label}}</span>
-                        <span class="badge" :class="'badge-' + row.status">{{row.status}}</span>
-                        <span class="star" $if="row.active">\u2605</span>
-                        <span class="cells">
-                            <span class="cell" $for="cell in row.cells track cell.id">{{cell.v}}</span>
-                        </span>
-                        <span class="row-value">{{row.value}}</span>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon">\u26A1</div>
+                        <h3>Signal-based</h3>
+                        <p>Route changes emit an <code>AreRoute</code> signal on the bus. <code>AreRoot</code> responds and swaps the active component.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">\u{1F500}</div>
+                        <h3>Zero reload</h3>
+                        <p>No browser navigation occurs. <code>history.pushState</code> keeps the URL bar in sync so deep-links and back/forward still work.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">\u{1F9E9}</div>
+                        <h3>Component-level</h3>
+                        <p>Each page is a plain <code>Are</code> component. Register it in <code>AreSignalsContext</code> and the router does the rest.</p>
                     </div>
                 </div>
             </section>
         `);
   }
-  data(store) {
-    const initial = makeRows(25);
-    store.set({
-      rows: initial,
-      count: initial.length,
-      lastAction: "initial",
-      lastWall: "0.00"
-    });
+  styles(node) {
+    node.setStyles(`
+            .page { padding: 48px 40px; max-width: 960px; margin: 0 auto; }
+            .page-hero { margin-bottom: 40px; }
+            .page-title { font-size: 32px; font-weight: 800; color: #f4f4f5; margin-bottom: 12px; }
+            .page-subtitle { font-size: 16px; color: #a1a1aa; line-height: 1.7; }
+            .page-subtitle code { background: #27272a; padding: 2px 6px; border-radius: 4px; color: #a78bfa; font-size: 13px; }
+            .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+            .card { background: #1c1c1f; border: 1px solid #27272a; border-radius: 12px; padding: 24px; }
+            .card-icon { font-size: 28px; margin-bottom: 12px; }
+            .card h3 { font-size: 16px; font-weight: 600; color: #f4f4f5; margin-bottom: 8px; }
+            .card p { font-size: 14px; color: #71717a; line-height: 1.6; }
+            .card p code { background: #27272a; padding: 1px 5px; border-radius: 3px; color: #a78bfa; font-size: 12px; }
+        `);
   }
-  render(node, event, context, store, logger) {
-    const n6 = Number(event.get("args")?.[0]) || 100;
-    const rows = makeRows(n6);
-    commit(`Render ${n6}`, rows, context, store, logger);
-  }
-  append(node, event, context, store, logger) {
-    const n6 = Number(event.get("args")?.[0]) || 100;
-    const rows = (store.get("rows") || []).concat(makeRows(n6));
-    commit(`Append ${n6}`, rows, context, store, logger);
-  }
-  prepend(node, event, context, store, logger) {
-    const n6 = Number(event.get("args")?.[0]) || 100;
-    const rows = makeRows(n6).concat(store.get("rows") || []);
-    commit(`Prepend ${n6}`, rows, context, store, logger);
-  }
-  shuffle(node, event, context, store, logger) {
-    const rows = (store.get("rows") || []).slice();
-    for (let i6 = rows.length - 1; i6 > 0; i6--) {
-      const j5 = Math.floor(Math.random() * (i6 + 1));
-      [rows[i6], rows[j5]] = [rows[j5], rows[i6]];
-    }
-    commit("Shuffle", rows, context, store, logger);
-  }
-  updateInPlace(node, event, context, store, logger) {
-    const rows = (store.get("rows") || []).map((row) => ({
-      ...row,
-      value: Math.floor(Math.random() * 1e4),
-      status: STATUSES[Math.floor(Math.random() * STATUSES.length)],
-      cells: makeCells(row.id)
-    }));
-    commit("Update in place", rows, context, store, logger);
-  }
-  clear(node, event, context, store, logger) {
-    commit("Clear", [], context, store, logger);
+  async onSignal(root, vector, store, signalsContext) {
+    const rootId = root.id;
+    console.log(`HomePage received signal: ${vector.toString()} for rootId: ${rootId}`, root, signalsContext);
   }
 };
-__name(_PerfGrid, "PerfGrid");
+__name(HomePage, "HomePage");
 __decorateClass([
   Are.Template,
   __decorateParam(0, Yt(te))
-], _PerfGrid.prototype, "template", 1);
+], HomePage.prototype, "template", 1);
+__decorateClass([
+  Are.Styles,
+  __decorateParam(0, Yt(te))
+], HomePage.prototype, "styles", 1);
+__decorateClass([
+  Are.Signal,
+  __decorateParam(0, Yt(te)),
+  __decorateParam(1, Yt(A_SignalVector)),
+  __decorateParam(2, Yt(AreStore)),
+  __decorateParam(3, Yt(AreSignalsContext))
+], HomePage.prototype, "onSignal", 1);
+HomePage = __decorateClass([
+  Are.Condition([new AreRoute("/")])
+], HomePage);
+
+// examples/signal-routing/src/components/AboutPage.component.ts
+var AboutPage = class extends Are {
+  template(node) {
+    node.setContent(`
+            <section class="page page-about">
+                <h1 class="page-title">About this example</h1>
+                <p class="page-subtitle">
+                    This example demonstrates signal-based SPA routing using the ARE framework.
+                </p>
+
+                <div class="about-block">
+                    <h2>How it works</h2>
+                    <ol class="steps">
+                        <li>
+                            <strong>Signal emitted</strong> \u2014 clicking a nav link calls
+                            <code>bus.emit(new AreRoute('/about'))</code> and updates the browser
+                            URL via <code>history.pushState</code>.
+                        </li>
+                        <li>
+                            <strong>AreRoot reacts</strong> \u2014 the root node is subscribed to the
+                            signal bus. When the vector matches a registered condition it replaces
+                            its inner content with the mapped component.
+                        </li>
+                        <li>
+                            <strong>Page renders</strong> \u2014 the new component goes through the normal
+                            ARE lifecycle: <code>@Are.Template</code> \u2192 <code>@Are.Data</code> \u2192
+                            <code>@Are.Styles</code> \u2192 mount.
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="about-block">
+                    <h2>Key pieces</h2>
+                    <table class="info-table">
+                        <tr><th>AreRoute(path)</th><td>Signal carrying the new URL path.</td></tr>
+                        <tr><th>AreRouteWatcher</th><td>Listens to popstate / pushState and re-emits the signal on browser back/forward.</td></tr>
+                        <tr><th>AreSignalsContext</th><td>Fragment that maps (rootId, signal vector) \u2192 component class.</td></tr>
+                        <tr><th>A_SignalState</th><td>Persists the last emitted signal so a fresh page load still routes correctly.</td></tr>
+                    </table>
+                </div>
+            </section>
+        `);
+  }
+  styles(node) {
+    node.setStyles(`
+            .page { padding: 48px 40px; max-width: 860px; margin: 0 auto; }
+            .page-title { font-size: 32px; font-weight: 800; color: #f4f4f5; margin-bottom: 12px; }
+            .page-subtitle { font-size: 16px; color: #a1a1aa; line-height: 1.7; margin-bottom: 36px; }
+            .about-block { margin-bottom: 40px; }
+            .about-block h2 { font-size: 18px; font-weight: 700; color: #e4e4e7; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #27272a; }
+            .steps { padding-left: 24px; color: #a1a1aa; line-height: 2; font-size: 14px; }
+            .steps li { margin-bottom: 8px; }
+            .steps strong { color: #e4e4e7; }
+            .steps code, .info-table code { background: #27272a; padding: 1px 6px; border-radius: 4px; color: #a78bfa; font-size: 12px; }
+            .info-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+            .info-table tr { border-bottom: 1px solid #27272a; }
+            .info-table th { text-align: left; padding: 10px 12px; color: #a78bfa; font-weight: 600; width: 200px; }
+            .info-table td { padding: 10px 12px; color: #a1a1aa; }
+        `);
+  }
+};
+__name(AboutPage, "AboutPage");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, Yt(te))
+], AboutPage.prototype, "template", 1);
+__decorateClass([
+  Are.Styles,
+  __decorateParam(0, Yt(te))
+], AboutPage.prototype, "styles", 1);
+AboutPage = __decorateClass([
+  Are.Condition([new AreRoute("/about")])
+], AboutPage);
+
+// examples/signal-routing/src/components/SettingsPage.component.ts
+var SettingsPage = class extends Are {
+  template(node) {
+    node.setContent(`
+            <section class="page page-settings">
+                <h1 class="page-title">Settings</h1>
+                <p class="page-subtitle">Preferences are stored in the component's local store.</p>
+
+                <div class="settings-group">
+                    <h2>Appearance</h2>
+                    <label class="setting-row">
+                        <span>Dark mode</span>
+                        <input type="checkbox" checked disabled />
+                    </label>
+                    <label class="setting-row">
+                        <span>Compact layout</span>
+                        <input type="checkbox" @change="$toggleCompact" />
+                    </label>
+                </div>
+
+                <div class="settings-group">
+                    <h2>Directive demo \xB7 <code>$show</code> vs <code>$if</code></h2>
+                    <p class="hint">
+                        Type something into both boxes below, then toggle <strong>Compact layout</strong>
+                        twice. Both panels react to the same <code>compact</code> store flag, but:
+                    </p>
+
+                    <div class="demo-panel demo-show" $show="!compact">
+                        <span class="demo-tag">$show</span>
+                        <p>
+                            Toggled with <code>$show</code> \u2014 I stay <strong>mounted</strong> and only my
+                            inline <code>display</code> flips. Your text below <strong>survives</strong>
+                            the toggle because the DOM node is never destroyed.
+                        </p>
+                        <input type="text" placeholder="Scratch text (survives toggle)\u2026" />
+                    </div>
+
+                    <div class="demo-panel demo-if" $if="!compact">
+                        <span class="demo-tag">$if</span>
+                        <p>
+                            Toggled with <code>$if</code> \u2014 I am <strong>unmounted</strong> and rebuilt
+                            each time I reappear. Your text below is <strong>wiped</strong> on every toggle.
+                        </p>
+                        <input type="text" placeholder="Scratch text (lost on toggle)\u2026" />
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h2>Display name</h2>
+                    <div class="input-row">
+                        <input
+                            id="display-name"
+                            type="text"
+                            placeholder="Enter your name\u2026"
+                            @input="$onNameInput"
+                        />
+                        <span class="preview">Preview: <strong>{{displayName}}</strong></span>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h2>Routing state</h2>
+                    <p class="hint">
+                        Current route is held in <code>A_SignalState</code> so refreshing the page
+                        at <code>/settings</code> still lands here \u2014 no extra server config needed.
+                    </p>
+                </div>
+            </section>
+        `);
+  }
+  data(store) {
+    store.set({ displayName: "Guest", compact: false });
+  }
+  styles(node) {
+    node.setStyles(`
+            .page { padding: 48px 40px; max-width: 720px; margin: 0 auto; }
+            .page-title { font-size: 32px; font-weight: 800; color: #f4f4f5; margin-bottom: 12px; }
+            .page-subtitle { font-size: 15px; color: #a1a1aa; margin-bottom: 36px; }
+            .settings-group { margin-bottom: 36px; }
+            .settings-group h2 { font-size: 15px; font-weight: 700; color: #e4e4e7; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #27272a; }
+            .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; color: #a1a1aa; font-size: 14px; cursor: pointer; }
+            .input-row { display: flex; align-items: center; gap: 16px; }
+            .input-row input[type="text"] { background: #1c1c1f; border: 1px solid #3f3f46; border-radius: 8px; color: #f4f4f5; padding: 8px 14px; font-size: 14px; outline: none; width: 260px; }
+            .input-row input[type="text"]:focus { border-color: #a78bfa; }
+            .preview { font-size: 14px; color: #71717a; }
+            .preview strong { color: #a78bfa; }
+            .hint { font-size: 13px; color: #71717a; line-height: 1.7; }
+            .hint code { background: #27272a; padding: 1px 6px; border-radius: 4px; color: #a78bfa; font-size: 12px; }
+            .settings-group h2 code { background: #27272a; padding: 1px 6px; border-radius: 4px; color: #a78bfa; font-size: 12px; font-weight: 600; }
+            .demo-panel { position: relative; background: #1c1c1f; border: 1px solid #27272a; border-radius: 10px; padding: 18px 18px 18px 20px; margin-top: 14px; }
+            .demo-panel p { font-size: 13px; color: #a1a1aa; line-height: 1.7; margin: 0 0 12px; }
+            .demo-panel p code { background: #27272a; padding: 1px 5px; border-radius: 3px; color: #a78bfa; font-size: 12px; }
+            .demo-panel strong { color: #e4e4e7; }
+            .demo-panel input[type="text"] { background: #131316; border: 1px solid #3f3f46; border-radius: 8px; color: #f4f4f5; padding: 8px 14px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; }
+            .demo-panel input[type="text"]:focus { border-color: #a78bfa; }
+            .demo-tag { display: inline-block; font-family: monospace; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-bottom: 10px; }
+            .demo-show { border-left: 3px solid #34d399; }
+            .demo-show .demo-tag { background: rgba(52, 211, 153, 0.12); color: #34d399; }
+            .demo-if { border-left: 3px solid #f59e0b; }
+            .demo-if .demo-tag { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+        `);
+  }
+  onNameInput(store, event) {
+    const el = event.get("native")?.target;
+    store.set("displayName", el?.value || "Guest");
+  }
+  toggleCompact(store, event) {
+    const el = event.get("native")?.target;
+    store.set("compact", el?.checked ?? false);
+  }
+};
+__name(SettingsPage, "SettingsPage");
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, Yt(te))
+], SettingsPage.prototype, "template", 1);
 __decorateClass([
   Are.Data,
   __decorateParam(0, Yt(AreStore))
-], _PerfGrid.prototype, "data", 1);
+], SettingsPage.prototype, "data", 1);
+__decorateClass([
+  Are.Styles,
+  __decorateParam(0, Yt(te))
+], SettingsPage.prototype, "styles", 1);
 __decorateClass([
   Are.EventHandler,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreEvent)),
-  __decorateParam(2, Yt(AreContext)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(A_Logger))
-], _PerfGrid.prototype, "render", 1);
+  __decorateParam(0, Yt(AreStore)),
+  __decorateParam(1, Yt(AreEvent))
+], SettingsPage.prototype, "onNameInput", 1);
 __decorateClass([
   Are.EventHandler,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreEvent)),
-  __decorateParam(2, Yt(AreContext)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(A_Logger))
-], _PerfGrid.prototype, "append", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreEvent)),
-  __decorateParam(2, Yt(AreContext)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(A_Logger))
-], _PerfGrid.prototype, "prepend", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreEvent)),
-  __decorateParam(2, Yt(AreContext)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(A_Logger))
-], _PerfGrid.prototype, "shuffle", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreEvent)),
-  __decorateParam(2, Yt(AreContext)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(A_Logger))
-], _PerfGrid.prototype, "updateInPlace", 1);
-__decorateClass([
-  Are.EventHandler,
-  __decorateParam(0, Yt(te)),
-  __decorateParam(1, Yt(AreEvent)),
-  __decorateParam(2, Yt(AreContext)),
-  __decorateParam(3, Yt(AreStore)),
-  __decorateParam(4, Yt(A_Logger))
-], _PerfGrid.prototype, "clear", 1);
-var PerfGrid = _PerfGrid;
+  __decorateParam(0, Yt(AreStore)),
+  __decorateParam(1, Yt(AreEvent))
+], SettingsPage.prototype, "toggleCompact", 1);
+SettingsPage = __decorateClass([
+  Are.Condition([new AreRoute("/settings")])
+], SettingsPage);
 
-// examples/for-perf/src/concept.ts
+// examples/signal-routing/src/concept.ts
 (async () => {
   try {
+    const signalsContext = new AreSignalsContext({
+      "page-outlet": {
+        default: HomePage,
+        pool: [HomePage, AboutPage, SettingsPage],
+        // Route conditions are registered via @Are.Condition decorators
+        // on each page component — no explicit conditions needed here.
+        conditions: []
+      }
+    });
     const container = new AreContainer({
-      name: "ARE For-Perf",
+      name: "ARE Signal Routing",
       components: [
-        // ----------------------------------
-        // UI Components 
-        // ----------------------------------
-        PerfApp,
-        PerfHeader,
-        PerfControls,
-        PerfStats,
-        PerfGrid,
-        // ----------------------------------
-        // Directives 
-        // ----------------------------------
+        // ── Pages ────────────────────────────────────────────────
+        AppShell,
+        NavBar,
+        HomePage,
+        AboutPage,
+        SettingsPage,
+        // ── Directives ───────────────────────────────────────────
         AreDirectiveIf,
         AreDirectiveFor,
-        // ----------------------------------
-        // Engine Components 
-        // ----------------------------------
+        AreDirectiveShow,
+        // ── Engine ───────────────────────────────────────────────
         A_SignalBus,
-        // ----------------------------------
-        // Addons 
-        // ----------------------------------
         AreRoot,
+        AreRouteWatcher,
         ConfigReader,
         AreHTMLEngine,
         A_Logger
@@ -15630,32 +15976,32 @@ var PerfGrid = _PerfGrid;
         AreRoute
       ],
       fragments: [
-        new A_SignalState([AreRoute]),
-        new AreHTMLEngineContext({
-          container: document
-        }),
+        // Persist the current route so a hard refresh on /about still
+        // renders the correct page.  Both AreInit AND AreRouteSignal
+        // must be in this structure — if either is missing, state.has()
+        // returns false and the bus silently drops the signal.
+        new A_SignalState([AreInit, AreRoute]),
+        signalsContext,
+        new AreHTMLEngineContext({ container: document }),
         new A_Config({
           defaults: {
-            [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "error"
+            [A_LOGGER_ENV_KEYS.LOG_LEVEL]: "info"
           }
         })
       ]
     });
     const concept = new ct({
-      name: "adaas-are-example-for-perf",
-      fragments: [new A_Config({
-        variables: ["CONFIG_VERBOSE", "DEV_MODE"],
-        defaults: {
-          CONFIG_VERBOSE: true,
-          DEV_MODE: true
-        }
-      })],
+      name: "adaas-are-example-signal-routing",
+      fragments: [
+        new A_Config({
+          variables: ["CONFIG_VERBOSE", "DEV_MODE"],
+          defaults: { CONFIG_VERBOSE: true, DEV_MODE: true }
+        })
+      ],
       components: [A_Logger, ConfigReader, A_Polyfill],
       containers: [container]
     });
-    console.log("Building Concept...");
     await concept.load();
-    console.log("\u2713 Concept loaded successfully.");
     await concept.start();
   } catch (error) {
     const logger = _.root.resolve(A_Logger);

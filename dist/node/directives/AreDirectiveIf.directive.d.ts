@@ -27,7 +27,23 @@ import '@adaas/a-utils/a-execution';
 declare class AreDirectiveIf extends AreDirective {
     transform(attribute: AreDirectiveAttribute, scope: A_Scope, store: AreStore, scene: AreScene, logger: A_Logger, ...args: any[]): void;
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, syntax: AreSyntax, directiveContext?: AreDirectiveContext, ...args: any[]): void;
-    update(attribute: AreDirectiveAttribute, store: AreStore, scope: A_Scope, syntax: AreSyntax, scene: AreScene, ...args: any[]): void;
+    update(attribute: AreDirectiveAttribute, store: AreStore, scope: A_Scope, syntax: AreSyntax, scene: AreScene, directiveContext?: AreDirectiveContext, ...args: any[]): void;
+    /**
+     * Evaluates the `$if` condition defensively.
+     *
+     * A condition can reference data that is momentarily unavailable — most
+     * commonly a nested `$if` (e.g. `$if="selected.fields.length"`) living
+     * inside a parent `$if="selected"` whose object has just become `null`.
+     * Because the nested directive is still subscribed to the store, its
+     * update fires on that same change and the raw expression would throw
+     * `Cannot read properties of null`, crashing the whole update pipeline.
+     *
+     * Treating an evaluation error as `false` is the correct contract for a
+     * conditional: if the condition cannot be resolved, the subtree simply
+     * stays hidden until the referenced data is present again (at which point
+     * the parent `$if` re-activates and re-evaluates this one).
+     */
+    private evaluateCondition;
 }
 
 export { AreDirectiveIf };
