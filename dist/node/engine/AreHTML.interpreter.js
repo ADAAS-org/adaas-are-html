@@ -230,6 +230,7 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
     const handlers = syntax.extractEmitHandlers(mutation.payload.handler);
     let liveEvent = null;
     const handlerScope = {};
+    const emitter = mutation.owner.component && mutation.owner.parent ? mutation.owner.parent : mutation.owner;
     for (const handler of handlers) {
       const handlerFn = (...args) => {
         const event = new are.AreEvent(handler);
@@ -238,7 +239,7 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
         event.set("element", element);
         event.set("instruction", mutation);
         if (liveEvent) event.set("native", liveEvent);
-        mutation.owner.emit(event);
+        emitter.emit(event);
       };
       handlerScope[`$${handler}`] = handlerFn;
     }
@@ -262,17 +263,18 @@ exports.AreHTMLInterpreter = class AreHTMLInterpreter extends are.AreInterpreter
             right: ["arrowright"],
             delete: ["delete", "backspace"]
           };
-          const keyMods = [...modifiers].filter((m) => m in KEY_ALIASES || m === "ctrl" || m === "alt" || m === "shift" || m === "meta");
-          if (keyMods.length > 0) {
-            const keyMatch = keyMods.some((m) => {
+          const SYSTEM_KEYS = ["ctrl", "alt", "shift", "meta"];
+          const systemMods = [...modifiers].filter((m) => SYSTEM_KEYS.includes(m));
+          const nameMods = [...modifiers].filter((m) => m in KEY_ALIASES);
+          if (systemMods.length > 0 || nameMods.length > 0) {
+            const systemOk = systemMods.every((m) => {
               if (m === "ctrl") return e.ctrlKey;
               if (m === "alt") return e.altKey;
               if (m === "shift") return e.shiftKey;
-              if (m === "meta") return e.metaKey;
-              const aliases = KEY_ALIASES[m];
-              return aliases && aliases.includes(key);
+              return e.metaKey;
             });
-            if (!keyMatch) return;
+            const nameOk = nameMods.length === 0 || nameMods.some((m) => KEY_ALIASES[m].includes(key));
+            if (!(systemOk && nameOk)) return;
           }
         }
         context.startPerformance("event:" + eventName);

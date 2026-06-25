@@ -287,6 +287,12 @@ Combined with system-key modifiers:
 | `.shift`  | `event.shiftKey` must be true |
 | `.meta`   | `event.metaKey`  must be true |
 
+System-key and key-name modifiers combine with **AND** semantics (as in Vue):
+`@keydown.ctrl.enter` fires **only** when `Enter` is pressed **while** `Ctrl` is
+held — never on `Ctrl` alone, nor on `Enter` alone. Every system modifier listed
+must be active, and (when one or more key-name modifiers are present) at least
+one of them must match the pressed key.
+
 Examples:
 
 ```html
@@ -304,6 +310,50 @@ Always available as the variable `$event` inside the handler call:
 <button @click="$save($event, row)">Save</button>
 <input  @input="$onInput($event.target.value)">
 ```
+
+### 5.6 Child → parent events
+
+An `@event` binding placed directly on a **child-component tag** is authored in
+the **parent** template, so its handler runs in the **parent** component — not in
+the child instance. This is what lets a parent listen to events a child raises:
+
+```html
+<!-- parent template -->
+<a-input @childsubmit="$onChildSubmit"></a-input>
+```
+
+The child raises the event by dispatching a **bubbling, composed**
+`CustomEvent` from one of its internal elements; it travels up the DOM to the
+child's host element, where the parent's bound handler catches it:
+
+```ts
+// child component handler
+@Are.EventHandler
+relay(@A_Inject(AreEvent) event: AreEvent): void {
+    const el = event.get('element') as HTMLElement;
+    el.dispatchEvent(new CustomEvent('childsubmit', {
+        bubbles: true,
+        composed: true,
+        detail: { value: '…' },
+    }));
+}
+```
+
+The parent's handler receives the original DOM event under the `native` key, so
+the payload is read from its `detail`:
+
+```ts
+// parent component handler
+@Are.EventHandler
+onChildSubmit(@A_Inject(AreEvent) event: AreEvent): void {
+    const native = event.get('native') as CustomEvent;
+    console.log(native.detail.value);
+}
+```
+
+> An `@event` on a plain element (e.g. `<button @click>`) is still handled by the
+> nearest enclosing component, exactly as before — only bindings on a
+> child-component tag are routed to the parent.
 
 ---
 

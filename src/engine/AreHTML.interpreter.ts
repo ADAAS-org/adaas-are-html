@@ -431,6 +431,23 @@ export class AreHTMLInterpreter extends AreInterpreter {
 
         const handlerScope: Record<string, any> = {};
 
+        // Resolve the node the emitted event should be dispatched FROM. A `@event`
+        // binding authored on a plain element (`<button @click>`) is owned by that
+        // element, whose enclosing component is the template author — the onEmit
+        // walk resolves it correctly when we emit from the element itself.
+        //
+        // A `@event` binding authored directly on a CHILD-COMPONENT tag
+        // (`<a-input @submit="$onSubmit">`) is written in the PARENT's template, so
+        // its handler must run in the PARENT component, not the child instance. We
+        // emit from the parent side of the component boundary (`owner.parent`) so the
+        // onEmit walk resolves the nearest enclosing component above the child — this
+        // is what enables child→parent event propagation: the child emits a bubbling
+        // DOM event, the parent's bound handler receives it.
+        const emitter =
+            mutation.owner.component && mutation.owner.parent
+                ? mutation.owner.parent
+                : mutation.owner;
+
         for (const handler of handlers) {
             const handlerFn = (...args: any[]) => {
                 const event = new AreEvent(handler);
@@ -447,7 +464,7 @@ export class AreHTMLInterpreter extends AreInterpreter {
                 // Expose the raw DOM event under the conventional 'native' key so that
                 // event handlers can do: event.get('native')?.target as HTMLInputElement
                 if (liveEvent) event.set('native', liveEvent as any);
-                mutation.owner.emit(event);
+                emitter.emit(event);
             };
             handlerScope[`$${handler}`] = handlerFn;
         }
@@ -475,20 +492,30 @@ export class AreHTMLInterpreter extends AreInterpreter {
                         right: ['arrowright'],
                         delete: ['delete', 'backspace'],
                     };
-                    const keyMods = [...modifiers].filter(m =>
-                        m in KEY_ALIASES ||
-                        m === 'ctrl' || m === 'alt' || m === 'shift' || m === 'meta');
 
-                    if (keyMods.length > 0) {
-                        const keyMatch = keyMods.some(m => {
+                    // System modifiers (ctrl/alt/shift/meta) and key-name modifiers
+                    // combine with AND semantics, matching Vue: `@keydown.ctrl.enter`
+                    // fires ONLY when Enter is pressed WHILE Ctrl is held — not on
+                    // Ctrl alone, nor on Enter alone. So ALL system modifiers present
+                    // in the binding must be active, AND (if any key-name modifiers
+                    // were given) at least one of them must match the pressed key.
+                    const SYSTEM_KEYS = ['ctrl', 'alt', 'shift', 'meta'] as const;
+                    const systemMods = [...modifiers].filter(m =>
+                        (SYSTEM_KEYS as readonly string[]).includes(m));
+                    const nameMods = [...modifiers].filter(m => m in KEY_ALIASES);
+
+                    if (systemMods.length > 0 || nameMods.length > 0) {
+                        const systemOk = systemMods.every(m => {
                             if (m === 'ctrl') return e.ctrlKey;
                             if (m === 'alt') return e.altKey;
                             if (m === 'shift') return e.shiftKey;
-                            if (m === 'meta') return e.metaKey;
-                            const aliases = KEY_ALIASES[m];
-                            return aliases && aliases.includes(key);
+                            return e.metaKey; // meta
                         });
-                        if (!keyMatch) return;
+
+                        const nameOk = nameMods.length === 0
+                            || nameMods.some(m => KEY_ALIASES[m].includes(key));
+
+                        if (!(systemOk && nameOk)) return;
                     }
                 }
 
