@@ -42,6 +42,7 @@ var AreDirective_meta = require('./lib/AreDirective/AreDirective.meta');
 var AreDirective_types = require('./lib/AreDirective/AreDirective.types');
 var AreRoot_component = require('./lib/AreRoot/AreRoot.component');
 var AreRootCache_context = require('./lib/AreRoot/AreRootCache.context');
+var AreDynamic_component = require('./lib/AreDynamic/AreDynamic.component');
 var AreStyle_context = require('./lib/AreStyle/AreStyle.context');
 var AreStyle_types = require('./lib/AreStyle/AreStyle.types');
 var AreRouteWatcher_component = require('./lib/AreRouteWatcher/AreRouteWatcher.component');
@@ -298,6 +299,12 @@ Object.keys(AreRootCache_context).forEach(function (k) {
 	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
 		enumerable: true,
 		get: function () { return AreRootCache_context[k]; }
+	});
+});
+Object.keys(AreDynamic_component).forEach(function (k) {
+	if (k !== 'default' && !Object.prototype.hasOwnProperty.call(exports, k)) Object.defineProperty(exports, k, {
+		enumerable: true,
+		get: function () { return AreDynamic_component[k]; }
 	});
 });
 Object.keys(AreStyle_context).forEach(function (k) {

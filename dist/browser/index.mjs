@@ -3224,6 +3224,62 @@ AreRoot = __decorateClass([
     description: "The AreRoot component serves as the foundational entry point for the A-Concept Rendering Engine (ARE). It is responsible for initializing the rendering process, managing the root node of the component tree, and handling signal-based rendering logic. The AreRoot component processes incoming signals to determine which child components to render, allowing for dynamic and responsive UI updates based on application state and user interactions."
   })
 ], AreRoot);
+var AreDynamic = class extends Are {
+  constructor() {
+    super(...arguments);
+    this.props = {
+      component: { type: "string", default: "" },
+      props: { type: "object", default: {} }
+    };
+  }
+  template(node) {
+    node.setContent("");
+  }
+  data(store) {
+    store.set({ component: "", props: {} });
+  }
+  /**
+   * Resolve the `component` prop value to the concrete engine tag.
+   *
+   * Default: `A_FormatterHelper.toKebabCase(name)` — the convention the engine
+   * uses to register component tags (same as `AreRoot`). Override to plug in
+   * an application-specific alias→tag map.
+   */
+  resolveTag(name) {
+    return A_FormatterHelper.toKebabCase(name);
+  }
+  async onMount(node, store) {
+    const name = String(store.get("component") ?? "");
+    if (!name) {
+      return;
+    }
+    const tag = this.resolveTag(name);
+    if (node.children[0]?.type === tag) {
+      return;
+    }
+    node.setContent(`<${tag} :props="props"></${tag}>`);
+    await node.render();
+  }
+};
+__decorateClass([
+  Are.Template,
+  __decorateParam(0, A_Inject(A_Caller))
+], AreDynamic.prototype, "template", 1);
+__decorateClass([
+  Are.Data,
+  __decorateParam(0, A_Inject(AreStore))
+], AreDynamic.prototype, "data", 1);
+__decorateClass([
+  Are.onAfterMount,
+  __decorateParam(0, A_Inject(A_Caller)),
+  __decorateParam(1, A_Inject(AreStore))
+], AreDynamic.prototype, "onMount", 1);
+AreDynamic = __decorateClass([
+  A_Frame.Define({
+    namespace: "a-are-html",
+    description: "Renders a component chosen at runtime by name. Receives a `component` (name) and a `props` payload; resolves the concrete tag (kebab-case by default) and mounts it via the engine pipeline (mirrors AreRoot, driven by a prop). Designed to be used inside a $for to render a heterogeneous list of components."
+  })
+], AreDynamic);
 var AreRouteWatcher = class extends A_Component {
   constructor() {
     super();
@@ -3287,6 +3343,6 @@ AreRouteWatcher = __decorateClass([
   })
 ], AreRouteWatcher);
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStaticHTMLInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootCache, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStaticHTMLInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, AreDirectiveShow, AreDynamic, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, AreInterpolation, AreRoot, AreRootCache, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

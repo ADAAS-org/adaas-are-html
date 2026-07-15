@@ -33,6 +33,7 @@ export { AreDirectiveMeta } from './lib/AreDirective/AreDirective.meta.js';
 export { AreDirectiveOrderDecoratorParameters } from './lib/AreDirective/AreDirective.types.js';
 export { AreRoot } from './lib/AreRoot/AreRoot.component.js';
 export { AreRootCache, AreRootCacheEntry } from './lib/AreRoot/AreRootCache.context.js';
+export { AreDynamic } from './lib/AreDynamic/AreDynamic.component.js';
 export { AreStyle } from './lib/AreStyle/AreStyle.context.js';
 export { AreRouteWatcher } from './lib/AreRouteWatcher/AreRouteWatcher.component.js';
 import '@adaas/are';

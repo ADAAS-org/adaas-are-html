@@ -22,6 +22,7 @@ const config: Config.InitialOptions = {
         "@adaas/are-html/style/(.*)":        "<rootDir>/src/lib/AreStyle/$1",
         "@adaas/are-html/directive/(.*)":    "<rootDir>/src/lib/AreDirective/$1",
         "@adaas/are-html/root/(.*)":         "<rootDir>/src/lib/AreRoot/$1",
+        "@adaas/are-html/dynamic/(.*)":      "<rootDir>/src/lib/AreDynamic/$1",
         "@adaas/are-html/node":              "<rootDir>/src/lib/AreHTMLNode/AreHTMLNode",
         "@adaas/are-html/attribute":         "<rootDir>/src/lib/AreHTMLAttribute/AreHTML.attribute",
         // HTML engine basics

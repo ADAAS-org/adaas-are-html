@@ -1,4 +1,4 @@
-import { AreStoreWatchingEntity, AreNode, AreAttribute, AreStore, AreScene, AreSyntax, AreMutation, AreDeclaration, AreInstructionSerialized, AreNodeNewProps, Are, AreSignal, AreContext, AreInstruction, AreCompiler, AreEngine, AreSignalsContext, AreSyntaxTokenMatch, AreInterpreter, AreLifecycle, AreTokenizer, AreTransformer } from '@adaas/are';
+import { AreStoreWatchingEntity, AreNode, AreAttribute, AreStore, AreScene, AreSyntax, AreMutation, AreDeclaration, AreInstructionSerialized, AreNodeNewProps, Are, AreSignal, AreContext, AreInstruction, AreCompiler, AreEngine, AreSignalsContext, AreSyntaxTokenMatch, AreInterpreter, AreLifecycle, AreTokenizer, AreTransformer, ArePropDefinition } from '@adaas/are';
 import { A_Component, A_TYPES__Ctor, A_Fragment, ASEID, A_Scope, A_Feature, A_ComponentMeta } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_ExecutionContext } from '@adaas/a-utils/a-execution';
@@ -1011,6 +1011,61 @@ declare class AreRoot extends Are {
     protected collectSubscribers(node: AreNode, signalsContext: AreSignalsContext): AreNode[];
 }
 
+/**
+ * AreDynamic — renders a component chosen at **runtime by name**, the same way
+ * {@link AreRoot} renders a routed component, but driven by a prop instead of a
+ * signal vector.
+ *
+ * ## Why a post-mount hook (not a template)
+ *
+ * The `component` name and its `props` arrive as **props**, which the ARE
+ * compiler injects during the *compile* phase — AFTER `@Are.Template`/`@Are.Data`
+ * run. So the concrete tag is unknown at template time. Once the props are
+ * available in `@Are.onAfterMount`, this mirrors `AreRoot.onSignal`:
+ *
+ *   1. resolve `component` → the concrete kebab tag (see {@link resolveTag});
+ *   2. `node.setContent(`<tag :props="props"></tag>`)`; the `:props` binding is
+ *      evaluated against THIS component's store (where `props` was injected),
+ *      so it reactively re-injects into the concrete component's own store;
+ *   3. `await node.render()` — the engine's `tokenize → init → load → transform
+ *      → compile → mount` pipeline for the new child subtree. `render()` is
+ *      idempotent (it clears any previous subtree first), so a props change that
+ *      swaps the concrete tag rebuilds cleanly with no duplicate/stale children.
+ *
+ * ## Use inside a `$for`
+ *
+ * The canonical use is one `<are-dynamic>` per item inside a store-backed
+ * `$for`, so every item mounts an independent, real Are component chosen by
+ * `item.component`. `@Are.onAfterMount` re-runs on EVERY (re)mount — including
+ * when an `AreRoot` outlet STASHES the subtree (unmount, keep in `AreRootCache`)
+ * and later RESTORES it (`child.mount()`) on a tab switch. The concrete child
+ * survives the stash, so the "already mounted" guard below skips the rebuild on
+ * restore (a per-item perf win; mirrors `AreRoot` / `LazyOutlet`).
+ *
+ * ## Custom name→tag resolution
+ *
+ * By default `component` is resolved with `A_FormatterHelper.toKebabCase` — the
+ * exact convention the engine uses to register and look up component tags (same
+ * as `AreRoot`). Applications that address components by a short alias (e.g. a
+ * chat message `component: 'card'`) subclass `AreDynamic` and override
+ * {@link resolveTag} to map the alias to the concrete tag; all lifecycle
+ * behaviour is inherited unchanged.
+ */
+declare class AreDynamic extends Are {
+    props: Record<string, ArePropDefinition>;
+    template(node: AreNode): void;
+    data(store: AreStore): void;
+    /**
+     * Resolve the `component` prop value to the concrete engine tag.
+     *
+     * Default: `A_FormatterHelper.toKebabCase(name)` — the convention the engine
+     * uses to register component tags (same as `AreRoot`). Override to plug in
+     * an application-specific alias→tag map.
+     */
+    protected resolveTag(name: string): string;
+    onMount(node: AreNode, store: AreStore): Promise<void>;
+}
+
 declare class AreRouteWatcher extends A_Component {
     private readonly handlers;
     private current;
@@ -1026,4 +1081,4 @@ declare class AreRouteWatcher extends A_Component {
     private notify;
 }
 
-export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStaticHTMLInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreDirectiveShow, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStaticHTMLInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, type AreHtmlHideInstructionPayload, AreInterpolation, AreRoot, AreRootCache, type AreRootCacheEntry, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };
+export { AddAttributeInstruction, AddElementInstruction, AddInterpolationInstruction, AddListenerInstruction, AddStaticHTMLInstruction, AddStyleInstruction, AddTextInstruction, AreBindingAttribute, AreComment, AreComponentNode, AreDirective, AreDirectiveAttribute, AreDirectiveContext, AreDirectiveFeatures, AreDirectiveFor, AreDirectiveIf, AreDirectiveMeta, type AreDirectiveOrderDecoratorParameters, AreDirectiveShow, AreDynamic, AreEventAttribute, AreHTMLAttribute, AreHTMLCompiler, type AreHTMLContextConstructor, AreHTMLEngine, AreHTMLEngineContext, AreHTMLInstructions, AreHTMLInterpreter, AreHTMLLifecycle, AreHTMLNode, AreHTMLTokenizer, AreHTMLTransformer, type AreHtmlAddAttributeInstructionPayload, type AreHtmlAddCommentInstructionPayload, type AreHtmlAddElementInstructionPayload, type AreHtmlAddInterpolationInstructionPayload, type AreHtmlAddListenerInstructionPayload, type AreHtmlAddStaticHTMLInstructionPayload, type AreHtmlAddStyleInstructionPayload, type AreHtmlAddTextInstructionPayload, type AreHtmlHideInstructionPayload, AreInterpolation, AreRoot, AreRootCache, type AreRootCacheEntry, AreRootNode, AreRoute, AreRouteWatcher, AreStaticAttribute, AreStyle, AreText, BOOLEAN_ATTRIBUTES, HideElementInstruction, IDL_FORM_PROPERTIES, LISTENER_OPTION_MODIFIERS, type ParsedEventName, STANDARD_HTML_TAGS, SVG_ATTRIBUTE_NS, SVG_NAMESPACE, VOID_ELEMENTS, isBooleanAttribute, isIDLFormProperty, isStaticMarkup, isVoidElement, normalizeClassValue, normalizeStyleValue, parseEventName, toDOMString };

@@ -40,6 +40,7 @@ export * from './lib/AreDirective/AreDirective.meta';
 export * from './lib/AreDirective/AreDirective.types';
 export * from './lib/AreRoot/AreRoot.component';
 export * from './lib/AreRoot/AreRootCache.context';
+export * from './lib/AreDynamic/AreDynamic.component';
 export * from './lib/AreStyle/AreStyle.context';
 export * from './lib/AreStyle/AreStyle.types';
 export * from './lib/AreRouteWatcher/AreRouteWatcher.component';

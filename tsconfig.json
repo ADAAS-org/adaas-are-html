@@ -20,6 +20,7 @@
       "@adaas/are-html/style/*": ["src/lib/AreStyle/*"],
       "@adaas/are-html/directive/*": ["src/lib/AreDirective/*"],
       "@adaas/are-html/root/*": ["src/lib/AreRoot/*"],
+      "@adaas/are-html/dynamic/*": ["src/lib/AreDynamic/*"],
       "@adaas/are-html/node": ["src/lib/AreHTMLNode/AreHTMLNode"],
       "@adaas/are-html/attribute": ["src/lib/AreHTMLAttribute/AreHTML.attribute"],
       // HTML Engine Basics
