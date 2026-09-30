@@ -29,7 +29,7 @@ exports.AreHTMLTokenizer = class AreHTMLTokenizer extends are.AreTokenizer {
     this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
-    const isStaticIsland = node instanceof AreComponent.AreComponentNode && !!node.content && AreHTML_constants.isStaticMarkup(node.content);
+    const isStaticIsland = node instanceof AreComponent.AreComponentNode && !node.isImperativeHost && !!node.content && AreHTML_constants.isStaticMarkup(node.content);
     if (isStaticIsland) {
       node.markStatic(node.content);
     } else {

@@ -17,7 +17,7 @@ let AreHTMLTokenizer = class extends AreTokenizer {
     this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
-    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
+    const isStaticIsland = node instanceof AreComponentNode && !node.isImperativeHost && !!node.content && isStaticMarkup(node.content);
     if (isStaticIsland) {
       node.markStatic(node.content);
     } else {

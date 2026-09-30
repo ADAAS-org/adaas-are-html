@@ -7,8 +7,19 @@ import { AreDirectiveAttribute } from '@adaas/are-html/attributes/AreDirective.a
 import { AreEventAttribute } from '@adaas/are-html/attributes/AreEvent.attribute';
 import { AreStaticAttribute } from '@adaas/are-html/attributes/AreStatic.attribute';
 import { AreStyle } from '@adaas/are-html/style/AreStyle.context';
+import { AddStaticHTMLInstruction } from '@adaas/are-html/instructions/AddStaticHTML.instruction';
 
 let AreHTMLNode = class extends AreNode {
+  constructor() {
+    super(...arguments);
+    /**
+     * Set once the node's content is (re)built imperatively via `render()`
+     * (e.g. a surface that re-renders itself from a store). Such a node must
+     * NOT become a static island: `render()` only mounts CHILD nodes, so an
+     * island (no children) would paint nothing and could never be cleared.
+     */
+    this._imperativeHost = false;
+  }
   /**
    * Actual node type. 
    * By default it's a tag name
@@ -36,6 +47,48 @@ let AreHTMLNode = class extends AreNode {
    */
   markStatic(innerHTML) {
     this._staticInnerHTML = innerHTML;
+  }
+  /**
+   * Whether this node's content is rebuilt imperatively (see `_imperativeHost`).
+   * The tokenizer skips the static-island fast path for such nodes.
+   */
+  get isImperativeHost() {
+    return this._imperativeHost;
+  }
+  /**
+   * Clears the node's content. On top of the base child teardown, removes a
+   * static island's markup: an island has no child nodes, so the base clear
+   * would leave its DOM behind (e.g. a template-time "loading…" paint that
+   * survives every later re-render).
+   */
+  async clear() {
+    this.releaseStaticIsland();
+    await super.clear();
+  }
+  /**
+   * Imperative (re)render. Flags the node so its content is always exploded
+   * into child nodes — the only thing the base `render()` mounts.
+   */
+  async render() {
+    this._imperativeHost = true;
+    await super.render();
+  }
+  /**
+   * Reverts and unplans the node's static-island instruction and drops the
+   * island marker, so the next build starts from an empty host element.
+   */
+  releaseStaticIsland() {
+    if (this._staticInnerHTML === void 0) return;
+    this._staticInnerHTML = void 0;
+    const scene = this.scene;
+    for (const instruction of [...scene.planned]) {
+      if (!(instruction instanceof AddStaticHTMLInstruction)) continue;
+      if (scene.isApplied(instruction)) {
+        instruction.revert();
+        scene.unApply(instruction);
+      }
+      scene.unPlan(instruction);
+    }
   }
   /**
    * Deep-clone the node. Overridden to carry over the static-island marker

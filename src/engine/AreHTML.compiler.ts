@@ -14,6 +14,7 @@ import { AddTextInstruction} from "@adaas/are-html/instructions/AddText.instruct
 import { AddListenerInstruction} from "@adaas/are-html/instructions/AddListener.instruction";
 import { AddStyleInstruction } from "@adaas/are-html/instructions/AddStyle.instruction";
 import { AddStaticHTMLInstruction } from "@adaas/are-html/instructions/AddStaticHTML.instruction";
+import { AddCommentInstruction } from "@adaas/are-html/instructions/AddComment.instruction";
 import { AreHTMLNode } from "@adaas/are-html/node";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 
@@ -39,6 +40,13 @@ export class AreHTMLCompiler extends AreCompiler {
         @A_Inject(A_Logger) logger?: A_Logger,
         ...args: any[]
     ): void {
+        // Text and interpolation nodes are AreHTMLNode subclasses, so this
+        // extension also runs for them (their own `override: ['compile']` does
+        // not match `compileHTMLNode`). They render as a bare DOM Text node via
+        // AddText — planning a host declaration here would additionally emit an
+        // empty `<are-text>` / `<are-interpolation>` element for each of them.
+        if (node instanceof AreText || node instanceof AreInterpolation) return;
+
         super.compile(node, scene, logger, ...args);
 
         /**
@@ -48,8 +56,12 @@ export class AreHTMLCompiler extends AreCompiler {
          * AddStaticHTML instruction carrying the captured inner markup; the
          * interpreter injects it onto the host element in one pass (and decodes
          * HTML entities for free).
+         *
+         * A `$if` / `$for` template swaps its host for a placeholder comment;
+         * the template itself never renders an element (its clones plan their
+         * own island), so no island is planned onto the comment.
          */
-        if (node.isStaticIsland && scene.host) {
+        if (node.isStaticIsland && scene.host && !(scene.host instanceof AddCommentInstruction)) {
             scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML! }));
         }
 

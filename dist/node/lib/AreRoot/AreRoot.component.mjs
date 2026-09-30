@@ -1,5 +1,5 @@
 import { __decorateClass, __decorateParam } from '../../chunk-EQQGB2QZ.mjs';
-import { A_Inject, A_Caller, A_FormatterHelper, A_Context } from '@adaas/a-concept';
+import { A_Inject, A_Caller, A_Context } from '@adaas/a-concept';
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { A_SignalState, A_SignalVector } from '@adaas/a-utils/a-signal';
@@ -22,7 +22,7 @@ let AreRoot = class extends Are {
     }
     const initialVector = this.buildInitialVector(signalState);
     const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
-    let componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : void 0;
+    let componentName = renderTarget ? Are.tagOf(renderTarget) : void 0;
     if (!componentName) {
       if (root.content?.trim()) {
         return;
@@ -30,8 +30,8 @@ let AreRoot = class extends Are {
     }
     if (!componentName) {
       const defaultComp = signalsContext?.getDefault(rootId);
-      if (defaultComp?.name) {
-        componentName = A_FormatterHelper.toKebabCase(defaultComp.name);
+      if (defaultComp) {
+        componentName = Are.tagOf(defaultComp);
       }
     }
     if (!componentName) {
@@ -51,7 +51,7 @@ let AreRoot = class extends Are {
     }
     const renderTarget = this.matchComponent(rootId, vector, signalsContext);
     const def = signalsContext?.getDefault(rootId);
-    const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : def?.name ? A_FormatterHelper.toKebabCase(def.name) : void 0;
+    const componentName = renderTarget ? Are.tagOf(renderTarget) : def ? Are.tagOf(def) : void 0;
     if (!componentName) {
       for (const child of [...root.children]) {
         this.stashChild(root, child, signalsContext, cache);

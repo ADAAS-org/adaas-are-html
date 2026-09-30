@@ -53,16 +53,12 @@ export class AreHTMLInterpreter extends AreInterpreter {
         try {
             const node = declaration.owner as AreHTMLNode;
 
-            let currentNode: AreHTMLNode | undefined = node;
-            let parent: AreHTMLNode | undefined = node.parent as AreHTMLNode | undefined;
-
-            while (parent) {
-                if (context.getNodeElement(parent)) {
-                    break;
-                }
-                currentNode = parent;
-                parent = parent.parent as AreHTMLNode | undefined;
-            }
+            // The mount point is strictly the DIRECT parent's host. Never walk up
+            // to a farther ancestor: a parent without a host element means it is
+            // not (or no longer) mounted — e.g. a `$for`/`$if` owner that was
+            // unmounted while deferred work was still in flight. Falling back to
+            // an ancestor would hoist the element into an unrelated container.
+            const parent = node.parent as AreHTMLNode | undefined;
 
 
             // Determine the element tag — components render as a wrapper div
@@ -77,7 +73,7 @@ export class AreHTMLInterpreter extends AreInterpreter {
                 if (!mountPoint) {
                     throw new AreInterpreterError({
                         title: 'Mount Point Not Found',
-                        description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+                        description: `Could not find a mount point for the node with id "${node.id}": its parent "${parent.aseid.toString()}" has no rendered host element. The parent is either not mounted yet or was unmounted.`
                     });
                 }
 
@@ -474,10 +470,12 @@ export class AreHTMLInterpreter extends AreInterpreter {
                 liveEvent = e;
 
                 if (modifiers.has('self') && e.target !== element) return;
-                if (modifiers.has('stop')) e.stopPropagation();
-                if (modifiers.has('prevent')) e.preventDefault();
 
                 // key-name modifiers for keyboard events: @keydown.enter / .esc / .tab / .space / .up / .down / .left / .right / .delete
+                // NOTE: this gate runs BEFORE `stop`/`prevent` so that a binding
+                // like `@keydown.enter.prevent` only suppresses the default action
+                // for the matching key (Enter) — otherwise every keystroke would be
+                // preventDefault()'d and the element could never receive typed text.
                 if (e instanceof KeyboardEvent && modifiers.size > 0) {
                     const key = (e.key || '').toLowerCase();
                     const KEY_ALIASES: Record<string, string[]> = {
@@ -518,6 +516,11 @@ export class AreHTMLInterpreter extends AreInterpreter {
                         if (!(systemOk && nameOk)) return;
                     }
                 }
+
+                // Apply `stop`/`prevent` only once the key-name gate above has
+                // passed, so they act solely on the intended (matching) events.
+                if (modifiers.has('stop')) e.stopPropagation();
+                if (modifiers.has('prevent')) e.preventDefault();
 
                 context.startPerformance('event:' + eventName);
 

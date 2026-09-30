@@ -1,6 +1,6 @@
 import { A_Scope } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
-import { a as AreDirective, b as AreDirectiveAttribute } from '../AreBinding.attribute-BWzEIw6H.mjs';
+import { a as AreDirective, b as AreDirectiveAttribute } from '../AreBinding.attribute-D8mng8Si.mjs';
 import { AreStore, AreScene } from '@adaas/are';
 import '../lib/AreStyle/AreStyle.context.mjs';
 
@@ -56,12 +56,28 @@ declare class AreDirectiveFor extends AreDirective {
      */
     private finishUpdate;
     /**
+     * Re-evaluates a reused item's subtree against its updated directive
+     * context: every applied instruction that evaluates an expression
+     * (interpolations, bound attributes) is updated, and every structural
+     * directive (nested `$if` / `$for`) re-runs its update. A nested `$for`
+     * refreshes its own reused items, so the walk does not descend into it.
+     */
+    private refreshItem;
+    /**
      * Walks the node's ancestor chain (inclusive) and reports whether the
      * whole path is currently active — i.e. the subtree is actually rendered
      * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
      * condition is false) means the subtree is detached.
      */
     private isAttached;
+    /**
+     * Whether item nodes can be mounted right now: the ancestor path is active
+     * AND the owner's anchor is rendered. The anchor is dropped from the index
+     * when the owner is unmounted (e.g. its component is torn down while a
+     * chunked render is still streaming), so mounting would have no valid
+     * mount point.
+     */
+    private isLive;
     /**
      * Build a key-function that derives a stable identity from each item.
      * If the user provided a `track <expr>` clause, evaluate it as a path on

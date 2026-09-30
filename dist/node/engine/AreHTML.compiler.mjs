@@ -15,13 +15,15 @@ import { AddTextInstruction } from '@adaas/are-html/instructions/AddText.instruc
 import { AddListenerInstruction } from '@adaas/are-html/instructions/AddListener.instruction';
 import { AddStyleInstruction } from '@adaas/are-html/instructions/AddStyle.instruction';
 import { AddStaticHTMLInstruction } from '@adaas/are-html/instructions/AddStaticHTML.instruction';
+import { AddCommentInstruction } from '@adaas/are-html/instructions/AddComment.instruction';
 import { AreHTMLNode } from '@adaas/are-html/node';
 import { AreDirectiveContext } from '@adaas/are-html/directive/AreDirective.context';
 
 let AreHTMLCompiler = class extends AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
+    if (node instanceof AreText || node instanceof AreInterpolation) return;
     super.compile(node, scene, logger, ...args);
-    if (node.isStaticIsland && scene.host) {
+    if (node.isStaticIsland && scene.host && !(scene.host instanceof AddCommentInstruction)) {
       scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
     }
     if (node.styles?.styles) {

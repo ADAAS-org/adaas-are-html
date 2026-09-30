@@ -16,6 +16,7 @@ var AddText_instruction = require('@adaas/are-html/instructions/AddText.instruct
 var AddListener_instruction = require('@adaas/are-html/instructions/AddListener.instruction');
 var AddStyle_instruction = require('@adaas/are-html/instructions/AddStyle.instruction');
 var AddStaticHTML_instruction = require('@adaas/are-html/instructions/AddStaticHTML.instruction');
+var AddComment_instruction = require('@adaas/are-html/instructions/AddComment.instruction');
 var node = require('@adaas/are-html/node');
 var AreDirective_context = require('@adaas/are-html/directive/AreDirective.context');
 
@@ -32,8 +33,9 @@ var __decorateClass = (decorators, target, key, kind) => {
 var __decorateParam = (index, decorator) => (target, key) => decorator(target, key, index);
 exports.AreHTMLCompiler = class AreHTMLCompiler extends are.AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
+    if (node instanceof AreText.AreText || node instanceof AreInterpolation.AreInterpolation) return;
     super.compile(node, scene, logger, ...args);
-    if (node.isStaticIsland && scene.host) {
+    if (node.isStaticIsland && scene.host && !(scene.host instanceof AddComment_instruction.AddCommentInstruction)) {
       scene.plan(new AddStaticHTML_instruction.AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
     }
     if (node.styles?.styles) {

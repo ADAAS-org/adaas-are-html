@@ -1,7 +1,7 @@
 'use strict';
 
-var aConcept = require('@adaas/a-concept');
 var core = require('@adaas/a-frame/core');
+var are = require('@adaas/are');
 var node = require('@adaas/are-html/node');
 
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -27,7 +27,7 @@ exports.AreRootNode = class AreRootNode extends node.AreHTMLNode {
    * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
    */
   get component() {
-    return this.scope.resolve(aConcept.A_FormatterHelper.toPascalCase(this.aseid.entity));
+    return are.Are.resolveByTag(this.scope, this.aseid.entity);
   }
 };
 exports.AreRootNode = __decorateClass([

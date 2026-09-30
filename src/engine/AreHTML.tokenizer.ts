@@ -52,6 +52,7 @@ export class AreHTMLTokenizer extends AreTokenizer {
          */
         const isStaticIsland =
             node instanceof AreComponentNode &&
+            !(node as AreHTMLNode).isImperativeHost &&
             !!node.content &&
             isStaticMarkup(node.content);
 

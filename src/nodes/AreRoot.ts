@@ -1,4 +1,3 @@
-import { A_FormatterHelper, } from "@adaas/a-concept";
 import { A_Frame } from "@adaas/a-frame/core"
 import { Are } from "@adaas/are";
 import { AreHTMLNode } from "@adaas/are-html/node";
@@ -23,6 +22,6 @@ export class AreRootNode extends AreHTMLNode {
      * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
      */
     get component(): Are | undefined {
-        return this.scope.resolve<Are>(A_FormatterHelper.toPascalCase(this.aseid.entity)) as Are | undefined;
+        return Are.resolveByTag(this.scope, this.aseid.entity);
     }
 }

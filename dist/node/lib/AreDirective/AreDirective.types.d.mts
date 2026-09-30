@@ -1,5 +1,5 @@
 import { A_TYPES__Ctor } from '@adaas/a-concept';
-import { a as AreDirective } from '../../AreBinding.attribute-BWzEIw6H.mjs';
+import { a as AreDirective } from '../../AreBinding.attribute-D8mng8Si.mjs';
 import '@adaas/are';
 import '../AreStyle/AreStyle.context.mjs';
 

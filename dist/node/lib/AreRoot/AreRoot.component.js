@@ -34,7 +34,7 @@ exports.AreRoot = class AreRoot extends are.Are {
     }
     const initialVector = this.buildInitialVector(signalState);
     const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
-    let componentName = renderTarget?.name ? aConcept.A_FormatterHelper.toKebabCase(renderTarget.name) : void 0;
+    let componentName = renderTarget ? are.Are.tagOf(renderTarget) : void 0;
     if (!componentName) {
       if (root.content?.trim()) {
         return;
@@ -42,8 +42,8 @@ exports.AreRoot = class AreRoot extends are.Are {
     }
     if (!componentName) {
       const defaultComp = signalsContext?.getDefault(rootId);
-      if (defaultComp?.name) {
-        componentName = aConcept.A_FormatterHelper.toKebabCase(defaultComp.name);
+      if (defaultComp) {
+        componentName = are.Are.tagOf(defaultComp);
       }
     }
     if (!componentName) {
@@ -63,7 +63,7 @@ exports.AreRoot = class AreRoot extends are.Are {
     }
     const renderTarget = this.matchComponent(rootId, vector, signalsContext);
     const def = signalsContext?.getDefault(rootId);
-    const componentName = renderTarget?.name ? aConcept.A_FormatterHelper.toKebabCase(renderTarget.name) : def?.name ? aConcept.A_FormatterHelper.toKebabCase(def.name) : void 0;
+    const componentName = renderTarget ? are.Are.tagOf(renderTarget) : def ? are.Are.tagOf(def) : void 0;
     if (!componentName) {
       for (const child of [...root.children]) {
         this.stashChild(root, child, signalsContext, cache);

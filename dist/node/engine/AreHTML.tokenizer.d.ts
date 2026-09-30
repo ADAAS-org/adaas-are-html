@@ -1,6 +1,6 @@
 import { A_Logger } from '@adaas/a-utils/a-logger';
 import { AreTokenizer, AreNode, AreContext } from '@adaas/are';
-import { d as AreHTMLAttribute } from '../AreBinding.attribute-GpT-5Qmf.js';
+import { d as AreHTMLAttribute } from '../AreBinding.attribute-C20eraeO.js';
 import '@adaas/a-concept';
 import '../lib/AreStyle/AreStyle.context.js';
 

@@ -1,6 +1,6 @@
 import { AreStoreWatchingEntity, AreNode, AreAttribute } from '@adaas/are';
 import { A_Component, A_TYPES__Ctor } from '@adaas/a-concept';
-import { AreStyle } from './lib/AreStyle/AreStyle.context.js';
+import { AreStyle } from './lib/AreStyle/AreStyle.context.mjs';
 
 declare class AreDirective extends A_Component {
     /**
@@ -78,6 +78,13 @@ declare class AreHTMLNode extends AreNode {
      */
     protected _staticInnerHTML?: string;
     /**
+     * Set once the node's content is (re)built imperatively via `render()`
+     * (e.g. a surface that re-renders itself from a store). Such a node must
+     * NOT become a static island: `render()` only mounts CHILD nodes, so an
+     * island (no children) would paint nothing and could never be cleared.
+     */
+    protected _imperativeHost: boolean;
+    /**
      * Actual node type.
      * By default it's a tag name
      */
@@ -97,6 +104,28 @@ declare class AreHTMLNode extends AreNode {
      * tokenizer when the node's inner content is detected to be fully static.
      */
     markStatic(innerHTML: string): void;
+    /**
+     * Whether this node's content is rebuilt imperatively (see `_imperativeHost`).
+     * The tokenizer skips the static-island fast path for such nodes.
+     */
+    get isImperativeHost(): boolean;
+    /**
+     * Clears the node's content. On top of the base child teardown, removes a
+     * static island's markup: an island has no child nodes, so the base clear
+     * would leave its DOM behind (e.g. a template-time "loading…" paint that
+     * survives every later re-render).
+     */
+    clear(): Promise<void>;
+    /**
+     * Imperative (re)render. Flags the node so its content is always exploded
+     * into child nodes — the only thing the base `render()` mounts.
+     */
+    render(): Promise<void>;
+    /**
+     * Reverts and unplans the node's static-island instruction and drops the
+     * island marker, so the next build starts from an empty host element.
+     */
+    protected releaseStaticIsland(): void;
     /**
      * Deep-clone the node. Overridden to carry over the static-island marker
      * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT

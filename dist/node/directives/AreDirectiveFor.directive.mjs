@@ -62,7 +62,8 @@ let AreDirectiveFor = class extends AreDirective {
     const newArray = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
     const currentChildren = [...owner.children];
     attribute.value = newArray;
-    const attached = this.isAttached(owner);
+    const context = owner.scope.resolve(AreHTMLEngineContext);
+    const attached = this.isLive(owner, context);
     const computeKey = this.makeKeyFn(key, index, trackExpr);
     const childByKey = /* @__PURE__ */ new Map();
     const remaining = /* @__PURE__ */ new Set();
@@ -76,6 +77,8 @@ let AreDirectiveFor = class extends AreDirective {
     const toCreate = [];
     const finalByKey = /* @__PURE__ */ new Map();
     const orderedKeys = new Array(newArray.length);
+    const toRefresh = [];
+    const indexName = index || "index";
     for (let i = 0; i < newArray.length; i++) {
       const item = newArray[i];
       const k = computeKey(item, i);
@@ -89,25 +92,26 @@ let AreDirectiveFor = class extends AreDirective {
           directiveContext = new AreDirectiveContext(existing.aseid);
           existing.scope.register(directiveContext);
         }
+        const prev = directiveContext.scope || {};
+        if (prev[key] !== item || prev[indexName] !== i) toRefresh.push(existing);
         directiveContext.scope = {
           ...directiveContext.scope,
           [key]: item,
-          [index || "index"]: i
+          [indexName]: i
         };
       } else {
         toCreate.push({ item, idx: i, key: k });
       }
     }
-    for (const child of remaining) {
-      if (attached) child.unmount();
-      owner.removeChild(child);
-    }
+    if (attached) for (const child of remaining) child.unmount();
+    for (const child of remaining) owner.removeChild(child);
+    for (const child of toRefresh) this.refreshItem(child);
     const createItem = (desc) => {
       const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
       finalByKey.set(desc.key, child);
       child.transform();
       child.compile();
-      if (attached) child.mount();
+      if (this.isLive(owner, context)) child.mount();
     };
     if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
       for (const desc of toCreate) createItem(desc);
@@ -134,7 +138,7 @@ let AreDirectiveFor = class extends AreDirective {
           AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
         });
       }
-      if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
+      if (this.isLive(owner, context)) this.reconcileOrder(owner, orderedKeys, finalByKey);
       return this.finishUpdate(attribute, store, scene, state);
     };
     return processChunk();
@@ -180,6 +184,28 @@ let AreDirectiveFor = class extends AreDirective {
     }
   }
   /**
+   * Re-evaluates a reused item's subtree against its updated directive
+   * context: every applied instruction that evaluates an expression
+   * (interpolations, bound attributes) is updated, and every structural
+   * directive (nested `$if` / `$for`) re-runs its update. A nested `$for`
+   * refreshes its own reused items, so the walk does not descend into it.
+   */
+  refreshItem(itemNode) {
+    const queue = [itemNode];
+    while (queue.length > 0) {
+      const node = queue.shift();
+      for (const instruction of node.scene.applied) {
+        if (instruction.payload?.evaluate) instruction.update();
+      }
+      let ownsFor = false;
+      for (const directive of node.directives) {
+        if (directive.component instanceof AreDirectiveFor) ownsFor = true;
+        directive.update();
+      }
+      if (!ownsFor) queue.push(...node.children);
+    }
+  }
+  /**
    * Walks the node's ancestor chain (inclusive) and reports whether the
    * whole path is currently active — i.e. the subtree is actually rendered
    * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
@@ -192,6 +218,16 @@ let AreDirectiveFor = class extends AreDirective {
       current = current.parent;
     }
     return true;
+  }
+  /**
+   * Whether item nodes can be mounted right now: the ancestor path is active
+   * AND the owner's anchor is rendered. The anchor is dropped from the index
+   * when the owner is unmounted (e.g. its component is torn down while a
+   * chunked render is still streaming), so mounting would have no valid
+   * mount point.
+   */
+  isLive(owner, context) {
+    return !!context && !!context.getNodeElement(owner) && this.isAttached(owner);
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────

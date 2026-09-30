@@ -12,15 +12,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
   addElement(declaration, context, logger) {
     try {
       const node = declaration.owner;
-      let currentNode = node;
-      let parent = node.parent;
-      while (parent) {
-        if (context.getNodeElement(parent)) {
-          break;
-        }
-        currentNode = parent;
-        parent = parent.parent;
-      }
+      const parent = node.parent;
       const tag = node.tag;
       const isSVG = tag === "svg" || this.isInSVGContext(node);
       if (parent) {
@@ -28,7 +20,7 @@ let AreHTMLInterpreter = class extends AreInterpreter {
         if (!mountPoint) {
           throw new AreInterpreterError({
             title: "Mount Point Not Found",
-            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+            description: `Could not find a mount point for the node with id "${node.id}": its parent "${parent.aseid.toString()}" has no rendered host element. The parent is either not mounted yet or was unmounted.`
           });
         }
         const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
@@ -235,8 +227,6 @@ let AreHTMLInterpreter = class extends AreInterpreter {
       try {
         liveEvent = e;
         if (modifiers.has("self") && e.target !== element) return;
-        if (modifiers.has("stop")) e.stopPropagation();
-        if (modifiers.has("prevent")) e.preventDefault();
         if (e instanceof KeyboardEvent && modifiers.size > 0) {
           const key = (e.key || "").toLowerCase();
           const KEY_ALIASES = {
@@ -265,6 +255,8 @@ let AreHTMLInterpreter = class extends AreInterpreter {
             if (!(systemOk && nameOk)) return;
           }
         }
+        if (modifiers.has("stop")) e.stopPropagation();
+        if (modifiers.has("prevent")) e.preventDefault();
         context.startPerformance("event:" + eventName);
         const result = syntax.evaluate(mutation.payload.handler, store, {
           ...handlerScope,

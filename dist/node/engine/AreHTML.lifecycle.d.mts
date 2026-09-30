@@ -1,7 +1,7 @@
 import { A_Scope, A_Feature } from '@adaas/a-concept';
 import { AreLifecycle, AreSignalsContext, AreScene } from '@adaas/are';
 import { A_Logger } from '@adaas/a-utils/a-logger';
-import { e as AreHTMLNode, b as AreDirectiveAttribute } from '../AreBinding.attribute-BWzEIw6H.mjs';
+import { e as AreHTMLNode, b as AreDirectiveAttribute } from '../AreBinding.attribute-D8mng8Si.mjs';
 import { AreHTMLEngineContext } from './AreHTML.context.mjs';
 import '../lib/AreStyle/AreStyle.context.mjs';
 import './AreHTML.types.mjs';

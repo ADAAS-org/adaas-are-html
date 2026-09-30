@@ -1,4 +1,4 @@
-import { A_Caller, A_Context, A_FormatterHelper, A_Inject, A_TYPES__Ctor } from "@adaas/a-concept";
+import { A_Caller, A_Context, A_Inject, A_TYPES__Ctor } from "@adaas/a-concept";
 import { A_Frame } from "@adaas/a-frame/core";
 import { A_Logger } from "@adaas/a-utils/a-logger";
 import { A_Signal, A_SignalState, A_SignalVector } from "@adaas/a-utils/a-signal";
@@ -48,8 +48,8 @@ export class AreRoot extends Are {
         const initialVector = this.buildInitialVector(signalState);
         const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
 
-        let componentName: string | undefined = renderTarget?.name
-            ? A_FormatterHelper.toKebabCase(renderTarget.name)
+        let componentName: string | undefined = renderTarget
+            ? Are.tagOf(renderTarget)
             : undefined;
 
         // 3. Fall back to body content (the nodes already placed inside the
@@ -63,8 +63,8 @@ export class AreRoot extends Are {
         // 3.5. Fall back to AreSignalsContext default component for this root.
         if (!componentName) {
             const defaultComp = signalsContext?.getDefault(rootId);
-            if (defaultComp?.name) {
-                componentName = A_FormatterHelper.toKebabCase(defaultComp.name);
+            if (defaultComp) {
+                componentName = Are.tagOf(defaultComp);
             }
         }
         // 4. Last resort: legacy default= attribute on the markup.
@@ -103,10 +103,10 @@ export class AreRoot extends Are {
         const renderTarget = this.matchComponent(rootId, vector, signalsContext);
 
         const def = signalsContext?.getDefault(rootId);
-        const componentName = renderTarget?.name
-            ? A_FormatterHelper.toKebabCase(renderTarget.name)
-            : def?.name
-                ? A_FormatterHelper.toKebabCase(def.name)
+        const componentName = renderTarget
+            ? Are.tagOf(renderTarget)
+            : def
+                ? Are.tagOf(def)
                 : undefined;
 
         // No matching condition for this signal vector and no default — clear the outlet.

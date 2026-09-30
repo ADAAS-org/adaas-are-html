@@ -1,6 +1,6 @@
 import { __decorateClass } from '../chunk-EQQGB2QZ.mjs';
-import { A_FormatterHelper } from '@adaas/a-concept';
 import { A_Frame } from '@adaas/a-frame/core';
+import { Are } from '@adaas/are';
 import { AreHTMLNode } from '@adaas/are-html/node';
 
 let AreRootNode = class extends AreHTMLNode {
@@ -18,7 +18,7 @@ let AreRootNode = class extends AreHTMLNode {
    * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
    */
   get component() {
-    return this.scope.resolve(A_FormatterHelper.toPascalCase(this.aseid.entity));
+    return Are.resolveByTag(this.scope, this.aseid.entity);
   }
 };
 AreRootNode = __decorateClass([

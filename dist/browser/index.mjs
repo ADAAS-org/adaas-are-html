@@ -1,4 +1,4 @@
-import { AreStore, AreScene, AreSyntax, AreCompiler, AreInterpreter, AreInstructionDefaultNames, AreNodeFeatures, AreContext, AreLifecycle, AreSignalsContext, AreAttributeFeatures, Are, AreCompilerError, AreNode, AreDeclaration, AreAttribute, AreMutation, AreSignal, AreInterpreterError, AreTokenizer, AreTransformer, AreEngine, AreSignals, AreEvent } from '@adaas/are';
+import { AreStore, AreScene, AreSyntax, AreCompiler, AreInterpreter, AreInstructionDefaultNames, AreNodeFeatures, AreContext, AreLifecycle, AreSignalsContext, AreAttributeFeatures, Are, AreCompilerError, AreNode, AreDeclaration, AreMutation, AreAttribute, AreSignal, AreInterpreterError, AreTokenizer, AreTransformer, AreEngine, AreSignals, AreEvent } from '@adaas/are';
 import { A_Frame } from '@adaas/a-frame/core';
 import { A_Inject, A_Caller, A_Feature, A_Meta, A_Scope, A_Dependency, A_Component, A_Context, A_ComponentMeta, A_FormatterHelper, A_Fragment } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
@@ -601,7 +601,8 @@ var AreDirectiveFor = class extends AreDirective {
     const newArray = this.resolveArray(store, arrayExpr, attribute.content, contextScope);
     const currentChildren = [...owner.children];
     attribute.value = newArray;
-    const attached = this.isAttached(owner);
+    const context = owner.scope.resolve(AreHTMLEngineContext);
+    const attached = this.isLive(owner, context);
     const computeKey = this.makeKeyFn(key, index, trackExpr);
     const childByKey = /* @__PURE__ */ new Map();
     const remaining = /* @__PURE__ */ new Set();
@@ -615,6 +616,8 @@ var AreDirectiveFor = class extends AreDirective {
     const toCreate = [];
     const finalByKey = /* @__PURE__ */ new Map();
     const orderedKeys = new Array(newArray.length);
+    const toRefresh = [];
+    const indexName = index || "index";
     for (let i = 0; i < newArray.length; i++) {
       const item = newArray[i];
       const k = computeKey(item, i);
@@ -628,25 +631,26 @@ var AreDirectiveFor = class extends AreDirective {
           directiveContext = new AreDirectiveContext(existing.aseid);
           existing.scope.register(directiveContext);
         }
+        const prev = directiveContext.scope || {};
+        if (prev[key] !== item || prev[indexName] !== i) toRefresh.push(existing);
         directiveContext.scope = {
           ...directiveContext.scope,
           [key]: item,
-          [index || "index"]: i
+          [indexName]: i
         };
       } else {
         toCreate.push({ item, idx: i, key: k });
       }
     }
-    for (const child of remaining) {
-      if (attached) child.unmount();
-      owner.removeChild(child);
-    }
+    if (attached) for (const child of remaining) child.unmount();
+    for (const child of remaining) owner.removeChild(child);
+    for (const child of toRefresh) this.refreshItem(child);
     const createItem = (desc) => {
       const child = this.spawnItemNode(attribute.template, owner, key, index, desc.item, desc.idx);
       finalByKey.set(desc.key, child);
       child.transform();
       child.compile();
-      if (attached) child.mount();
+      if (this.isLive(owner, context)) child.mount();
     };
     if (toCreate.length <= AreDirectiveFor.SYNC_THRESHOLD) {
       for (const desc of toCreate) createItem(desc);
@@ -673,7 +677,7 @@ var AreDirectiveFor = class extends AreDirective {
           AreSchedulerHelper.scheduleMacrotask(() => resolve(processChunk()));
         });
       }
-      if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
+      if (this.isLive(owner, context)) this.reconcileOrder(owner, orderedKeys, finalByKey);
       return this.finishUpdate(attribute, store, scene, state);
     };
     return processChunk();
@@ -719,6 +723,28 @@ var AreDirectiveFor = class extends AreDirective {
     }
   }
   /**
+   * Re-evaluates a reused item's subtree against its updated directive
+   * context: every applied instruction that evaluates an expression
+   * (interpolations, bound attributes) is updated, and every structural
+   * directive (nested `$if` / `$for`) re-runs its update. A nested `$for`
+   * refreshes its own reused items, so the walk does not descend into it.
+   */
+  refreshItem(itemNode) {
+    const queue = [itemNode];
+    while (queue.length > 0) {
+      const node = queue.shift();
+      for (const instruction of node.scene.applied) {
+        if (instruction.payload?.evaluate) instruction.update();
+      }
+      let ownsFor = false;
+      for (const directive of node.directives) {
+        if (directive.component instanceof AreDirectiveFor) ownsFor = true;
+        directive.update();
+      }
+      if (!ownsFor) queue.push(...node.children);
+    }
+  }
+  /**
    * Walks the node's ancestor chain (inclusive) and reports whether the
    * whole path is currently active — i.e. the subtree is actually rendered
    * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
@@ -731,6 +757,16 @@ var AreDirectiveFor = class extends AreDirective {
       current = current.parent;
     }
     return true;
+  }
+  /**
+   * Whether item nodes can be mounted right now: the ancestor path is active
+   * AND the owner's anchor is rendered. The anchor is dropped from the index
+   * when the owner is unmounted (e.g. its component is torn down while a
+   * chunked render is still streaming), so mounting would have no valid
+   * mount point.
+   */
+  isLive(owner, context) {
+    return !!context && !!context.getNodeElement(owner) && this.isAttached(owner);
   }
   // ─────────────────────────────────────────────────────────────────────────────
   // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -1229,6 +1265,16 @@ AreStyle = __decorateClass([
 
 // src/lib/AreHTMLNode/AreHTMLNode.ts
 var AreHTMLNode = class extends AreNode {
+  constructor() {
+    super(...arguments);
+    /**
+     * Set once the node's content is (re)built imperatively via `render()`
+     * (e.g. a surface that re-renders itself from a store). Such a node must
+     * NOT become a static island: `render()` only mounts CHILD nodes, so an
+     * island (no children) would paint nothing and could never be cleared.
+     */
+    this._imperativeHost = false;
+  }
   /**
    * Actual node type. 
    * By default it's a tag name
@@ -1256,6 +1302,48 @@ var AreHTMLNode = class extends AreNode {
    */
   markStatic(innerHTML) {
     this._staticInnerHTML = innerHTML;
+  }
+  /**
+   * Whether this node's content is rebuilt imperatively (see `_imperativeHost`).
+   * The tokenizer skips the static-island fast path for such nodes.
+   */
+  get isImperativeHost() {
+    return this._imperativeHost;
+  }
+  /**
+   * Clears the node's content. On top of the base child teardown, removes a
+   * static island's markup: an island has no child nodes, so the base clear
+   * would leave its DOM behind (e.g. a template-time "loading…" paint that
+   * survives every later re-render).
+   */
+  async clear() {
+    this.releaseStaticIsland();
+    await super.clear();
+  }
+  /**
+   * Imperative (re)render. Flags the node so its content is always exploded
+   * into child nodes — the only thing the base `render()` mounts.
+   */
+  async render() {
+    this._imperativeHost = true;
+    await super.render();
+  }
+  /**
+   * Reverts and unplans the node's static-island instruction and drops the
+   * island marker, so the next build starts from an empty host element.
+   */
+  releaseStaticIsland() {
+    if (this._staticInnerHTML === void 0) return;
+    this._staticInnerHTML = void 0;
+    const scene = this.scene;
+    for (const instruction of [...scene.planned]) {
+      if (!(instruction instanceof AddStaticHTMLInstruction)) continue;
+      if (scene.isApplied(instruction)) {
+        instruction.revert();
+        scene.unApply(instruction);
+      }
+      scene.unPlan(instruction);
+    }
   }
   /**
    * Deep-clone the node. Overridden to carry over the static-island marker
@@ -1379,7 +1467,7 @@ var AreComponentNode = class extends AreHTMLNode {
    * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
    */
   get component() {
-    return this.scope.resolve(A_FormatterHelper.toPascalCase(this.aseid.entity));
+    return Are.resolveByTag(this.scope, this.aseid.entity);
   }
 };
 AreComponentNode = __decorateClass([
@@ -1420,7 +1508,7 @@ var AreRootNode = class extends AreHTMLNode {
    * [!] Note: The component is optional and may not be defined for all nodes. If no component is associated with the node, it will be treated as a standard HTML element or a basic node without custom logic.
    */
   get component() {
-    return this.scope.resolve(A_FormatterHelper.toPascalCase(this.aseid.entity));
+    return Are.resolveByTag(this.scope, this.aseid.entity);
   }
 };
 AreRootNode = __decorateClass([
@@ -1751,8 +1839,9 @@ function isStaticMarkup(inner) {
 }
 var AreHTMLCompiler = class extends AreCompiler {
   compileHTMLNode(node, scene, logger, ...args) {
+    if (node instanceof AreText || node instanceof AreInterpolation) return;
     super.compile(node, scene, logger, ...args);
-    if (node.isStaticIsland && scene.host) {
+    if (node.isStaticIsland && scene.host && !(scene.host instanceof AddCommentInstruction)) {
       scene.plan(new AddStaticHTMLInstruction(scene.host, { html: node.staticInnerHTML }));
     }
     if (node.styles?.styles) {
@@ -1931,15 +2020,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
   addElement(declaration, context, logger) {
     try {
       const node = declaration.owner;
-      let currentNode = node;
-      let parent = node.parent;
-      while (parent) {
-        if (context.getNodeElement(parent)) {
-          break;
-        }
-        currentNode = parent;
-        parent = parent.parent;
-      }
+      const parent = node.parent;
       const tag = node.tag;
       const isSVG = tag === "svg" || this.isInSVGContext(node);
       if (parent) {
@@ -1947,7 +2028,7 @@ var AreHTMLInterpreter = class extends AreInterpreter {
         if (!mountPoint) {
           throw new AreInterpreterError({
             title: "Mount Point Not Found",
-            description: `Could not find a mount point for the node with id "${node.id}". Ensure that the parent node is rendered before its children, or that a valid root element with the corresponding id exists in the DOM.`
+            description: `Could not find a mount point for the node with id "${node.id}": its parent "${parent.aseid.toString()}" has no rendered host element. The parent is either not mounted yet or was unmounted.`
           });
         }
         const element = isSVG ? context.container.createElementNS(SVG_NAMESPACE, tag) : context.container.createElement(tag);
@@ -2154,8 +2235,6 @@ var AreHTMLInterpreter = class extends AreInterpreter {
       try {
         liveEvent = e;
         if (modifiers.has("self") && e.target !== element) return;
-        if (modifiers.has("stop")) e.stopPropagation();
-        if (modifiers.has("prevent")) e.preventDefault();
         if (e instanceof KeyboardEvent && modifiers.size > 0) {
           const key = (e.key || "").toLowerCase();
           const KEY_ALIASES = {
@@ -2184,6 +2263,8 @@ var AreHTMLInterpreter = class extends AreInterpreter {
             if (!(systemOk && nameOk)) return;
           }
         }
+        if (modifiers.has("stop")) e.stopPropagation();
+        if (modifiers.has("prevent")) e.preventDefault();
         context.startPerformance("event:" + eventName);
         const result = syntax.evaluate(mutation.payload.handler, store, {
           ...handlerScope,
@@ -2528,7 +2609,7 @@ var AreHTMLTokenizer = class extends AreTokenizer {
     this.ATTR_PATTERN = /([$:@]?[\w.-]+(?::[\w.-]+)?)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>/"'=]+)))?/g;
   }
   tokenize(node, context, logger) {
-    const isStaticIsland = node instanceof AreComponentNode && !!node.content && isStaticMarkup(node.content);
+    const isStaticIsland = node instanceof AreComponentNode && !node.isImperativeHost && !!node.content && isStaticMarkup(node.content);
     if (isStaticIsland) {
       node.markStatic(node.content);
     } else {
@@ -3022,7 +3103,7 @@ var AreRoot = class extends Are {
     }
     const initialVector = this.buildInitialVector(signalState);
     const renderTarget = this.matchComponent(rootId, initialVector, signalsContext);
-    let componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : void 0;
+    let componentName = renderTarget ? Are.tagOf(renderTarget) : void 0;
     if (!componentName) {
       if (root.content?.trim()) {
         return;
@@ -3030,8 +3111,8 @@ var AreRoot = class extends Are {
     }
     if (!componentName) {
       const defaultComp = signalsContext?.getDefault(rootId);
-      if (defaultComp?.name) {
-        componentName = A_FormatterHelper.toKebabCase(defaultComp.name);
+      if (defaultComp) {
+        componentName = Are.tagOf(defaultComp);
       }
     }
     if (!componentName) {
@@ -3051,7 +3132,7 @@ var AreRoot = class extends Are {
     }
     const renderTarget = this.matchComponent(rootId, vector, signalsContext);
     const def = signalsContext?.getDefault(rootId);
-    const componentName = renderTarget?.name ? A_FormatterHelper.toKebabCase(renderTarget.name) : def?.name ? A_FormatterHelper.toKebabCase(def.name) : void 0;
+    const componentName = renderTarget ? Are.tagOf(renderTarget) : def ? Are.tagOf(def) : void 0;
     if (!componentName) {
       for (const child of [...root.children]) {
         this.stashChild(root, child, signalsContext, cache);

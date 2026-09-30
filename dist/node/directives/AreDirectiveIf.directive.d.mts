@@ -1,6 +1,6 @@
 import { A_Scope } from '@adaas/a-concept';
 import { A_Logger } from '@adaas/a-utils/a-logger';
-import { a as AreDirective, b as AreDirectiveAttribute } from '../AreBinding.attribute-BWzEIw6H.mjs';
+import { a as AreDirective, b as AreDirectiveAttribute } from '../AreBinding.attribute-D8mng8Si.mjs';
 import { AreStore, AreScene, AreSyntax } from '@adaas/are';
 import { AreDirectiveContext } from '../lib/AreDirective/AreDirective.context.mjs';
 import '../lib/AreStyle/AreStyle.context.mjs';

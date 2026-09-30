@@ -86,6 +86,13 @@ declare class AreHTMLNode extends AreNode {
      */
     protected _staticInnerHTML?: string;
     /**
+     * Set once the node's content is (re)built imperatively via `render()`
+     * (e.g. a surface that re-renders itself from a store). Such a node must
+     * NOT become a static island: `render()` only mounts CHILD nodes, so an
+     * island (no children) would paint nothing and could never be cleared.
+     */
+    protected _imperativeHost: boolean;
+    /**
      * Actual node type.
      * By default it's a tag name
      */
@@ -105,6 +112,28 @@ declare class AreHTMLNode extends AreNode {
      * tokenizer when the node's inner content is detected to be fully static.
      */
     markStatic(innerHTML: string): void;
+    /**
+     * Whether this node's content is rebuilt imperatively (see `_imperativeHost`).
+     * The tokenizer skips the static-island fast path for such nodes.
+     */
+    get isImperativeHost(): boolean;
+    /**
+     * Clears the node's content. On top of the base child teardown, removes a
+     * static island's markup: an island has no child nodes, so the base clear
+     * would leave its DOM behind (e.g. a template-time "loading…" paint that
+     * survives every later re-render).
+     */
+    clear(): Promise<void>;
+    /**
+     * Imperative (re)render. Flags the node so its content is always exploded
+     * into child nodes — the only thing the base `render()` mounts.
+     */
+    render(): Promise<void>;
+    /**
+     * Reverts and unplans the node's static-island instruction and drops the
+     * island marker, so the next build starts from an empty host element.
+     */
+    protected releaseStaticIsland(): void;
     /**
      * Deep-clone the node. Overridden to carry over the static-island marker
      * (`_staticInnerHTML`), which lives on AreHTMLNode and is therefore NOT
@@ -219,12 +248,28 @@ declare class AreDirectiveFor extends AreDirective {
      */
     private finishUpdate;
     /**
+     * Re-evaluates a reused item's subtree against its updated directive
+     * context: every applied instruction that evaluates an expression
+     * (interpolations, bound attributes) is updated, and every structural
+     * directive (nested `$if` / `$for`) re-runs its update. A nested `$for`
+     * refreshes its own reused items, so the walk does not descend into it.
+     */
+    private refreshItem;
+    /**
      * Walks the node's ancestor chain (inclusive) and reports whether the
      * whole path is currently active — i.e. the subtree is actually rendered
      * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
      * condition is false) means the subtree is detached.
      */
     private isAttached;
+    /**
+     * Whether item nodes can be mounted right now: the ancestor path is active
+     * AND the owner's anchor is rendered. The anchor is dropped from the index
+     * when the owner is unmounted (e.g. its component is torn down while a
+     * chunked render is still streaming), so mounting would have no valid
+     * mount point.
+     */
+    private isLive;
     /**
      * Build a key-function that derives a stable identity from each item.
      * If the user provided a `track <expr>` clause, evaluate it as a path on

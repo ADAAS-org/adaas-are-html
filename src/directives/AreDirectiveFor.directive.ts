@@ -217,16 +217,20 @@ export class AreDirectiveFor extends AreDirective {
          * `<div $if><x $for></div>` nesting). The directive still receives the
          * store change and re-diffs, but it must NOT mount/unmount item nodes
          * directly while detached: the `$for` anchor (and its ancestors) are
-         * not in the DOM, so the interpreter's mount-point walk would fall
-         * through to the nearest *mounted* ancestor (the `$if` comment in the
-         * grandparent) and HOIST the items out of their intended container.
+         * not in the DOM, so there is no valid mount point for the items.
          * When the ancestor `$if` later activates, its mount cascade applies
          * the already-compiled item instructions in the correct place.
          *
          * Detached === any ancestor scene is inactive (regular nodes default
-         * to an active scene; only structural directives deactivate one).
+         * to an active scene; only structural directives deactivate one), OR
+         * the owner's anchor is not rendered (its subtree was unmounted).
+         *
+         * [!] This is only a snapshot for the synchronous part of the pass.
+         * A chunked render re-checks liveness before every item (see
+         * `createItem`): the owner may be unmounted between two chunks.
          */
-        const attached = this.isAttached(owner);
+        const context = owner.scope.resolve<AreHTMLEngineContext>(AreHTMLEngineContext);
+        const attached = this.isLive(owner, context);
 
         const computeKey = this.makeKeyFn(key, index, trackExpr);
 
@@ -257,6 +261,10 @@ export class AreDirectiveFor extends AreDirective {
         // reorders move existing rows instead of only appending at the end.
         const finalByKey = new Map<any, AreHTMLNode>();
         const orderedKeys: any[] = new Array(newArray.length);
+        // Reused items whose item value or index changed — their bindings must be
+        // re-evaluated (see step 3b).
+        const toRefresh: AreHTMLNode[] = [];
+        const indexName = index || 'index';
 
         for (let i = 0; i < newArray.length; i++) {
             const item = newArray[i];
@@ -273,10 +281,13 @@ export class AreDirectiveFor extends AreDirective {
                     directiveContext = new AreDirectiveContext(existing.aseid);
                     existing.scope.register(directiveContext);
                 }
+                const prev = directiveContext.scope || {};
+                if (prev[key] !== item || prev[indexName] !== i) toRefresh.push(existing);
+
                 directiveContext.scope = {
                     ...directiveContext.scope,
                     [key]: item,
-                    [index || 'index']: i,
+                    [indexName]: i,
                 };
             } else {
                 toCreate.push({ item, idx: i, key: k });
@@ -284,13 +295,19 @@ export class AreDirectiveFor extends AreDirective {
         }
 
         // ── 3. Unmount + detach removed children ─────────────────────────────
-        for (const child of remaining) {
-            // Only revert DOM if the subtree is live; a detached subtree's item
-            // nodes were never mounted (see `attached` rationale above), so
-            // unmounting them is a no-op at best and risks reverting stale state.
-            if (attached) child.unmount();
-            owner.removeChild(child);
-        }
+        // Only revert DOM if the subtree is live; a detached subtree's item
+        // nodes were never mounted (see `attached` rationale above), so
+        // unmounting them is a no-op at best and risks reverting stale state.
+        // All unmounts run before any removeChild: every removeChild mutates
+        // the owner scope and invalidates the resolution caches of all item
+        // scopes, so interleaving them would make each unmount resolve cold.
+        if (attached) for (const child of remaining) child.unmount();
+        for (const child of remaining) owner.removeChild(child);
+
+        // ── 3b. Re-evaluate reused items whose value changed ─────────────────
+        // Their bindings read the item from the directive context, not from the
+        // store, so no store watcher fires for them — refresh them explicitly.
+        for (const child of toRefresh) this.refreshItem(child);
 
         // ── 4. Create + mount the new item nodes. ───────────────────────────
         // `spawnItemNode` appends to `owner.children` immediately; new rows are
@@ -303,10 +320,11 @@ export class AreDirectiveFor extends AreDirective {
             child.transform();
             child.compile();
             // While detached, stop after compile: the item's instructions are
-            // planned and the ancestor `$if`'s mount cascade will apply them in
-            // the correct container once the condition becomes truthy. Mounting
-            // here would hoist the item to the nearest mounted ancestor.
-            if (attached) child.mount();
+            // planned and the owner's next mount cascade (ancestor `$if`
+            // re-activation, component re-mount) applies them in the correct
+            // container. Liveness is re-evaluated per item because chunks run
+            // in later macrotasks, by which time the owner may be unmounted.
+            if (this.isLive(owner, context)) child.mount();
         };
 
         // Small lists → fully synchronous, identical to the previous behavior.
@@ -348,7 +366,7 @@ export class AreDirectiveFor extends AreDirective {
             }
 
             // ── 5. Reorder live DOM to match the source array order ──────────
-            if (attached) this.reconcileOrder(owner, orderedKeys, finalByKey);
+            if (this.isLive(owner, context)) this.reconcileOrder(owner, orderedKeys, finalByKey);
             return this.finishUpdate(attribute, store, scene, state);
         };
 
@@ -416,6 +434,33 @@ export class AreDirectiveFor extends AreDirective {
 
 
     /**
+     * Re-evaluates a reused item's subtree against its updated directive
+     * context: every applied instruction that evaluates an expression
+     * (interpolations, bound attributes) is updated, and every structural
+     * directive (nested `$if` / `$for`) re-runs its update. A nested `$for`
+     * refreshes its own reused items, so the walk does not descend into it.
+     */
+    private refreshItem(itemNode: AreHTMLNode): void {
+        const queue: AreHTMLNode[] = [itemNode];
+
+        while (queue.length > 0) {
+            const node = queue.shift()!;
+
+            for (const instruction of node.scene.applied) {
+                if ((instruction.payload as any)?.evaluate) instruction.update();
+            }
+
+            let ownsFor = false;
+            for (const directive of node.directives) {
+                if (directive.component instanceof AreDirectiveFor) ownsFor = true;
+                directive.update();
+            }
+
+            if (!ownsFor) queue.push(...node.children as AreHTMLNode[]);
+        }
+    }
+
+    /**
      * Walks the node's ancestor chain (inclusive) and reports whether the
      * whole path is currently active — i.e. the subtree is actually rendered
      * into the DOM. A single inactive ancestor scene (e.g. a `$if` whose
@@ -428,6 +473,17 @@ export class AreDirectiveFor extends AreDirective {
             current = current.parent as AreHTMLNode | undefined;
         }
         return true;
+    }
+
+    /**
+     * Whether item nodes can be mounted right now: the ancestor path is active
+     * AND the owner's anchor is rendered. The anchor is dropped from the index
+     * when the owner is unmounted (e.g. its component is torn down while a
+     * chunked render is still streaming), so mounting would have no valid
+     * mount point.
+     */
+    private isLive(owner: AreHTMLNode, context: AreHTMLEngineContext | undefined): boolean {
+        return !!context && !!context.getNodeElement(owner) && this.isAttached(owner);
     }
 
 

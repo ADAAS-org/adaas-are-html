@@ -1,7 +1,7 @@
 import { A_Scope, A_Feature } from '@adaas/a-concept';
 import { AreLifecycle, AreSignalsContext, AreScene } from '@adaas/are';
 import { A_Logger } from '@adaas/a-utils/a-logger';
-import { e as AreHTMLNode, b as AreDirectiveAttribute } from '../AreBinding.attribute-GpT-5Qmf.js';
+import { e as AreHTMLNode, b as AreDirectiveAttribute } from '../AreBinding.attribute-C20eraeO.js';
 import { AreHTMLEngineContext } from './AreHTML.context.js';
 import '../lib/AreStyle/AreStyle.context.js';
 import './AreHTML.types.js';
