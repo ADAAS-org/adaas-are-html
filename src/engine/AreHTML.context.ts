@@ -22,9 +22,12 @@ export class AreHTMLEngineContext extends AreContext {
         /**
          * 1 AreNode = 1 Dom Node
          * 
-         * uses ASEID
+         * Keyed by the node itself, NOT its ASEID: a `$if`/`$for` template is a
+         * clone that keeps the HTML `id` (so the same ASEID) as its anchor node.
+         * An ASEID key let the template overwrite the anchor's entry, and its
+         * unmount deleted it, so the next mount found no mount point.
          */
-        nodeToHostElements: new Map<string, Node>(),
+        nodeToHostElements: new Map<AreNode, Node>(),
         /**
          * 1 Group Instruction = MANY Dom Nodes (e.g. for loop)
          * 
@@ -178,18 +181,12 @@ export class AreHTMLEngineContext extends AreContext {
 
 
     /**
-     * Retrieves the DOM element associated with a given AreNode. This method looks up the node's ASEID in the nodeToHostElements map to find the corresponding DOM element. If the node is not found, it returns undefined. This allows the engine to efficiently access and manipulate the DOM elements that correspond to specific nodes in the AreNode tree, enabling dynamic updates and interactions based on the application state.
+     * Retrieves the DOM element associated with a given AreNode (looked up by node identity). If the node is not found, it returns undefined.
      * 
-     * @param nodeASEID 
+     * @param node 
      */
-    getNodeElement(nodeASEID: string): Node | undefined
-    getNodeElement(node: AreNode): Node | undefined
-    getNodeElement(node: AreNode | string): Node | undefined {
-        if (typeof node === 'string') {
-            return this.index.nodeToHostElements.get(node);
-        } else {
-            return this.index.nodeToHostElements.get(node.aseid.toString());
-        }
+    getNodeElement(node: AreNode): Node | undefined {
+        return this.index.nodeToHostElements.get(node);
     }
 
     /**
@@ -208,7 +205,7 @@ export class AreHTMLEngineContext extends AreContext {
         // Mutations (attributes, styles, event listeners, …) produce auxiliary DOM
         // that must never overwrite the owning node's primary element in the index.
         if (node && instruction instanceof AreDeclaration) {
-            this.index.nodeToHostElements.set(node.aseid.toString(), element);
+            this.index.nodeToHostElements.set(node, element);
         }
 
         if (instruction.group) {
@@ -248,8 +245,8 @@ export class AreHTMLEngineContext extends AreContext {
             this.index.elementToInstruction.delete(element);
 
             const node = instruction.owner;
-            if (node && instruction instanceof AreDeclaration) {
-                this.index.nodeToHostElements.delete(node.aseid.toString());
+            if (node && instruction instanceof AreDeclaration && this.index.nodeToHostElements.get(node) === element) {
+                this.index.nodeToHostElements.delete(node);
             }
 
             if (instruction.group) {

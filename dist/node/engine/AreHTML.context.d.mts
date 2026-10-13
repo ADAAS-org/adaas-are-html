@@ -14,9 +14,12 @@ declare class AreHTMLEngineContext extends AreContext {
         /**
          * 1 AreNode = 1 Dom Node
          *
-         * uses ASEID
+         * Keyed by the node itself, NOT its ASEID: a `$if`/`$for` template is a
+         * clone that keeps the HTML `id` (so the same ASEID) as its anchor node.
+         * An ASEID key let the template overwrite the anchor's entry, and its
+         * unmount deleted it, so the next mount found no mount point.
          */
-        nodeToHostElements: Map<string, Node>;
+        nodeToHostElements: Map<AreNode, Node>;
         /**
          * 1 Group Instruction = MANY Dom Nodes (e.g. for loop)
          *
@@ -113,11 +116,10 @@ declare class AreHTMLEngineContext extends AreContext {
      */
     getStaticFragment(hostTag: string, html: string): DocumentFragment;
     /**
-     * Retrieves the DOM element associated with a given AreNode. This method looks up the node's ASEID in the nodeToHostElements map to find the corresponding DOM element. If the node is not found, it returns undefined. This allows the engine to efficiently access and manipulate the DOM elements that correspond to specific nodes in the AreNode tree, enabling dynamic updates and interactions based on the application state.
+     * Retrieves the DOM element associated with a given AreNode (looked up by node identity). If the node is not found, it returns undefined.
      *
-     * @param nodeASEID
+     * @param node
      */
-    getNodeElement(nodeASEID: string): Node | undefined;
     getNodeElement(node: AreNode): Node | undefined;
     /**
      * Associates a DOM element with a given instruction and its owner node. This method updates the context's index to map the instruction's ASEID to the provided DOM element, and also maps the element back to the instruction's ASEID for reverse lookup. If the instruction has an owner node, it also maps the node's ASEID to the element. Additionally, if the instruction belongs to a group, it adds the element to the set of elements associated with that group. This indexing allows the engine to efficiently manage and update DOM elements based on instructions and their corresponding nodes, enabling dynamic rendering and interaction in response to application state changes.

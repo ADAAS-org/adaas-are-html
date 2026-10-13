@@ -146,6 +146,21 @@ class TestHost extends Are {
     }
 }
 
+/**
+ * Binds a component-namespaced event (`a-input:submit`, as emitted by
+ * ui-components). The attribute name holds `:`, which is not a valid ASEID
+ * entity character — it must not crash tokenize (a-concept 0.3.31 regression).
+ */
+class NsHost extends Are {
+    @Are.Template
+    template(@A_Inject(A_Caller) node: AreNode): void {
+        node.setContent(`<div class="ns-root"><div class="ns" @a-input:submit="$onNs"></div></div>`);
+    }
+
+    @Are.EventHandler
+    onNs(): void { calls.outer++; }
+}
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ── Harness ──────────────────────────────────────────────────────────────────
@@ -305,5 +320,17 @@ describe('Child → parent event propagation', () => {
         // and received the child's CustomEvent detail.
         expect(calls.childHandledOnParent).toBe(true);
         expect(calls.childPayload).toBe('from-child');
+    });
+
+    it('renders and handles namespaced event names containing ":" (@a-input:submit)', async () => {
+        await bootstrap(`<ns-host></ns-host>`, [NsHost]);
+
+        const el = document.querySelector('.ns') as HTMLElement;
+        expect(el).not.toBeNull();
+
+        el.dispatchEvent(new CustomEvent('a-input:submit', { bubbles: true }));
+        await flush();
+
+        expect(calls.outer).toBe(1);
     });
 });

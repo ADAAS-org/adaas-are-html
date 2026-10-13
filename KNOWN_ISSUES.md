@@ -4,9 +4,24 @@ Found while building apps on the framework. Each entry: what happens, and the wo
 
 ## Bugs
 
-_No open bugs._
+### AH-9. A custom component inside `$for` doesn't load
+- A registered component tag used as the `$for` item (or inside it) is never mounted: its `onAfterMount` / template don't run.
+- Workaround (a-research): render a fixed number of slots outside `$for` (`ResearchPresenter.slots()`), each bound to an index, and hide the unused ones with `$if`.
 
 ## Fixed
+
+### AH-F8. `$if` on an element with an `id` mounted once, then never again
+- `<input id="x" $if="on" />`: the `$if` template is a clone that keeps the HTML id, so it had the same ASEID as its anchor node. The node-to-element index was keyed by ASEID. The template overwrote the anchor's entry, and its unmount deleted it, so the next mount threw "Mount Point Not Found" and the element never came back (a-folder's tag input).
+- Fixed in `src/engine/AreHTML.context.ts`: the index is keyed by the node itself, and an entry is only deleted if it still points to the element being removed.
+- Test: `tests/ForInsideIf.test.ts`.
+
+### AH-F9. A void element's raw source became its text content (was AH-10)
+- `<input class="…" @keydown="$h" />` got its attribute source as a text child (seen in DOM text scans and accessibility snapshots). Fixed in `src/engine/AreHTML.engine.ts`: self-closing and void elements have empty content. Attributes are still read from the markup.
+- Test: `tests/ForInsideIf.test.ts`.
+
+### AH-F10. Hiding a `$if` and changing a binding inside it in one `set()` threw "Element Not Found"
+- Fixed in `@adaas/are` (`AreStore.notify` skips watchers torn down earlier in the same flush). See ARE-F7 there.
+- Test: `tests/ForInsideIf.test.ts`.
 
 ### AH-F5. `:binding` literals rejected Unicode punctuation (was AH-1)
 - Fixed in `@adaas/are` `AreSyntax.context.ts`: string-literal contents (`'…'`, `"…"`, `` `…` ``) are exempt from the ALLOWED_CHARS guard, and the guard accepts Unicode letters, numbers, marks and symbols. `:prop="'Loading…'"` and `·`, `•`, `❯` now work, so ASCII substitutes are no longer needed.

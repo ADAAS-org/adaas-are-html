@@ -17,7 +17,10 @@ let AreHTMLEngineContext = class extends AreContext {
       /**
        * 1 AreNode = 1 Dom Node
        * 
-       * uses ASEID
+       * Keyed by the node itself, NOT its ASEID: a `$if`/`$for` template is a
+       * clone that keeps the HTML `id` (so the same ASEID) as its anchor node.
+       * An ASEID key let the template overwrite the anchor's entry, and its
+       * unmount deleted it, so the next mount found no mount point.
        */
       nodeToHostElements: /* @__PURE__ */ new Map(),
       /**
@@ -146,12 +149,13 @@ let AreHTMLEngineContext = class extends AreContext {
     }
     return fragment;
   }
+  /**
+   * Retrieves the DOM element associated with a given AreNode (looked up by node identity). If the node is not found, it returns undefined.
+   * 
+   * @param node 
+   */
   getNodeElement(node) {
-    if (typeof node === "string") {
-      return this.index.nodeToHostElements.get(node);
-    } else {
-      return this.index.nodeToHostElements.get(node.aseid.toString());
-    }
+    return this.index.nodeToHostElements.get(node);
   }
   /**
    * Associates a DOM element with a given instruction and its owner node. This method updates the context's index to map the instruction's ASEID to the provided DOM element, and also maps the element back to the instruction's ASEID for reverse lookup. If the instruction has an owner node, it also maps the node's ASEID to the element. Additionally, if the instruction belongs to a group, it adds the element to the set of elements associated with that group. This indexing allows the engine to efficiently manage and update DOM elements based on instructions and their corresponding nodes, enabling dynamic rendering and interaction in response to application state changes.
@@ -164,7 +168,7 @@ let AreHTMLEngineContext = class extends AreContext {
     this.index.instructionToElement.set(instruction.aseid.toString(), element);
     this.index.elementToInstruction.set(element, instruction.aseid.toString());
     if (node && instruction instanceof AreDeclaration) {
-      this.index.nodeToHostElements.set(node.aseid.toString(), element);
+      this.index.nodeToHostElements.set(node, element);
     }
     if (instruction.group) {
       const groupId = instruction.group;
@@ -192,8 +196,8 @@ let AreHTMLEngineContext = class extends AreContext {
       this.index.instructionToElement.delete(instruction.aseid.toString());
       this.index.elementToInstruction.delete(element);
       const node = instruction.owner;
-      if (node && instruction instanceof AreDeclaration) {
-        this.index.nodeToHostElements.delete(node.aseid.toString());
+      if (node && instruction instanceof AreDeclaration && this.index.nodeToHostElements.get(node) === element) {
+        this.index.nodeToHostElements.delete(node);
       }
       if (instruction.group) {
         const groupId = instruction.group;

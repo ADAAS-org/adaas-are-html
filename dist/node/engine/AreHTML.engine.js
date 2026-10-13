@@ -130,15 +130,13 @@ exports.AreHTMLEngine = class AreHTMLEngine extends are.AreEngine {
       const id = idMatch ? idMatch[1] : void 0;
       if (source[openingTagEnd - 1] === "/") {
         const raw = source.slice(tagStart, openingTagEnd + 1);
-        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1);
-        const match2 = build(raw, content2, tagStart, "/>");
+        const match2 = build(raw, "", tagStart, "/>");
         match2.payload = { entity: tagName, selfClose: true, id };
         return match2;
       }
       if (AreHTML_constants.isVoidElement(tagName)) {
         const raw = source.slice(tagStart, openingTagEnd + 1);
-        const content2 = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd);
-        const match2 = build(raw, content2, tagStart, ">");
+        const match2 = build(raw, "", tagStart, ">");
         match2.payload = { entity: tagName, selfClose: true, id };
         return match2;
       }

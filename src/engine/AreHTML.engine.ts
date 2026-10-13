@@ -161,10 +161,11 @@ export class AreHTMLEngine extends AreEngine {
             const id = idMatch ? idMatch[1] : undefined
 
             // self-closing: <br/> or <input/>
+            // [!] Content is empty: attributes are read from the markup, and the
+            //     attribute source must not be tokenized into a child text node.
             if (source[openingTagEnd - 1] === '/') {
                 const raw = source.slice(tagStart, openingTagEnd + 1)
-                const content = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd - 1)
-                const match = build(raw, content, tagStart, '/>')
+                const match = build(raw, '', tagStart, '/>')
                 match.payload = { entity: tagName, selfClose: true, id }
                 return match
             }
@@ -172,8 +173,7 @@ export class AreHTMLEngine extends AreEngine {
             // HTML5 void elements: <input>, <br>, <img>, etc. — treat as self-closing
             if (isVoidElement(tagName)) {
                 const raw = source.slice(tagStart, openingTagEnd + 1)
-                const content = source.slice(tagStart + tagNameMatch[0].length, openingTagEnd)
-                const match = build(raw, content, tagStart, '>')
+                const match = build(raw, '', tagStart, '>')
                 match.payload = { entity: tagName, selfClose: true, id }
                 return match
             }
