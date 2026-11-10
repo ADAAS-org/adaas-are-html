@@ -341,6 +341,8 @@ declare class AreDirectiveIf extends AreDirective {
     transform(attribute: AreDirectiveAttribute, scope: A_Scope, store: AreStore, scene: AreScene, logger: A_Logger, ...args: any[]): void;
     compile(attribute: AreDirectiveAttribute, store: AreStore, scene: AreScene, syntax: AreSyntax, directiveContext?: AreDirectiveContext, ...args: any[]): void;
     update(attribute: AreDirectiveAttribute, store: AreStore, scope: A_Scope, syntax: AreSyntax, scene: AreScene, directiveContext?: AreDirectiveContext, ...args: any[]): void;
+    /** Whether this `$if` is on the page: its anchor is rendered and no ancestor's scene is inactive. */
+    private isLive;
     /**
      * Evaluates the `$if` condition defensively.
      *

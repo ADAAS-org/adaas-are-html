@@ -48,6 +48,258 @@
         "import": "./dist/node/index.mjs",
         "require": "./dist/node/index.js"
       }
+    },
+    "./nodes/*": {
+      "node": {
+        "types": "./dist/node/nodes/*.d.ts",
+        "import": "./dist/node/nodes/*.mjs",
+        "require": "./dist/node/nodes/*.js"
+      },
+      "default": {
+        "types": "./dist/node/nodes/*.d.ts",
+        "import": "./dist/node/nodes/*.mjs",
+        "require": "./dist/node/nodes/*.js"
+      }
+    },
+    "./attributes/*": {
+      "node": {
+        "types": "./dist/node/attributes/*.d.ts",
+        "import": "./dist/node/attributes/*.mjs",
+        "require": "./dist/node/attributes/*.js"
+      },
+      "default": {
+        "types": "./dist/node/attributes/*.d.ts",
+        "import": "./dist/node/attributes/*.mjs",
+        "require": "./dist/node/attributes/*.js"
+      }
+    },
+    "./directives/*": {
+      "node": {
+        "types": "./dist/node/directives/*.d.ts",
+        "import": "./dist/node/directives/*.mjs",
+        "require": "./dist/node/directives/*.js"
+      },
+      "default": {
+        "types": "./dist/node/directives/*.d.ts",
+        "import": "./dist/node/directives/*.mjs",
+        "require": "./dist/node/directives/*.js"
+      }
+    },
+    "./instructions/*": {
+      "node": {
+        "types": "./dist/node/instructions/*.d.ts",
+        "import": "./dist/node/instructions/*.mjs",
+        "require": "./dist/node/instructions/*.js"
+      },
+      "default": {
+        "types": "./dist/node/instructions/*.d.ts",
+        "import": "./dist/node/instructions/*.mjs",
+        "require": "./dist/node/instructions/*.js"
+      }
+    },
+    "./signals/*": {
+      "node": {
+        "types": "./dist/node/signals/*.d.ts",
+        "import": "./dist/node/signals/*.mjs",
+        "require": "./dist/node/signals/*.js"
+      },
+      "default": {
+        "types": "./dist/node/signals/*.d.ts",
+        "import": "./dist/node/signals/*.mjs",
+        "require": "./dist/node/signals/*.js"
+      }
+    },
+    "./helpers/*": {
+      "node": {
+        "types": "./dist/node/helpers/*.d.ts",
+        "import": "./dist/node/helpers/*.mjs",
+        "require": "./dist/node/helpers/*.js"
+      },
+      "default": {
+        "types": "./dist/node/helpers/*.d.ts",
+        "import": "./dist/node/helpers/*.mjs",
+        "require": "./dist/node/helpers/*.js"
+      }
+    },
+    "./style/*": {
+      "node": {
+        "types": "./dist/node/lib/AreStyle/*.d.ts",
+        "import": "./dist/node/lib/AreStyle/*.mjs",
+        "require": "./dist/node/lib/AreStyle/*.js"
+      },
+      "default": {
+        "types": "./dist/node/lib/AreStyle/*.d.ts",
+        "import": "./dist/node/lib/AreStyle/*.mjs",
+        "require": "./dist/node/lib/AreStyle/*.js"
+      }
+    },
+    "./directive/*": {
+      "node": {
+        "types": "./dist/node/lib/AreDirective/*.d.ts",
+        "import": "./dist/node/lib/AreDirective/*.mjs",
+        "require": "./dist/node/lib/AreDirective/*.js"
+      },
+      "default": {
+        "types": "./dist/node/lib/AreDirective/*.d.ts",
+        "import": "./dist/node/lib/AreDirective/*.mjs",
+        "require": "./dist/node/lib/AreDirective/*.js"
+      }
+    },
+    "./root/*": {
+      "node": {
+        "types": "./dist/node/lib/AreRoot/*.d.ts",
+        "import": "./dist/node/lib/AreRoot/*.mjs",
+        "require": "./dist/node/lib/AreRoot/*.js"
+      },
+      "default": {
+        "types": "./dist/node/lib/AreRoot/*.d.ts",
+        "import": "./dist/node/lib/AreRoot/*.mjs",
+        "require": "./dist/node/lib/AreRoot/*.js"
+      }
+    },
+    "./dynamic/*": {
+      "node": {
+        "types": "./dist/node/lib/AreDynamic/*.d.ts",
+        "import": "./dist/node/lib/AreDynamic/*.mjs",
+        "require": "./dist/node/lib/AreDynamic/*.js"
+      },
+      "default": {
+        "types": "./dist/node/lib/AreDynamic/*.d.ts",
+        "import": "./dist/node/lib/AreDynamic/*.mjs",
+        "require": "./dist/node/lib/AreDynamic/*.js"
+      }
+    },
+    "./node": {
+      "node": {
+        "types": "./dist/node/lib/AreHTMLNode/AreHTMLNode.d.ts",
+        "import": "./dist/node/lib/AreHTMLNode/AreHTMLNode.mjs",
+        "require": "./dist/node/lib/AreHTMLNode/AreHTMLNode.js"
+      },
+      "default": {
+        "types": "./dist/node/lib/AreHTMLNode/AreHTMLNode.d.ts",
+        "import": "./dist/node/lib/AreHTMLNode/AreHTMLNode.mjs",
+        "require": "./dist/node/lib/AreHTMLNode/AreHTMLNode.js"
+      }
+    },
+    "./attribute": {
+      "node": {
+        "types": "./dist/node/lib/AreHTMLAttribute/AreHTML.attribute.d.ts",
+        "import": "./dist/node/lib/AreHTMLAttribute/AreHTML.attribute.mjs",
+        "require": "./dist/node/lib/AreHTMLAttribute/AreHTML.attribute.js"
+      },
+      "default": {
+        "types": "./dist/node/lib/AreHTMLAttribute/AreHTML.attribute.d.ts",
+        "import": "./dist/node/lib/AreHTMLAttribute/AreHTML.attribute.mjs",
+        "require": "./dist/node/lib/AreHTMLAttribute/AreHTML.attribute.js"
+      }
+    },
+    "./compiler": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.compiler.d.ts",
+        "import": "./dist/node/engine/AreHTML.compiler.mjs",
+        "require": "./dist/node/engine/AreHTML.compiler.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.compiler.d.ts",
+        "import": "./dist/node/engine/AreHTML.compiler.mjs",
+        "require": "./dist/node/engine/AreHTML.compiler.js"
+      }
+    },
+    "./constants": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.constants.d.ts",
+        "import": "./dist/node/engine/AreHTML.constants.mjs",
+        "require": "./dist/node/engine/AreHTML.constants.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.constants.d.ts",
+        "import": "./dist/node/engine/AreHTML.constants.mjs",
+        "require": "./dist/node/engine/AreHTML.constants.js"
+      }
+    },
+    "./context": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.context.d.ts",
+        "import": "./dist/node/engine/AreHTML.context.mjs",
+        "require": "./dist/node/engine/AreHTML.context.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.context.d.ts",
+        "import": "./dist/node/engine/AreHTML.context.mjs",
+        "require": "./dist/node/engine/AreHTML.context.js"
+      }
+    },
+    "./engine": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.engine.d.ts",
+        "import": "./dist/node/engine/AreHTML.engine.mjs",
+        "require": "./dist/node/engine/AreHTML.engine.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.engine.d.ts",
+        "import": "./dist/node/engine/AreHTML.engine.mjs",
+        "require": "./dist/node/engine/AreHTML.engine.js"
+      }
+    },
+    "./interpreter": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.interpreter.d.ts",
+        "import": "./dist/node/engine/AreHTML.interpreter.mjs",
+        "require": "./dist/node/engine/AreHTML.interpreter.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.interpreter.d.ts",
+        "import": "./dist/node/engine/AreHTML.interpreter.mjs",
+        "require": "./dist/node/engine/AreHTML.interpreter.js"
+      }
+    },
+    "./lifecycle": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.lifecycle.d.ts",
+        "import": "./dist/node/engine/AreHTML.lifecycle.mjs",
+        "require": "./dist/node/engine/AreHTML.lifecycle.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.lifecycle.d.ts",
+        "import": "./dist/node/engine/AreHTML.lifecycle.mjs",
+        "require": "./dist/node/engine/AreHTML.lifecycle.js"
+      }
+    },
+    "./tokenizer": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.tokenizer.d.ts",
+        "import": "./dist/node/engine/AreHTML.tokenizer.mjs",
+        "require": "./dist/node/engine/AreHTML.tokenizer.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.tokenizer.d.ts",
+        "import": "./dist/node/engine/AreHTML.tokenizer.mjs",
+        "require": "./dist/node/engine/AreHTML.tokenizer.js"
+      }
+    },
+    "./transformer": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.transformer.d.ts",
+        "import": "./dist/node/engine/AreHTML.transformer.mjs",
+        "require": "./dist/node/engine/AreHTML.transformer.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.transformer.d.ts",
+        "import": "./dist/node/engine/AreHTML.transformer.mjs",
+        "require": "./dist/node/engine/AreHTML.transformer.js"
+      }
+    },
+    "./types": {
+      "node": {
+        "types": "./dist/node/engine/AreHTML.types.d.ts",
+        "import": "./dist/node/engine/AreHTML.types.mjs",
+        "require": "./dist/node/engine/AreHTML.types.js"
+      },
+      "default": {
+        "types": "./dist/node/engine/AreHTML.types.d.ts",
+        "import": "./dist/node/engine/AreHTML.types.mjs",
+        "require": "./dist/node/engine/AreHTML.types.js"
+      }
     }
   },
   "sideEffects": false,
@@ -86,16 +338,16 @@
     "build": "tsup --config tsup.config.ts"
   },
   "peerDependencies": {
-    "@adaas/a-concept": "^0.3.31",
-    "@adaas/a-frame": "^0.1.18",
-    "@adaas/a-utils": "^0.3.35",
-    "@adaas/are": "^0.0.29"
+    "@adaas/a-concept": "^0.4.0",
+    "@adaas/a-frame": "^0.2.2",
+    "@adaas/a-utils": "^0.4.0",
+    "@adaas/are": "^0.1.0"
   },
   "devDependencies": {
-    "@adaas/a-concept": "^0.3.31",
-    "@adaas/a-frame": "^0.1.18",
-    "@adaas/a-utils": "^0.3.35",
-    "@adaas/are": "^0.0.29",
+    "@adaas/a-concept": "^0.4.0",
+    "@adaas/a-frame": "^0.2.2",
+    "@adaas/a-utils": "^0.4.0",
+    "@adaas/are": "^0.1.0",
     "@types/chai": "^4.3.14",
     "@types/jest": "^29.5.12",
     "@types/mocha": "^10.0.6",

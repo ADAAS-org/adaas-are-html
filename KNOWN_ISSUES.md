@@ -2,13 +2,45 @@
 
 Found while building apps on the framework. Each entry: what happens, and the workaround apps currently use.
 
-## Bugs
+Reviewed 2026-11-10 against the source and the published `0.0.29`. Open items have a test that shows them
+(`it.failing` — drop `.failing` and move the entry when fixed). "Next release" = in this source tree, not on npm.
 
-### AH-9. A custom component inside `$for` doesn't load
-- A registered component tag used as the `$for` item (or inside it) is never mounted: its `onAfterMount` / template don't run.
-- Workaround (a-research): render a fixed number of slots outside `$for` (`ResearchPresenter.slots()`), each bound to an index, and hide the unused ones with `$if`.
+## Open
 
-## Fixed
+### AH-9. A component that IS the `$for` element runs `onAfterMount` once more than its items (narrowed 2026-11-10)
+- `<item-card $for="i in items track i.key"></item-card>` renders one card per item, but the component's
+  `onAfterMount` runs once extra (3 times for 2 items) — most likely the `$for` template copy. Anything an
+  `onAfterMount` starts (a subscription, a poll, a fetch) starts one time too many.
+- A component **inside** an item (`<div $for="…"><item-card></item-card></div>`) renders and mounts exactly once per
+  item, including items added later — the original AH-9 ("never mounted") no longer happens.
+- Workaround: wrap the component in an element that carries the `$for`.
+- Tests: `tests/ForComponentItem.test.ts` (inside an item: passes; as the `$for` element: `it.failing`).
+
+## Fixed — next release
+
+### AH-F11. A `$if` mounted its content where it had no host (was AH-11, fixed 2026-11-10)
+- A `$if` whose condition changed while it was off the page — inside an outer `$if` that is false, or in a component
+  being torn down — mounted (or unmounted) its template anyway: `mount-point-not-found` ("its parent … has no
+  rendered host element"), followed by a cascade of `Element Not Found` for its attributes, text and listeners.
+  Seen in a-folder (details panel) and the a-marketplace Updates view (about 60 console errors on open).
+- Fixed in `src/directives/AreDirectiveIf.directive.ts`: the directive records the new state (activates /
+  deactivates its scene) but mounts or unmounts only while it is live — its anchor rendered and no ancestor's scene
+  inactive — as `$for` already did. When the outer subtree comes back, the content is shown as its scene says, once.
+- Test: `tests/ForInsideIf.test.ts` ("a nested $if that changes while its parent $if is false…"; fails without the fix).
+- The a-folder workaround (panels hidden with a class instead of `$if`) can go after the release.
+
+### AH-F12. The package could not be loaded in Node (`require('@adaas/are-html')` failed) (fixed 2026-11-10)
+- The node build is unbundled and keeps the source's aliases (`@adaas/are-html/node`, `/attribute`, `/context`, …)
+  as package imports, but `exports` declared only `"."`: Node refused them ("Package subpath './attribute' is not
+  defined by exports"). Browser bundles worked (esbuild resolves differently); Node — SSR, tests, a node script that
+  imports UI classes — did not. Published 0.0.29 has it.
+- Now every alias of `tsconfig.json` `paths` is an exported subpath (node / import / require).
+- Test: `tests/NodeExports.test.ts` (scans the node build's self-imports; loads the package in a plain Node process).
+
+### Also in the next release
+- `tests/SignalsDetached.test.ts` for `@adaas/are` ARE-F8 (signals skip removed or hidden nodes).
+
+## Fixed — released (0.0.29)
 
 ### AH-F8. `$if` on an element with an `id` mounted once, then never again
 - `<input id="x" $if="on" />`: the `$if` template is a clone that keeps the HTML id, so it had the same ASEID as its anchor node. The node-to-element index was keyed by ASEID. The template overwrote the anchor's entry, and its unmount deleted it, so the next mount threw "Mount Point Not Found" and the element never came back (a-folder's tag input).

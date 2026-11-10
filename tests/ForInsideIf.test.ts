@@ -166,4 +166,32 @@ describe('$for inside a $if that turns false', () => {
         logged.mockRestore();
         expect({ errors: errors.length, noisy }).toEqual({ errors: 0, noisy: 0 });
     });
+
+    it('a nested $if that changes while its parent $if is false waits, then shows with its parent (no mount without a host)', async () => {
+        const errors: unknown[] = [];
+        const logged = jest.spyOn(console, 'log');
+        await bootstrap(errors);
+        const set = (v: Record<string, unknown>) => { TagBox.store!.set(v); return tick(); };
+        const note = () => document.querySelector('.prev .note')?.textContent ?? null;
+
+        // The inner $if turns on (and off, and on) while the outer one is off: nothing renders, nothing throws.
+        await set({ isFile: false, isNote: true, note: 'early' });
+        expect(document.querySelector('.prev')).toBeNull();
+        await set({ isFile: false, isNote: false });
+        await set({ isFile: false, isNote: true, note: 'ready' });
+        expect(document.querySelector('.prev')).toBeNull();
+
+        // The outer one turns on: the inner one is shown as its scene says, once.
+        await set({ isFile: true });
+        expect(note()).toBe('ready');
+        expect(document.querySelectorAll('.prev .note').length).toBe(1);
+
+        // And it still follows its own condition afterwards.
+        await set({ isNote: false });
+        expect(note()).toBeNull();
+
+        const noisy = logged.mock.calls.filter(c => c.map(String).join(' ').includes('A_ERROR')).length;
+        logged.mockRestore();
+        expect({ errors: errors.length, noisy }).toEqual({ errors: 0, noisy: 0 });
+    });
 });

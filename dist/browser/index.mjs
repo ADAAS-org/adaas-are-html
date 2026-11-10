@@ -1009,13 +1009,26 @@ var AreDirectiveIf = class extends AreDirective {
     const next = this.evaluateCondition(syntax, attribute, store, directiveContext);
     attribute.value = next;
     if (previous === next) return;
+    const owner = attribute.owner;
+    const live = this.isLive(owner);
     if (next) {
       attribute.template.scene.activate();
-      attribute.template.mount();
+      if (live) attribute.template.mount();
     } else {
-      attribute.template.unmount();
+      if (live) attribute.template.unmount();
       attribute.template.scene.deactivate();
     }
+  }
+  /** Whether this `$if` is on the page: its anchor is rendered and no ancestor's scene is inactive. */
+  isLive(owner) {
+    const context = owner.scope.resolve(AreHTMLEngineContext);
+    if (!context || !context.getNodeElement(owner)) return false;
+    let current = owner;
+    while (current) {
+      if (current.scene?.isInactive) return false;
+      current = current.parent;
+    }
+    return true;
   }
   /**
    * Evaluates the `$if` condition defensively.

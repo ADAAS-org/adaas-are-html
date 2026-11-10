@@ -6,6 +6,8 @@ import { AreDirective } from "@adaas/are-html/directive/AreDirective.component";
 import { AddCommentInstruction } from "@adaas/are-html/instructions/AddComment.instruction";
 import { AreDirectiveContext } from "@adaas/are-html/directive/AreDirective.context";
 import { A_Frame } from "@adaas/a-frame/core";
+import { AreHTMLNode } from "@adaas/are-html/node";
+import { AreHTMLEngineContext } from "@adaas/are-html/context";
 
 
 
@@ -139,13 +141,30 @@ export class AreDirectiveIf extends AreDirective {
         // Skip when truthiness has not changed — avoids redundant mount/unmount.
         if (previous === next) return;
 
+        // Mount / unmount only while this `$if` is rendered. A nested `$if` can change while it sits in a subtree that is
+        // not on the page (an outer `$if` is false, or its component is being torn down): then only the scene's state
+        // changes, and the outer mount renders the template as the scene says. Mounting there would have no mount point.
+        const owner = attribute.owner as AreHTMLNode;
+        const live = this.isLive(owner);
         if (next) {
             attribute.template!.scene.activate();
-            attribute.template!.mount();
+            if (live) attribute.template!.mount();
         } else {
-            attribute.template!.unmount();
+            if (live) attribute.template!.unmount();
             attribute.template!.scene.deactivate();
         }
+    }
+
+    /** Whether this `$if` is on the page: its anchor is rendered and no ancestor's scene is inactive. */
+    private isLive(owner: AreHTMLNode): boolean {
+        const context = owner.scope.resolve<AreHTMLEngineContext>(AreHTMLEngineContext);
+        if (!context || !context.getNodeElement(owner)) return false;
+        let current: AreHTMLNode | undefined = owner;
+        while (current) {
+            if (current.scene?.isInactive) return false;
+            current = current.parent as AreHTMLNode | undefined;
+        }
+        return true;
     }
 
     /**
